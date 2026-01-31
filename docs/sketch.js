@@ -1,3 +1,4 @@
+let drawingLayer;
 let brushSize = 10;
 // brush opacity in percentage (%) 
 // 0 = transparent, 255 = complete solid
@@ -15,96 +16,188 @@ const COLOURS = Object.freeze({
     ORANGE: "#FFA500",
 });
 let brushColour;
+let brushImg;
 let currentColourName = "BLACK";
+let setSymmetry = "off"
 const BRUSH_TYPES = Object.freeze({
     PEN: "pen",
-    SCRIBBLE: "scribble",
     PENCIL: "pencil",
+    SCRIBBLE: "scribble",
+    CALLI: "calligraphy",
+    IMAGE: "image",
     ERASER: "eraser",
 });
 let brushtype = BRUSH_TYPES.PEN;
+const PAPER_TYPES = Object.freeze({
+    PLAIN: "plain",
+    LINED: "lined",
+    GRIDDED: "gridded",
+})
+let paperType = PAPER_TYPES.PLAIN;
 const BG_COLOUR = 220;
-const FIRST_LINE_Y = 20;
-const LINE_SPACING = 20;
+const FIRST_LINE_Y = 15;
+const LINE_SPACING = 15;
 const MAX_ALPHA = 255;
+const CANVAS_WIDTH = 800;
+const CANVAS_HEIGHT = 600;
 
-function setup() {
-    createCanvas(800, 600);
-    background(BG_COLOUR);
+async function setup() {
+    brushImg = await loadImage('assets/image1.webp');
+    createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
+    drawingLayer = createGraphics(CANVAS_WIDTH, CANVAS_HEIGHT);
+    drawingLayer.clear();
+    // background(BG_COLOUR);
     brushColour = color(COLOURS.BLACK);
 }
 
 function draw() {
+    drawPaper();
+    image(drawingLayer, 0, 0);
     drawUI();
-    if (mouseIsPressed) {
-        switch(brushtype) {
-            // pen
-            case "pen": penStroke(); break;
-            // scribble
-            case "scribble": scribbleStroke(); break;
-            // eraser
-            case "eraser": eraserStroke(); break;
+
+    if (mouseIsPressed && (mouseX !== pmouseX || mouseY !== pmouseY)) {
+        let iters = (setSymmetry === "on") ? 2 : 1;
+        for (let i = 0; i < iters; i++) {
+            push();
+
+            if (i === 1) {
+                // Flip the canvas across the center
+                translate(width, 0);
+                scale(-1, 1);
+            }
+
+            switch(brushtype) {
+                // pen
+                case "pen": penStroke(); break;
+                // pencil
+                case "pencil": pencilStroke(); break;
+                // scribble
+                case "scribble": scribbleStroke(); break;
+                // calligraphy
+                case "calligraphy": calligraphyStroke(); break;
+                // image
+                case "image": imageStroke(); break;
+                // eraser
+                case "eraser": eraserStroke(); break;
+            }
+            pop();
         }
     }
     pressedAndHold();
 }
 
 function penStroke() {
-    stroke(brushColour);
-    strokeWeight(brushSize);
-    line(pmouseX, pmouseY, mouseX, mouseY); 
+    drawingLayer.stroke(brushColour);
+    drawingLayer.strokeWeight(brushSize);
+    drawingLayer.line(pmouseX, pmouseY, mouseX, mouseY); 
+}
+
+function pencilStroke() {
+    drawingLayer.stroke(red(brushColour), green(brushColour), blue(brushColour), 50); 
+    drawingLayer.strokeWeight(1);
+
+    // Draw a few random dots around the mouse position based on brushSize
+    for (let i = 0; i < brushSize*5; i++) {
+        let offsetX = random(-brushSize/2, brushSize/2);
+        let offsetY = random(-brushSize/2, brushSize/2);
+        drawingLayer.point(mouseX + offsetX, mouseY + offsetY);
+    }
 }
 
 function scribbleStroke() {
-  // Define how much the pen "shakes"
-  let intensity = brushSize * 0.2; 
+    // Define how much the pen "shakes"
+    let intensity = brushSize * 0.2; 
 
-  // Add a random offset to the current mouse position
-  let nudgeX = random(-intensity, intensity);
-  let nudgeY = random(-intensity, intensity);
+    // Add a random offset to the current mouse position
+    let nudgeX = random(-intensity, intensity);
+    let nudgeY = random(-intensity, intensity);
 
-  stroke(brushColour);
-  strokeWeight(brushSize);
-  
-  // Draw from the previous (nudged) position to the current (nudged) position
-  line(pmouseX + nudgeX, pmouseY + nudgeY, mouseX + nudgeX, mouseY + nudgeY);
+    drawingLayer.stroke(brushColour);
+    drawingLayer.strokeWeight(brushSize);
+
+    // Draw from the previous (nudged) position to the current (nudged) position
+    drawingLayer.line(pmouseX + nudgeX, pmouseY + nudgeY, mouseX + nudgeX, mouseY + nudgeY);
+}
+
+function calligraphyStroke() {
+    let d = dist(pmouseX, pmouseY, mouseX, mouseY);
+
+    let dynamicWeight = map(d, 0, 50, brushSize * 1.5, 1);
+    dynamicWeight = constrain(dynamicWeight, 1, brushSize * 2);
+
+    drawingLayer.stroke(brushColour);
+    drawingLayer.strokeWeight(dynamicWeight);
+    drawingLayer.line(pmouseX, pmouseY, mouseX, mouseY);
+
+}
+
+function imageStroke() {
+    drawingLayer.push();
+    drawingLayer.imageMode(CENTER);
+    drawingLayer.translate(mouseX, mouseY);
+
+    // Randomly rotating the image
+    drawingLayer.rotate(random(TWO_PI));
+    drawingLayer.image(brushImg, 0, 0, brushSize * 2, brushSize * 2);
+    drawingLayer.pop();
 }
 
 function eraserStroke() {
-    stroke(BG_COLOUR);
-    strokeWeight(brushSize);
-    line(pmouseX, pmouseY, mouseX, mouseY); 
+    drawingLayer.stroke(BG_COLOUR);
+    drawingLayer.strokeWeight(brushSize);
+    drawingLayer.line(pmouseX, pmouseY, mouseX, mouseY); 
+}
+
+function drawPaper() {
+    background(BG_COLOUR);
+
+    if (paperType === PAPER_TYPES.GRIDDED) {
+        fill(0);
+        noStroke();
+        for (let i = 10; i < CANVAS_WIDTH; i+=10) {
+            for (let j = 10; j < CANVAS_HEIGHT; j+=10) {
+                rect(i, j, 1, 1);
+            }
+        }
+    } else if (paperType === PAPER_TYPES.LINED) {
+        stroke(150);
+        strokeWeight(1);
+        noFill();
+        // Draw vertical lines
+        for (let i = 10; i < CANVAS_WIDTH; i+=10) {
+            line(i, 0, i, CANVAS_HEIGHT);
+        }
+
+        // Draw horizontal lines
+        for (let j = 10; j < CANVAS_HEIGHT; j+=10) {
+            line(0, j, CANVAS_WIDTH, j);
+        }
+    }
 }
 
 function drawUI() {
     push();
     // Refresh the UI Area
-    fill(BG_COLOUR - 10);
-    noStroke();
-    rect(0, 0, 300, 200);
-    // Add instructions and current state of tools
-    fill(0);
-    textSize(12);
     let x = 10;
     let y = FIRST_LINE_Y;
+    fill(BG_COLOUR - 10);
+    noStroke();
+    rect(0, 0, CANVAS_WIDTH, 25);
+    rect(0, CANVAS_HEIGHT - 25, CANVAS_WIDTH, 25);
+    // Add instructions and current state of tools
+    fill(0);
+    textSize(10);
     let opacityPercent = Math.ceil(brushOpacity/MAX_ALPHA * 100);
-    text(`Simple Paint v0.1\n`, x, y);
+    text("[P] Pen [L] Pencil [B] Scribble [k] Calligraphy [I] Image " + 
+        "[E] Eraser [C] Clear " + 
+        "[0-9] Change Brush Colour " + 
+        "[N] Plain Paper [G] Gridded Paper [H] Lined Paper", x, y);
     y += LINE_SPACING;
-    text(`[P] Pen [B] Scribble [E] Eraser [C] Clear Canvas`, x, y);
-    y += LINE_SPACING;
-    text(`[0] to [9]: Change Brush Colour`, x, y);
-    y += LINE_SPACING;
-    text(`[LEFT] Arrows [RIGHT]: Change Stroke Weight`, x, y);
-    y += LINE_SPACING;
-    text(`[DOWN] Arrows [UP]: Change Stroke Transparency`, x, y);
-    y += LINE_SPACING;
-    text(`Brush Type: ${brushtype}`, x, y);
-    y += LINE_SPACING;
-    text(`Stroke Weight: ${brushSize}`, x, y);
-    y += LINE_SPACING;
-    text(`Stroke Transparency: ${opacityPercent}%`, x, y);
-    y += LINE_SPACING;
-    text(`Brush Colour: ${currentColourName}`, x, y);
+    text(`Brush Type: ${brushtype}   ` + 
+        `Brush Colour: ${currentColourName}   ` + 
+        `Stroke Weight [LEFT and RIGHT arrows]: ${brushSize}   ` + 
+        `Stroke Opacity [DOWN and UP arrows]: ${opacityPercent}%   ` + 
+        `Symmetry Mode [M]: ${setSymmetry}`, x, CANVAS_HEIGHT - 10);
     pop();
 }
 
@@ -112,12 +205,28 @@ function keyPressed() {
     switch(key) {
         // pen
         case 'p': brushtype = BRUSH_TYPES.PEN; break;
+        // pen
+        case 'l': brushtype = BRUSH_TYPES.PENCIL; break;
         // scribble
         case 'b': brushtype = BRUSH_TYPES.SCRIBBLE; break;
+        // calligraphy
+        case 'k': brushtype = BRUSH_TYPES.CALLI; break;
+        // image
+        case 'i': brushtype = BRUSH_TYPES.IMAGE; break;
         // eraser
         case 'e': brushtype = BRUSH_TYPES.ERASER; break;
-        // clear page
-        case 'c': background(BG_COLOUR); break;
+
+        // plain paper
+        case 'n': paperType = PAPER_TYPES.PLAIN; break;
+        // gridded paper
+        case 'g': paperType = PAPER_TYPES.GRIDDED; break;
+        // lined paper
+        case 'h': paperType = PAPER_TYPES.LINED; break;
+
+        // symmetry
+        case 'm': setSymmetry = (setSymmetry === "off") ? "on" : "off"; break;
+        // clear
+        case 'c': drawingLayer.clear(); break;
         // save image
         case 's': saveImage(); break;
         // brush colour: black
