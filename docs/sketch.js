@@ -1,3 +1,15 @@
+let appState = "cover"; 
+let coverImg;
+const START_TEXT_X = 515;
+const START_TEXT_Y = 415;
+const START_TEXT_W = 60;
+const START_TEXT_H = 30;
+let toolIcon = [];
+const TOOLBAR_GUTTER = 0;
+const TOOLBAR_TOP = 40;
+const TOOLBAR_SPACING = 72;
+const TOOL_ICON_SIZE = 150;
+const TOOL_POP_OFFSET = 48;
 let drawingLayer;
 let brushSize = 10;
 // brush opacity in percentage (%) 
@@ -42,7 +54,18 @@ const CANVAS_WIDTH = 800;
 const CANVAS_HEIGHT = 600;
 
 async function setup() {
-    brushImg = await loadImage('assets/image1.webp');
+    brushImg = await loadImage('assets/image1.png');
+    coverImg = await loadImage('assets/doodlepad1.png')
+    const penIcon = await loadImage('assets/pen.png');
+    const pencilIcon = await loadImage('assets/pencil.png');
+    const scribbleIcon = await loadImage('assets/scribble.png');
+    const calliIcon = await loadImage('assets/calligraphy.png');
+    toolIcons = [
+      { type: BRUSH_TYPES.PEN, img: penIcon, x: TOOLBAR_GUTTER, y: 0},
+      { type: BRUSH_TYPES.PENCIL, img: pencilIcon, x: TOOLBAR_GUTTER, y: 0},
+      { type: BRUSH_TYPES.SCRIBBLE, img: scribbleIcon, x: TOOLBAR_GUTTER, y: 0},
+      { type: BRUSH_TYPES.CALLI, img: calliIcon, x: TOOLBAR_GUTTER, y: 0},
+    ]
     createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
     drawingLayer = createGraphics(CANVAS_WIDTH, CANVAS_HEIGHT);
     drawingLayer.clear();
@@ -50,20 +73,65 @@ async function setup() {
     brushColour = color(COLOURS.BLACK);
 }
 
+function drawCover() {
+  background(BG_COLOUR);
+  
+  image(coverImg, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+  
+  push();
+  textAlign(CENTER, CENTER);
+  textSize(30);
+  fill(242, 153, 101);
+  text(
+    "START",
+    START_TEXT_X + START_TEXT_W / 2,
+    START_TEXT_Y + START_TEXT_H / 2
+  );
+  pop();
+}
+
+function drawToolbar() {
+  for (let i = 0; i < toolIcons.length; i++) {
+    let tool = toolIcons[i];
+    let baseX = TOOLBAR_GUTTER;
+    let targetX =
+      brushtype === tool.type
+        ? baseX + TOOL_POP_OFFSET
+        : baseX;
+
+    tool.x = lerp(tool.x, targetX, 0.2);
+
+    let drawY = TOOLBAR_TOP + i * TOOLBAR_SPACING;
+
+    image(
+      tool.img,
+      tool.x,
+      drawY,
+      TOOL_ICON_SIZE,
+      TOOL_ICON_SIZE
+    );
+  }
+}
+
 function draw() {
+  if(appState === "cover") {
+    drawCover();
+    return;
+  }
     drawPaper();
     image(drawingLayer, 0, 0);
     drawUI();
+    drawToolbar();
 
     if (mouseIsPressed && (mouseX !== pmouseX || mouseY !== pmouseY)) {
         let iters = (setSymmetry === "on") ? 2 : 1;
         for (let i = 0; i < iters; i++) {
-            push();
+            drawingLayer.push();
 
             if (i === 1) {
                 // Flip the canvas across the center
-                translate(width, 0);
-                scale(-1, 1);
+                drawingLayer.translate(width, 0);
+                drawingLayer.scale(-1, 1);
             }
 
             switch(brushtype) {
@@ -80,7 +148,7 @@ function draw() {
                 // eraser
                 case "eraser": eraserStroke(); break;
             }
-            pop();
+            drawingLayer.pop();
         }
     }
     pressedAndHold();
@@ -287,4 +355,17 @@ function saveImage() {
     if (fileName !== null) {
         save(`${fileName}.jpg`);
     }
+}
+
+function mousePressed() {
+  if(appState === "cover") {
+    if (
+    mouseX > START_TEXT_X &&
+    mouseX < START_TEXT_X + START_TEXT_W &&
+    mouseY > START_TEXT_Y &&
+    mouseY < START_TEXT_Y + START_TEXT_H
+    ) {
+      appState = "draw";
+    }
+  }
 }
