@@ -25,14 +25,17 @@ VIDEO. Include a demo video of your game here (you don't have to wait until the 
 
 ## Your Group
 
-GROUP PHOTO. Add a group photo here.
+<img src="images/group_photo.jpg" height=540 width="720">
 
-- Group member 1, name, email, role
-- Group member 2, name, email, role
-- Group member 3, name, email, role
-- Group member 4, name, email, role
-- Group member 5, name, email, role
-- Group member 6, name, email, role
+| Name | Email | Github | Role |
+| -- | -- | -- | -- |
+| Jiahao Zhao | uw25968@bristol.ac.uk | @zhaojiahoa296 | role |
+| Shalakorn Teerasukaporn | eu25930@bristol.ac.uk | @markslk | role |
+| Mingyu Yang | ak25461@bristol.ac.uk | @mingyuyang0804 | role |
+| Qing Shi | rp25678@bristol.ac.uk | @qqq033370 | role |
+| Xinyi Zhang | ya25475@bristol.ac.uk | @nikanotaku | role |
+
+
 
 ## Project Report
 
