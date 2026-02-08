@@ -29,7 +29,7 @@ VIDEO. Include a demo video of your game here (you don't have to wait until the 
 
 | Name | Email | Github | Role |
 | -- | -- | -- | -- |
-| Jiahao Zhao | uw25968@bristol.ac.uk | @zhaojiahoa296 | role |
+| Jiahao Zhao | uw25968@bristol.ac.uk | @zhaojiahao296 | role |
 | Shalakorn Teerasukaporn | eu25930@bristol.ac.uk | @markslk | role |
 | Mingyu Yang | ak25461@bristol.ac.uk | @mingyuyang0804 | role |
 | Qing Shi | rp25678@bristol.ac.uk | @qqq033370 | role |
