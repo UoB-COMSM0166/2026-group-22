@@ -25,7 +25,7 @@ VIDEO. Include a demo video of your game here (you don't have to wait until the 
 
 ## Your Group
 
-<img src="images/group_photo.jpg" height=540 width="720">
+<img src="images/group_photo.jpg" height=540 width=720>
 
 | Name | Email | Github | Role |
 | -- | -- | -- | -- |
