@@ -26,13 +26,14 @@ class Player extends Entity {
 
     this.maxJumpCount = CONFIG.PLAYER.MAX_JUMP_COUNT;
     this.jumpCount = 0;
+
+    this.isGrounded = false;
   }
 
   // Implementation of the abstract update() method
   update() {
     this.applyPhysics(); // Inherited from Entity
     this.move();         // Defined below
-    this.animate();      // Defined below
   }
 
   // Logic for horizontal movement and facing direction
@@ -67,9 +68,8 @@ class Player extends Entity {
 
   // Handles which frame should be displayed
   animate() {
-    let onGround = this.y >= this.FLOOR_Y;
-
-    if (onGround && this.isMoving()) {
+    // let onGround = this.y >= this.FLOOR_Y;
+    if (this.isGrounded && this.isMoving()) {
       if (frameCount % this.animationSpeed === 0) {
         this.currentFrame = (this.currentFrame + 1) % this.frames.length;
       }
@@ -92,6 +92,7 @@ class Player extends Entity {
 
   // Override applyPhysics to include floor collision logic
   applyPhysics() {
+    this.isGrounded = false;
     super.applyGravity(); // Run the gravity logic from Entity.js first
 
     // Floor collision
@@ -100,6 +101,7 @@ class Player extends Entity {
       this.velY = 0;
 
       this.jumpCount = 0;
+      this.isGrounded = true;
     }
     
     // Ceiling limit
