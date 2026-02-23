@@ -19,6 +19,12 @@ const CONFIG = {
     LIFT: -6, // Jump/Float power
     HP: 100,
     ANIMATION_SPEED: 10
+  },
+
+  // File paths
+  PATH: {
+    PLAYER_IDLE: '../assets/kirby_idle.png',
+    PLAYER_MOVE: '../assets/kirby_move.png'
   }
 };
 

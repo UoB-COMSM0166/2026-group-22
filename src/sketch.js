@@ -4,10 +4,10 @@ let stillFrame;
 let walkFrame;
 
 async function setup() {
-  createCanvas(600, 400);
+  createCanvas(CONFIG.WORLD.CANVAS_WIDTH, CONFIG.WORLD.CANVAS_HEIGHT);
   // We "instantiate" the player here
-  stillFrame = await loadImage('../assets/kirby_idle.png');
-  walkFrame = await loadImage('../assets/kirby_move.png');
+  stillFrame = await loadImage(CONFIG.PATH.PLAYER_IDLE);
+  walkFrame = await loadImage(CONFIG.PATH.PLAYER_MOVE);
   playerFrames = [stillFrame, walkFrame]
   kirby = new Player(playerFrames);
 }
@@ -17,7 +17,7 @@ function draw() {
   
   // Draw a simple ground
   fill(34, 139, 34);
-  rect(0, height - 20, width, 20);
+  rect(0, height - CONFIG.WORLD.FLOOR_OFFSET, width, CONFIG.WORLD.FLOOR_OFFSET);
 
   // Run Kirby's methods
   kirby.update();

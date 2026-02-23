@@ -5,9 +5,9 @@ class Entity extends GameObject {
     // Physical state
     this.velX = 0;
     this.velY = 0;
-    this.gravity = 0.2;
-    this.speed = 3;
-    this.hp = 100;
+    this.gravity = CONFIG.WORLD.GRAVITY;
+    this.speed = CONFIG.PLAYER.SPEED;
+    this.hp = CONFIG.PLAYER.HP;
 
     // Abstract enforcement (prevents 'new Entity()')
     if (new.target === Entity) {

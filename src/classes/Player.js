@@ -3,22 +3,26 @@ class Player extends Entity {
   constructor(frames) {
     // 1. super() calls the Entity/GameObject constructors
     // Passes: x, y, width, height
-    super(100, 200, 40, 40);
+    super(
+      CONFIG.PLAYER.START_X, 
+      CONFIG.PLAYER.START_Y,
+      CONFIG.PLAYER.WIDTH, 
+      CONFIG.PLAYER.HEIGHT);
 
     // 2. Override Entity defaults with Player-specific values
-    this.gravity = 0.2;
-    this.speed = 3;
-    this.lift = -6; 
-    this.hp = 100;
+    this.gravity = CONFIG.WORLD.GRAVITY;
+    this.speed = CONFIG.PLAYER.SPEED;
+    this.lift = CONFIG.PLAYER.LIFT; 
+    this.hp = CONFIG.PLAYER.HP;
 
     // 3. Animation-specific properties (only for Player)
     this.frames = frames;
     this.currentFrame = 0;
-    this.animationSpeed = 10;
+    this.animationSpeed = CONFIG.PLAYER.ANIMATION_SPEED;
     this.isFacingLeft = false;
     
-    // Use a constant for the floor to avoid hardcoding height - 40 everywhere
-    this.FLOOR_Y = height - 40;
+    this.CEILING = CONFIG.WORLD.CEILING_LIMIT;
+    this.FLOOR_Y = height - (CONFIG.WORLD.FLOOR_OFFSET + (CONFIG.PLAYER.HEIGHT/2));
   }
 
   // Implementation of the abstract update() method
@@ -89,8 +93,8 @@ class Player extends Entity {
     }
     
     // Ceiling limit
-    if (this.y < 20) {
-      this.y = 20;
+    if (this.y < this.CEILING) {
+      this.y = this.CEILING;
       this.velY = 0;
     }
   }
