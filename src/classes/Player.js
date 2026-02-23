@@ -21,7 +21,7 @@ class Player extends Entity {
     this.animationSpeed = CONFIG.PLAYER.ANIMATION_SPEED;
     this.isFacingLeft = false;
     
-    this.CEILING = CONFIG.WORLD.CEILING_LIMIT;
+    this.CEILING = this.h/2 - CONFIG.WORLD.CEILING_LIMIT;
     this.FLOOR_Y = height - (CONFIG.WORLD.FLOOR_OFFSET + (CONFIG.PLAYER.HEIGHT/2));
   }
 
@@ -45,6 +45,8 @@ class Player extends Entity {
     }
     
     this.x += this.velX;
+
+    this.x = constrain(this.x, CONFIG.PLAYER.WIDTH/2, CONFIG.WORLD.WIDTH - CONFIG.PLAYER.WIDTH/2);
   }
 
   // Implementation of the abstract show() method
