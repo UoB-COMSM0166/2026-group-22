@@ -23,6 +23,9 @@ class Player extends Entity {
     
     this.CEILING = this.h/2 - CONFIG.WORLD.CEILING_LIMIT;
     this.FLOOR_Y = height - (CONFIG.WORLD.FLOOR_OFFSET + (CONFIG.PLAYER.HEIGHT/2));
+
+    this.maxJumpCount = CONFIG.PLAYER.MAX_JUMP_COUNT;
+    this.jumpCount = 0;
   }
 
   // Implementation of the abstract update() method
@@ -81,7 +84,10 @@ class Player extends Entity {
 
   float() {
     // Using velY instead of verticalSpeed to match Entity class
-    this.velY = this.lift;
+    if (this.jumpCount < this.maxJumpCount) {
+      this.velY = this.lift;
+      this.jumpCount++;
+    }
   }
 
   // Override applyPhysics to include floor collision logic
@@ -92,6 +98,8 @@ class Player extends Entity {
     if (this.y > this.FLOOR_Y) {
       this.y = this.FLOOR_Y;
       this.velY = 0;
+
+      this.jumpCount = 0;
     }
     
     // Ceiling limit

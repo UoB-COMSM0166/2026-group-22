@@ -17,6 +17,7 @@ const CONFIG = {
     WIDTH: 40,
     HEIGHT: 40,
     SPEED: 3,
+    MAX_JUMP_COUNT: 2,
     LIFT: -6, // Jump/Float power
     HP: 100,
     ANIMATION_SPEED: 10
