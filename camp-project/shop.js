@@ -45,6 +45,9 @@ function shopDraw() {
   // 4) bottom dialogue bar
   const a = getDialogueAlpha();
   if (a > 0) drawBottomDialogueCentered(tf, SHOP_LINES, a);
+    // 5) Esc hint
+  drawEscHint(tf);
+
 }
 
 function shopMousePressed() {
@@ -158,3 +161,21 @@ function drawBottomDialogueCentered(tf, lines, alpha) {
 function inRect(px, py, r) {
   return px >= r.x && px <= r.x + r.w && py >= r.y && py <= r.y + r.h;
 }
+
+function drawEscHint(tf) {
+  push();
+
+  // put ESC hint into the left-bottom corner
+  const pad = tf.dw * 0.02;
+  const x = tf.dx + pad;
+  const y = tf.dy + tf.dh - pad;
+
+  textAlign(LEFT, BOTTOM);
+  textSize(Math.max(14, Math.floor(tf.dh * 0.028)));
+  noStroke();
+  fill(255, 220);
+  text("Press Esc to return", x, y);
+
+  pop();
+}
+
