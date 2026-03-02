@@ -2,21 +2,27 @@ class World {
   constructor(player) {
     this.player = player;
     this.cameraX = 0;
+
+    const levelData = CONFIG.LEVELS.ONE;
     
     // Pull dimensions from your CONFIG
-    this.width = CONFIG.WORLD.WIDTH;
-    this.height = CONFIG.WORLD.CANVAS_HEIGHT;
+    this.width = levelData.worldWidth;
+    this.height = levelData.worldHeight;
     this.groundThickness = CONFIG.WORLD.FLOOR_OFFSET;
     this.backgroundColor = [135, 206, 235];
 
     this.platforms = [];
-    this.setupLevel();
+    this.setupLevel(levelData);
   }
 
-  setupLevel() {
-    this.platforms.push(new Platform(300, 250, 150, 20));
-    this.platforms.push(new Platform(600, 180, 150, 20));
-    this.platforms.push(new Platform(900, 250, 200, 20));
+  setupLevel(data) {
+    let currentX = data.startX;
+
+    for (let p of data.platforms) {
+      let centerX = currentX + p.gap + p.w/2;
+      this.platforms.push(new Platform(centerX, p.y, p.w, p.h));
+      currentX = centerX + p.w/2;
+    }
   }
 
   update() {

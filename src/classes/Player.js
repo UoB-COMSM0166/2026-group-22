@@ -12,7 +12,7 @@ class Player extends Entity {
     // 2. Override Entity defaults with Player-specific values
     this.gravity = CONFIG.WORLD.GRAVITY;
     this.speed = CONFIG.PLAYER.SPEED;
-    this.lift = CONFIG.PLAYER.LIFT; 
+    this.lift = CONFIG.PLAYER.LIFT;
     this.hp = CONFIG.PLAYER.HP;
 
     // 3. Animation-specific properties (only for Player)
