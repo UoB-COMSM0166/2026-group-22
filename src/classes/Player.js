@@ -7,34 +7,29 @@ class Player extends Entity {
       CONFIG.PLAYER.START_X, 
       CONFIG.PLAYER.START_Y,
       CONFIG.PLAYER.WIDTH, 
-      CONFIG.PLAYER.HEIGHT);
+      CONFIG.PLAYER.HEIGHT,
+      CONFIG.PLAYER.HP,
+      CONFIG.PLAYER.SPEED
+    );
 
     // 2. Override Entity defaults with Player-specific values
     this.gravity = CONFIG.WORLD.GRAVITY;
-    this.speed = CONFIG.PLAYER.SPEED;
     this.lift = CONFIG.PLAYER.LIFT;
-    this.hp = CONFIG.PLAYER.HP;
     this.maxJumpCount = CONFIG.PLAYER.MAX_JUMP_COUNT;
+    this.animationSpeed = CONFIG.PLAYER.ANIMATION_SPEED;
 
     // 3. Animation-specific properties (only for Player)
     this.frames = frames;
     this.currentFrame = 0;
-    this.animationSpeed = CONFIG.PLAYER.ANIMATION_SPEED;
     this.isFacingLeft = false;
-    
-    this.CEILING = this.h/2 - CONFIG.WORLD.CEILING_LIMIT;
-    this.WORLD_HEIGHT = CONFIG.LEVELS.ONE.worldHeight
-    this.FLOOR_Y = this.WORLD_HEIGHT - (CONFIG.WORLD.FLOOR_OFFSET + (CONFIG.PLAYER.HEIGHT/2));
-
-    this.jumpCount = 0;
-
     this.isGrounded = false;
+    this.jumpCount = 0;
   }
 
   // Implementation of the abstract update() method
   update() {
-    this.applyPhysics(); // Inherited from Entity
     this.move();         // Defined below
+    this.applyPhysics(); // Inherited from Entity
   }
 
   // Logic for horizontal movement and facing direction
@@ -48,10 +43,6 @@ class Player extends Entity {
     } else {
       this.velX = 0; // Stop moving if no key is pressed
     }
-    
-    this.x += this.velX;
-
-    this.x = constrain(this.x, CONFIG.PLAYER.WIDTH/2, CONFIG.WORLD.WIDTH - CONFIG.PLAYER.WIDTH/2);
   }
 
   // Implementation of the abstract show() method
@@ -88,27 +79,13 @@ class Player extends Entity {
     if (this.jumpCount < this.maxJumpCount) {
       this.velY = this.lift;
       this.jumpCount++;
+      this.isGrounded = false;
     }
   }
 
   // Override applyPhysics to include floor collision logic
   applyPhysics() {
     this.isGrounded = false;
-    super.applyGravity(); // Run the gravity logic from Entity.js first
-
-    // Floor collision
-    if (this.y > this.FLOOR_Y) {
-      this.y = this.FLOOR_Y;
-      this.velY = 0;
-
-      this.jumpCount = 0;
-      this.isGrounded = true;
-    }
-    
-    // Ceiling limit
-    if (this.y < this.CEILING) {
-      this.y = this.CEILING;
-      this.velY = 0;
-    }
+    super.applyPhysics(); // Run the gravity logic from Entity.js first
   }
 }

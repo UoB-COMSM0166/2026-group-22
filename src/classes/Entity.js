@@ -1,13 +1,14 @@
 class Entity extends GameObject {
-  constructor(x, y, w, h) {
+  constructor(x, y, w, h, hp, speed) {
     super(x, y, w, h);
+
+    this.hp = hp;
+    this.speed = speed;
     
     // Physical state
     this.velX = 0;
     this.velY = 0;
     this.gravity = CONFIG.WORLD.GRAVITY;
-    this.speed = CONFIG.PLAYER.SPEED;
-    this.hp = CONFIG.PLAYER.HP;
 
     // Abstract enforcement (prevents 'new Entity()')
     if (new.target === Entity) {
@@ -16,8 +17,10 @@ class Entity extends GameObject {
   }
 
   // Common physics logic for all moving things
-  applyGravity() {
+  applyPhysics() {
     this.velY += this.gravity;
+
+    this.x += this.velX;
     this.y += this.velY;
   }
 

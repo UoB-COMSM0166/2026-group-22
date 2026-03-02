@@ -36,8 +36,13 @@ class World {
       this.handleSolidCollision(this.player, platform);
     }
 
-    this.player.animate();
+    this.handleWorldBoundaries(this.player);
 
+    this.player.animate();
+    this.updateCamera();
+  }
+
+  updateCamera() {
     // 2. Handle Camera Logic
     this.cameraX = this.player.x - width / 2;
     this.cameraX = constrain(this.cameraX, 0, this.width - width);
@@ -52,38 +57,59 @@ class World {
   }
 
   handleSolidCollision(player, platform) {
-  if (player.intersects(platform)) {
-    // 1. Calculate overlaps on all 4 sides
-    let overlapLeft   = (player.x + player.w / 2) - (platform.x - platform.w / 2);
-    let overlapRight  = (platform.x + platform.w / 2) - (player.x - player.w / 2);
-    let overlapTop    = (player.y + player.h / 2) - (platform.y - platform.h / 2);
-    let overlapBottom = (platform.y + platform.h / 2) - (player.y - player.h / 2);
+    if (player.intersects(platform)) {
+      // 1. Calculate overlaps on all 4 sides
+      let overlapLeft   = (player.x + player.w / 2) - (platform.x - platform.w / 2);
+      let overlapRight  = (platform.x + platform.w / 2) - (player.x - player.w / 2);
+      let overlapTop    = (player.y + player.h / 2) - (platform.y - platform.h / 2);
+      let overlapBottom = (platform.y + platform.h / 2) - (player.y - player.h / 2);
 
-    // 2. Find the smallest overlap (that's the side we hit)
-    let minOverlap = Math.min(overlapLeft, overlapRight, overlapTop, overlapBottom);
+      // 2. Find the smallest overlap (that's the side we hit)
+      let minOverlap = Math.min(overlapLeft, overlapRight, overlapTop, overlapBottom);
 
-    if (minOverlap === overlapTop && player.velY > 0) {
-      // Hit Top (Landing)
-      player.y = platform.y - platform.h / 2 - player.h / 2;
+      if (minOverlap === overlapTop && player.velY > 0) {
+        // Hit Top (Landing)
+        player.y = platform.y - platform.h / 2 - player.h / 2;
+        player.velY = 0;
+        player.jumpCount = 0;
+        player.isGrounded = true;
+      } 
+      else if (minOverlap === overlapBottom && player.velY < 0) {
+        // Hit Bottom (Bonk head)
+        player.y = platform.y + platform.h / 2 + player.h / 2;
+        player.velY = 0;
+      } 
+      else if (minOverlap === overlapLeft) {
+        // Hit Left Side
+        player.x = platform.x - platform.w / 2 - player.w / 2;
+      } 
+      else if (minOverlap === overlapRight) {
+        // Hit Right Side
+        player.x = platform.x + platform.w / 2 + player.w / 2;
+      }
+    }
+  }
+
+  handleWorldBoundaries(player) {
+    let floorY = this.height - (this.groundThickness + player.h/2);
+    let ceilingY = player.h/2;
+
+    // Floor collision
+    if (player.y > floorY) {
+      player.y = floorY;
       player.velY = 0;
       player.jumpCount = 0;
       player.isGrounded = true;
-    } 
-    else if (minOverlap === overlapBottom && player.velY < 0) {
-      // Hit Bottom (Bonk head)
-      player.y = platform.y + platform.h / 2 + player.h / 2;
-      player.velY = 0;
-    } 
-    else if (minOverlap === overlapLeft) {
-      // Hit Left Side
-      player.x = platform.x - platform.w / 2 - player.w / 2;
-    } 
-    else if (minOverlap === overlapRight) {
-      // Hit Right Side
-      player.x = platform.x + platform.w / 2 + player.w / 2;
     }
+    
+    // Ceiling limit
+    if (player.y < ceilingY) {
+      player.y = ceilingY;
+      player.velY = 0;
+    }
+
+    player.x = constrain(player.x, player.w/2, this.width - player.w/2);
   }
-}
 
   show() {
     background(this.backgroundColor);
