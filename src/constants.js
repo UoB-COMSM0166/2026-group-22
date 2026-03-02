@@ -14,13 +14,13 @@ const CONFIG = {
   LEVELS: {
     ONE: {
       worldWidth: 2000,
-      worldHeight: 400,
+      worldHeight: 800,
       startX: 300,
       platforms: [
-        { gap: 0,   y: 250, w: 150, h: 20 },
-        { gap: 150, y: 180, w: 150, h: 20 },
-        { gap: 200, y: 250, w: 200, h: 20 },
-        { gap: 100, y: 250, w: 150, h: 20 }
+        { gap: 0, altitude: 100, w: 150, h: 20 },
+        { gap: 150, altitude: 180, w: 150, h: 20 },
+        { gap: 200, altitude: 250, w: 200, h: 20 },
+        { gap: 100, altitude: 250, w: 150, h: 20 }
       ]
     }
   },
@@ -28,7 +28,7 @@ const CONFIG = {
   // Player specific
   PLAYER: {
     START_X: 100,
-    START_Y: 200,
+    START_Y: 600,
     WIDTH: 40,
     HEIGHT: 40,
     SPEED: 3,

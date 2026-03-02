@@ -13,8 +13,10 @@ async function setup() {
 }
 
 function draw() {
-  gameWorld.update();
-  gameWorld.show();
+  if (kirby && gameWorld) {
+    gameWorld.update();
+    gameWorld.show();
+  }
 
   drawUI();
 }

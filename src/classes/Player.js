@@ -14,6 +14,7 @@ class Player extends Entity {
     this.speed = CONFIG.PLAYER.SPEED;
     this.lift = CONFIG.PLAYER.LIFT;
     this.hp = CONFIG.PLAYER.HP;
+    this.maxJumpCount = CONFIG.PLAYER.MAX_JUMP_COUNT;
 
     // 3. Animation-specific properties (only for Player)
     this.frames = frames;
@@ -22,9 +23,9 @@ class Player extends Entity {
     this.isFacingLeft = false;
     
     this.CEILING = this.h/2 - CONFIG.WORLD.CEILING_LIMIT;
-    this.FLOOR_Y = height - (CONFIG.WORLD.FLOOR_OFFSET + (CONFIG.PLAYER.HEIGHT/2));
+    this.WORLD_HEIGHT = CONFIG.LEVELS.ONE.worldHeight
+    this.FLOOR_Y = this.WORLD_HEIGHT - (CONFIG.WORLD.FLOOR_OFFSET + (CONFIG.PLAYER.HEIGHT/2));
 
-    this.maxJumpCount = CONFIG.PLAYER.MAX_JUMP_COUNT;
     this.jumpCount = 0;
 
     this.isGrounded = false;

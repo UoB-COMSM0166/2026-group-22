@@ -2,8 +2,9 @@ class World {
   constructor(player) {
     this.player = player;
     this.cameraX = 0;
+    this.cameraY = 0;
 
-    const levelData = CONFIG.LEVELS.ONE;
+    const levelData = CONFIG.LEVELS["ONE"];
     
     // Pull dimensions from your CONFIG
     this.width = levelData.worldWidth;
@@ -20,7 +21,8 @@ class World {
 
     for (let p of data.platforms) {
       let centerX = currentX + p.gap + p.w/2;
-      this.platforms.push(new Platform(centerX, p.y, p.w, p.h));
+      let centerY = this.height - p.altitude - p.h/2;
+      this.platforms.push(new Platform(centerX, centerY, p.w, p.h));
       currentX = centerX + p.w/2;
     }
   }
@@ -39,6 +41,14 @@ class World {
     // 2. Handle Camera Logic
     this.cameraX = this.player.x - width / 2;
     this.cameraX = constrain(this.cameraX, 0, this.width - width);
+
+    // Vertical Camera (New!)
+    // This centers the camera on the player's Y position
+    this.cameraY = this.player.y - height / 2;
+    
+    // Constrain it so we don't show the "void" above or below the map
+    // 0 is the top of your world, this.height is the bottom
+    this.cameraY = constrain(this.cameraY, 0, this.height - height);
   }
 
   handleSolidCollision(player, platform) {
@@ -79,7 +89,7 @@ class World {
     background(this.backgroundColor);
     // 3. Apply Camera Transformation
     push();
-    translate(-this.cameraX, 0);
+    translate(-this.cameraX, -this.cameraY);
 
     // Draw the environment
     this.drawBackground();
@@ -100,7 +110,7 @@ class World {
 
     rectMode(CENTER); 
     let groundX = this.width / 2;
-    let groundY = height - (this.groundThickness / 2);
+    let groundY = this.height - (this.groundThickness / 2);
     rect(groundX, groundY, this.width, this.groundThickness);
   }
 }
