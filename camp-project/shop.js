@@ -1,6 +1,66 @@
 // shop.js — shop scene
 let shopBgImg;
 let plasdripFont;
+// Item icons
+let pistolIconImg;
+let fireballIconImg;
+
+// Equipped weapon (only one)
+let equippedWeaponId = null; // "pistol" | "fireball" | null
+// Info panel button rect
+let infoBtnEquipR = null;
+let infoBtnSellR = null;
+
+
+
+
+// ===== shop state =====
+const START_COINS = 10;
+let coins = START_COINS; // Default coins (if no local save file exists)
+// Economy config
+const SELL_REFUND_RATE = 1.0; // 1.0 = full refund, 0.5 = half refund
+
+const SHOP_STORAGE_KEY = "camp_shop_state_v1";
+
+// Two items: pistol/fireball
+const SHOP_ITEMS = [
+  {
+    id: "pistol",
+    name: "Pistol",
+    price: 3,
+    desc: ["A reliable handgun.", "Good for single targets."],
+  },
+  {
+    id: "fireball",
+    name: "Fireball Magic",
+    price: 4,
+    desc: ["Cast a blazing fireball.", "Great for crowd damage."],
+  },
+];
+
+//Having status
+let owned = { pistol: false, fireball: false };
+
+//UI status
+let hoveredItemId = null;
+let selectedItemId = null;
+
+//Purchase pop-up window
+let showBuyModal = false;
+let modalBtnBuyR = null;
+let modalBtnCancelR = null;
+
+const SHOP_SLOTS = [
+  // Top-left shelf slot #1
+  { itemId: "pistol",   rx: 0.287, ry: 0.255, rw: 0.075, rh: 0.100 },
+
+  // Top-left shelf slot #2
+  { itemId: "fireball", rx: 0.375, ry: 0.255, rw: 0.075, rh: 0.100 },
+];
+
+
+
+
 
 // dialogue timing
 let dialogueStartMs = -1;
@@ -17,6 +77,45 @@ const SHOP_LINES = [
 function shopPreload() {
   shopBgImg = loadImage("assets/shop_bg.png");
   plasdripFont = loadFont("assets/plasdrip.ttf");
+
+  // Item icons (update filenames to your actual assets)
+  pistolIconImg = loadImage("assets/icon_pistol.png");
+  fireballIconImg = loadImage("assets/icon_fireball.png");
+}
+
+function loadShopState() {
+  try {
+    const raw = localStorage.getItem(SHOP_STORAGE_KEY);
+    if (!raw) return;
+
+    const data = JSON.parse(raw);
+    if (typeof data.coins === "number") coins = data.coins;
+
+    if (data.owned && typeof data.owned === "object") {
+      owned.pistol = !!data.owned.pistol;
+      owned.fireball = !!data.owned.fireball;
+    }
+
+    // Load equipped weapon (must be owned)
+    if (typeof data.equippedWeaponId === "string" && owned[data.equippedWeaponId]) {
+      equippedWeaponId = data.equippedWeaponId;
+    } else {
+      equippedWeaponId = null;
+    }
+  } catch (e) {
+    console.warn("loadShopState failed:", e);
+  }
+}
+
+function saveShopState() {
+  try {
+    localStorage.setItem(
+      SHOP_STORAGE_KEY,
+      JSON.stringify({ coins, owned, equippedWeaponId })
+    );
+  } catch (e) {
+    console.warn("saveShopState failed:", e);
+  }
 }
 
 function shopSetup() {}
@@ -24,7 +123,13 @@ function shopSetup() {}
 // call on every entry
 function shopOnEnter() {
   dialogueStartMs = millis();
+
+  loadShopState();
+  hoveredItemId = null;
+  selectedItemId = null;
+  showBuyModal = false;
 }
+
 
 function shopDraw() {
   background(0);
@@ -41,27 +146,123 @@ function shopDraw() {
   const overClose = inRect(mouseX, mouseY, closeR);
   if (overClose) cursor("pointer");
   drawShopCloseX(closeR, overClose);
+    // hover items -> pointer
+  if (hoveredItemId) cursor("pointer");
+
 
   // 4) bottom dialogue bar
   const a = getDialogueAlpha();
   if (a > 0) drawBottomDialogueCentered(tf, SHOP_LINES, a);
-    // 5) Esc hint
+
+  // Action hint + Esc hint
+  drawShopActionHint(tf);
   drawEscHint(tf);
+
+  // 5) coins + shop items UI
+  drawCoins(tf);
+  drawShopItems(tf);
+
+  // 6) item info panel
+  if (selectedItemId) drawItemInfoPanel(tf, selectedItemId);
+
+  // 7) buy modal on top
+  if (showBuyModal && selectedItemId) {
+    const rects = drawBuyModal(tf, selectedItemId);
+    modalBtnBuyR = rects.buy;
+    modalBtnCancelR = rects.cancel;
+  } else {
+    modalBtnBuyR = modalBtnCancelR = null;
+  }
+
 
 }
 
 function shopMousePressed() {
   const tf = getContainTransform(shopBgImg);
+
+  //If the purchase pop-up window is open: first process the pop-up button
+  if (showBuyModal && selectedItemId) {
+    if (modalBtnBuyR && inRect(mouseX, mouseY, modalBtnBuyR)) {
+      tryBuySelected();
+      return;
+    }
+    if (modalBtnCancelR && inRect(mouseX, mouseY, modalBtnCancelR)) {
+      showBuyModal = false;
+      return;
+    }
+    //Click on other parts of the mask ->also cancel
+    showBuyModal = false;
+    return;
+  }
+
+  // 2) close X
   const closeR = getShopCloseRect(tf);
   if (inRect(mouseX, mouseY, closeR)) {
     switchScene("camp");
     return;
   }
+
+    // 3) Handle Equip button click 
+  if (infoBtnEquipR && selectedItemId && owned[selectedItemId]) {
+    if (inRect(mouseX, mouseY, infoBtnEquipR)) {
+      if (equippedWeaponId !== selectedItemId) {
+        equipWeapon(selectedItemId);
+      }
+      return;
+    }
+  }
+
+    // Handle Sell button click
+  if (infoBtnSellR && selectedItemId && owned[selectedItemId]) {
+    if (inRect(mouseX, mouseY, infoBtnSellR)) {
+      sellItem(selectedItemId);
+      return;
+    }
+  }
+
+
+  // 4) Slot click 
+  const hit = hitTestShopSlot(tf, mouseX, mouseY);
+  if (hit) {
+    selectedItemId = hit.itemId;
+
+    if (!owned[selectedItemId]) {
+      showBuyModal = true;
+      return;
+    }
+
+    showBuyModal = false;
+    return;
+  }
+
+
+  //5) Click Blank ->Uncheck
+  selectedItemId = null;
 }
 
+
 function shopKeyPressed() {
-  if (key === "Escape") switchScene("camp");
+  //Priority of Esc: Close pop-up first ->Uncheck ->Return to camp last
+  if (key === "Escape" || keyCode === ESCAPE) {
+    if (showBuyModal) { showBuyModal = false; return; }
+    if (selectedItemId) { selectedItemId = null; return; }
+    switchScene("camp");
+    return;
+  }
+
+  //Enter Quick Purchase (optional)
+  if ((keyCode === ENTER || keyCode === RETURN) && showBuyModal && selectedItemId) {
+    tryBuySelected();
+    return;
+  }
+  // Press R to reset shop (debug / restart loop)
+  if (key === "r" || key === "R") {
+    resetShop();
+    return;
+  }
+
 }
+
 
 // ============================
 // Dialogue alpha (fade out)
@@ -178,4 +379,385 @@ function drawEscHint(tf) {
 
   pop();
 }
+
+function drawShopActionHint(tf) {
+  push();
+
+  // Put action hint just above the ESC hint (left-bottom corner)
+  const pad = tf.dw * 0.02;
+  const x = tf.dx + pad;
+  const yEsc = tf.dy + tf.dh - pad;
+
+  const size = Math.max(19, Math.floor(tf.dh * 0.024));
+  textAlign(LEFT, BOTTOM);
+  textSize(size);
+  noStroke();
+  fill(255, 200);
+
+  // Show different hint depending on selection (optional)
+  const hint = selectedItemId ? "Click buttons to equip / sell" : "Click to buy";
+  text(hint, x, yEsc - size * 2.25);
+
+  pop();
+}
+
+
+function drawCoins(tf) {
+  push();
+  const pad = tf.dw * 0.02;
+  const x = tf.dx + pad;
+  const y = tf.dy + pad;
+
+  noStroke();
+  fill(0, 0, 0, 140);
+  rect(x, y, tf.dw * 0.16, tf.dh * 0.06, 12);
+
+  fill(255);
+  textAlign(LEFT, CENTER);
+  textSize(Math.max(14, Math.floor(tf.dh * 0.03)));
+  text(`Coins: ${coins}`, x + pad * 0.6, y + tf.dh * 0.03);
+
+  pop();
+}
+
+function drawShopItems(tf) {
+  hoveredItemId = null;
+
+  for (const slot of SHOP_SLOTS) {
+    const r = slotRectToScreen(tf, slot);
+    const over = inRect(mouseX, mouseY, r);
+    if (over) hoveredItemId = slot.itemId;
+
+    // slot background
+    push();
+    noStroke();
+    fill(0, 0, 0, over ? 120 : 90);
+    rect(r.x, r.y, r.w, r.h, 14);
+
+    // border (selected / hover)
+    strokeWeight(3);
+    if (selectedItemId === slot.itemId) stroke(255);
+    else if (over) stroke(220);
+    else stroke(160, 160, 160, 120);
+    noFill();
+    rect(r.x, r.y, r.w, r.h, 14);
+
+    // label + price
+    const item = SHOP_ITEMS.find(it => it.id === slot.itemId);
+    noStroke();
+    fill(255);
+    textAlign(CENTER, CENTER);
+    textSize(Math.max(12, Math.floor(r.h * 0.18)));
+    // Draw item icon
+    const iconImg = getItemIcon(slot.itemId);
+    if (iconImg) {
+      drawIconFit(iconImg, r, 0.62);
+    }
+
+    // text(item.name, r.x + r.w / 2, r.y + r.h * 0.38);
+
+    // textSize(Math.max(12, Math.floor(r.h * 0.16)));
+    // // Status text: EQUIPPED > OWNED > price
+    // let statusText = `${item.price} coins`;
+    // if (owned[slot.itemId]) statusText = "OWNED";
+    // if (equippedWeaponId === slot.itemId) statusText = "EQUIPPED";
+
+    // fill(owned[slot.itemId] ? 200 : 255);
+    // text(statusText, r.x + r.w / 2, r.y + r.h * 0.70);
+
+
+    pop();
+  }
+}
+
+function drawItemInfoPanel(tf, itemId) {
+  const item = SHOP_ITEMS.find(it => it.id === itemId);
+  if (!item) return;
+
+  push();
+
+  // panel on right side inside image area
+  const pad = tf.dw * 0.03;
+  const w = tf.dw * 0.28;
+  const h = tf.dh * 0.26;
+  const x = tf.dx + tf.dw - pad - w;
+  const y = tf.dy + tf.dh * 0.22;
+
+  noStroke();
+  fill(0, 0, 0, 150);
+  rect(x, y, w, h, 16);
+
+  fill(255);
+  textAlign(LEFT, TOP);
+  textSize(Math.max(16, Math.floor(h * 0.14)));
+  text(item.name, x + pad * 0.6, y + pad * 0.4);
+
+  textSize(Math.max(12, Math.floor(h * 0.10)));
+  fill(230);
+  const lines = [
+    ...item.desc,
+    "",
+    owned[itemId] ? "Status: Owned" : `Price: ${item.price} coins`,
+    `Your coins: ${coins}`,
+    // "",
+    // "Click slot to buy",
+  ];
+  const lineH = Math.max(14, Math.floor(h * 0.11));
+  let yy = y + pad * 0.4 + lineH * 1.4;
+  for (const s of lines) {
+    text(s, x + pad * 0.6, yy);
+    yy += lineH;
+  }
+
+    // Buttons (Equip / Sell)
+  infoBtnEquipR = null;
+  infoBtnSellR = null;
+
+  if (owned[itemId]) {
+    const btnH = h * 0.14;
+    const btnW = w * 0.38;
+    const gap = w * 0.06;
+
+    const by = y + h * 0.82;
+    const bx1 = x + (w - (btnW * 2 + gap)) / 2;
+    const bx2 = bx1 + btnW + gap;
+
+    // Equip button
+    infoBtnEquipR = { x: bx1, y: by, w: btnW, h: btnH };
+    const isEquipped = equippedWeaponId === itemId;
+    drawModalButton(
+      infoBtnEquipR,
+      isEquipped ? "EQUIPPED" : "EQUIP",
+      inRect(mouseX, mouseY, infoBtnEquipR),
+      !isEquipped
+    );
+
+    // Sell button
+    infoBtnSellR = { x: bx2, y: by, w: btnW, h: btnH };
+    drawModalButton(
+      infoBtnSellR,
+      "SELL",
+      inRect(mouseX, mouseY, infoBtnSellR),
+      true
+    );
+  }
+
+
+  pop();
+}
+
+function drawBuyModal(tf, itemId) {
+  const item = SHOP_ITEMS.find(it => it.id === itemId);
+  if (!item) return { buy: null, cancel: null };
+
+  push();
+
+  // overlay
+  noStroke();
+  fill(0, 0, 0, 170);
+  rect(0, 0, width, height);
+
+  const boxW = Math.min(tf.dw * 0.55, 560);
+  const boxH = Math.min(tf.dh * 0.32, 260);
+  const boxX = width / 2 - boxW / 2;
+  const boxY = height / 2 - boxH / 2;
+
+  fill(20, 20, 20, 235);
+  rect(boxX, boxY, boxW, boxH, 18);
+
+  textAlign(CENTER, CENTER);
+  fill(255);
+  textSize(Math.max(18, Math.floor(boxH * 0.16)));
+  text("Purchase Item", boxX + boxW / 2, boxY + boxH * 0.22);
+
+  fill(230);
+  textSize(Math.max(14, Math.floor(boxH * 0.11)));
+
+  let msg = `${item.name} — ${item.price} coins`;
+  if (owned[itemId]) msg = `${item.name} — already owned`;
+  text(msg, boxX + boxW / 2, boxY + boxH * 0.46);
+
+  const afford = coins >= item.price;
+  const tip = owned[itemId]
+    ? "You already have this item."
+    : (afford ? "Click BUY to confirm." : "Not enough coins.");
+  fill(200);
+  textSize(Math.max(12, Math.floor(boxH * 0.09)));
+  text(tip, boxX + boxW / 2, boxY + boxH * 0.60);
+
+  // buttons
+  const btnW = boxW * 0.26;
+  const btnH = boxH * 0.18;
+  const gap  = boxW * 0.06;
+
+  const buy = {
+    x: boxX + boxW / 2 - gap / 2 - btnW,
+    y: boxY + boxH * 0.72,
+    w: btnW, h: btnH
+  };
+  const cancel = {
+    x: boxX + boxW / 2 + gap / 2,
+    y: boxY + boxH * 0.72,
+    w: btnW, h: btnH
+  };
+
+  drawModalButton(buy, "BUY", inRect(mouseX, mouseY, buy), !owned[itemId] && afford);
+  drawModalButton(cancel, "CANCEL", inRect(mouseX, mouseY, cancel), true);
+
+  pop();
+  return { buy, cancel };
+}
+
+function drawModalButton(r, label, hover, enabled) {
+  push();
+  noStroke();
+
+  const alpha = enabled ? (hover ? 210 : 170) : 90;
+  fill(255, 255, 255, alpha * 0.15);
+  rect(r.x, r.y, r.w, r.h, 12);
+
+  stroke(255, enabled ? (hover ? 255 : 180) : 90);
+  strokeWeight(2);
+  noFill();
+  rect(r.x, r.y, r.w, r.h, 12);
+
+  noStroke();
+  fill(255, enabled ? 255 : 120);
+  textAlign(CENTER, CENTER);
+  textSize(Math.max(14, Math.floor(r.h * 0.42)));
+  text(label, r.x + r.w / 2, r.y + r.h / 2);
+
+  pop();
+}
+
+function slotRectToScreen(tf, slot) {
+  return {
+    x: tf.dx + slot.rx * tf.dw,
+    y: tf.dy + slot.ry * tf.dh,
+    w: slot.rw * tf.dw,
+    h: slot.rh * tf.dh,
+  };
+}
+
+function hitTestShopSlot(tf, mx, my) {
+  for (const slot of SHOP_SLOTS) {
+    const r = slotRectToScreen(tf, slot);
+    if (inRect(mx, my, r)) return slot;
+  }
+  return null;
+}
+
+function tryBuySelected() {
+  const itemId = selectedItemId;
+  const item = SHOP_ITEMS.find(it => it.id === itemId);
+  if (!item) return;
+
+  //Already owned: No deduction, close pop-up window directly
+  if (owned[itemId]) {
+    showBuyModal = false;
+    return;
+  }
+
+  //Not enough money: not buying
+  if (coins < item.price) {
+    //You can also make a shaking/red prompt here
+    return;
+  }
+
+  //Deduct money+mark ownership
+  coins -= item.price;
+  owned[itemId] = true;
+  saveShopState();
+
+  showBuyModal = false;
+}
+
+function canEquip(itemId) {
+  return !!owned[itemId];
+}
+
+function equipWeapon(itemId) {
+  // Only allow equipping owned weapons
+  if (!canEquip(itemId)) return;
+
+  // Equip exactly one weapon
+  equippedWeaponId = itemId;
+  saveShopState();
+}
+
+function getItemIcon(itemId) {
+  if (itemId === "pistol") return pistolIconImg;
+  if (itemId === "fireball") return fireballIconImg;
+  return null;
+}
+
+function drawIconFit(img, rect, scale = 0.65) {
+  // Draw image centered in rect with aspect-fit
+  if (!img) return;
+
+  const padW = rect.w * (1 - scale) * 0.5;
+  const padH = rect.h * (1 - scale) * 0.5;
+  const maxW = rect.w - padW * 2;
+  const maxH = rect.h - padH * 2;
+
+  const iw = img.width;
+  const ih = img.height;
+  if (!iw || !ih) return;
+
+  const s = Math.min(maxW / iw, maxH / ih);
+  const dw = iw * s;
+  const dh = ih * s;
+
+  const cx = rect.x + rect.w / 2;
+  const cy = rect.y + rect.h * 0.46; // slightly upper to leave room for text
+
+  push();
+  imageMode(CENTER);
+  // Optional: make unowned items dimmer
+  // tint(255, owned[selectedItemId] ? 255 : 160);
+  image(img, cx, cy, dw, dh);
+  pop();
+}
+
+function sellItem(itemId) {
+  // Only sell owned items
+  if (!owned[itemId]) return;
+
+  // Refund coins
+  const item = SHOP_ITEMS.find(it => it.id === itemId);
+  if (item) {
+    coins += Math.round(item.price * SELL_REFUND_RATE);
+  }
+
+  // Remove from inventory
+  owned[itemId] = false;
+
+  // If it was equipped, unequip it (or auto-equip another owned item)
+  if (equippedWeaponId === itemId) {
+    equippedWeaponId = null;
+
+    // Optional: auto-equip another owned weapon if exists
+    const nextOwned = SHOP_ITEMS.find(it => owned[it.id]);
+    if (nextOwned) equippedWeaponId = nextOwned.id;
+  }
+
+  // Close UI state (optional)
+  showBuyModal = false;
+
+  saveShopState();
+}
+
+function resetShop() {
+  // Reset everything so player can buy again
+  coins = START_COINS;
+  owned = { pistol: false, fireball: false };
+  equippedWeaponId = null;
+
+  selectedItemId = null;
+  hoveredItemId = null;
+  showBuyModal = false;
+
+  saveShopState();
+}
+
 
