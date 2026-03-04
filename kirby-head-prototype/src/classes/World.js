@@ -13,18 +13,23 @@ class World {
     this.backgroundColor = [135, 206, 235];
 
     this.platforms = [];
+    this.holes = [];
     this.setupLevel(levelData);
   }
 
   setupLevel(data) {
     let currentX = data.startX;
 
+    // place platforms
     for (let p of data.platforms) {
       let centerX = currentX + p.gap + p.w/2;
       let centerY = this.height - p.altitude - p.h/2;
       this.platforms.push(new Platform(centerX, centerY, p.w, p.h));
       currentX = centerX + p.w/2;
     }
+
+    // place holes
+    this.holes = data.holes.map(h => new Hole(h.x, h.w));
   }
 
   update() {
@@ -92,23 +97,42 @@ class World {
 
   handleWorldBoundaries(player) {
     let floorY = this.height - (this.groundThickness + player.h/2);
-    let ceilingY = player.h/2;
+    // let ceilingY = player.h/2;
+
+    // 1. Check if the player is currently over ANY hole
+    let overHole = false;
+    for (let hole of this.holes) {
+      // We check if the player's LEFT edge AND RIGHT edge are both inside the hole
+      let playerLeft = player.x - player.w / 2;
+      let playerRight = player.x + player.w / 2;
+
+      if (playerLeft > hole.left && playerRight < hole.right) {
+        overHole = true;
+        break;
+      }
+    }
 
     // Floor collision
-    if (player.y > floorY) {
+    if (!overHole && player.y > floorY) {
       player.y = floorY;
       player.velY = 0;
       player.jumpCount = 0;
       player.isGrounded = true;
     }
-    
-    // Ceiling limit
-    if (player.y < ceilingY) {
-      player.y = ceilingY;
-      player.velY = 0;
+
+    // 3. If he falls off the bottom of the world, reset him (or kill him)
+    if (player.y > this.height + player.h) {
+      this.resetPlayer(); 
     }
+    
+    // // Ceiling limit
+    // if (player.y < ceilingY) {
+    //   player.y = ceilingY;
+    //   player.velY = 0;
+    // }
 
     player.x = constrain(player.x, player.w/2, this.width - player.w/2);
+    player.y = max(player.y, player.h/2);
   }
 
   show() {
@@ -134,9 +158,22 @@ class World {
     // Draw Ground
     fill(34, 139, 34);
 
-    rectMode(CENTER); 
-    let groundX = this.width / 2;
-    let groundY = this.height - (this.groundThickness / 2);
-    rect(groundX, groundY, this.width, this.groundThickness);
+    rectMode(CORNER); 
+    // let groundX = this.width / 2;
+    let currentX = 0;
+    let groundY = this.height - this.groundThickness;
+
+    // Draw ground segments between holes
+    for (let hole of this.holes) {
+      // Draw ground from current position to the start of the hole
+      rect(currentX, groundY, hole.left - currentX, this.groundThickness);
+      currentX = hole.right; // Skip to the other side of the hole
+    }
+    
+    rect(currentX, groundY, this.width - currentX, this.groundThickness);
+  }
+
+  resetPlayer() {
+    this.player.reset(CONFIG.PLAYER.START_X, CONFIG.PLAYER.START_Y);
   }
 }

@@ -112,4 +112,21 @@ class Player extends Entity {
       }
     }
   }
+
+  reset(startX, startY) {
+    // 1. Move him back to the starting coordinates from your CONFIG
+    this.x = startX;
+    this.y = startY;
+
+    // 2. Kill all momentum so he doesn't "carry" his fall speed into the respawn
+    this.velX = 0;
+    this.velY = 0;
+
+    // 3. Reset his physical state
+    this.jumpCount = 0;
+    this.isGrounded = false;
+
+    // 4. (Optional) Penalize health
+    // this.player.hp -= 10;
+  }
 }
