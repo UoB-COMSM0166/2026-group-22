@@ -40,8 +40,8 @@ const CONFIG = {
 
   // File paths
   PATH: {
-    PLAYER_IDLE: '../assets/kirby_idle.png',
-    PLAYER_MOVE: '../assets/kirby_move.png'
+    PLAYER_IDLE: './assets/kirby_idle.png', // path based on index.html, not the .js file
+    PLAYER_MOVE: './assets/kirby_move.png'
   }
 };
 
