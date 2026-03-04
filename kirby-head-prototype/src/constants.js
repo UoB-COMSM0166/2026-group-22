@@ -56,8 +56,8 @@ const CONFIG = {
 
   CONTROLS: {
     JUMP: ' ', // Space
-    LEFT: 'ArrowLeft', // Left Arrow
-    RIGHT: 'ArrowRight' // Right Arrow
+    LEFT: 'a', // Left Arrow
+    RIGHT: 'd' // Right Arrow
   },
 
   // File paths
