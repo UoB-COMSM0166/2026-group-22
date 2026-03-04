@@ -35,8 +35,7 @@ const CONFIG = {
         { gap: 300, altitude: 550, w: 400, h: 30 }  // 8. The big finish area
       ],
       holes: [
-        { x: 800, w: 150 },  // A pit at x=800
-        { x: 1800, w: 200 }  // A larger pit later on
+        { startX: 300, endX: 3000 },
       ]
     }
   },

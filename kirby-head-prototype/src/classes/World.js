@@ -10,10 +10,13 @@ class World {
     this.width = levelData.worldWidth;
     this.height = levelData.worldHeight;
     this.groundThickness = CONFIG.WORLD.FLOOR_OFFSET;
+    this.spawnX = CONFIG.PLAYER.START_X;
+    this.spawnY = CONFIG.PLAYER.START_Y;
     this.backgroundColor = [135, 206, 235];
 
     this.platforms = [];
     this.holes = [];
+    this.checkpoints = [];
     this.setupLevel(levelData);
   }
 
@@ -24,17 +27,30 @@ class World {
     for (let p of data.platforms) {
       let centerX = currentX + p.gap + p.w/2;
       let centerY = this.height - p.altitude - p.h/2;
+      let topY = centerY - p.h / 2; // The top surface
+
       this.platforms.push(new Platform(centerX, centerY, p.w, p.h));
+      this.checkpoints.push(new Checkpoint(centerX + p.w/4, topY));
       currentX = centerX + p.w/2;
     }
 
     // place holes
-    this.holes = data.holes.map(h => new Hole(h.x, h.w));
+    this.holes = data.holes.map(h => new Hole(h.startX, h.endX));
   }
 
   update() {
     // 1. Update the Player
     this.player.update();
+
+    // Check Checkpoints
+    for (let cp of this.checkpoints) {
+      if (cp.update(this.player)) {
+        // The moment Kirby touches a flag, this becomes the new respawn point
+        this.spawnX = cp.x;
+        // We spawn him slightly above (y - 10) so he doesn't get stuck in the floor
+        this.spawnY = cp.y - 10; 
+      }
+    }
 
     // Check player-platform collision 
     for (let platform of this.platforms) {
@@ -144,6 +160,11 @@ class World {
     // Draw the environment
     this.drawBackground();
 
+    // Draw Checkpoints BEFORE the player
+    for (let cp of this.checkpoints) {
+      cp.show();
+    }
+
     for (let platform of this.platforms) {
       platform.show();
     }
@@ -174,6 +195,6 @@ class World {
   }
 
   resetPlayer() {
-    this.player.reset(CONFIG.PLAYER.START_X, CONFIG.PLAYER.START_Y);
+    this.player.reset(this.spawnX, this.spawnY);
   }
 }
