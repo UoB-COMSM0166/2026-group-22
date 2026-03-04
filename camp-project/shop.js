@@ -4,6 +4,10 @@ let plasdripFont;
 // Item icons
 let pistolIconImg;
 let fireballIconImg;
+// Inventory bar (owned items)
+let invSlots = [];            // computed each frame
+let hoveredInvItemId = null;  // optional
+
 
 // Equipped weapon (only one)
 let equippedWeaponId = null; // "pistol" | "fireball" | null
@@ -154,6 +158,9 @@ function shopDraw() {
   const a = getDialogueAlpha();
   if (a > 0) drawBottomDialogueCentered(tf, SHOP_LINES, a);
 
+  // Draw inventory bar (owned items)
+  drawInventoryBar(tf);
+
   // Action hint + Esc hint
   drawShopActionHint(tf);
   drawEscHint(tf);
@@ -163,7 +170,10 @@ function shopDraw() {
   drawShopItems(tf);
 
   // 6) item info panel
-  if (selectedItemId) drawItemInfoPanel(tf, selectedItemId);
+  if (selectedItemId) {
+  const anchor = getItemAnchorRect(tf, selectedItemId);
+  if (anchor) drawItemInfoPanel(tf, selectedItemId, anchor);
+}
 
   // 7) buy modal on top
   if (showBuyModal && selectedItemId) {
@@ -219,6 +229,15 @@ function shopMousePressed() {
       return;
     }
   }
+  
+// Inventory bar click -> select item (show info panel)
+  const invHit = hitTestInventory(mouseX, mouseY);
+  if (invHit) {
+  selectedItemId = invHit;
+  showBuyModal = false; // just in case
+  return;
+}
+
 
 
   // 4) Slot click 
@@ -424,9 +443,12 @@ function drawShopItems(tf) {
   hoveredItemId = null;
 
   for (const slot of SHOP_SLOTS) {
+    // Hide purchased items from shelf
+    if (owned[slot.itemId]) continue;
     const r = slotRectToScreen(tf, slot);
     const over = inRect(mouseX, mouseY, r);
     if (over) hoveredItemId = slot.itemId;
+    
 
     // slot background
     push();
@@ -454,62 +476,62 @@ function drawShopItems(tf) {
       drawIconFit(iconImg, r, 0.62);
     }
 
-    // text(item.name, r.x + r.w / 2, r.y + r.h * 0.38);
-
-    // textSize(Math.max(12, Math.floor(r.h * 0.16)));
-    // // Status text: EQUIPPED > OWNED > price
-    // let statusText = `${item.price} coins`;
-    // if (owned[slot.itemId]) statusText = "OWNED";
-    // if (equippedWeaponId === slot.itemId) statusText = "EQUIPPED";
-
-    // fill(owned[slot.itemId] ? 200 : 255);
-    // text(statusText, r.x + r.w / 2, r.y + r.h * 0.70);
-
-
     pop();
   }
 }
 
-function drawItemInfoPanel(tf, itemId) {
+function drawItemInfoPanel(tf, itemId, anchor) {
   const item = SHOP_ITEMS.find(it => it.id === itemId);
   if (!item) return;
 
   push();
 
-  // panel on right side inside image area
-  const pad = tf.dw * 0.03;
+  const pad = tf.dw * 0.02;
   const w = tf.dw * 0.28;
   const h = tf.dh * 0.26;
-  const x = tf.dx + tf.dw - pad - w;
-  const y = tf.dy + tf.dh * 0.22;
 
+  // Prefer right of anchor, fallback to left
+  let x = anchor.x + anchor.w + pad;
+  let y = anchor.y - h * 0.15;
+
+  if (x + w > tf.dx + tf.dw) {
+    x = anchor.x - pad - w;
+  }
+
+  // Clamp inside image area
+  x = constrain(x, tf.dx + pad, tf.dx + tf.dw - pad - w);
+  y = constrain(y, tf.dy + pad, tf.dy + tf.dh - pad - h);
+
+  // Panel background
   noStroke();
   fill(0, 0, 0, 150);
   rect(x, y, w, h, 16);
 
+  // Title
   fill(255);
   textAlign(LEFT, TOP);
   textSize(Math.max(16, Math.floor(h * 0.14)));
-  text(item.name, x + pad * 0.6, y + pad * 0.4);
+  text(item.name, x + pad * 0.7, y + pad * 0.5);
 
+  // Lines (remove "Click slot to buy" from here)
   textSize(Math.max(12, Math.floor(h * 0.10)));
   fill(230);
+
   const lines = [
     ...item.desc,
     "",
     owned[itemId] ? "Status: Owned" : `Price: ${item.price} coins`,
     `Your coins: ${coins}`,
-    // "",
-    // "Click slot to buy",
   ];
+
   const lineH = Math.max(14, Math.floor(h * 0.11));
-  let yy = y + pad * 0.4 + lineH * 1.4;
+  let yy = y + pad * 0.5 + lineH * 1.6;
   for (const s of lines) {
-    text(s, x + pad * 0.6, yy);
+    text(s, x + pad * 0.7, yy);
     yy += lineH;
   }
 
-    // Buttons (Equip / Sell)
+  // Buttons (only when owned)
   infoBtnEquipR = null;
   infoBtnSellR = null;
 
@@ -522,29 +544,17 @@ function drawItemInfoPanel(tf, itemId) {
     const bx1 = x + (w - (btnW * 2 + gap)) / 2;
     const bx2 = bx1 + btnW + gap;
 
-    // Equip button
     infoBtnEquipR = { x: bx1, y: by, w: btnW, h: btnH };
     const isEquipped = equippedWeaponId === itemId;
-    drawModalButton(
-      infoBtnEquipR,
-      isEquipped ? "EQUIPPED" : "EQUIP",
-      inRect(mouseX, mouseY, infoBtnEquipR),
-      !isEquipped
-    );
+    drawModalButton(infoBtnEquipR, isEquipped ? "EQUIPPED" : "EQUIP", inRect(mouseX, mouseY, infoBtnEquipR), !isEquipped);
 
-    // Sell button
     infoBtnSellR = { x: bx2, y: by, w: btnW, h: btnH };
-    drawModalButton(
-      infoBtnSellR,
-      "SELL",
-      inRect(mouseX, mouseY, infoBtnSellR),
-      true
-    );
+    drawModalButton(infoBtnSellR, "SELL", inRect(mouseX, mouseY, infoBtnSellR), true);
   }
-
 
   pop();
 }
+
 
 function drawBuyModal(tf, itemId) {
   const item = SHOP_ITEMS.find(it => it.id === itemId);
@@ -759,5 +769,122 @@ function resetShop() {
 
   saveShopState();
 }
+
+function getOwnedItemIds() {
+  // Return owned items in a stable order
+  return SHOP_ITEMS.map(it => it.id).filter(id => !!owned[id]);
+}
+
+function getInventoryBarRect(tf) {
+  const pad = tf.dw * 0.03;
+  const barH = tf.dh * 0.14;
+
+  // Move right a bit
+  const x = tf.dx + pad + tf.dw * 0.05;
+
+  // Move up a bit
+  const y = tf.dy + tf.dh - pad - barH - tf.dh * 0.12;
+
+  const w = tf.dw - pad * 2;
+  const h = barH;
+  return { x, y, w, h };
+}
+
+
+function drawInventoryBar(tf) {
+  hoveredInvItemId = null;
+  invSlots = [];
+
+  const bar = getInventoryBarRect(tf);
+
+  push();
+  // Bar background
+  noStroke();
+  fill(0, 0, 0, 120);
+  rect(bar.x, bar.y, bar.w, bar.h, 18);
+
+  // Title
+  fill(255, 210);
+  textAlign(LEFT, CENTER);
+  textSize(Math.max(12, Math.floor(bar.h * 0.22)));
+  text("Inventory", bar.x + bar.w * 0.03, bar.y + bar.h * 0.22);
+
+  const ownedIds = getOwnedItemIds(); // e.g. ["pistol","fireball"]
+  const maxSlots = 6;                // number of inventory cells
+
+  // Slot layout
+  const slotSize = bar.h * 0.62;
+  const gap = slotSize * 0.22;
+  const startX = bar.x + bar.w * 0.22;
+  const cy = bar.y + bar.h * 0.60;
+
+  for (let i = 0; i < maxSlots; i++) {
+    const itemId = ownedIds[i] || null;
+
+    const r = {
+      x: startX + i * (slotSize + gap),
+      y: cy - slotSize / 2,
+      w: slotSize,
+      h: slotSize,
+      itemId,
+    };
+    invSlots.push(r);
+
+    const over = inRect(mouseX, mouseY, r);
+    if (over && itemId) hoveredInvItemId = itemId;
+
+    // Draw empty cell background
+    push();
+    noStroke();
+    fill(255, 255, 255, over ? 28 : 18);
+    rect(r.x, r.y, r.w, r.h, 14);
+
+    // Draw border (highlight equipped)
+    if (itemId && equippedWeaponId === itemId) {
+      stroke(255, 220, 0, 220);
+      strokeWeight(3);
+    } else {
+      stroke(255, 255, 255, 90);
+      strokeWeight(2);
+    }
+    noFill();
+    rect(r.x + 2, r.y + 2, r.w - 4, r.h - 4, 12);
+
+    // Draw icon only if this cell has an item
+    if (itemId) {
+      const iconImg = getItemIcon(itemId);
+      if (iconImg) drawIconFit(iconImg, r, 0.78);
+    }
+
+    pop();
+  }
+
+  // Cursor hint
+  if (hoveredInvItemId) cursor("pointer");
+}
+
+function hitTestInventory(mx, my) {
+  for (const r of invSlots) {
+    if (r.itemId && inRect(mx, my, r)) return r.itemId;
+  }
+  return null;
+}
+
+function getItemAnchorRect(tf, itemId) {
+  // If owned: anchor to inventory slot rect
+  if (owned[itemId]) {
+    for (const r of invSlots) {
+      if (r.itemId === itemId) return r;
+    }
+    return null;
+  }
+
+  // If not owned: anchor to shelf slot rect
+  const slot = SHOP_SLOTS.find(s => s.itemId === itemId);
+  if (!slot) return null;
+  return slotRectToScreen(tf, slot);
+}
+
+
 
 
