@@ -33,6 +33,18 @@ class GameObject {
     };
   }
 
+  getOverlap(other) {
+    let b1 = this.getBounds();
+    let b2 = other.getBounds();
+
+    return {
+      left: b1.right - b2.left,
+      right: b2.right - b1.left,
+      top: b1.bottom - b2.top,
+      bottom: b2.bottom - b1.top
+    }
+  }
+
   // AABB (Axis-Aligned Bounding Box) collision detection
   intersects(other) {
     let b1 = this.getBounds();

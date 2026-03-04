@@ -78,74 +78,56 @@ class World {
   }
 
   handleSolidCollision(player, platform) {
-    if (player.intersects(platform)) {
-      // 1. Calculate overlaps on all 4 sides
-      let overlapLeft   = (player.x + player.w / 2) - (platform.x - platform.w / 2);
-      let overlapRight  = (platform.x + platform.w / 2) - (player.x - player.w / 2);
-      let overlapTop    = (player.y + player.h / 2) - (platform.y - platform.h / 2);
-      let overlapBottom = (platform.y + platform.h / 2) - (player.y - player.h / 2);
+    if (!player.intersects(platform)) return;
 
-      // 2. Find the smallest overlap (that's the side we hit)
-      let minOverlap = Math.min(overlapLeft, overlapRight, overlapTop, overlapBottom);
+    // 1. Get clean bounds using your new GameObject method
+    const p = platform.getBounds();
+    const overlap = player.getOverlap(platform);
 
-      if (minOverlap === overlapTop && player.velY > 0) {
-        // Hit Top (Landing)
-        player.y = platform.y - platform.h / 2 - player.h / 2;
-        player.velY = 0;
-        player.jumpCount = 0;
-        player.isGrounded = true;
-      } 
-      else if (minOverlap === overlapBottom && player.velY < 0) {
-        // Hit Bottom (Bonk head)
-        player.y = platform.y + platform.h / 2 + player.h / 2;
-        player.velY = 0;
-      } 
-      else if (minOverlap === overlapLeft) {
-        // Hit Left Side
-        player.x = platform.x - platform.w / 2 - player.w / 2;
-      } 
-      else if (minOverlap === overlapRight) {
-        // Hit Right Side
-        player.x = platform.x + platform.w / 2 + player.w / 2;
-      }
+    // 2. Find the smallest overlap (that's the side we hit)
+    const minOverlap = Math.min(overlap.top, overlap.bottom, overlap.left, overlap.right);
+
+    if (minOverlap === overlap.top && player.velY > 0) {
+      // Hit Top (Landing)
+      player.y = p.top - player.h / 2;
+      player.velY = 0;
+      player.jumpCount = 0;
+      player.isGrounded = true;
+    } 
+    else if (minOverlap === overlap.bottom && player.velY < 0) {
+      // Hit Bottom (Bonk head)
+      player.y = p.bottom + player.h / 2;
+      player.velY = 0;
+    } 
+    else if (minOverlap === overlap.left) {
+      // Hit Left Side
+      player.x = p.left - player.w / 2;
+    } 
+    else if (minOverlap === overlap.right) {
+      // Hit Right Side
+      player.x = p.right + player.w / 2;
     }
   }
 
   handleWorldBoundaries(player) {
-    let floorY = this.height - (this.groundThickness + player.h/2);
-    // let ceilingY = player.h/2;
+    const p = player.getBounds();
+    const floorY = this.height - this.groundThickness;
 
     // 1. Check if the player is currently over ANY hole
-    let overHole = false;
-    for (let hole of this.holes) {
-      // We check if the player's LEFT edge AND RIGHT edge are both inside the hole
-      let playerLeft = player.x - player.w / 2;
-      let playerRight = player.x + player.w / 2;
-
-      if (playerLeft > hole.left && playerRight < hole.right) {
-        overHole = true;
-        break;
-      }
-    }
+    let overHole = this.holes.some(h => h.contains(p.left) && h.contains(p.right));
 
     // Floor collision
-    if (!overHole && player.y > floorY) {
-      player.y = floorY;
+    if (!overHole && p.bottom > floorY) {
+      player.y = floorY - player.h / 2;
       player.velY = 0;
       player.jumpCount = 0;
       player.isGrounded = true;
     }
 
     // 3. If he falls off the bottom of the world, reset him (or kill him)
-    if (player.y > this.height + player.h) {
+    if (p.top > this.height) {
       this.resetPlayer(); 
     }
-    
-    // // Ceiling limit
-    // if (player.y < ceilingY) {
-    //   player.y = ceilingY;
-    //   player.velY = 0;
-    // }
 
     player.x = constrain(player.x, player.w/2, this.width - player.w/2);
     player.y = max(player.y, player.h/2);
