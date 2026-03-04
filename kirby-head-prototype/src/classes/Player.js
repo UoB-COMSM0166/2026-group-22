@@ -49,8 +49,8 @@ class Player extends Entity {
     }
   }
 
-  handleKeyPress(keyCode) {
-    if (key === CONFIG.CONTROLS.JUMP) { // 32 is the code for Space
+  handleKeyPress() {
+    if (key === CONFIG.CONTROLS.JUMP) {
       this.float();
     }
   }
@@ -104,6 +104,12 @@ class Player extends Entity {
     }
   }
 
+  land() {
+    this.velY = 0;
+    this.jumpCount = 0;
+    this.isGrounded = true;
+  }
+
   // Override applyPhysics to include floor collision logic
   applyPhysics() {
     let wasGrounded = this.isGrounded;
@@ -126,11 +132,7 @@ class Player extends Entity {
 
     // 2. Kill all momentum so he doesn't "carry" his fall speed into the respawn
     this.velX = 0;
-    this.velY = 0;
-
-    // 3. Reset his physical state
-    this.jumpCount = 0;
-    this.isGrounded = false;
+    this.land();
 
     // 4. (Optional) Penalize health
     // this.player.hp -= 10;

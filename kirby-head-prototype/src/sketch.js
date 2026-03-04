@@ -31,5 +31,5 @@ function drawUI() {
 }
 
 function keyPressed() {
-  kirby.handleKeyPress(keyCode);
+  kirby.handleKeyPress();
 }

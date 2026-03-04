@@ -90,9 +90,7 @@ class World {
     if (minOverlap === overlap.top && player.velY > 0) {
       // Hit Top (Landing)
       player.y = p.top - player.h / 2;
-      player.velY = 0;
-      player.jumpCount = 0;
-      player.isGrounded = true;
+      player.land();
     } 
     else if (minOverlap === overlap.bottom && player.velY < 0) {
       // Hit Bottom (Bonk head)
@@ -119,9 +117,7 @@ class World {
     // Floor collision
     if (!overHole && p.bottom > floorY) {
       player.y = floorY - player.h / 2;
-      player.velY = 0;
-      player.jumpCount = 0;
-      player.isGrounded = true;
+      player.land();
     }
 
     // 3. If he falls off the bottom of the world, reset him (or kill him)
