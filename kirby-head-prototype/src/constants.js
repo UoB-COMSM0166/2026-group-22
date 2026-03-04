@@ -54,6 +54,12 @@ const CONFIG = {
     ANIMATION_SPEED: 10
   },
 
+  CONTROLS: {
+    JUMP: ' ', // Space
+    LEFT: 'ArrowLeft', // Left Arrow
+    RIGHT: 'ArrowRight' // Right Arrow
+  },
+
   // File paths
   PATH: {
     PLAYER_IDLE: './assets/kirby_idle.png', // path based on index.html, not the .js file

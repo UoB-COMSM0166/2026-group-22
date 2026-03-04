@@ -38,14 +38,20 @@ class Player extends Entity {
 
   // Logic for horizontal movement and facing direction
   move() {
-    if (keyIsDown(LEFT_ARROW)) {
+    if (keyIsDown(CONFIG.CONTROLS.LEFT)) {
       this.velX = -this.speed; // Use velX instead of changing x directly
       this.isFacingLeft = true;
-    } else if (keyIsDown(RIGHT_ARROW)) {
+    } else if (keyIsDown(CONFIG.CONTROLS.RIGHT)) {
       this.velX = this.speed;
       this.isFacingLeft = false;
     } else {
       this.velX = 0; // Stop moving if no key is pressed
+    }
+  }
+
+  handleKeyPress(keyCode) {
+    if (key === CONFIG.CONTROLS.JUMP) { // 32 is the code for Space
+      this.float();
     }
   }
 
@@ -86,7 +92,7 @@ class Player extends Entity {
   }
 
   isMoving() {
-    return keyIsDown(LEFT_ARROW) || keyIsDown(RIGHT_ARROW);
+    return keyIsDown(CONFIG.CONTROLS.LEFT) || keyIsDown(CONFIG.CONTROLS.RIGHT);
   }
 
   float() {
