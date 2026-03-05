@@ -28,9 +28,16 @@ class World {
     for (let p of data.platforms) {
       let centerX = currentX + p.gap + p.w/2;
       let centerY = this.height - p.altitude - p.h/2;
-      let topY = centerY - p.h / 2; // The top surface
+      let topY = centerY - p.h/2; // The top surface
 
-      this.platforms.push(new Platform(centerX, centerY, p.w, p.h));
+      if (p.isMoving) {
+        this.platforms.push(
+          new MovingPlatform(centerX, centerY, p.w, p.h, p.rangeX, p.rangeY, p.speed)
+        );
+      } else {
+        this.platforms.push(new Platform(centerX, centerY, p.w, p.h));
+      }
+      
       this.checkpoints.push(new Checkpoint(centerX + p.w/4, topY));
       currentX = centerX + p.w/2;
     }
@@ -58,6 +65,7 @@ class World {
 
     // Check player-platform collision 
     for (let platform of this.platforms) {
+      platform.update();
       this.handleSolidCollision(this.player, platform);
     }
 
@@ -105,6 +113,11 @@ class World {
       // Hit Top (Landing)
       player.y = p.top - player.h / 2;
       player.land();
+      // handle moving platform
+      if (platform.velX || platform.velY) {
+        player.x += platform.velX;
+        player.y += platform.velY;
+      }
     } 
     else if (minOverlap === overlap.bottom && player.velY < 0) {
       // Hit Bottom (Bonk head)
