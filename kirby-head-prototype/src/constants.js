@@ -36,6 +36,17 @@ const CONFIG = {
       ],
       holes: [
         { startX: 300, endX: 3000 },
+      ],
+      coins: [
+        { x: 375,  y: 640 }, // Platform 1
+        { x: 645,  y: 560 }, // Platform 2
+        { x: 915,  y: 480 }, // Platform 3
+        { x: 1315, y: 520 }, // Platform 4 (Wide - could add more here)
+        { x: 1615, y: 390 }, // Platform 5
+        { x: 1865, y: 260 }, // Platform 6
+        { x: 2035, y: 210 }, // Platform 7
+        { x: 2185, y: 90  }, // Platform 8
+        { x: 2785, y: 180 }  // Platform 9 (Goal Area)
       ]
     }
   },

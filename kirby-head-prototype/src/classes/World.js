@@ -15,6 +15,7 @@ class World {
     this.backgroundColor = [135, 206, 235];
 
     this.platforms = [];
+    this.coins = [];
     this.holes = [];
     this.checkpoints = [];
     this.setupLevel(levelData);
@@ -33,6 +34,9 @@ class World {
       this.checkpoints.push(new Checkpoint(centerX + p.w/4, topY));
       currentX = centerX + p.w/2;
     }
+
+    // place coins
+    this.coins = data.coins.map(c => new Coin(c.x, c.y));
 
     // place holes
     this.holes = data.holes.map(h => new Hole(h.startX, h.endX));
@@ -55,6 +59,16 @@ class World {
     // Check player-platform collision 
     for (let platform of this.platforms) {
       this.handleSolidCollision(this.player, platform);
+    }
+
+    // Update Coins
+    for (let coin of this.coins) {
+      coin.update(this.player);
+    }
+
+    // Clean up: Filter out inactive coins every few frames (Performance!)
+    if (frameCount % 60 === 0) {
+      this.coins = this.coins.filter(c => c.active);
     }
 
     this.handleWorldBoundaries(this.player);
@@ -145,6 +159,10 @@ class World {
 
     for (let platform of this.platforms) {
       platform.show();
+    }
+
+    for (let coin of this.coins) {
+      coin.show();
     }
     
     // Draw the Player
