@@ -2,6 +2,7 @@
 class MovingPlatform extends Platform {
   constructor(x, y, w, h, rangeX = 100, rangeY = 0, speed = 0.02) {
     super(x, y, w, h);
+    this.color = [155, 89, 182];
     this.startX = x;
     this.startY = y;
     this.rangeX = rangeX;
@@ -28,6 +29,8 @@ class MovingPlatform extends Platform {
     this.velY = this.y - oldY;
   }
 
-  // We don't need to implement show() because it inherits 
-  // the grey stone look from Platform.js!
+  show() {
+    super.show();
+    fill(this.color);
+  }
 }
