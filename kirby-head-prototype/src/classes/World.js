@@ -15,6 +15,7 @@ class World {
     this.collectableTypes = CONFIG.COLLECTABLE_TYPES;
     this.backgroundColor = [135, 206, 235];
 
+    this.enemies = [];
     this.platforms = [];
     this.coins = [];
     this.collectables = [];
@@ -44,6 +45,9 @@ class World {
       currentX = centerX + p.w/2;
     }
 
+    // place enemy
+    this.enemies.push(new Enemy(1315, 500, 40, 40, 10, 2)); // temporaries
+
     // place coins
     this.coins = data.coins.map(c => new Coin(c.x, c.y));
 
@@ -67,6 +71,29 @@ class World {
     // 1. Update the Player
     this.player.update();
 
+    for (let platform of this.platforms) {
+      platform.update();
+    }
+
+    // Check player-platform collision 
+    for (let platform of this.platforms) {
+      this.handleSolidCollision(this.player, platform);
+    }
+
+    for (let enemy of this.enemies) {
+      enemy.update(this.platforms);
+      
+      // Check for collision with Kirby
+      if (this.player.intersects(enemy)) {
+        this.handleEnemyCollision(this.player, enemy);
+      }
+
+      // Check player-platform collision 
+      for (let platform of this.platforms) {
+        this.handleSolidCollision(enemy, platform);
+      }
+    }
+
     // Check Checkpoints
     for (let cp of this.checkpoints) {
       if (cp.update(this.player)) {
@@ -75,12 +102,6 @@ class World {
         // We spawn him slightly above (y - 10) so he doesn't get stuck in the floor
         this.spawnY = cp.y - 10; 
       }
-    }
-
-    // Check player-platform collision 
-    for (let platform of this.platforms) {
-      platform.update();
-      this.handleSolidCollision(this.player, platform);
     }
 
     // Update Coins
@@ -100,6 +121,12 @@ class World {
 
     this.handleWorldBoundaries(this.player);
 
+    if (frameCount % 60 === 0) {
+      this.enemies = this.enemies.filter(e => e.active);
+      this.coins = this.coins.filter(c => c.active);
+      this.collectables = this.collectables.filter(c => c.active);
+    }
+
     this.player.animate();
     this.updateCamera();
   }
@@ -118,38 +145,61 @@ class World {
     this.cameraY = constrain(this.cameraY, 0, this.height - height);
   }
 
-  handleSolidCollision(player, platform) {
-    if (!player.intersects(platform)) return;
+  handleSolidCollision(entity, platform) {
+    if (!entity.intersects(platform)) return;
 
     // 1. Get clean bounds using your new GameObject method
     const p = platform.getBounds();
-    const overlap = player.getOverlap(platform);
+    const overlap = entity.getOverlap(platform);
 
     // 2. Find the smallest overlap (that's the side we hit)
     const minOverlap = Math.min(overlap.top, overlap.bottom, overlap.left, overlap.right);
 
-    if (minOverlap === overlap.top && player.velY > 0) {
+    if (minOverlap === overlap.top && entity.velY > 0) {
       // Hit Top (Landing)
-      player.y = p.top - player.h / 2;
-      player.land();
+      entity.y = p.top - entity.h / 2;
+      entity.velY = 0;
+    
+      // Check if it's the player to trigger 'land' (animations/jump reset)
+      if (entity instanceof Player) {
+        entity.land();
+      }
+
       // handle moving platform
       if (platform.velX || platform.velY) {
-        player.x += platform.velX;
-        player.y += platform.velY;
+        entity.x += platform.velX;
+        entity.y += platform.velY;
       }
     } 
-    else if (minOverlap === overlap.bottom && player.velY < 0) {
+    else if (minOverlap === overlap.bottom && entity.velY < 0) {
       // Hit Bottom (Bonk head)
-      player.y = p.bottom + player.h / 2;
-      player.velY = 0;
+      entity.y = p.bottom + entity.h / 2;
+      entity.velY = 0;
     } 
     else if (minOverlap === overlap.left) {
       // Hit Left Side
-      player.x = p.left - player.w / 2;
+      entity.x = p.left - entity.w / 2;
     } 
     else if (minOverlap === overlap.right) {
       // Hit Right Side
-      player.x = p.right + player.w / 2;
+      entity.x = p.right + entity.w / 2;
+    }
+  }
+
+  handleEnemyCollision(player, enemy) {
+    if (!player.active || !enemy.active) return;
+    // Classic platformer logic:
+    // If Kirby is falling and hits the top of the enemy, kill the enemy
+    if (player.velY > 0 && player.y < enemy.y - enemy.h / 2) {
+      enemy.active = false;
+      player.velY = -10; // Give Kirby a little bounce
+    } else {
+      // Otherwise, Kirby gets hurt
+      player.hp -= 10;
+      // Push Kirby back a little bit (Knockback)
+      // Knockback logic
+      player.velX = (player.x < enemy.x) ? -8 : 8;
+      player.velY = -5; // Small pop up
     }
   }
 
@@ -199,6 +249,10 @@ class World {
 
     for (let coll of this.collectables) {
       coll.show();
+    }
+
+    for (let enemy of this.enemies) {
+      enemy.show();
     }
     
     // Draw the Player
