@@ -40,16 +40,20 @@ class World {
       } else {
         this.platforms.push(new Platform(centerX, centerY, p.w, p.h));
       }
+
+      // place coins
+      if (p.hasCoin) {
+        this.coins.push(new Coin(centerX, centerY - 35));
+      }
+
+      // place enemy
+      if (p.hasEnemy) {
+        this.enemies.push(new Enemy(centerX, centerY - 100, 40, 40, 10, 2)); // temporaries
+      }
       
       this.checkpoints.push(new Checkpoint(centerX + p.w/4, topY));
       currentX = centerX + p.w/2;
     }
-
-    // place enemy
-    this.enemies.push(new Enemy(1315, 500, 40, 40, 10, 2)); // temporaries
-
-    // place coins
-    this.coins = data.coins.map(c => new Coin(c.x, c.y));
 
     // place collectables
     this.collectables = data.collectables.map(collectableData => {
@@ -192,7 +196,7 @@ class World {
     // If Kirby is falling and hits the top of the enemy, kill the enemy
     if (player.velY > 0 && player.y < enemy.y - enemy.h / 2) {
       enemy.active = false;
-      player.velY = -10; // Give Kirby a little bounce
+      player.velY = -5; // Give Kirby a little bounce
     } else {
       // Otherwise, Kirby gets hurt
       player.hp -= 10;
