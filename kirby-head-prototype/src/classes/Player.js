@@ -86,6 +86,12 @@ class Player extends Entity {
 
     push();
     translate(this.x, this.y);
+
+    if (this.hasSkill) {
+      drawingContext.shadowBlur = 20;
+      drawingContext.shadowColor = 'yellow';
+    }
+    
     if (this.isFacingLeft) scale(-1, 1);
     imageMode(CENTER);
     image(frameImg, 0, 0, this.w, this.h);
