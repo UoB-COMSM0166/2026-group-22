@@ -12,10 +12,12 @@ class World {
     this.groundThickness = CONFIG.WORLD.FLOOR_OFFSET;
     this.spawnX = CONFIG.PLAYER.START_X;
     this.spawnY = CONFIG.PLAYER.START_Y;
+    this.collectableTypes = CONFIG.COLLECTABLE_TYPES;
     this.backgroundColor = [135, 206, 235];
 
     this.platforms = [];
     this.coins = [];
+    this.collectables = [];
     this.holes = [];
     this.checkpoints = [];
     this.setupLevel(levelData);
@@ -45,6 +47,18 @@ class World {
     // place coins
     this.coins = data.coins.map(c => new Coin(c.x, c.y));
 
+    // place collectables
+    this.collectables = data.collectables.map(collectableData => {
+      const collectableClass = this.collectableTypes[collectableData.type];
+
+      if (collectableClass) {
+        return new collectableClass(collectableData.x, collectableData.y);
+      }
+
+      console.warn(`Type ${itemData.type} not found in ITEM_TYPES`);
+      return null;
+    }).filter(i => i); // Remove nulls
+
     // place holes
     this.holes = data.holes.map(h => new Hole(h.startX, h.endX));
   }
@@ -72,6 +86,11 @@ class World {
     // Update Coins
     for (let coin of this.coins) {
       coin.update(this.player);
+    }
+
+    // update collectables
+    for (let coll of this.collectables) {
+      coll.update(this.player);
     }
 
     // Clean up: Filter out inactive coins every few frames (Performance!)
@@ -176,6 +195,10 @@ class World {
 
     for (let coin of this.coins) {
       coin.show();
+    }
+
+    for (let coll of this.collectables) {
+      coll.show();
     }
     
     // Draw the Player

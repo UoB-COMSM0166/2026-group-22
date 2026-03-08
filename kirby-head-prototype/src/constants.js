@@ -51,12 +51,14 @@ const CONFIG = {
       coins: [
         { x: 375,  y: 640 }, // Platform 1
         { x: 645,  y: 560 }, // Platform 2
-        { x: 915,  y: 480 }, // Platform 3
         { x: 1315, y: 520 }, // Platform 4
         { x: 1720, y: 390 }, // Moving Shuttle (Shifted X to match its start + range)
         { x: 2120, y: 290 }, // Vertical Lift (Shifted Y to give Kirby room to stand)
         { x: 2185, y: 90  }, // Underlapping platform
         { x: 2785, y: 180 }  // Goal Area
+      ],
+      collectables: [
+        { type: "JUMP_BOOSTER", x: 915,  y: 480 }
       ]
     }
   },
@@ -72,6 +74,17 @@ const CONFIG = {
     LIFT: -5.5, // Jump/Float power
     HP: 100,
     ANIMATION_SPEED: 10
+  },
+
+  SKILLS: {
+    NONE: null,
+    JUMP: "JUMP_BOOST",
+    SPEED: "SPEED_BOOST",
+    SHIELD: "INVINCIBILITY"
+  },
+
+  COLLECTABLE_TYPES: {
+    JUMP_BOOSTER: JumpBooster
   },
 
   CONTROLS: {
