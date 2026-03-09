@@ -1,6 +1,7 @@
 // Inherit from Entity, which already inherits from GameObject
 class Player extends Entity {
   constructor(frames) {
+    const [idle, walk, jump] = frames;
     // 1. super() calls the Entity/GameObject constructors
     // Passes: x, y, width, height
     super(
@@ -12,6 +13,10 @@ class Player extends Entity {
       CONFIG.PLAYER.SPEED
     );
 
+    this.idleFrame = idle;
+    this.walkFrame = walk;
+    this.jumpFrame = jump;
+
     // 2. Override Entity defaults with Player-specific values
     this.gravity = CONFIG.WORLD.GRAVITY;
     this.lift = CONFIG.PLAYER.LIFT;
@@ -19,7 +24,6 @@ class Player extends Entity {
     this.animationSpeed = CONFIG.PLAYER.ANIMATION_SPEED;
 
     // 3. Animation-specific properties (only for Player)
-    this.frames = frames;
     this.currentFrame = 0;
     this.isFacingLeft = false;
     this.isGrounded = false;
@@ -34,10 +38,10 @@ class Player extends Entity {
 
   // Logic for horizontal movement and facing direction
   move() {
-    if (keyIsDown(LEFT_ARROW)) {
+    if (keyIsDown(CONFIG.CONTROLS.LEFT)) {
       this.velX = -this.speed; // Use velX instead of changing x directly
       this.isFacingLeft = true;
-    } else if (keyIsDown(RIGHT_ARROW)) {
+    } else if (keyIsDown(CONFIG.CONTROLS.RIGHT)) {
       this.velX = this.speed;
       this.isFacingLeft = false;
     } else {
@@ -45,25 +49,42 @@ class Player extends Entity {
     }
   }
 
+  handleKeyPress() {
+    if (key === CONFIG.CONTROLS.JUMP) {
+      this.float();
+    }
+  }
+
   // Implementation of the abstract show() method
   show() {
-    if (!this.frames || this.frames.length === 0) return;
+    let frameImg
+
+    if (!this.isGrounded) {
+      frameImg = this.jumpFrame;
+    } else if (this.isMoving()) {
+      frameImg = this.currentFrame === 1 ? this.walkFrame : this.idleFrame;
+    } else {
+      frameImg = this.idleFrame;
+    }
+
+    if (!frameImg) return;
 
     push();
     translate(this.x, this.y);
     if (this.isFacingLeft) scale(-1, 1);
     imageMode(CENTER);
-    
-    image(this.frames[this.currentFrame], 0, 0, this.w, this.h);
+    image(frameImg, 0, 0, this.w, this.h);
     pop();
   }
 
   // Handles which frame should be displayed
   animate() {
+    if (!this.isGrounded) return;
+
     // let onGround = this.y >= this.FLOOR_Y;
-    if (this.isGrounded && this.isMoving()) {
+    if (this.isMoving()) {
       if (frameCount % this.animationSpeed === 0) {
-        this.currentFrame = (this.currentFrame + 1) % this.frames.length;
+        this.currentFrame = this.currentFrame === 0 ? 1 : 0;
       }
     } else {
       this.currentFrame = 0; // Reset to idle frame
@@ -71,7 +92,7 @@ class Player extends Entity {
   }
 
   isMoving() {
-    return keyIsDown(LEFT_ARROW) || keyIsDown(RIGHT_ARROW);
+    return keyIsDown(CONFIG.CONTROLS.LEFT) || keyIsDown(CONFIG.CONTROLS.RIGHT);
   }
 
   float() {
@@ -83,9 +104,37 @@ class Player extends Entity {
     }
   }
 
+  land() {
+    this.velY = 0;
+    this.jumpCount = 0;
+    this.isGrounded = true;
+  }
+
   // Override applyPhysics to include floor collision logic
   applyPhysics() {
+    let wasGrounded = this.isGrounded;
+
     this.isGrounded = false;
     super.applyPhysics(); // Run the gravity logic from Entity.js first
+
+    // allow the player to jump only once if already on air
+    if (wasGrounded && !this.isGrounded && this.velY > 0) {
+      if (this.jumpCount === 0) {
+        this.jumpCount = 1;
+      }
+    }
+  }
+
+  reset(startX, startY) {
+    // 1. Move him back to the starting coordinates from your CONFIG
+    this.x = startX;
+    this.y = startY;
+
+    // 2. Kill all momentum so he doesn't "carry" his fall speed into the respawn
+    this.velX = 0;
+    this.land();
+
+    // 4. (Optional) Penalize health
+    // this.player.hp -= 10;
   }
 }

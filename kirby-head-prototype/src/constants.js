@@ -13,14 +13,40 @@ const CONFIG = {
 
   LEVELS: {
     ONE: {
-      worldWidth: 2000,
+      worldWidth: 3000,
       worldHeight: 800,
       startX: 300,
       platforms: [
-        { gap: 0, altitude: 100, w: 150, h: 20 },
-        { gap: 150, altitude: 180, w: 150, h: 20 },
-        { gap: 200, altitude: 250, w: 200, h: 20 },
-        { gap: 100, altitude: 250, w: 150, h: 20 }
+        // --- THE STARTING STAIRS ---
+        { gap: 0,   altitude: 100, w: 150, h: 20 }, // 1. Easy start
+        { gap: 120, altitude: 180, w: 150, h: 20 }, // 2. Moving up
+        { gap: 120, altitude: 260, w: 150, h: 20 }, // 3. A bit higher
+
+        // --- THE LONG LEAP ---
+        { gap: 250, altitude: 220, w: 300, h: 20 }, // 4. A long jump down to a wide safety platform
+
+        // --- THE CLIMB ---
+        { gap: 150, altitude: 350, w: 100, h: 20 }, // 5. Small platform (harder to land)
+        { gap: 100, altitude: 480, w: 150, h: 20 }, // 6. Higher up
+        { gap: 20, altitude: 530, w: 150, h: 20 }, // 6. Higher up
+        { gap: -50, altitude: 650, w: 200, h: 20 }, // 7. "Underlapping" platform (jump back to climb)
+
+        // --- THE GOAL PLATEAU ---
+        { gap: 300, altitude: 550, w: 400, h: 30 }  // 8. The big finish area
+      ],
+      holes: [
+        { startX: 300, endX: 3000 },
+      ],
+      coins: [
+        { x: 375,  y: 640 }, // Platform 1
+        { x: 645,  y: 560 }, // Platform 2
+        { x: 915,  y: 480 }, // Platform 3
+        { x: 1315, y: 520 }, // Platform 4 (Wide - could add more here)
+        { x: 1615, y: 390 }, // Platform 5
+        { x: 1865, y: 260 }, // Platform 6
+        { x: 2035, y: 210 }, // Platform 7
+        { x: 2185, y: 90  }, // Platform 8
+        { x: 2785, y: 180 }  // Platform 9 (Goal Area)
       ]
     }
   },
@@ -38,10 +64,17 @@ const CONFIG = {
     ANIMATION_SPEED: 10
   },
 
+  CONTROLS: {
+    JUMP: ' ', // Space
+    LEFT: 'a', // Left Arrow
+    RIGHT: 'd' // Right Arrow
+  },
+
   // File paths
   PATH: {
-    PLAYER_IDLE: '../assets/kirby_idle.png',
-    PLAYER_MOVE: '../assets/kirby_move.png'
+    PLAYER_IDLE: './assets/kirby_idle.png', // path based on index.html, not the .js file
+    PLAYER_MOVE: './assets/kirby_move.png',
+    PLAYER_JUMP: './assets/kirby_jump.png'
   }
 };
 

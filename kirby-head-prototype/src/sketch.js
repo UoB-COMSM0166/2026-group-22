@@ -6,7 +6,8 @@ async function setup() {
   // We "instantiate" the player here
   const stillFrame = await loadImage(CONFIG.PATH.PLAYER_IDLE);
   const walkFrame = await loadImage(CONFIG.PATH.PLAYER_MOVE);
-  const playerFrames = [stillFrame, walkFrame];
+  const jumpFrame = await loadImage(CONFIG.PATH.PLAYER_JUMP);
+  const playerFrames = [stillFrame, walkFrame, jumpFrame];
 
   kirby = new Player(playerFrames);
   gameWorld = new World(kirby);
@@ -30,7 +31,5 @@ function drawUI() {
 }
 
 function keyPressed() {
-  if (key === ' ') {
-    kirby.float();
-  }
+  kirby.handleKeyPress();
 }
