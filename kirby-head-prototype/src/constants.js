@@ -13,40 +13,56 @@ const CONFIG = {
 
   LEVELS: {
     ONE: {
-      worldWidth: 3000,
-      worldHeight: 800,
+      worldWidth: 12000, 
+      worldHeight: 800, 
       startX: 300,
       platforms: [
-        // --- THE STARTING STAIRS ---
-        { gap: 0,   altitude: 100, w: 150, h: 20 }, // 1. Easy start
-        { gap: 120, altitude: 180, w: 150, h: 20 }, // 2. Moving up
-        { gap: 120, altitude: 260, w: 150, h: 20 }, // 3. A bit higher
+        // --- 前半段保持绝对不变 ---
+        { gap: 0,   altitude: 100, w: 150, h: 20 },
+        { gap: 120, altitude: 180, w: 120, h: 20, hasCoin: true },
+        { gap: 150, altitude: 150, w: 200, h: 20, hasEnemy: true },
 
-        // --- THE LONG LEAP ---
-        { gap: 250, altitude: 220, w: 300, h: 20 }, // 4. A long jump down to a wide safety platform
+        { gap: 120, altitude: 220, w: 100, h: 20, 
+          isMoving: true, rangeX: 0, rangeY: 130, speed: 0.04 },
+        { gap: 50,  altitude: 360, w: 150, h: 20 }, 
+        
+        { gap: 105, altitude: 0,   w: 220, h: 580 }, 
 
-        // --- THE CLIMB ---
-        { gap: 150, altitude: 350, w: 100, h: 20 }, // 5. Small platform (harder to land)
-        { gap: 100, altitude: 480, w: 150, h: 20 }, // 6. Higher up
-        { gap: 20, altitude: 530, w: 150, h: 20 }, // 6. Higher up
-        { gap: -50, altitude: 650, w: 200, h: 20 }, // 7. "Underlapping" platform (jump back to climb)
+        { gap: 150, altitude: 500, w: 300, h: 20, hasCoin: true },
+        { gap: 150, altitude: 300, w: 200, h: 20, hasEnemy: true }, 
 
-        // --- THE GOAL PLATEAU ---
-        { gap: 300, altitude: 550, w: 400, h: 30 }  // 8. The big finish area
+        { gap: 180, altitude: 350, w: 150, h: 20,  
+          isMoving: true, rangeX: 80, rangeY: 0, speed: 0.02 }, 
+        { gap: 180, altitude: 350, w: 150, h: 20, hasCoin: true }, 
+        { gap: 180, altitude: 400, w: 150, h: 20, 
+          isMoving: true, rangeX: 80, rangeY: 0, speed: 0.02 },
+
+        { gap: 150, altitude: 400, w: 250, h: 20, hasEnemy: true }, 
+
+        { gap: 180, altitude: 0,   w: 250, h: 420 }, 
+        
+        // 第二个跷跷板（已根据上个指令调低到350）
+        { gap: 150, altitude: 350, w: 300, h: 20, hasCoin: true },
+
+        // --- 核心修改点：在跷跷板之后先加一个静止平台 ---
+        { gap: 150, altitude: 320, w: 180, h: 20 }, 
+        
+        // 然后再接移动平台
+        { gap: 120, altitude: 300, w: 100, h: 20, 
+          isMoving: true, rangeX: 0, rangeY: 150, speed: 0.03 },
+        { gap: 150, altitude: 350, w: 200, h: 20, hasEnemy: true },
+
+        { gap: 150, altitude: 450, w: 120, h: 20, hasCoin: true },
+        { gap: 150, altitude: 400, w: 150, h: 20,  
+          isMoving: true, rangeX: 120, rangeY: 0, speed: 0.03 },
+        
+        { gap: 150, altitude: 0, w: 2000, h: 500 }
       ],
       holes: [
-        { startX: 300, endX: 3000 },
+        { startX: 300, endX: 12000 },
       ],
-      coins: [
-        { x: 375,  y: 640 }, // Platform 1
-        { x: 645,  y: 560 }, // Platform 2
-        { x: 915,  y: 480 }, // Platform 3
-        { x: 1315, y: 520 }, // Platform 4 (Wide - could add more here)
-        { x: 1615, y: 390 }, // Platform 5
-        { x: 1865, y: 260 }, // Platform 6
-        { x: 2035, y: 210 }, // Platform 7
-        { x: 2185, y: 90  }, // Platform 8
-        { x: 2785, y: 180 }  // Platform 9 (Goal Area)
+      collectables: [
+        { type: "JUMP_BOOSTER", x: 1385,  y: 380 }
       ]
     }
   },
@@ -62,6 +78,17 @@ const CONFIG = {
     LIFT: -5.5, // Jump/Float power
     HP: 100,
     ANIMATION_SPEED: 10
+  },
+
+  SKILLS: {
+    NONE: null,
+    JUMP: "JUMP_BOOST",
+    SPEED: "SPEED_BOOST",
+    SHIELD: "INVINCIBILITY"
+  },
+
+  COLLECTABLE_TYPES: {
+    JUMP_BOOSTER: JumpBooster
   },
 
   CONTROLS: {

@@ -28,12 +28,27 @@ class Player extends Entity {
     this.isFacingLeft = false;
     this.isGrounded = false;
     this.jumpCount = 0;
+
+    // --- SKILL SYSTEM ---
+    this.hasSkill = false; 
+    this.currentSkill = CONFIG.SKILLS.NONE;
+    this.skillTimer = 0; // Useful for tracking how long a boost lasts
   }
 
   // Implementation of the abstract update() method
   update() {
     this.move();         // Defined below
     this.applyPhysics(); // Inherited from Entity
+
+    if (this.hasSkill && this.skillTimer > 0) {
+      // Subtract the actual time passed since the last frame
+      // deltaTime is ~16.6ms at 60fps, but varies if the game lags
+      this.skillTimer -= deltaTime; 
+
+      if (this.skillTimer <= 0) {
+        this.resetSkills();
+      }
+    }
   }
 
   // Logic for horizontal movement and facing direction
@@ -71,6 +86,12 @@ class Player extends Entity {
 
     push();
     translate(this.x, this.y);
+
+    if (this.hasSkill) {
+      drawingContext.shadowBlur = 20;
+      drawingContext.shadowColor = 'yellow';
+    }
+    
     if (this.isFacingLeft) scale(-1, 1);
     imageMode(CENTER);
     image(frameImg, 0, 0, this.w, this.h);
@@ -134,7 +155,17 @@ class Player extends Entity {
     this.velX = 0;
     this.land();
 
+    this.resetSkills();
+
     // 4. (Optional) Penalize health
     // this.player.hp -= 10;
+  }
+
+  resetSkills() {
+    if (this.currentSkill === CONFIG.SKILLS.JUMP) {
+      this.lift /= 1.5;
+    }
+    this.hasSkill = false;
+    this.currentSkill = CONFIG.SKILLS.NONE;
   }
 }
