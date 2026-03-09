@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>Camp Screen</title>
+    <title>Isle of Four Doors</title>
 
     <!-- p5.js -->
     <script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.min.js"></script>
@@ -14,16 +14,21 @@
   </head>
 
   <body>
-    <script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.min.js"></script>
+    <!-- 1) shared state  -->
+    <script src="gameState.js"></script>
 
-    <!-- scenes  -->
+    <!-- 2) new scenes -->
+    <script src="title.js"></script>
+    <script src="characterSelect.js"></script>
+
+    <!-- 3) existing scenes -->
     <script src="campScreen.js"></script>
+    <script src="level.js"></script>
     <script src="shop.js"></script>
     <script src="board.js"></script>
     <script src="settings.js"></script>
 
-    <!-- scene manager -->
+    <!-- 4) scene manager -->
     <script src="main.js"></script>
   </body>
-
 </html>
