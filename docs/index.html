@@ -5,10 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>game-demo</title>
     <link rel="stylesheet" href="public/style.css">
-    <script src="libs/p5.js"></script>
+    <!-- p5.js -->
+    <!-- <script src="libs/p5.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.min.js"></script>
     
 </head>
 <body>
+    <!-- 1) shared state  -->
+    <script src="src/gameState.js"></script>
+
+    <!-- 2) new scenes -->
+    <script src="src/title.js"></script>
+    <script src="src/characterSelect.js"></script>
+
+    <!-- 3) existing scenes -->
+    <script src="src/campScreen.js"></script>
+
+
     <script src="src/classes/GameObject.js"></script>
     <script src="src/classes/Entity.js"></script>
     <script src="src/classes/Player.js"></script>
@@ -23,5 +36,27 @@
     <script src="src/classes/World.js"></script>
     <script src="src/constants.js"></script>
     <script src="src/sketch.js"></script>
+
+    <!-- level scene -->
+    <script src="src/level.js"></script>
+    
+    
+    <!-- Shop modules -->
+    <script src="src/Shop/ShopData.js"></script>
+    <script src="src/Shop/ShopAssets.js"></script>
+    <script src="src/Shop/ShopState.js"></script>
+    <script src="src/Shop/ShopShelf.js"></script>
+    <script src="src/Shop/ShopInventoryBar.js"></script>
+    <script src="src/Shop/ShopInfoPanel.js"></script>
+    <script src="src/Shop/ShopBuyModel.js"></script>
+    <script src="src/Shop/ShopUI.js"></script>
+    <script src="src/Shop/Shop.js"></script>
+    <script src="src/Shop/ShopSceneHooks.js"></script>
+
+    <script src="src/board.js"></script>
+    <script src="src/settings.js"></script>
+
+    <!-- 4) scene manager -->
+    <script src="src/main.js"></script>
 </body>
 </html>

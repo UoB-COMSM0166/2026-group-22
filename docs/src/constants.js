@@ -92,9 +92,9 @@ const CONFIG = {
   },
 
   CONTROLS: {
-    JUMP: ' ', // Space
-    LEFT: 'a', // Left Arrow
-    RIGHT: 'd' // Right Arrow
+    JUMP: 32, // Space
+    LEFT: 65, // Left Arrow
+    RIGHT: 68 // Right Arrow
   },
 
   // File paths

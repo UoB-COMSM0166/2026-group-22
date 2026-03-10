@@ -18,9 +18,9 @@ const LEVEL_CANVAS_H = 400;
 let levelCanvasActive = false;
 
 function levelPreload() {
-  levelAssets.idle = loadImage("../kirby-head-prototype/assets/kirby_idle.png");
-  levelAssets.walk = loadImage("../kirby-head-prototype/assets/kirby_move.png");
-  levelAssets.jump = loadImage("../kirby-head-prototype/assets/kirby_jump.png");
+  levelAssets.idle = loadImage("./assets/kirby_idle.png");
+  levelAssets.walk = loadImage("./assets/kirby_move.png");
+  levelAssets.jump = loadImage("./assets/kirby_jump.png");
 }
 
 function levelSetup() {
