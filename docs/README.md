@@ -1,4 +1,4 @@
-# simple-drawing-app
+# game-demo
 
 ## Getting Started
 
