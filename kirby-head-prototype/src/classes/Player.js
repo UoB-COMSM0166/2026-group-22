@@ -65,7 +65,7 @@ class Player extends Entity {
   }
 
   handleKeyPress() {
-    if (key === CONFIG.CONTROLS.JUMP) {
+    if (keyCode === CONFIG.CONTROLS.JUMP) {
       this.float();
     }
   }
