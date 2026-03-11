@@ -1,35 +1,34 @@
-let kirby;
-let gameWorld;
+// src/sketch.js
 
-async function setup() {
-  createCanvas(CONFIG.WORLD.CANVAS_WIDTH, CONFIG.WORLD.CANVAS_HEIGHT);
-  // We "instantiate" the player here
-  const stillFrame = await loadImage(CONFIG.PATH.PLAYER_IDLE);
-  const walkFrame = await loadImage(CONFIG.PATH.PLAYER_MOVE);
-  const jumpFrame = await loadImage(CONFIG.PATH.PLAYER_JUMP);
-  const playerFrames = [stillFrame, walkFrame, jumpFrame];
+function preload() {
+  // 1. Initialize the scenes so their preload methods can be called
+  sceneManager.init(); 
+  
+  // 2. Delegate preloading to the manager
+  sceneManager.preload();
+}
 
-  kirby = new Player(playerFrames);
-  gameWorld = new World(kirby);
+function setup() {
+  // 3. Delegate canvas creation and scene-specific setup
+  sceneManager.setup();
 }
 
 function draw() {
-  if (kirby && gameWorld) {
-    gameWorld.update();
-    gameWorld.show();
-  }
-
-  drawUI();
+  // 4. The manager decides WHICH scene to draw
+  sceneManager.draw();
 }
 
-function drawUI() {
-  // Instructions UI
-  fill(255);
-  textSize(16);
-  textAlign(CENTER);
-  text("Arrows to Move | SPACE to Float", width/2, 30);
+function mousePressed() {
+  // 5. Pass mouse events to the active scene
+  sceneManager.mousePressed();
 }
 
 function keyPressed() {
-  kirby.handleKeyPress();
+  // 6. Pass key events to the active scene
+  sceneManager.keyPressed();
+}
+
+function windowResized() {
+  // 7. Handle screen resizing (important for the Level vs Menu logic)
+  sceneManager.windowResized();
 }

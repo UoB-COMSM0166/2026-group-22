@@ -1,11 +1,21 @@
-// ShopState.js
-// State + persistence only
-
+// src/Shop/ShopState.js
 class ShopState {
   constructor() {
-    this.coins = START_COINS;
-    this.owned = { pistol: false, fireball: false };
+    this.coins = typeof START_COINS !== 'undefined' ? START_COINS : 100;
+    this.owned = {}; // We will populate this dynamically
     this.equippedWeaponId = null;
+    
+    // Initialize owned status for all items in ShopData
+    this.initOwnedStatus();
+  }
+
+  // Prevents hardcoding by checking SHOP_ITEMS directly
+  initOwnedStatus() {
+    if (typeof SHOP_ITEMS !== 'undefined') {
+      SHOP_ITEMS.forEach(item => {
+        this.owned[item.id] = false;
+      });
+    }
   }
 
   load() {
@@ -16,15 +26,18 @@ class ShopState {
       const data = JSON.parse(raw);
       if (typeof data.coins === "number") this.coins = data.coins;
 
+      // Merge saved ownership with current item list
       if (data.owned && typeof data.owned === "object") {
-        this.owned.pistol = !!data.owned.pistol;
-        this.owned.fireball = !!data.owned.fireball;
+        Object.keys(data.owned).forEach(id => {
+          if (this.owned.hasOwnProperty(id)) {
+            this.owned[id] = !!data.owned[id];
+          }
+        });
       }
 
-      if (typeof data.equippedWeaponId === "string" && this.owned[data.equippedWeaponId]) {
+      // Ensure equipped weapon is actually owned
+      if (data.equippedWeaponId && this.owned[data.equippedWeaponId]) {
         this.equippedWeaponId = data.equippedWeaponId;
-      } else {
-        this.equippedWeaponId = null;
       }
     } catch (e) {
       console.warn("ShopState.load failed:", e);
@@ -46,6 +59,10 @@ class ShopState {
     }
   }
 
+  /* =============================
+     Business Logic
+     ============================= */
+
   isOwned(itemId) {
     return !!this.owned[itemId];
   }
@@ -56,14 +73,12 @@ class ShopState {
 
   buy(itemId) {
     const item = this.getItem(itemId);
-    if (!item) return false;
-    if (this.isOwned(itemId)) return false;
-    if (this.coins < item.price) return false;
+    if (!item || this.isOwned(itemId) || this.coins < item.price) return false;
 
     this.coins -= item.price;
     this.owned[itemId] = true;
 
-    // Auto-equip first purchased item
+    // Quality of Life: Auto-equip if nothing is currently held
     if (!this.equippedWeaponId) this.equippedWeaponId = itemId;
 
     this.save();
@@ -81,14 +96,14 @@ class ShopState {
     if (!this.isOwned(itemId)) return false;
 
     const item = this.getItem(itemId);
-    if (item) this.coins += Math.round(item.price * SELL_REFUND_RATE);
-
+    const refund = Math.round(item.price * (typeof SELL_REFUND_RATE !== 'undefined' ? SELL_REFUND_RATE : 0.5));
+    
+    this.coins += refund;
     this.owned[itemId] = false;
 
+    // Handle equipping a new weapon if the sold one was active
     if (this.equippedWeaponId === itemId) {
-      this.equippedWeaponId = null;
-      const next = SHOP_ITEMS.find((it) => this.owned[it.id]);
-      if (next) this.equippedWeaponId = next.id;
+      this.equippedWeaponId = this.getOwnedItemIds()[0] || null;
     }
 
     this.save();
@@ -97,12 +112,14 @@ class ShopState {
 
   reset() {
     this.coins = START_COINS;
-    this.owned = { pistol: false, fireball: false };
+    this.initOwnedStatus(); // Re-initialize the list
     this.equippedWeaponId = null;
     this.save();
   }
 
   getOwnedItemIds() {
-    return SHOP_ITEMS.map((it) => it.id).filter((id) => this.owned[id]);
+    return Object.keys(this.owned).filter(id => this.owned[id]);
   }
 }
+
+const shopState = new ShopState();

@@ -11,21 +11,14 @@
     
 </head>
 <body>
-    <!-- 1) shared state  -->
     <script src="src/gameState.js"></script>
 
-    <!-- 2) new scenes -->
-    <script src="src/scenes/title.js"></script>
-    <script src="src/scenes/characterSelect.js"></script>
-
-    <!-- 3) existing scenes -->
-    <script src="src/scenes/campScreen.js"></script>
-    <script src="src/scenes/board.js"></script>
-
-    <!-- level scene -->
-    <script src="src/scenes/level.js"></script>
-
-    <script src="src/scenes/settings.js"></script>
+    <script src="src/scenes/TitleScene.js"></script>
+    <script src="src/scenes/CharacterSelectScene.js"></script>
+    <script src="src/scenes/CampScene.js"></script>
+    <script src="src/scenes/HintBoardScene.js"></script>
+    <script src="src/scenes/SettingsScene.js"></script>
+    <script src="src/scenes/LevelScene.js"></script>
 
     <script src="src/classes/GameObject.js"></script>
     <script src="src/classes/Entity.js"></script>
@@ -44,18 +37,19 @@
     
     
     <!-- Shop modules -->
-    <script src="src/Shop/ShopData.js"></script>
-    <script src="src/Shop/ShopAssets.js"></script>
-    <script src="src/Shop/ShopState.js"></script>
-    <script src="src/Shop/ShopShelf.js"></script>
-    <script src="src/Shop/ShopInventoryBar.js"></script>
-    <script src="src/Shop/ShopInfoPanel.js"></script>
-    <script src="src/Shop/ShopBuyModel.js"></script>
-    <script src="src/Shop/ShopUI.js"></script>
-    <script src="src/Shop/Shop.js"></script>
-    <script src="src/Shop/ShopSceneHooks.js"></script>
+    <script src="src/scenes/shop/ShopData.js"></script>
+
+    <script src="src/scenes/shop/ShopState.js"></script>
+    <script src="src/scenes/shop/ShopUI.js"></script>
+    <script src="src/scenes/shop/ShopAssets.js"></script>
+
+    <script src="src/scenes/shop/ShopShelf.js"></script>
+    <script src="src/scenes/shop/ShopInfoPanel.js"></script>
+    <script src="src/scenes/shop/ShopBuyModel.js"></script>
+    <script src="src/scenes/shop/ShopInventoryBar.js"></script>
+    <script src="src/scenes/shop/ShopScene.js"></script>
 
     <!-- 4) scene manager -->
-    <script src="src/main.js"></script>
+    <script src="src/SceneManager.js"></script>
 </body>
 </html>
