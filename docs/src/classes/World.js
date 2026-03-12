@@ -4,7 +4,7 @@ class World {
     this.cameraX = 0;
     this.cameraY = 0;
 
-    const levelData = CONFIG.LEVELS["ONE"];
+    const levelData = CONFIG.LEVELS["THREE"];
     
     // Pull dimensions from your CONFIG
     this.width = levelData.worldWidth;
@@ -33,7 +33,11 @@ class World {
       let centerY = this.height - p.altitude - p.h/2;
       let topY = centerY - p.h/2; // The top surface
 
-      if (p.isMoving) {
+      if (p.vanish === true) {
+        this.platforms.push(
+          new DisappearingPlatform(centerX, centerY, p.w, p.h)
+        );
+      } else if (p.isMoving) {
         this.platforms.push(
           new MovingPlatform(centerX, centerY, p.w, p.h, p.rangeX, p.rangeY, p.speed)
         );
@@ -81,6 +85,7 @@ class World {
 
     // Check player-platform collision 
     for (let platform of this.platforms) {
+      if (!platform.active) continue;
       this.handleSolidCollision(this.player, platform);
     }
 
@@ -167,6 +172,9 @@ class World {
       // Check if it's the player to trigger 'land' (animations/jump reset)
       if (entity instanceof Player) {
         entity.land();
+            if (platform.triggerVanish) {
+              platform.triggerVanish();
+            }
       }
 
       // handle moving platform
