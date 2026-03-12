@@ -1,10 +1,10 @@
 class World {
-  constructor(player) {
+  constructor(player, doorNumber) {
     this.player = player;
     this.cameraX = 0;
     this.cameraY = 0;
 
-    const levelData = CONFIG.LEVELS["THREE"];
+    const levelData = CONFIG.LEVELS[doorNumber - 1];
     
     // Pull dimensions from your CONFIG
     this.width = levelData.worldWidth;

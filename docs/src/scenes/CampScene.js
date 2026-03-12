@@ -216,14 +216,10 @@ class CampScene {
   }
 
   enterDoor(n) {
-    if (n === 1) {
-      const level = sceneManager.scenes["level"];
-      if (level && level.buildLevel) {
-        level.buildLevel(1);
-        sceneManager.switch("level");
-      }
-    } else {
-      console.log(`Door ${n} not implemented yet.`);
+    const level = sceneManager.scenes["level"];
+    if (level && level.buildLevel) {
+      level.buildLevel(n);
+      sceneManager.switch("level");
     }
   }
 
