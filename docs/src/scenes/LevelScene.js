@@ -1,0 +1,137 @@
+// src/scenes/LevelScene.js
+class LevelScene {
+  constructor() {
+    this.player = null;
+    this.world = null;
+    this.doorNumber = 1;
+    this.canvasActive = false;
+
+    // Fixed dimensions for the Kirby demo style
+    this.CANVAS_W = 600;
+    this.CANVAS_H = 400;
+
+    this.assets = {
+      idle: null,
+      walk: null,
+      jump: null,
+    };
+  }
+
+  preload() {
+    this.assets.idle = loadImage("./assets/kirby_idle.png");
+    this.assets.walk = loadImage("./assets/kirby_move.png");
+    this.assets.jump = loadImage("./assets/kirby_jump.png");
+  }
+
+  // Logic to run when the scene starts
+  onEnter() {
+    this.applyCanvasMode();
+
+    // Build the world if it doesn't exist yet
+    if (!this.world) {
+      this.buildLevel(this.doorNumber);
+    }
+  }
+
+  // New: Logic to run when leaving the scene
+  onExit() {
+    this.restoreFullCanvasMode();
+  }
+
+  buildLevel(doorNumber) {
+    this.doorNumber = doorNumber;
+    const playerFrames = [this.assets.idle, this.assets.walk, this.assets.jump];
+
+    // Instantiate your physical objects
+    this.player = new Player(playerFrames);
+    this.world = new World(this.player, this.doorNumber);
+
+    console.log("[LevelScene] World built for door:", doorNumber);
+  }
+
+  draw() {
+    if (!this.player || !this.world) {
+      this.drawLoadingScreen();
+      return;
+    }
+
+    // Standard game loop pattern: Update then Show
+    this.world.update();
+    this.world.show();
+    this.drawUI();
+  }
+
+  drawLoadingScreen() {
+    background(0);
+    fill(255);
+    textAlign(CENTER, CENTER);
+    textSize(24);
+    text("Loading level...", width / 2, height / 2);
+  }
+
+  drawUI() {
+    push();
+    fill(255);
+    textSize(16);
+    textAlign(CENTER, TOP);
+    text("A / D to Move | SPACE to Jump | ESC to Camp", width / 2, 16);
+    pop();
+  }
+
+  keyPressed() {
+    if (keyCode === ESCAPE) {
+      sceneManager.switch("camp");
+      return;
+    }
+
+    if (this.player) {
+      this.player.handleKeyPress();
+    }
+  }
+
+  /* =============================
+     DOM & Canvas Styling Methods
+     ============================= */
+
+  applyCanvasMode() {
+    resizeCanvas(this.CANVAS_W, this.CANVAS_H);
+    const body = document.body;
+    const c = document.querySelector("canvas");
+
+    body.style.display = "flex";
+    body.style.justifyContent = "center";
+    body.style.alignItems = "center";
+    body.style.background = "#e9e9e9";
+    body.style.overflow = "hidden";
+
+    if (c) {
+      c.style.width = this.CANVAS_W + "px";
+      c.style.height = this.CANVAS_H + "px";
+    }
+
+    this.canvasActive = true;
+  }
+
+  restoreFullCanvasMode() {
+    const body = document.body;
+    const c = document.querySelector("canvas");
+
+    body.style.display = "block";
+    body.style.background = "#111";
+    body.style.overflow = "";
+
+    if (c) {
+      c.style.width = "";
+      c.style.height = "";
+    }
+
+    resizeCanvas(window.innerWidth, window.innerHeight);
+    this.canvasActive = false;
+  }
+
+  handleResize() {
+    if (this.canvasActive) {
+      this.applyCanvasMode();
+    }
+  }
+}
