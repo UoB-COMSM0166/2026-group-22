@@ -1,5 +1,5 @@
 class World {
-  constructor(player, doorNumber) {
+  constructor(player, doorNumber, bgLayers) {
     this.player = player;
     this.cameraX = 0;
     this.cameraY = 0;
@@ -14,6 +14,7 @@ class World {
     this.spawnY = CONFIG.PLAYER.START_Y;
     this.collectableTypes = CONFIG.COLLECTABLE_TYPES;
     this.backgroundColor = [135, 206, 235];
+    this.bgLayers = bgLayers;
 
     this.enemies = [];
     this.platforms = [];
@@ -248,6 +249,16 @@ class World {
 
   show() {
     background(this.backgroundColor);
+
+    // 2. Parallax Layers (Far and Mid)
+    // Draw BEFORE the camera translate to keep them "floating" behind everything
+    if (this.bgLayers.far) {
+      this.drawParallax(this.bgLayers.far, this.cameraX * 0.08);
+    }
+    if (this.bgLayers.mid) {
+      this.drawParallax(this.bgLayers.mid, this.cameraX * 0.4);
+    }
+
     // 3. Apply Camera Transformation
     push();
     translate(-this.cameraX, -this.cameraY);
@@ -256,32 +267,39 @@ class World {
     this.drawBackground();
 
     // Draw Checkpoints BEFORE the player
-    for (let cp of this.checkpoints) {
-      cp.show();
-    }
+    this.checkpoints.forEach(cp => cp.show());
 
-    for (let platform of this.platforms) {
-      platform.show();
-    }
+    this.platforms.forEach(p => p.show());
 
-    for (let coin of this.coins) {
-      coin.show();
-    }
+    this.coins.forEach(c => c.show());
 
-    for (let coll of this.collectables) {
-      coll.show();
-    }
+    this.collectables.forEach(coll => coll.show());
 
-    for (let enemy of this.enemies) {
-      enemy.show();
-    }
+    this.enemies.forEach(e => e.show());
     
     // Draw the Player
     this.player.show();
 
     pop();
 
+    // 4. Fixed Front Overlay (UI-like layer)
+    if (this.bgLayers.front) {
+      image(this.bgLayers.front, 0, 0, width, height);
+    }
+
     this.drawGameUI();
+  }
+
+  // Helper to handle the looping image math
+  drawParallax(img, scroll) {
+    if (!img || img.width === 0) return;
+    
+    let drawW = img.width * (height / img.height);
+    let offset = -(scroll % drawW);
+
+    image(img, offset, 0, drawW, height);
+    image(img, offset + drawW, 0, drawW, height);
+    image(img, offset - drawW, 0, drawW, height);
   }
 
   drawBackground() {

@@ -1,6 +1,11 @@
 CONFIG.LEVELS[0] = {
   worldWidth: 12000, 
-  worldHeight: 800, 
+  worldHeight: 800,
+  backgrounds: {
+    far: "assets/bg/far-background1.png",
+    mid: "assets/bg/middle-background1.png",
+    front: "assets/bg/front-background1.png"
+  },
   startX: 300,
   platforms: [
     // --- 前半段保持绝对不变 ---

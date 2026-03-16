@@ -15,12 +15,28 @@ class LevelScene {
       walk: null,
       jump: null,
     };
+
+    this.bgLayers = { 
+      far: null, 
+      mid: null, 
+      front: null 
+    };
   }
 
   preload() {
     this.assets.idle = loadImage("./assets/kirby_idle.png");
     this.assets.walk = loadImage("./assets/kirby_move.png");
     this.assets.jump = loadImage("./assets/kirby_jump.png");
+
+    this.levelBackgrounds = CONFIG.LEVELS.map(level => {
+      if (!level.backgrounds) return null;
+
+      return {
+        far:   loadImage(level.backgrounds.far),
+        mid:   loadImage(level.backgrounds.mid),
+        front: loadImage(level.backgrounds.front)
+      };
+    });
   }
 
   // Logic to run when the scene starts
@@ -39,6 +55,12 @@ class LevelScene {
   }
 
   buildLevel(doorNumber) {
+    const data = CONFIG.LEVELS[doorNumber - 1];
+
+    const preloadedBgs = this.levelBackgrounds[doorNumber - 1];
+    // Safety fallback: if no backgrounds exist, provide nulls to avoid errors
+    this.bgLayers = preloadedBgs || { far: null, mid: null, front: null };
+
     this.doorNumber = doorNumber;
     const playerFrames = [this.assets.idle, this.assets.walk, this.assets.jump];
 
@@ -47,7 +69,7 @@ class LevelScene {
 
     sceneManager.player = this.player;
     
-    this.world = new World(this.player, this.doorNumber);
+    this.world = new World(this.player, this.doorNumber, this.bgLayers);
 
     console.log("[LevelScene] World built for door:", doorNumber);
   }
