@@ -42,7 +42,9 @@ CONFIG.LEVELS[0] = {
     { gap: 150, altitude: 400, w: 150, h: 20,  
       isMoving: true, rangeX: 120, rangeY: 0, speed: 0.03 },
     
-    { gap: 150, altitude: 0, w: 2000, h: 500 }
+    { gap: 150, altitude: 0, w: 2000, h: 500 },
+    
+    { gap: 150, altitude: 0, w: 2000, h: 500, hasBoss: true}
   ],
   holes: [
     { startX: 300, endX: 12000 },
