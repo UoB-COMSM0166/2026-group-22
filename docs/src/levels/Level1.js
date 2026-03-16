@@ -17,7 +17,7 @@ CONFIG.LEVELS[0] = {
       isMoving: true, rangeX: 0, rangeY: 130, speed: 0.04 },
     { gap: 50,  altitude: 360, w: 150, h: 20 }, 
     
-    { gap: 105, altitude: 0,   w: 220, h: 580 }, 
+    { gap: 105, altitude: 0,   w: 220, h: 580, removesSkill: true }, 
 
     { gap: 150, altitude: 500, w: 300, h: 20, hasCoin: true },
     { gap: 150, altitude: 300, w: 200, h: 20, hasEnemy: true }, 

@@ -167,5 +167,6 @@ class Player extends Entity {
     }
     this.hasSkill = false;
     this.currentSkill = CONFIG.SKILLS.NONE;
+    this.skillTimer = 0;
   }
 }

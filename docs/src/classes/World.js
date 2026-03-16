@@ -46,6 +46,8 @@ class World {
         platform = new Platform(centerX, centerY, p.w, p.h);
       }
 
+      platform.removesSkill = p.removesSkill || false;
+
       // 3. Now that 'platform' is defined, you can add properties to it
       platform.hasBoss = p.hasBoss || false; 
 
@@ -178,6 +180,11 @@ class World {
       // Check if it's the player to trigger 'land' (animations/jump reset)
       if (entity instanceof Player) {
         entity.land();
+
+      // THE TRIGGER: Check if the platform is an "anti-skill" zone
+      if (platform.removesSkill) {
+        entity.resetSkills();
+      }
 
         // BOSS TRIGGER CHECK
       if (platform.hasBoss) {
