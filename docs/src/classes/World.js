@@ -33,17 +33,26 @@ class World {
       let centerY = this.height - p.altitude - p.h/2;
       let topY = centerY - p.h/2; // The top surface
 
+     // 1. Declare the variable first
+      let platform;
       if (p.vanish === true) {
         this.platforms.push(
           new DisappearingPlatform(centerX, centerY, p.w, p.h)
         );
+      // 2. Assign the instance to the variable instead of pushing immediately
       } else if (p.isMoving) {
-        this.platforms.push(
-          new MovingPlatform(centerX, centerY, p.w, p.h, p.rangeX, p.rangeY, p.speed)
+        platform = new MovingPlatform(
+          centerX, centerY, p.w, p.h, p.rangeX, p.rangeY, p.speed
         );
       } else {
-        this.platforms.push(new Platform(centerX, centerY, p.w, p.h));
+        platform = new Platform(centerX, centerY, p.w, p.h);
       }
+
+      // 3. Now that 'platform' is defined, you can add properties to it
+      platform.hasBoss = p.hasBoss || false; 
+
+      // 4. Push the platform to your array only ONCE
+      this.platforms.push(platform);
 
       // place coins
       if (p.hasCoin) {
@@ -172,9 +181,17 @@ class World {
       // Check if it's the player to trigger 'land' (animations/jump reset)
       if (entity instanceof Player) {
         entity.land();
+
             if (platform.triggerVanish) {
               platform.triggerVanish();
             }
+
+        // BOSS TRIGGER CHECK
+      if (platform.hasBoss) {
+        console.log("[World] Boss platform detected! Transitioning to BossScene...");
+        // Switch to the separate scene you created
+        sceneManager.switch("boss"); 
+      }
       }
 
       // handle moving platform

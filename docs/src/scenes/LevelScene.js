@@ -44,6 +44,9 @@ class LevelScene {
 
     // Instantiate your physical objects
     this.player = new Player(playerFrames);
+
+    sceneManager.player = this.player;
+    
     this.world = new World(this.player, this.doorNumber);
 
     console.log("[LevelScene] World built for door:", doorNumber);

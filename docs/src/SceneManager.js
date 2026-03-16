@@ -3,32 +3,36 @@ class SceneManager {
     this.scenes = {};
     this.currentScene = null;
     this.currentKey = "";
+    // Added: A central reference to the player so HP/Items persist across scenes
+    this.player = null; 
   }
 
-  // 1. Initialize and register all scene instances
   init() {
     this.scenes = {
       "title":    new TitleScene(),
       "select":   new CharacterSelectScene(),
       "camp":     new CampScene(),
       "shop":     new ShopScene(), 
-      "board":    new HintBoardScene(), // Add your board scene here
+      "board":    new HintBoardScene(),
       "settings": new SettingsScene(),
-      "level":    new LevelScene()
+      "level":    new LevelScene(),
+      "boss":     new BossScene() // REGISTER: Added the BossScene
     };
     
-    // Default starting point
     this.switch("title");
   }
 
-  // 2. The transition logic (The "Brain" of the engine)
-  switch(key) {
+  /**
+   * Enhanced switch logic to allow passing data
+   * @param {string} key - The scene name
+   * @param {any} data - Optional data (Level index, Boss type, etc.)
+   */
+  switch(key, data) {
     if (!this.scenes[key]) {
       console.error(`Scene "${key}" not found!`);
       return;
     }
 
-    // A) Cleanup the OLD scene (very important for Level CSS reset)
     if (this.currentScene && this.currentScene.onExit) {
       this.currentScene.onExit();
     }
@@ -36,29 +40,27 @@ class SceneManager {
     this.currentKey = key;
     this.currentScene = this.scenes[key];
     
-    // B) Setup the NEW scene
+    // Pass the 'data' argument to the new scene's onEnter method
     if (this.currentScene && this.currentScene.onEnter) {
-      this.currentScene.onEnter();
+      this.currentScene.onEnter(data);
     }
 
-    console.log(`[SceneManager] Switched to: ${key}`);
+    console.log(`[SceneManager] Switched to: ${key}`, data ? `with data: ${data}` : "");
   }
 
-  // 3. p5.js Lifecycle Delegation
+  // --- p5.js Lifecycle Delegation ---
+
   preload() {
-    // Tell every scene to load its own images/sounds
     for (let key in this.scenes) {
       if (this.scenes[key].preload) this.scenes[key].preload();
     }
     
-    // Global Assets
     if (!window.Assets) window.Assets = {};
     window.Assets.plasdripFont = loadFont("assets/plasdrip.ttf");
   }
 
   setup() {
     createCanvas(windowWidth, windowHeight);
-    // Some scenes might need a one-time setup (like loading pixels)
     for (let key in this.scenes) {
       if (this.scenes[key].setup) this.scenes[key].setup();
     }
@@ -85,15 +87,13 @@ class SceneManager {
   }
 
   windowResized() {
-    // Normal scenes just resize the canvas
-    resizeCanvas(windowWidth, windowHeight);
-    
-    // The Level scene might have special resize logic (centering)
-    if (this.currentScene && this.currentScene.handleResize) {
-      this.currentScene.handleResize();
+    // Only resize if not in 'Fixed Canvas' mode (LevelScene handleResize handles that)
+    if (this.currentScene && this.currentScene.canvasActive) {
+      if (this.currentScene.handleResize) this.currentScene.handleResize();
+    } else {
+      resizeCanvas(windowWidth, windowHeight);
     }
   }
 }
 
-// Instantiate it globally so all scenes can call 'sceneManager.switch()'
 const sceneManager = new SceneManager();
