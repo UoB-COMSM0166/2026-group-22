@@ -31,6 +31,7 @@ class CampScene {
     this.dialogueActive = false;
     this.dialogueIndex = 0;
     this.nextBtnRect = null;
+    this.skipBtnRect = null; // New: Reference for the skip button
 
     this.INTRO_DIALOGUE = [
       "Signal connecting...",
@@ -155,6 +156,10 @@ class CampScene {
       if (this.nextBtnRect && this.inRect(mouseX, mouseY, this.nextBtnRect)) {
         this.advanceDialogue();
       }
+
+      if (this.skipBtnRect && this.inRect(mouseX, mouseY, this.skipBtnRect)) {
+        this.dialogueActive = false; // Kill the dialogue immediately
+      }
       return;
     }
 
@@ -192,6 +197,10 @@ class CampScene {
 
     if (this.dialogueActive && (keyCode === ENTER || key === " ")) {
       this.advanceDialogue();
+    }
+
+    if (key === "s" || key === "S") {
+      this.dialogueActive = false;
     }
   }
 
@@ -262,6 +271,21 @@ class CampScene {
     
     fill(255); textSize(Math.floor(btnH * 0.48));
     text("NEXT", bx + btnW / 2, by + btnH / 2 + 2);
+
+    // Skip Button
+    const skipBtnW = btnW; 
+    const skipBtnH = btnH;
+    const sx = bx - skipBtnW - pad; // Place it to the left of NEXT
+    const sy = by;
+    this.skipBtnRect = { x: sx, y: sy, w: skipBtnW, h: skipBtnH };
+
+    const overSkip = this.inRect(mouseX, mouseY, this.skipBtnRect);
+    fill(255, 170, 170, overSkip ? 95 : 70); // Light red tint for skip
+    rect(sx, sy, skipBtnW, skipBtnH, 12);
+
+    fill(255); 
+    textSize(Math.floor(skipBtnH * 0.48));
+    text("SKIP", sx + skipBtnW / 2, sy + skipBtnH / 2 + 2);
     pop();
   }
 

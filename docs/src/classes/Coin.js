@@ -4,8 +4,11 @@ class Coin extends Collectable {
   }
 
   onCollect(player) {
-    console.log("💰 +10 Points!");
-    // player.score += 10; 
+    // 1. Update the global shop wallet
+    shopState.coins += 1;
+    
+    // 2. Persist the change to localStorage
+    shopState.save();
   }
 
   show() {
