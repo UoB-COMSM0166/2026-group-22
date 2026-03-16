@@ -50,15 +50,13 @@ class LevelScene {
   }
 
   draw() {
-    if (!this.player || !this.world) {
-      this.drawLoadingScreen();
-      return;
+    // 震屏效果逻辑
+    if (window.shakeAmount > 0) {
+        translate(random(-window.shakeAmount, window.shakeAmount), 
+                  random(-window.shakeAmount, window.shakeAmount));
+        window.shakeAmount *= 0.9; // 震动逐渐消失
+        if (window.shakeAmount < 0.1) window.shakeAmount = 0;
     }
-
-    // Standard game loop pattern: Update then Show
-    this.world.update();
-    this.world.show();
-    this.drawUI();
   }
 
   drawLoadingScreen() {
