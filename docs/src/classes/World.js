@@ -136,6 +136,11 @@ class World {
       this.coins = this.coins.filter(c => c.active);
     }
 
+    // handle player hp
+    if (this.player.hp <= 0) {
+      this.resetPlayer();
+    }
+
     this.handleWorldBoundaries(this.player);
 
     if (frameCount % 60 === 0) {
@@ -350,6 +355,7 @@ class World {
   }
 
   resetPlayer() {
+    this.player.hp = 100;
     this.player.reset(this.spawnX, this.spawnY);
   }
 }
