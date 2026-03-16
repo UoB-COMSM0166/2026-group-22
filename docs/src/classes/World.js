@@ -224,7 +224,7 @@ class World {
       player.velY = -5; // Give Kirby a little bounce
     } else {
       // Otherwise, Kirby gets hurt
-      player.hp -= 10;
+      player.hp -= 1;
       // Push Kirby back a little bit (Knockback)
       // Knockback logic
       player.velX = (player.x < enemy.x) ? -8 : 8;
