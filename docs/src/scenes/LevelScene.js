@@ -44,33 +44,25 @@ class LevelScene {
 
     // Instantiate your physical objects
     this.player = new Player(playerFrames);
+
+    sceneManager.player = this.player;
+    
     this.world = new World(this.player, this.doorNumber);
 
     console.log("[LevelScene] World built for door:", doorNumber);
   }
 
-// src/scenes/LevelScene.js
-draw() {
-    if (!this.world) return; // 没加载完不执行
-
-    push(); // 震屏开始
-    
-    // 1. 震屏计算
-    if (window.shakeAmount > 0) {
-        translate(random(-window.shakeAmount, window.shakeAmount), 
-                  random(-window.shakeAmount, window.shakeAmount));
-        window.shakeAmount *= 0.9;
-        if (window.shakeAmount < 0.1) window.shakeAmount = 0;
+  draw() {
+    if (!this.player || !this.world) {
+      this.drawLoadingScreen();
+      return;
     }
 
-    // --- 核心修改：必须调用这两个方法才能看到画面 ---
-    this.world.update(); // 运行逻辑
-    this.world.show();   // 绘制画面
-
-    pop(); // 震屏结束
-
-    this.drawUI(); // UI 不随震屏晃动
-}
+    // Standard game loop pattern: Update then Show
+    this.world.update();
+    this.world.show();
+    this.drawUI();
+  }
 
   drawLoadingScreen() {
     background(0);
