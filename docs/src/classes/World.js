@@ -36,9 +36,8 @@ class World {
      // 1. Declare the variable first
       let platform;
       if (p.vanish === true) {
-        this.platforms.push(
-          new DisappearingPlatform(centerX, centerY, p.w, p.h)
-        );
+        platform = new DisappearingPlatform(centerX, centerY, p.w, p.h);
+
       // 2. Assign the instance to the variable instead of pushing immediately
       } else if (p.isMoving) {
         platform = new MovingPlatform(
