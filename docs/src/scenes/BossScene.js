@@ -30,6 +30,10 @@ class BossScene {
   }
 
   update() {
+    if (this.player.hp <= 0) {
+      this.resetScene();
+      return; // Stop the rest of the update for this frame
+    }
     this.handlePlayerMovement();
     this.handlePlayerShooting();
 
@@ -151,5 +155,29 @@ class BossScene {
     textSize(12);
     textAlign(CENTER);
     text("KIRBY HP", width / 2, height - 35);
+  }
+
+  resetScene() {
+    // 1. Restore Player
+    this.player.hp = 100;
+    this.player.x = 100;
+    this.player.y = height / 2;
+    this.player.velX = 0;
+    this.player.velY = 0;
+
+    // 2. Restore Boss
+    this.boss.hp = this.boss.maxHp;
+    this.boss.x = width - 120;
+    this.boss.y = height / 2;
+
+    // 3. Clear all bullets (Empty the arrays)
+    this.playerBullets = [];
+    this.bossBullets = [];
+
+    // 4. Reset shoot cooldown
+    this.currentCooldown = 0;
+
+    // Optional: If you used an 'isVictoryTriggered' flag, reset it too
+    this.isVictoryTriggered = false;
   }
 }
