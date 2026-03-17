@@ -1,8 +1,11 @@
 # 2026-group-22
 2026 COMSM0166 group 22
-
 # COMSM0166 Project Template
 A project template for the Software Engineering Discipline and Practice module (COMSM0166).
+<div align="center">
+<a href="https://uob-comsm0166.github.io/2026-group-22/">Click here to play the game</a>
+</div>
+
 
 ## Info
 
