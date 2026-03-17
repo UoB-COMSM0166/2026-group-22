@@ -65,8 +65,11 @@ class World {
       if (p.hasEnemy) {
         this.enemies.push(new Enemy(centerX, centerY - 100, 40, 40, 10, 2)); // temporaries
       }
+
+      if (p.hasCheckpoint) {
+        this.checkpoints.push(new Checkpoint(centerX + p.w/4, topY));
+      }
       
-      this.checkpoints.push(new Checkpoint(centerX + p.w/4, topY));
       currentX = centerX + p.w/2;
     }
 
