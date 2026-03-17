@@ -23,6 +23,8 @@ class World {
     this.holes = [];
     this.checkpoints = [];
     this.setupLevel(levelData);
+
+    this.statsBar = new StatsBar();
   }
 
   setupLevel(data) {
@@ -314,7 +316,7 @@ class World {
       image(this.bgLayers.front, 0, 0, width, height);
     }
 
-    this.drawGameUI();
+    this.statsBar.draw(this.player, shopState.coins);
   }
 
   // Helper to handle the looping image math
@@ -346,27 +348,6 @@ class World {
     }
 
     rect(currentX, groundY, this.width - currentX, this.groundThickness);
-  }
-
-  drawGameUI() {
-    // --- 1. Health Bar ---
-    fill(0, 0, 0, 100);
-    rect(20, 20, 150, 15, 5);
-
-    let hpColor = color(0, 255, 100);
-    if (this.player.hp < 30) hpColor = color(255, 50, 50);
-    fill(hpColor);
-    let hpW = map(max(0, this.player.hp), 0, 100, 0, 150);
-    rect(20, 20, hpW, 15, 5);
-
-    // --- 2. Coin Counter ---
-    push();
-    fill(255, 215, 0); // Gold color
-    textSize(22);
-    textAlign(LEFT, TOP);
-    // Match the formatting used in the ShopUI
-    text(`$ ${shopState.coins}`, 20, 45);
-    pop();
   }
 
   resetPlayer() {
