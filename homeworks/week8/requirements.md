@@ -9,28 +9,28 @@ Here are the results and analysis.
 Based on the distribution of user responses, the system demonstrates superior performance in terms of accessibility and consistency: 
 $①$ Ease of Use and Complexity: 
 Every participant agreed that the system is easy to use, with half of the group expressing strong agreement. Conversely, there was a unanimous consensus that the system is not unnecessarily complex. This inverse correlation confirms that the interface design is streamlined and intuitive. 
-$\textcircled{2}$ Learning Curve and Technical Support: 
+$②$ Learning Curve and Technical Support: 
 The vast majority of users felt they could operate the system independently. Data shows that nearly $9 0 \%$ of participants did not require technical assistance. Furthermore, most users disagreed with the notion that extensive prior learning was necessary, suggesting that the system's “walk-up-and-use” factor is very high. 
-$\textcircled{3}$ System Integration and Consistency: 
+$③$ System Integration and Consistency: 
 Participants perceived the various functions of the system to be well-integrated. The feedback indicates a high level of design harmony, with very few users identifying any inconsistencies in how the system operates. 
-$\textcircled{4}$ User Confidence: 
+$④$ User Confidence: 
 Most respondents reported feeling very confident while using the system. There were no reports of hesitation or fear of making errors, which indicates that the feedback loops and navigation paths are clear and reassuring to the user. 
-2. Quantitative Analysis of Task Load (NASA-TLX) 
+3. Quantitative Analysis of Task Load (NASA-TLX) 
 This section evaluates the physical and mental demands placed on the user during task execution (Scale 0-20): 
-$\textcircled{1}$ Mental Demand: 
+$①$ Mental Demand: 
 The average score was 7.13. While generally low, $2 5 \%$ of users rated this above 15, indicating that certain segments of the task require high levels of concentration. 
-$\textcircled{2}$ Effort and Performance: 
+$②$ Effort and Performance: 
 “Effort” was the highest-rated load factor with a mean of 8.13. However, the “Self-Performance” score remained high at 13.63, suggesting that while users had to work hard, they felt successful in achieving their goals. 
-$\textcircled{3}$ Frustration and Pressure: 
+$③$ Frustration and Pressure: 
 The scores for “Time Pressure”(6.38) and “Frustration”(4.88) were significantly low. This confirms that the system does not cause emotional distress or overwhelming urgency during the work process. 
 Here are the discussion and conclusion. 
 1. Core Findings 
-$\textcircled{1}$ Alignment with User Habits: 
+$①$ Alignment with User Habits: 
 Similar to how personality matching influences relationship satisfaction, as noted in the reference study, the high consistency of the game system directly correlates 
 with user retention. $7 5 \%$ of users expressed a clear intent to use the system frequently. 
-$\textcircled{2}$ Conversion of Simplicity to Confidence: 
+$②$ Conversion of Simplicity to Confidence: 
 The data proves that the system’s low complexity (the lowest rated category) directly translates into high operational confidence. 
-$\textcircled{3}$ Task Challenge vs. Tool Support: 
+$③$ Task Challenge vs. Tool Support: 
 The higher score in “Effort” compared to “Frustration” suggests that while the tasks themselves are substantial, the system provides a smooth enough “tooling” experience that users do not feel discouraged by the workload. 
 # Part 2 Hard Mode
 This section evaluates a high-difficulty variant of the game system. Using the same quantitative methodology, 16 participants were tested under conditions of increased mechanical complexity and stricter time constraints. The results indicate: 
@@ -40,20 +40,20 @@ This section evaluates a high-difficulty variant of the game system. Using the s
 Here are the results and analysis. 
 1. Analysis of System Usability (SUS dimensions) 
 The distribution of responses for the Hard Mode shows a stark contrast in perceived accessibility: 
-$\textcircled{1}$ Ease of Use and Complexity: Only $1 8 \%$ of participants agreed the system was easy to use. $7 5 \%$ of users felt the system was “unnecessarily complex”, citing overlapping mechanics that were difficult to track simultaneously. 
-$\textcircled{2}$ Learning Curve and Technical Support: The “walk-up-and-use” factor was non-existent. Over $8 0 \%$ of participants reported they would need to consult a manual 
+$①$ Ease of Use and Complexity: Only $1 8 \%$ of participants agreed the system was easy to use. $7 5 \%$ of users felt the system was “unnecessarily complex”, citing overlapping mechanics that were difficult to track simultaneously. 
+$②$ Learning Curve and Technical Support: The “walk-up-and-use” factor was non-existent. Over $8 0 \%$ of participants reported they would need to consult a manual 
 or tutorial before feeling competent. Unlike the Easy Mode, $6 8 \%$ felt they needed technical assistance to understand the scoring logic. 
-$\textcircled{3}$ System Integration and Consistency: While the functions remained integrated, $45 \%$ of users perceived “clash” between mechanics, suggesting that under high pressure, the design harmony begins to break down. 
-$\textcircled{4}$ User Confidence: Confidence scores plummeted. $6 0 \%$ of respondents reported feeling “hesitant” or “anxious” during play, fearing that a single mistake would lead to total task failure. 
+$③$ System Integration and Consistency: While the functions remained integrated, $45 \%$ of users perceived “clash” between mechanics, suggesting that under high pressure, the design harmony begins to break down. 
+$④$ User Confidence: Confidence scores plummeted. $6 0 \%$ of respondents reported feeling “hesitant” or “anxious” during play, fearing that a single mistake would lead to total task failure. 
 2. Quantitative Analysis of Task Load (NASA-TLX) 
-$\textcircled{1}$ Mental Demand: The average score surged to 17.25. $9 0 \%$ of users rated this above 15, indicating that the game requires near-constant peak concentration. 
-$\textcircled{2}$ Effort and Performance: “Effort” was extremely high at 18.12. In contrast to the Easy Mode, “Self-Performance” dropped to 5.44, indicating that users felt unsuccessful despite putting in maximum effort. 
-$\textcircled{3}$ Frustration and Pressure: “Time Pressure” (15.80) and “Frustration” (16.15) became the dominant factors. This confirms that the high-difficulty version causes significant emotional distress and a sense of overwhelming urgency. 
+$①$ Mental Demand: The average score surged to 17.25. $9 0 \%$ of users rated this above 15, indicating that the game requires near-constant peak concentration. 
+$②$ Effort and Performance: “Effort” was extremely high at 18.12. In contrast to the Easy Mode, “Self-Performance” dropped to 5.44, indicating that users felt unsuccessful despite putting in maximum effort. 
+$③$ Frustration and Pressure: “Time Pressure” (15.80) and “Frustration” (16.15) became the dominant factors. This confirms that the high-difficulty version causes significant emotional distress and a sense of overwhelming urgency. 
 # Part 3: Comparative Discussion and Conclusion
 1. Core Findings and Comparison 
-$\textcircled{1}$ Alignment with User Habits: In the Easy Mode, high consistency correlated with a $7 5 \%$ retention intent. In the Hard Mode, this intent dropped to $2 0 \%$ , suggesting that while “personality matching” works for accessibility, excessive difficulty creates a “mismatch” that drives users away. 
-$\textcircled{2}$ Conversion of Simplicity to Confidence: The data proves a direct causal link: low complexity in Part 1 leads to $1 0 0 \%$ confidence, while high complexity in Part 2 leads to a $6 0 \%$ confidence deficit. Simplicity is the primary engine of user trust. 
-$\textcircled{3}$ Task Challenge vs. Tool Support: In Easy Mode, users felt the "tooling" was smooth enough to handle the effort (Effort 8.13 vs. Frustration 4.88). In Hard Mode, the tools felt inadequate for the challenge, causing Frustration (16.15) to nearly match Effort (18.12). 
+$①$ Alignment with User Habits: In the Easy Mode, high consistency correlated with a $7 5 \%$ retention intent. In the Hard Mode, this intent dropped to $2 0 \%$ , suggesting that while “personality matching” works for accessibility, excessive difficulty creates a “mismatch” that drives users away. 
+$②$ Conversion of Simplicity to Confidence: The data proves a direct causal link: low complexity in Part 1 leads to $1 0 0 \%$ confidence, while high complexity in Part 2 leads to a $6 0 \%$ confidence deficit. Simplicity is the primary engine of user trust. 
+$③$ Task Challenge vs. Tool Support: In Easy Mode, users felt the "tooling" was smooth enough to handle the effort (Effort 8.13 vs. Frustration 4.88). In Hard Mode, the tools felt inadequate for the challenge, causing Frustration (16.15) to nearly match Effort (18.12). 
 # 2. Final Conclusion
 The original system (Easy Mode) is an ideal baseline for mass-market usability, successfully converting simplicity into operational confidence. However, the Hard Mode simulation reveals that the system's "design harmony" is fragile under high cognitive load. 
 To maintain the high “Self-Performance” (13.63) found in the original study while increasing difficulty, the system must provide better “Tool Support” to ensure that increased Effort does not automatically result in increased Frustration. Future iterations should aim to bridge the gap between the “walk-up-and-use” nature of the Easy Mode and the deep complexity of the Hard Mode to prevent user burnout. 
