@@ -3,18 +3,20 @@ class JumpBooster extends Collectable {
   constructor(x, y) {
     super(x, y, 35, 35);
     this.boostAmount = 1.5;
-    this.duration = 5000; // 5 seconds
+    this.boostTimer = 300;
+    this.respawnTimer = 120;
+    this.shouldRespawn = true;
   }
 
   onCollect(player) {
     player.hasSkill = true;
     player.currentSkill = CONFIG.SKILLS.JUMP;
-    
+
     // Apply the boost
     player.lift *= this.boostAmount;
 
     // Revert after the duration
-    player.skillTimer = 5000; // 5000 milliseconds = 5 seconds exactly
+    player.skillTimer = this.boostTimer;
   }
 
   show() {
@@ -22,12 +24,12 @@ class JumpBooster extends Collectable {
 
     push();
     translate(this.x, this.y + this.hoverOffset);
-    
+
     // Draw a "Booster" Star
     fill(255, 255, 0); // Bright Yellow
     stroke(255, 150, 0); // Orange outline
     strokeWeight(3);
-    
+
     // Draw a star shape
     beginShape();
     for (let i = 0; i < 5; i++) {
@@ -41,7 +43,7 @@ class JumpBooster extends Collectable {
       vertex(x, y);
     }
     endShape(CLOSE);
-    
+
     pop();
   }
 }

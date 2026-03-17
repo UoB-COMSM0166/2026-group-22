@@ -1,6 +1,7 @@
 class Coin extends Collectable {
   constructor(x, y) {
     super(x, y, 30, 30); // Pass dimensions to Item
+    this.shouldRespawn = false;
   }
 
   onCollect(player) {

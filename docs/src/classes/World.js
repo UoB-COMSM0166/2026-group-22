@@ -138,11 +138,6 @@ class World {
       coll.update(this.player);
     }
 
-    // Clean up: Filter out inactive coins every few frames (Performance!)
-    if (frameCount % 60 === 0) {
-      this.coins = this.coins.filter(c => c.active);
-    }
-
     // handle player hp
     if (this.player.hp <= 0) {
       this.resetPlayer();
@@ -152,8 +147,8 @@ class World {
 
     if (frameCount % 60 === 0) {
       this.enemies = this.enemies.filter(e => e.active);
-      this.coins = this.coins.filter(c => c.active);
-      this.collectables = this.collectables.filter(c => c.active);
+      this.coins = this.coins.filter(c => c.active || c.shouldRespawn);
+      this.collectables = this.collectables.filter(c => c.active || c.shouldRespawn);
     }
 
     this.player.animate();
