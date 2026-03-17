@@ -2,9 +2,10 @@ CONFIG.LEVELS[0] = {
   worldWidth: 12000, 
   worldHeight: 800,
   backgrounds: {
-    far: "assets/bg/far-background1.png",
-    mid: "assets/bg/middle-background1.png",
-    front: "assets/bg/front-background1.png"
+    far: "assets/bg/farBg1.png",
+    midBack: "assets/bg/midBackBg1.png",
+    midFront: "assets/bg/midFrontBg1.png",
+    front: "assets/bg/frontBg1.png"
   },
   startX: 300,
   platforms: [
@@ -15,7 +16,7 @@ CONFIG.LEVELS[0] = {
 
     { gap: 120, altitude: 220, w: 100, h: 20, 
       isMoving: true, rangeX: 0, rangeY: 130, speed: 0.04 },
-    { gap: 50,  altitude: 360, w: 150, h: 20 }, 
+    { gap: 50,  altitude: 360, w: 150, h: 20, hasCheckpoint: true }, 
     
     { gap: 105, altitude: 0,   w: 220, h: 580, removesSkill: true }, 
 
@@ -24,7 +25,7 @@ CONFIG.LEVELS[0] = {
 
     { gap: 180, altitude: 350, w: 150, h: 20,  
       isMoving: true, rangeX: 80, rangeY: 0, speed: 0.02 }, 
-    { gap: 180, altitude: 350, w: 150, h: 20, hasCoin: true }, 
+    { gap: 180, altitude: 350, w: 150, h: 20, hasCoin: true, hasCheckpoint: true }, 
     { gap: 180, altitude: 400, w: 150, h: 20, 
       isMoving: true, rangeX: 80, rangeY: 0, speed: 0.02 },
 
@@ -36,7 +37,7 @@ CONFIG.LEVELS[0] = {
     { gap: 150, altitude: 350, w: 300, h: 20, hasCoin: true },
 
     // --- 核心修改点：在跷跷板之后先加一个静止平台 ---
-    { gap: 150, altitude: 320, w: 180, h: 20 }, 
+    { gap: 150, altitude: 320, w: 180, h: 20, hasCheckpoint: true }, 
     
     // 然后再接移动平台
     { gap: 120, altitude: 300, w: 100, h: 20, 

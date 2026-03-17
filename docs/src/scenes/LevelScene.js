@@ -32,8 +32,9 @@ class LevelScene {
       if (!level.backgrounds) return null;
 
       return {
-        far:   loadImage(level.backgrounds.far),
-        mid:   loadImage(level.backgrounds.mid),
+        far: loadImage(level.backgrounds.far),
+        midBack: loadImage(level.backgrounds.midBack),
+        midFront: loadImage(level.backgrounds.midFront),
         front: loadImage(level.backgrounds.front)
       };
     });
@@ -59,7 +60,7 @@ class LevelScene {
 
     const preloadedBgs = this.levelBackgrounds[doorNumber - 1];
     // Safety fallback: if no backgrounds exist, provide nulls to avoid errors
-    this.bgLayers = preloadedBgs || { far: null, mid: null, front: null };
+    this.bgLayers = preloadedBgs || { far: null, midBack: null, midFront: null, front: null };
 
     this.doorNumber = doorNumber;
     const playerFrames = [this.assets.idle, this.assets.walk, this.assets.jump];
