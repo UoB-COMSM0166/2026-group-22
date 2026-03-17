@@ -157,6 +157,16 @@ class BossScene {
     text("KIRBY HP", width / 2, height - 35);
   }
 
+  keyPressed() {
+    if (keyCode === ESCAPE) {
+      // Clean up state before leaving
+      this.playerBullets = [];
+      this.bossBullets = [];
+      
+      sceneManager.switch("camp");
+    }
+  }
+
   resetScene() {
     // 1. Restore Player
     this.player.hp = 100;
