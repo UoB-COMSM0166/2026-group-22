@@ -48,6 +48,8 @@ class World {
         platform = new Platform(centerX, centerY, p.w, p.h);
       }
 
+      platform.removesSkill = p.removesSkill || false;
+
       // 3. Now that 'platform' is defined, you can add properties to it
       platform.hasBoss = p.hasBoss || false; 
 
@@ -137,6 +139,11 @@ class World {
       this.coins = this.coins.filter(c => c.active);
     }
 
+    // handle player hp
+    if (this.player.hp <= 0) {
+      this.resetPlayer();
+    }
+
     this.handleWorldBoundaries(this.player);
 
     if (frameCount % 60 === 0) {
@@ -182,9 +189,16 @@ class World {
       if (entity instanceof Player) {
         entity.land();
 
+<<<<<<< HEAD
             if (platform.triggerVanish) {
               platform.triggerVanish();
             }
+=======
+      // THE TRIGGER: Check if the platform is an "anti-skill" zone
+      if (platform.removesSkill) {
+        entity.resetSkills();
+      }
+>>>>>>> 70163dff8454dd56cd8d8e5a418e181b08cecf74
 
         // BOSS TRIGGER CHECK
       if (platform.hasBoss) {
@@ -224,7 +238,7 @@ class World {
       player.velY = -5; // Give Kirby a little bounce
     } else {
       // Otherwise, Kirby gets hurt
-      player.hp -= 10;
+      player.hp -= 1;
       // Push Kirby back a little bit (Knockback)
       // Knockback logic
       player.velX = (player.x < enemy.x) ? -8 : 8;
@@ -350,6 +364,7 @@ class World {
   }
 
   resetPlayer() {
+    this.player.hp = 100;
     this.player.reset(this.spawnX, this.spawnY);
   }
 }

@@ -3,7 +3,7 @@ const CONFIG = {
   // World Physics
   WORLD: {
     GRAVITY: 0.2,
-    FLOOR_OFFSET: 20, // How far from the bottom the "floor" is
+    FLOOR_OFFSET: 40, // How far from the bottom the "floor" is
     CEILING_LIMIT: 0,
     CANVAS_WIDTH: 600,
     CANVAS_HEIGHT: 400,
