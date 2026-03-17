@@ -33,7 +33,7 @@ const CONFIG = {
     SHIELD: "INVINCIBILITY"
   },
 
-  COLLECTABLE_TYPES: {
+  ITEM_TYPES: {
     JUMP_BOOSTER: JumpBooster
   },
 

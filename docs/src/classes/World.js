@@ -12,17 +12,19 @@ class World {
     this.groundThickness = CONFIG.WORLD.FLOOR_OFFSET;
     this.spawnX = CONFIG.PLAYER.START_X;
     this.spawnY = CONFIG.PLAYER.START_Y;
-    this.collectableTypes = CONFIG.COLLECTABLE_TYPES;
+    this.itemTypes = CONFIG.ITEM_TYPES;
     this.backgroundColor = [135, 206, 235];
     this.bgLayers = bgLayers;
 
     this.enemies = [];
     this.platforms = [];
     this.coins = [];
-    this.collectables = [];
+    this.items = [];
     this.holes = [];
     this.checkpoints = [];
     this.setupLevel(levelData);
+
+    this.statsBar = new StatsBar();
   }
 
   setupLevel(data) {
@@ -75,12 +77,12 @@ class World {
       currentX = centerX + p.w / 2;
     }
 
-    // place collectables
-    this.collectables = data.collectables.map(collectableData => {
-      const collectableClass = this.collectableTypes[collectableData.type];
+    // place items
+    this.items = data.items.map(itemData => {
+      const itemClass = this.itemTypes[itemData.type];
 
-      if (collectableClass) {
-        return new collectableClass(collectableData.x, collectableData.y);
+      if (itemClass) {
+        return new itemClass(itemData.x, itemData.y);
       }
 
       console.warn(`Type ${itemData.type} not found in ITEM_TYPES`);
@@ -134,14 +136,9 @@ class World {
       coin.update(this.player);
     }
 
-    // update collectables
-    for (let coll of this.collectables) {
-      coll.update(this.player);
-    }
-
-    // Clean up: Filter out inactive coins every few frames (Performance!)
-    if (frameCount % 60 === 0) {
-      this.coins = this.coins.filter(c => c.active);
+    // update items
+    for (let item of this.items) {
+      item.update(this.player);
     }
 
     // handle player hp
@@ -153,8 +150,8 @@ class World {
 
     if (frameCount % 60 === 0) {
       this.enemies = this.enemies.filter(e => e.active);
-      this.coins = this.coins.filter(c => c.active);
-      this.collectables = this.collectables.filter(c => c.active);
+      this.coins = this.coins.filter(c => c.active || c.shouldRespawn);
+      this.items = this.items.filter(c => c.active || c.shouldRespawn);
     }
 
     this.player.animate();
@@ -303,7 +300,7 @@ class World {
 
     this.coins.forEach(c => c.show());
 
-    this.collectables.forEach(coll => coll.show());
+    this.items.forEach(item => item.show());
 
     this.enemies.forEach(e => e.show());
 
@@ -317,7 +314,7 @@ class World {
       image(this.bgLayers.front, 0, 0, width, height);
     }
 
-    this.drawGameUI();
+    this.statsBar.draw(this.player, shopState.coins);
   }
 
   // Helper to handle the looping image math
@@ -349,27 +346,6 @@ class World {
     }
 
     rect(currentX, groundY, this.width - currentX, this.groundThickness);
-  }
-
-  drawGameUI() {
-    // --- 1. Health Bar ---
-    fill(0, 0, 0, 100);
-    rect(20, 20, 150, 15, 5);
-
-    let hpColor = color(0, 255, 100);
-    if (this.player.hp < 30) hpColor = color(255, 50, 50);
-    fill(hpColor);
-    let hpW = map(max(0, this.player.hp), 0, 100, 0, 150);
-    rect(20, 20, hpW, 15, 5);
-
-    // --- 2. Coin Counter ---
-    push();
-    fill(255, 215, 0); // Gold color
-    textSize(22);
-    textAlign(LEFT, TOP);
-    // Match the formatting used in the ShopUI
-    text(`$ ${shopState.coins}`, 20, 45);
-    pop();
   }
 
   resetPlayer() {

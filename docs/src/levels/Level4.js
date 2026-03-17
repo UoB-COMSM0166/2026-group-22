@@ -3,5 +3,5 @@ CONFIG.LEVELS[3] = {
   worldHeight: 800, 
   platforms: [],
   holes: [],
-  collectables: []
+  items: []
 };

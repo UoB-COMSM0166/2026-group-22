@@ -42,9 +42,7 @@ class Player extends Entity {
     this.applyPhysics(); // Inherited from Entity
 
     if (this.hasSkill && this.skillTimer > 0) {
-      // Subtract the actual time passed since the last frame
-      // deltaTime is ~16.6ms at 60fps, but varies if the game lags
-      this.skillTimer -= deltaTime; 
+      this.skillTimer --; 
 
       if (this.skillTimer <= 0) {
         this.resetSkills();

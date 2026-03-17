@@ -6,6 +6,8 @@ class BossScene {
     this.playerBullets = [];
     this.bossBullets = [];
 
+    this.statsBar = new StatsBar();
+
     // Combat Settings
     this.flySpeed = 6;
     this.shootCooldown = 10;
@@ -143,18 +145,19 @@ class BossScene {
     fill(255, 0, 50);
     rect(width / 2 - barW / 2, 30, hpW, 15, 5);
 
-    // 2. Player Health Bar (Bottom)
-    let pBarW = 200;
-    let pHpW = map(max(0, this.player.hp), 0, 100, 0, pBarW);
-    fill(40, 200);
-    rect(width / 2 - pBarW / 2, height - 30, pBarW, 12, 3);
-    fill(0, 255, 100);
-    rect(width / 2 - pBarW / 2, height - 30, pHpW, 12, 3);
+    // // 2. Player Health Bar (Bottom)
+    // let pBarW = 200;
+    // let pHpW = map(max(0, this.player.hp), 0, 100, 0, pBarW);
+    // fill(40, 200);
+    // rect(width / 2 - pBarW / 2, height - 30, pBarW, 12, 3);
+    // fill(0, 255, 100);
+    // rect(width / 2 - pBarW / 2, height - 30, pHpW, 12, 3);
 
-    fill(255);
-    textSize(12);
-    textAlign(CENTER);
-    text("KIRBY HP", width / 2, height - 35);
+    // fill(255);
+    // textSize(12);
+    // textAlign(CENTER);
+    // text("KIRBY HP", width / 2, height - 35);
+    this.statsBar.draw(this.player, shopState.coins, false);
   }
 
   keyPressed() {

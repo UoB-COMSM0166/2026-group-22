@@ -7,7 +7,7 @@ class VanishablePlatform extends Platform {
     
     this.isTouched = false;
     this.timer = 15;          // 1 second to stay before vanishing
-    this.respawnTimer = 60;  // 5 seconds (60fps * 5) before coming back
+    this.respawnTimer = 60; 
     this.active = true;       // master switch for physics/drawing
   }
 
