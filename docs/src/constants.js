@@ -5,8 +5,8 @@ const CONFIG = {
     GRAVITY: 0.2,
     FLOOR_OFFSET: 40, // How far from the bottom the "floor" is
     CEILING_LIMIT: 0,
-    CANVAS_WIDTH: 600,
-    CANVAS_HEIGHT: 400,
+    CANVAS_WIDTH: 800,
+    CANVAS_HEIGHT: 600,
     WIDTH: 2000,
     HEIGHT: 400,
   },
