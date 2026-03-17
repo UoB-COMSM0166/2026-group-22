@@ -7,8 +7,8 @@ class LevelScene {
     this.canvasActive = false;
 
     // Fixed dimensions for the Kirby demo style
-    this.CANVAS_W = 600;
-    this.CANVAS_H = 400;
+    this.CANVAS_W = CONFIG.WORLD.CANVAS_WIDTH;
+    this.CANVAS_H = CONFIG.WORLD.CANVAS_HEIGHT;
 
     this.assets = {
       idle: null,
