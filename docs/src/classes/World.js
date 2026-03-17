@@ -273,10 +273,16 @@ class World {
     // 2. Parallax Layers (Far and Mid)
     // Draw BEFORE the camera translate to keep them "floating" behind everything
     if (this.bgLayers.far) {
-      this.drawParallax(this.bgLayers.far, this.cameraX * 0.08);
+      this.drawParallax(this.bgLayers.far, this.cameraX * 0.05);
     }
-    if (this.bgLayers.mid) {
-      this.drawParallax(this.bgLayers.mid, this.cameraX * 0.4);
+
+    if (this.bgLayers.midBack) {
+      this.drawParallax(this.bgLayers.midBack, this.cameraX * 0.15);
+    }
+
+    // 3. MID-FRONT LAYER (Getting closer to the action)
+    if (this.bgLayers.midFront) {
+      this.drawParallax(this.bgLayers.midFront, this.cameraX * 0.45);
     }
 
     // 3. Apply Camera Transformation
