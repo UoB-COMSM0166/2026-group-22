@@ -44,6 +44,8 @@ class World {
         platform = new MovingPlatform(
           centerX, centerY, p.w, p.h, p.rangeX, p.rangeY, p.speed
         );
+      } else if (p.isVanish) {
+        platform = new VanishablePlatform(centerX, centerY, p.w, p.h);
       } else {
         platform = new Platform(centerX, centerY, p.w, p.h);
       }
@@ -171,6 +173,8 @@ class World {
   }
 
   handleSolidCollision(entity, platform) {
+    if (platform.active === false) return;
+
     if (!entity.intersects(platform)) return;
 
     // 1. Get clean bounds using your new GameObject method
@@ -189,10 +193,10 @@ class World {
       if (entity instanceof Player) {
         entity.land();
 
-      if (platform.triggerVanish) {
-        platform.triggerVanish();
+      if (platform instanceof VanishablePlatform) {
+        platform.isTouched = true; // This starts the vanishing timer!
       }
-            
+
       // THE TRIGGER: Check if the platform is an "anti-skill" zone
       if (platform.removesSkill) {
         entity.resetSkills();
