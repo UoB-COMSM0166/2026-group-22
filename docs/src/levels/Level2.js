@@ -4,5 +4,5 @@ CONFIG.LEVELS[1] = {
   startX: 300,
   platforms: [],
   holes: [],
-  collectables: []
+  items: []
 };

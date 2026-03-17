@@ -53,7 +53,7 @@ CONFIG.LEVELS[0] = {
   holes: [
     { startX: 300, endX: 12000 },
   ],
-  collectables: [
+  items: [
     { type: "JUMP_BOOSTER", x: 1385,  y: 380 }
   ]
 };

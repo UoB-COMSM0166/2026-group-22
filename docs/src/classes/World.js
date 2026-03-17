@@ -12,14 +12,14 @@ class World {
     this.groundThickness = CONFIG.WORLD.FLOOR_OFFSET;
     this.spawnX = CONFIG.PLAYER.START_X;
     this.spawnY = CONFIG.PLAYER.START_Y;
-    this.collectableTypes = CONFIG.COLLECTABLE_TYPES;
+    this.itemTypes = CONFIG.ITEM_TYPES;
     this.backgroundColor = [135, 206, 235];
     this.bgLayers = bgLayers;
 
     this.enemies = [];
     this.platforms = [];
     this.coins = [];
-    this.collectables = [];
+    this.items = [];
     this.holes = [];
     this.checkpoints = [];
     this.setupLevel(levelData);
@@ -75,12 +75,12 @@ class World {
       currentX = centerX + p.w / 2;
     }
 
-    // place collectables
-    this.collectables = data.collectables.map(collectableData => {
-      const collectableClass = this.collectableTypes[collectableData.type];
+    // place items
+    this.items = data.items.map(itemData => {
+      const itemClass = this.itemTypes[itemData.type];
 
-      if (collectableClass) {
-        return new collectableClass(collectableData.x, collectableData.y);
+      if (itemClass) {
+        return new itemClass(itemData.x, itemData.y);
       }
 
       console.warn(`Type ${itemData.type} not found in ITEM_TYPES`);
@@ -133,9 +133,9 @@ class World {
       coin.update(this.player);
     }
 
-    // update collectables
-    for (let coll of this.collectables) {
-      coll.update(this.player);
+    // update items
+    for (let item of this.items) {
+      item.update(this.player);
     }
 
     // handle player hp
@@ -148,7 +148,7 @@ class World {
     if (frameCount % 60 === 0) {
       this.enemies = this.enemies.filter(e => e.active);
       this.coins = this.coins.filter(c => c.active || c.shouldRespawn);
-      this.collectables = this.collectables.filter(c => c.active || c.shouldRespawn);
+      this.items = this.items.filter(c => c.active || c.shouldRespawn);
     }
 
     this.player.animate();
@@ -297,7 +297,7 @@ class World {
 
     this.coins.forEach(c => c.show());
 
-    this.collectables.forEach(coll => coll.show());
+    this.items.forEach(item => item.show());
 
     this.enemies.forEach(e => e.show());
 
