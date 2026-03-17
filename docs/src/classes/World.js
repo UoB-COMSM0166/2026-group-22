@@ -189,16 +189,14 @@ class World {
       if (entity instanceof Player) {
         entity.land();
 
-<<<<<<< HEAD
-            if (platform.triggerVanish) {
-              platform.triggerVanish();
-            }
-=======
+      if (platform.triggerVanish) {
+        platform.triggerVanish();
+      }
+            
       // THE TRIGGER: Check if the platform is an "anti-skill" zone
       if (platform.removesSkill) {
         entity.resetSkills();
       }
->>>>>>> 70163dff8454dd56cd8d8e5a418e181b08cecf74
 
         // BOSS TRIGGER CHECK
       if (platform.hasBoss) {
