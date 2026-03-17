@@ -41,6 +41,10 @@ class Enemy extends Entity {
     // you could make them turn around or just let them fall.
   }
 
+  die() {
+    this.active = false;
+  }
+
   show() {
     if (!this.active) return;
 

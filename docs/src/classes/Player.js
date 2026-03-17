@@ -33,6 +33,7 @@ class Player extends Entity {
     this.hasSkill = false; 
     this.currentSkill = CONFIG.SKILLS.NONE;
     this.skillTimer = 0; // Useful for tracking how long a boost lasts
+    this.invincibilityTimer = 0; // 0 means "can be hit"
   }
 
   // Implementation of the abstract update() method
@@ -49,10 +50,18 @@ class Player extends Entity {
         this.resetSkills();
       }
     }
+
+    if (this.invincibilityTimer > 0) {
+      this.invincibilityTimer--;
+    }
   }
 
   // Logic for horizontal movement and facing direction
   move() {
+    if (this.invincibilityTimer > 45) {
+      return; // Skip movement input so the knockback velocity can finish
+    }
+
     if (keyIsDown(CONFIG.CONTROLS.LEFT)) {
       this.velX = -this.speed; // Use velX instead of changing x directly
       this.isFacingLeft = true;
@@ -60,7 +69,7 @@ class Player extends Entity {
       this.velX = this.speed;
       this.isFacingLeft = false;
     } else {
-      this.velX = 0; // Stop moving if no key is pressed
+      this.velX *= 0.9; // Stop moving if no key is pressed
     }
   }
 
@@ -72,6 +81,10 @@ class Player extends Entity {
 
   // Implementation of the abstract show() method
   show() {
+    if (this.invincibilityTimer > 0 && frameCount % 10 < 5) {
+      return; 
+    }
+
     let frameImg
 
     if (!this.isGrounded) {
@@ -129,6 +142,19 @@ class Player extends Entity {
     this.velY = 0;
     this.jumpCount = 0;
     this.isGrounded = true;
+  }
+
+  takeDamage(amount, directionX) {
+    if (this.invincibilityTimer > 0) return; // Ignore if already hit
+
+    this.hp -= amount;
+    this.invincibilityTimer = 60; // 1 second of i-frames
+    
+    // Apply Knockback: directionX is -1 (left) or 1 (right)
+    this.velX = directionX * 8; 
+    this.velY = -5;
+
+    this.isGrounded = false;
   }
 
   // Override applyPhysics to include floor collision logic

@@ -5,7 +5,7 @@ class World {
     this.cameraY = 0;
 
     const levelData = CONFIG.LEVELS[doorNumber - 1];
-    
+
     // Pull dimensions from your CONFIG
     this.width = levelData.worldWidth;
     this.height = levelData.worldHeight;
@@ -30,9 +30,9 @@ class World {
 
     // place platforms
     for (let p of data.platforms) {
-      let centerX = currentX + p.gap + p.w/2;
-      let centerY = this.height - p.altitude - p.h/2;
-      let topY = centerY - p.h/2; // The top surface
+      let centerX = currentX + p.gap + p.w / 2;
+      let centerY = this.height - p.altitude - p.h / 2;
+      let topY = centerY - p.h / 2; // The top surface
 
       // 1. Declare the variable first
       let platform;
@@ -51,7 +51,7 @@ class World {
       platform.removesSkill = p.removesSkill || false;
 
       // 3. Now that 'platform' is defined, you can add properties to it
-      platform.hasBoss = p.hasBoss || false; 
+      platform.hasBoss = p.hasBoss || false;
 
       // 4. Push the platform to your array only ONCE
       this.platforms.push(platform);
@@ -67,10 +67,10 @@ class World {
       }
 
       if (p.hasCheckpoint) {
-        this.checkpoints.push(new Checkpoint(centerX + p.w/4, topY));
+        this.checkpoints.push(new Checkpoint(centerX + p.w / 4, topY));
       }
-      
-      currentX = centerX + p.w/2;
+
+      currentX = centerX + p.w / 2;
     }
 
     // place collectables
@@ -104,7 +104,7 @@ class World {
 
     for (let enemy of this.enemies) {
       enemy.update(this.platforms);
-      
+
       // Check for collision with Kirby
       if (this.player.intersects(enemy)) {
         this.handleEnemyCollision(this.player, enemy);
@@ -122,7 +122,7 @@ class World {
         // The moment Kirby touches a flag, this becomes the new respawn point
         this.spawnX = cp.x;
         // We spawn him slightly above (y - 10) so he doesn't get stuck in the floor
-        this.spawnY = cp.y - 10; 
+        this.spawnY = cp.y - 10;
       }
     }
 
@@ -166,7 +166,7 @@ class World {
     // Vertical Camera (New!)
     // This centers the camera on the player's Y position
     this.cameraY = this.player.y - height / 2;
-    
+
     // Constrain it so we don't show the "void" above or below the map
     // 0 is the top of your world, this.height is the bottom
     this.cameraY = constrain(this.cameraY, 0, this.height - height);
@@ -188,26 +188,26 @@ class World {
       // Hit Top (Landing)
       entity.y = p.top - entity.h / 2;
       entity.velY = 0;
-    
+
       // Check if it's the player to trigger 'land' (animations/jump reset)
       if (entity instanceof Player) {
         entity.land();
 
-      if (platform instanceof VanishablePlatform) {
-        platform.isTouched = true; // This starts the vanishing timer!
-      }
+        if (platform instanceof VanishablePlatform) {
+          platform.isTouched = true; // This starts the vanishing timer!
+        }
 
-      // THE TRIGGER: Check if the platform is an "anti-skill" zone
-      if (platform.removesSkill) {
-        entity.resetSkills();
-      }
+        // THE TRIGGER: Check if the platform is an "anti-skill" zone
+        if (platform.removesSkill) {
+          entity.resetSkills();
+        }
 
         // BOSS TRIGGER CHECK
-      if (platform.hasBoss) {
-        console.log("[World] Boss platform detected! Transitioning to BossScene...");
-        // Switch to the separate scene you created
-        sceneManager.switch("boss"); 
-      }
+        if (platform.hasBoss) {
+          console.log("[World] Boss platform detected! Transitioning to BossScene...");
+          // Switch to the separate scene you created
+          sceneManager.switch("boss");
+        }
       }
 
       // handle moving platform
@@ -215,16 +215,16 @@ class World {
         entity.x += platform.velX;
         entity.y += platform.velY;
       }
-    } 
+    }
     else if (minOverlap === overlap.bottom && entity.velY < 0) {
       // Hit Bottom (Bonk head)
       entity.y = p.bottom + entity.h / 2;
       entity.velY = 0;
-    } 
+    }
     else if (minOverlap === overlap.left) {
       // Hit Left Side
       entity.x = p.left - entity.w / 2;
-    } 
+    }
     else if (minOverlap === overlap.right) {
       // Hit Right Side
       entity.x = p.right + entity.w / 2;
@@ -233,18 +233,16 @@ class World {
 
   handleEnemyCollision(player, enemy) {
     if (!player.active || !enemy.active) return;
-    // Classic platformer logic:
-    // If Kirby is falling and hits the top of the enemy, kill the enemy
-    if (player.velY > 0 && player.y < enemy.y - enemy.h / 2) {
-      enemy.active = false;
-      player.velY = -5; // Give Kirby a little bounce
+    // Check if Kirby is "Stomping"
+    const isStomping = player.velY > 0 && player.y < enemy.y - enemy.h / 2;
+
+    if (isStomping) {
+      enemy.die();
+      player.velY = -5;
     } else {
-      // Otherwise, Kirby gets hurt
-      player.hp -= 1;
-      // Push Kirby back a little bit (Knockback)
-      // Knockback logic
-      player.velX = (player.x < enemy.x) ? -8 : 8;
-      player.velY = -5; // Small pop up
+      // Kirby got hit: calculate direction (-1 or 1)
+      const dir = (player.x < enemy.x) ? -1 : 1;
+      player.takeDamage(10, dir); // Delegate to Player
     }
   }
 
@@ -263,11 +261,11 @@ class World {
 
     // 3. If he falls off the bottom of the world, reset him (or kill him)
     if (p.top > this.height) {
-      this.resetPlayer(); 
+      this.resetPlayer();
     }
 
-    player.x = constrain(player.x, player.w/2, this.width - player.w/2);
-    player.y = max(player.y, player.h/2);
+    player.x = constrain(player.x, player.w / 2, this.width - player.w / 2);
+    player.y = max(player.y, player.h / 2);
   }
 
   show() {
@@ -305,7 +303,7 @@ class World {
     this.collectables.forEach(coll => coll.show());
 
     this.enemies.forEach(e => e.show());
-    
+
     // Draw the Player
     this.player.show();
 
@@ -322,7 +320,7 @@ class World {
   // Helper to handle the looping image math
   drawParallax(img, scroll) {
     if (!img || img.width === 0) return;
-    
+
     let drawW = img.width * (height / img.height);
     let offset = -(scroll % drawW);
 
@@ -335,7 +333,7 @@ class World {
     // Draw Ground
     fill(34, 139, 34);
 
-    rectMode(CORNER); 
+    rectMode(CORNER);
     // let groundX = this.width / 2;
     let currentX = 0;
     let groundY = this.height - this.groundThickness;
@@ -346,21 +344,21 @@ class World {
       rect(currentX, groundY, hole.left - currentX, this.groundThickness);
       currentX = hole.right; // Skip to the other side of the hole
     }
-    
+
     rect(currentX, groundY, this.width - currentX, this.groundThickness);
   }
 
   drawGameUI() {
     // --- 1. Health Bar ---
-    fill(0, 0, 0, 100); 
-    rect(20, 20, 150, 15, 5); 
-    
+    fill(0, 0, 0, 100);
+    rect(20, 20, 150, 15, 5);
+
     let hpColor = color(0, 255, 100);
     if (this.player.hp < 30) hpColor = color(255, 50, 50);
     fill(hpColor);
     let hpW = map(max(0, this.player.hp), 0, 100, 0, 150);
     rect(20, 20, hpW, 15, 5);
-    
+
     // --- 2. Coin Counter ---
     push();
     fill(255, 215, 0); // Gold color
