@@ -7,7 +7,7 @@ This study evaluates the user experience quality of the game system. Using a qua
 Here are the results and analysis. 
 1. Analysis of System Usability (SUS dimensions) 
 Based on the distribution of user responses, the system demonstrates superior performance in terms of accessibility and consistency: 
-$\textcircled{1}$ Ease of Use and Complexity: 
+$①$ Ease of Use and Complexity: 
 Every participant agreed that the system is easy to use, with half of the group expressing strong agreement. Conversely, there was a unanimous consensus that the system is not unnecessarily complex. This inverse correlation confirms that the interface design is streamlined and intuitive. 
 $\textcircled{2}$ Learning Curve and Technical Support: 
 The vast majority of users felt they could operate the system independently. Data shows that nearly $9 0 \%$ of participants did not require technical assistance. Furthermore, most users disagreed with the notion that extensive prior learning was necessary, suggesting that the system's “walk-up-and-use” factor is very high. 
