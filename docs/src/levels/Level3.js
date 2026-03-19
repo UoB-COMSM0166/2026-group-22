@@ -68,7 +68,7 @@ CONFIG.LEVELS[2] = {
     // ===== 第六段：Boss前 =====
     {
       gap: 100, altitude: 300, w: 100, h: 20,
-      isMoving: true, rangeX: 180, rangeY: 0, speed: 0.05
+      isMoving: true, rangeX: 180, rangeY: 0, speed: 0.04
     },
 
     { gap: 120, altitude: 380, w: 90, h: 20 },
@@ -77,7 +77,7 @@ CONFIG.LEVELS[2] = {
     { gap: 100, altitude: 420, w: 220, h: 20, hasCoin: true },
 
     // ===== Boss =====
-    { gap: 150, altitude: 0, w: 2000, h: 500, hasBoss: true }
+    { gap: 150, altitude: 0, w: 2000, h: 500, hasBoss3: true }
   ],
 
 
