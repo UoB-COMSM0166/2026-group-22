@@ -16,7 +16,14 @@ class BossScene {
 
   onEnter() {
     // 1. Initialize Boss at the right side of the screen
-    this.boss = new Boss(width - 120, height / 2);
+    // this.boss = new Boss(width - 120, height / 2);
+    const platform = sceneManager.currentBossPlatform;
+
+    if (platform && platform.hasBoss3) {
+      this.boss = new SummonerBoss(width - 120, height / 2);
+    } else {
+      this.boss = new Boss(width - 120, height / 2);
+    }
 
     // 2. Setup Player for flight mode
     // We use the global player instance but reset their position
@@ -40,7 +47,8 @@ class BossScene {
     this.handlePlayerShooting();
 
     // Update Boss and catch attacks
-    let attack = this.boss.update();
+    console.log("BossScene update running");
+    let attack = this.boss.update(this.player, this.playerBullets);
     if (attack) {
       attack.speed = -8; // Ensure boss bullet moves left
       this.bossBullets.push(attack);
