@@ -186,11 +186,26 @@ class Player extends Entity {
   }
 
   resetSkills() {
-    if (this.currentSkill === CONFIG.SKILLS.JUMP) {
+  //   if (this.currentSkill === CONFIG.SKILLS.JUMP) {
+  //     this.lift /= 1.5;
+  //   }
+  //   this.hasSkill = false;
+  //   this.currentSkill = CONFIG.SKILLS.NONE;
+  //   this.skillTimer = 0;
+  // }
+  if (this.currentSkill === CONFIG.SKILLS.JUMP) {
       this.lift /= 1.5;
+    } 
+    // === 新增还原体型的逻辑 ===
+    else if (this.currentSkill === "SHRINK" || this.currentSkill === CONFIG.SKILLS.SHRINK) {
+      this.w = CONFIG.PLAYER.WIDTH;
+      this.h = CONFIG.PLAYER.HEIGHT;
+      // 避免还原变大时脚底卡入地面，稍微把角色往上提一点
+      this.y -= (CONFIG.PLAYER.HEIGHT / 2); 
     }
+
     this.hasSkill = false;
     this.currentSkill = CONFIG.SKILLS.NONE;
     this.skillTimer = 0;
-  }
+    }
 }

@@ -7,7 +7,7 @@ class SummonerBoss {
     this.hp = this.maxHp;
 
     this.movePhase = 0;
-    this.spawnCooldown = 40;
+    this.spawnCooldown = 30;
     this.spawnTimer = this.spawnCooldown;
 
     this.minionManager = new MinionManager();

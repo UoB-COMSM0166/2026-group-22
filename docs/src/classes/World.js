@@ -20,6 +20,7 @@ class World {
     this.platforms = [];
     this.coins = [];
     this.items = [];
+    
     this.holes = [];
     this.checkpoints = [];
     this.setupLevel(levelData);
@@ -86,12 +87,25 @@ class World {
         return new itemClass(itemData.x, itemData.y);
       }
 
+      // 在 World.js 的 setupLevel(data) 函数内找到 items 的循环
+      if (data.items) {
+        for (let item of data.items) {
+          if (item.type === "SHRINK_POTION") {
+            this.items.push(new ShrinkPotion(item.x, item.y));
+          } else if (this.itemTypes[item.type]) {
+            this.items.push(new this.itemTypes[item.type](item.x, item.y));
+          }
+        }
+      }
+
       console.warn(`Type ${itemData.type} not found in ITEM_TYPES`);
       return null;
     }).filter(i => i); // Remove nulls
 
     // place holes
     this.holes = data.holes.map(h => new Hole(h.startX, h.endX));
+
+    
   }
 
   update() {
