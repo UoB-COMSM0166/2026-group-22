@@ -26,12 +26,15 @@ class Boss extends Entity {
     if (this.attackTimer > attackRate && this.hp > 0) {
       this.attackTimer = 0;
       // TIP: Return a structured object that the Scene can easily manage
-      return {
-        x: this.x - 50,
-        y: this.y + random(-50, 50),
-        speed: -7,
-        damage: 10
-      };
+      return new Bullet(
+        this.x - 50,                // Start slightly in front of boss
+        this.y + random(-50, 50),    // Random height spread
+        -8,                          // Velocity X (moving left)
+        0,                           // Velocity Y
+        25,                          // Size
+        10,                          // Damage
+        color(255, 100, 0)           // Orange color
+      );
     }
     return null;
   }
@@ -41,6 +44,9 @@ class Boss extends Entity {
       this.drawExplosion(); // Add a "death" visual
       return;
     }
+
+    if (this.hp <= 0) return;
+    
     push();
     translate(this.x, this.y);
 
@@ -65,7 +71,7 @@ class Boss extends Entity {
   }
 
   takeDamage(amount) {
-    this.hp = max(0, this.hp - amount);
+    super.takeDamage(amount);
     this.isHurt = true;
     this.hurtTimer = 10;
     // Check if global shakeAmount exists before setting it

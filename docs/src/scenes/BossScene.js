@@ -54,10 +54,8 @@ class BossScene {
     this.handlePlayerShooting();
 
     // Update Boss and catch attacks
-    console.log("BossScene update running");
-    let attack = this.boss.update(this.player, this.playerBullets);
+    let attack = this.boss.update();
     if (attack) {
-      attack.speed = -8; // Ensure boss bullet moves left
       this.bossBullets.push(attack);
     }
 
@@ -87,68 +85,65 @@ class BossScene {
 
     // "J" Key to shoot stars
     if (keyIsDown(74) && this.currentCooldown <= 0) {
-      this.playerBullets.push({
-        x: this.player.x + 20,
-        y: this.player.y,
-        speed: 12,
-        size: 15
-      });
+      let pb = new Bullet(
+        this.player.x + 20,
+        this.player.y,
+        12, 0,           // Fast movement right
+        15, 10,          // Size and damage
+        color(255, 255, 0)
+      );
+      this.playerBullets.push(pb);
       this.currentCooldown = this.shootCooldown;
     }
   }
 
   updateProjectiles() {
-    // Move Player Bullets
+    // 3. Polymorphic Update: Tell the bullets to handle their own movement
     for (let i = this.playerBullets.length - 1; i >= 0; i--) {
       let b = this.playerBullets[i];
-      b.x += b.speed;
-      if (b.x > width) this.playerBullets.splice(i, 1);
+      b.update();
+      if (!b.active) this.playerBullets.splice(i, 1);
     }
 
-    // Move Boss Bullets
     for (let i = this.bossBullets.length - 1; i >= 0; i--) {
       let b = this.bossBullets[i];
-      b.x += b.speed;
-      if (b.x < 0) this.bossBullets.splice(i, 1);
+      b.update();
+      if (!b.active) this.bossBullets.splice(i, 1);
     }
   }
 
   checkCollisions() {
-    // 1. Player Bullets vs Main Boss
+    // 4. Update collision math to use Bullet properties (.w instead of .size)
     for (let i = this.playerBullets.length - 1; i >= 0; i--) {
       let b = this.playerBullets[i];
       if (dist(b.x, b.y, this.boss.x, this.boss.y) < 70) {
-        this.boss.takeDamage(10);
+        this.boss.takeDamage(b.damage); // Use the bullet's actual damage
         this.playerBullets.splice(i, 1);
       }
     }
 
-    // 2. Boss Main Bullets vs Player
     for (let i = this.bossBullets.length - 1; i >= 0; i--) {
       let b = this.bossBullets[i];
       if (dist(b.x, b.y, this.player.x, this.player.y) < 30) {
-        this.player.hp -= 5;
+        this.player.hp -= b.damage; // Use the bullet's actual damage
         this.bossBullets.splice(i, 1);
       }
     }
 
-    // --- GUARD CLAUSE: Only run minion logic if the boss has minions ---
+    // Guard Clause for Summoner Boss minions
     if (this.boss.minions && Array.isArray(this.boss.minions)) {
-
-      // 3. Player Bullets vs Minions
       for (let i = this.playerBullets.length - 1; i >= 0; i--) {
         let pb = this.playerBullets[i];
         for (let j = this.boss.minions.length - 1; j >= 0; j--) {
           let m = this.boss.minions[j];
-          if (dist(pb.x, pb.y, m.x, m.y) < m.w) {
-            m.takeDamage(10);
+          if (dist(pb.x, pb.y, m.x, m.y) < (m.w + pb.w) / 2) {
+            m.takeDamage(pb.damage);
             this.playerBullets.splice(i, 1);
             break;
           }
         }
       }
 
-      // 4. Minions vs Player (Touch Damage)
       for (let i = this.boss.minions.length - 1; i >= 0; i--) {
         let m = this.boss.minions[i];
         if (dist(m.x, m.y, this.player.x, this.player.y) < 30) {
@@ -159,12 +154,12 @@ class BossScene {
       }
     }
 
-    // 5. Minion Bullets vs Player
+    // Minion Bullets
     if (this.boss.minionBullets) {
       for (let i = this.boss.minionBullets.length - 1; i >= 0; i--) {
         let mb = this.boss.minionBullets[i];
         if (dist(mb.x, mb.y, this.player.x, this.player.y) < 25) {
-          this.player.hp -= mb.damage || 8;
+          this.player.hp -= mb.damage;
           this.boss.minionBullets.splice(i, 1);
         }
       }
@@ -179,12 +174,15 @@ class BossScene {
     this.boss.show();
     this.player.show();
 
-    // Draw Projectiles
-    fill(255, 255, 0); // Yellow Stars
-    for (let b of this.playerBullets) ellipse(b.x, b.y, b.size);
+    // Draw Player's stars using the class method
+    for (let b of this.playerBullets) {
+      b.show();
+    }
 
-    fill(255, 100, 0); // Orange Boss Bullets
-    for (let b of this.bossBullets) ellipse(b.x, b.y, 25);
+    // Draw Boss bullets using the class method
+    for (let b of this.bossBullets) {
+      b.show();
+    }
 
     this.drawUI();
   }

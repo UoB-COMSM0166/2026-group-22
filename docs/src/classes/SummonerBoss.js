@@ -3,7 +3,7 @@ class SummonerBoss extends Boss {
   constructor(x, y) {
     // x, y, width, height, hp, speed
     super(x, y, 120, 120, 220, 0);
-    
+
     // Internal "Management" arrays (replaced MinionManager)
     this.minions = [];
     this.minionBullets = [];
@@ -45,11 +45,12 @@ class SummonerBoss extends Boss {
     // 4. Update Minion Bullets
     for (let i = this.minionBullets.length - 1; i >= 0; i--) {
       const b = this.minionBullets[i];
-      b.x += b.vx;
-      b.y += b.vy;
 
-      // Clean up bullets that fly off-screen
-      if (b.x < -50 || b.x > width + 50 || b.y < -50 || b.y > height + 50) {
+      // POLYMORPHISM: We use the inherited update() from Projectile.js
+      b.update();
+
+      // Clean up using the 'active' property from GameObject
+      if (!b.active) {
         this.minionBullets.splice(i, 1);
       }
     }
@@ -75,23 +76,25 @@ class SummonerBoss extends Boss {
   }
 
   show() {
-    if (this.hp <= 0) return; // Don't draw if dead
-
     // 1. Draw Minions and Bullets first
     for (const m of this.minions) {
       m.show();
     }
 
-    fill(255, 60, 60);
-    noStroke();
+    // 2. Draw Bullets (Using the new Bullet show method)
     for (const b of this.minionBullets) {
-      ellipse(b.x, b.y, b.size || 10);
+      b.show(); // Handles its own color and size
+    }
+
+    if (this.hp <= 0) {
+      this.drawExplosion(); // This function is inherited from Boss.js
+      return; 
     }
 
     // 2. Draw the Boss Body
     push();
     translate(this.x, this.y);
-    
+
     // Visual feedback for damage (Inherited from Boss.js)
     if (this.isHurt) {
       fill(255, 200, 200); // Flashing light red

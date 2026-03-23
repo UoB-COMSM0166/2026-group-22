@@ -5,10 +5,10 @@ class Minion extends Entity {
     super(x, y, 24, 24, 1, 2.5);
 
     // Custom movement vectors
-    this.vx = -this.speed; 
+    this.vx = -this.speed;
     this.vy = random(-1.2, 1.2);
 
-    this.isDead = false;
+    // this.isDead = false;
     this.damage = 10;
 
     this.shootCooldown = 90;
@@ -32,14 +32,14 @@ class Minion extends Entity {
     if (this.shootTimer > 0) this.shootTimer--;
 
     // 4. Self-Cleanup: Mark as dead if flies off-screen
-    if (this.x < -50 || this.y < -50 || this.y > height + 50) {
+    if (this.x < -100 || this.x > width + 100 || this.y < -100 || this.y > height + 100) {
       this.isDead = true;
     }
   }
 
   tryShoot() {
     const player = sceneManager.player;
-    
+
     // Only shoot if player exists and cooldown is ready
     if (!player || this.shootTimer > 0) return null;
 
@@ -51,21 +51,25 @@ class Minion extends Entity {
     const distance = Math.sqrt(dx * dx + dy * dy) || 1;
 
     const bulletSpeed = 4;
+    const vx = (dx / distance) * bulletSpeed;
+    const vy = (dy / distance) * bulletSpeed;
 
     // Return a projectile object for the Boss to manage
-    return {
-      x: this.x,
-      y: this.y,
-      vx: (dx / distance) * bulletSpeed,
-      vy: (dy / distance) * bulletSpeed,
-      size: 10,
-      damage: 8
-    };
+    return new Bullet(
+      this.x, 
+      this.y, 
+      vx, 
+      vy, 
+      10,                // Size
+      8,                 // Damage
+      color(255, 60, 60) // Minion Bullet Color (Red)
+    );
   }
 
   takeDamage(amount) {
     this.hp -= amount;
     if (this.hp <= 0) {
+      this.hp = 0;
       this.isDead = true;
     }
   }
@@ -74,7 +78,7 @@ class Minion extends Entity {
   show() {
     push();
     translate(this.x, this.y);
-    
+
     // Body (The little orange orb)
     fill(255, 160, 60);
     noStroke();
