@@ -77,7 +77,7 @@ CONFIG.LEVELS[2] = {
     { gap: 100, altitude: 420, w: 220, h: 20, hasCoin: true },
 
     // ===== Boss =====
-    { gap: 150, altitude: 0, w: 2000, h: 500, hasBoss3: true }
+    { gap: 150, altitude: 0, w: 2000, h: 500, hasSummonerBoss: true }
   ],
 
 

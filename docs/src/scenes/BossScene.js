@@ -14,16 +14,23 @@ class BossScene {
     this.currentCooldown = 0;
   }
 
-  onEnter() {
-    // 1. Initialize Boss at the right side of the screen
-    // this.boss = new Boss(width - 120, height / 2);
-    const platform = sceneManager.currentBossPlatform;
+  onEnter(bossType) {
+    this.currentBossType = bossType;
+    // 1. Tell the global manager this is the active scene
+    // This allows the Boss/Minions to find playerBullets
+    sceneManager.currentScene = this;
 
-    if (platform && platform.hasBoss3) {
-      this.boss = new SummonerBoss(width - 120, height / 2);
-    } else {
-      this.boss = new Boss(width - 120, height / 2);
-    }
+    const bossMap = {
+      'summoner': SummonerBoss,
+      'regular': Boss,
+    };
+
+    // 1. Dynamic Boss Creation
+    const startX = width - 120;
+    const startY = height / 2;
+
+    const BossClass = bossMap[bossType] || Boss;
+    this.boss = new BossClass(startX, startY);
 
     // 2. Setup Player for flight mode
     // We use the global player instance but reset their position
@@ -107,7 +114,7 @@ class BossScene {
   }
 
   checkCollisions() {
-    // 1. Player Bullets vs Boss
+    // 1. Player Bullets vs Main Boss
     for (let i = this.playerBullets.length - 1; i >= 0; i--) {
       let b = this.playerBullets[i];
       if (dist(b.x, b.y, this.boss.x, this.boss.y) < 70) {
@@ -116,12 +123,50 @@ class BossScene {
       }
     }
 
-    // 2. Boss Bullets vs Player
+    // 2. Boss Main Bullets vs Player
     for (let i = this.bossBullets.length - 1; i >= 0; i--) {
       let b = this.bossBullets[i];
       if (dist(b.x, b.y, this.player.x, this.player.y) < 30) {
         this.player.hp -= 5;
         this.bossBullets.splice(i, 1);
+      }
+    }
+
+    // --- GUARD CLAUSE: Only run minion logic if the boss has minions ---
+    if (this.boss.minions && Array.isArray(this.boss.minions)) {
+
+      // 3. Player Bullets vs Minions
+      for (let i = this.playerBullets.length - 1; i >= 0; i--) {
+        let pb = this.playerBullets[i];
+        for (let j = this.boss.minions.length - 1; j >= 0; j--) {
+          let m = this.boss.minions[j];
+          if (dist(pb.x, pb.y, m.x, m.y) < m.w) {
+            m.takeDamage(10);
+            this.playerBullets.splice(i, 1);
+            break;
+          }
+        }
+      }
+
+      // 4. Minions vs Player (Touch Damage)
+      for (let i = this.boss.minions.length - 1; i >= 0; i--) {
+        let m = this.boss.minions[i];
+        if (dist(m.x, m.y, this.player.x, this.player.y) < 30) {
+          const dir = (this.player.x < m.x) ? -1 : 1;
+          this.player.takeDamage(10, dir);
+          this.boss.minions.splice(i, 1);
+        }
+      }
+    }
+
+    // 5. Minion Bullets vs Player
+    if (this.boss.minionBullets) {
+      for (let i = this.boss.minionBullets.length - 1; i >= 0; i--) {
+        let mb = this.boss.minionBullets[i];
+        if (dist(mb.x, mb.y, this.player.x, this.player.y) < 25) {
+          this.player.hp -= mb.damage || 8;
+          this.boss.minionBullets.splice(i, 1);
+        }
       }
     }
   }
@@ -173,27 +218,13 @@ class BossScene {
       // Clean up state before leaving
       this.playerBullets = [];
       this.bossBullets = [];
-      
+
       sceneManager.switch("camp");
     }
   }
 
   resetScene() {
-    // 1. Restore Player
-    this.player.hp = 100;
-    this.player.x = 100;
-    this.player.y = height / 2;
-    this.player.velX = 0;
-    this.player.velY = 0;
-
-    // 2. Restore Boss
-    this.boss.hp = this.boss.maxHp;
-    this.boss.x = width - 120;
-    this.boss.y = height / 2;
-
-    // 3. Clear all bullets (Empty the arrays)
-    this.playerBullets = [];
-    this.bossBullets = [];
+    this.onEnter(this.currentBossType);
 
     // 4. Reset shoot cooldown
     this.currentCooldown = 0;

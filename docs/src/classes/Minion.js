@@ -1,13 +1,13 @@
-class Minion {
+// src/entities/Minion.js
+class Minion extends Entity {
   constructor(x, y) {
-    this.x = x;
-    this.y = y;
+    // super(x, y, width, height, hp, speed)
+    super(x, y, 24, 24, 1, 2.5);
 
-    this.vx = -2.5;
+    // Custom movement vectors
+    this.vx = -this.speed; 
     this.vy = random(-1.2, 1.2);
 
-    this.size = 24;
-    this.hp = 1;
     this.isDead = false;
     this.damage = 10;
 
@@ -15,47 +15,52 @@ class Minion {
     this.shootTimer = this.shootCooldown;
   }
 
-  update(player) {
+  // We override the Entity update to handle unique "Flying/Homing" logic
+  update() {
+    // 1. Basic Movement
     this.x += this.vx;
     this.y += this.vy;
 
+    // 2. Homing Logic: Gently follow the player's Y-position
+    const player = sceneManager.player;
     if (player) {
       if (player.y < this.y) this.y -= 0.4;
       if (player.y > this.y) this.y += 0.4;
     }
 
-    this.shootTimer--;
+    // 3. Countdown for shooting
+    if (this.shootTimer > 0) this.shootTimer--;
 
+    // 4. Self-Cleanup: Mark as dead if flies off-screen
     if (this.x < -50 || this.y < -50 || this.y > height + 50) {
       this.isDead = true;
     }
   }
 
-  tryShoot(player) {
-    if (!player) return null;
-    if (this.shootTimer > 0) return null;
+  tryShoot() {
+    const player = sceneManager.player;
+    
+    // Only shoot if player exists and cooldown is ready
+    if (!player || this.shootTimer > 0) return null;
 
     this.shootTimer = this.shootCooldown;
 
+    // Calculate direction towards player
     const dx = player.x - this.x;
     const dy = player.y - this.y;
-    const len = Math.sqrt(dx * dx + dy * dy) || 1;
+    const distance = Math.sqrt(dx * dx + dy * dy) || 1;
 
-    const speed = 4;
+    const bulletSpeed = 4;
 
+    // Return a projectile object for the Boss to manage
     return {
       x: this.x,
       y: this.y,
-      vx: (dx / len) * speed,
-      vy: (dy / len) * speed,
+      vx: (dx / distance) * bulletSpeed,
+      vy: (dy / distance) * bulletSpeed,
       size: 10,
       damage: 8
     };
-  }
-
-  hitsPlayer(player) {
-    const d = dist(this.x, this.y, player.x, player.y);
-    return d < this.size * 0.5 + 15;
   }
 
   takeDamage(amount) {
@@ -65,18 +70,23 @@ class Minion {
     }
   }
 
+  // Visuals (Now uses this.w from the Entity class)
   show() {
     push();
+    translate(this.x, this.y);
+    
+    // Body (The little orange orb)
     fill(255, 160, 60);
-    ellipse(this.x, this.y, this.size);
+    noStroke();
+    ellipse(0, 0, this.w);
 
+    // Eyes
     fill(255);
-    ellipse(this.x - 5, this.y - 3, 5, 5);
-    ellipse(this.x + 5, this.y - 3, 5, 5);
-
+    ellipse(-5, -3, 5, 5);
+    ellipse(5, -3, 5, 5);
     fill(60);
-    ellipse(this.x - 5, this.y - 3, 2, 2);
-    ellipse(this.x + 5, this.y - 3, 2, 2);
+    ellipse(-5, -3, 2, 2);
+    ellipse(5, -3, 2, 2);
     pop();
   }
 }

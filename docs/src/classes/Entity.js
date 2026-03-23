@@ -4,7 +4,8 @@ class Entity extends GameObject {
 
     this.hp = hp;
     this.speed = speed;
-    
+    this.isDead = false;
+
     // Physical state
     this.velX = 0;
     this.velY = 0;
@@ -31,6 +32,14 @@ class Entity extends GameObject {
       return this.intersects(other);
     }
     return false;
+  }
+
+  takeDamage(amount) {
+    this.hp -= amount;
+    if (this.hp <= 0) {
+      this.hp = 0;
+      this.isDead = true;
+    }
   }
 
   // Note: We don't implement show() or update() here.

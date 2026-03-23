@@ -16,10 +16,10 @@ class LevelScene {
       jump: null,
     };
 
-    this.bgLayers = { 
-      far: null, 
-      mid: null, 
-      front: null 
+    this.bgLayers = {
+      far: null,
+      mid: null,
+      front: null
     };
   }
 
@@ -69,7 +69,7 @@ class LevelScene {
     this.player = new Player(playerFrames);
 
     sceneManager.player = this.player;
-    
+
     this.world = new World(this.player, this.doorNumber, this.bgLayers);
 
     console.log("[LevelScene] World built for door:", doorNumber);
@@ -112,6 +112,20 @@ class LevelScene {
 
     if (this.player) {
       this.player.handleKeyPress();
+    }
+
+    // Check for the 'B' key (Key Code 66)
+    if (key === 'b' || key === 'B') {
+      console.log("🛠️ Dev Mode: Jumping to Summoner Boss");
+
+      // Switch to boss scene and tell it to load the 'summoner'
+      sceneManager.switch('boss', 'summoner');
+    }
+
+    // Optional: Add another key for the regular boss
+    if (key === 'n' || key === 'N') {
+      console.log("🛠️ Dev Mode: Jumping to Regular Boss");
+      sceneManager.switch('boss', 'regular');
     }
   }
 

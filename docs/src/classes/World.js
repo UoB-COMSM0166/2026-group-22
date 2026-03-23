@@ -56,7 +56,8 @@ class World {
 
       // 3. Now that 'platform' is defined, you can add properties to it
       platform.hasBoss = p.hasBoss || false;
-      platform.hasBoss3 = p.hasBoss3 || false;
+
+      platform.hasSummonerBoss = p.hasSummonerBoss || false;
 
       // 4. Push the platform to your array only ONCE
       this.platforms.push(platform);
@@ -204,11 +205,13 @@ class World {
         }
 
         // BOSS TRIGGER CHECK
-        if (platform.hasBoss || platform.hasBoss3) {
-          console.log("[World] Boss platform detected! Transitioning to BossScene...");
+        if (platform.hasBoss) {
           // Switch to the separate scene you created
-          sceneManager.currentBossPlatform = platform;
-          sceneManager.switch("boss");
+          sceneManager.switch("boss", "regular");
+        }
+
+        if (platform.hasSummonerBoss) {
+          sceneManager.switch("boss", "summoner");
         }
       }
 
