@@ -37,7 +37,7 @@ class SummonerBoss extends Boss {
       }
 
       // Remove if dead or off-screen
-      if (m.isDead) {
+      if (!m.active) {
         this.minions.splice(i, 1);
       }
     }

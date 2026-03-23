@@ -44,8 +44,6 @@ class Boss extends Entity {
       this.drawExplosion(); // Add a "death" visual
       return;
     }
-
-    if (this.hp <= 0) return;
     
     push();
     translate(this.x, this.y);

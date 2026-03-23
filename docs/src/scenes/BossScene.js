@@ -40,6 +40,10 @@ class BossScene {
     this.player.velX = 0;
     this.player.velY = 0;
 
+    this.player.hp = 100;               // Restore HP to stop the reset loop
+    this.player.active = true;           // Reactivate the entity
+    this.player.invincibilityTimer = 0; // Stop the flashing immediately
+
     // 3. Clear projectiles from previous attempts
     this.playerBullets = [];
     this.bossBullets = [];
@@ -98,70 +102,65 @@ class BossScene {
   }
 
   updateProjectiles() {
-    // 3. Polymorphic Update: Tell the bullets to handle their own movement
-    for (let i = this.playerBullets.length - 1; i >= 0; i--) {
-      let b = this.playerBullets[i];
-      b.update();
-      if (!b.active) this.playerBullets.splice(i, 1);
-    }
+    // Combine logic into a helper or keep loops separate for clarity
+    const bulletGroups = [this.playerBullets, this.bossBullets];
 
-    for (let i = this.bossBullets.length - 1; i >= 0; i--) {
-      let b = this.bossBullets[i];
-      b.update();
-      if (!b.active) this.bossBullets.splice(i, 1);
+    // Also clean up minion bullets if they exist
+    if (this.boss.minionBullets) bulletGroups.push(this.boss.minionBullets);
+
+    bulletGroups.forEach(group => {
+      for (let i = group.length - 1; i >= 0; i--) {
+        group[i].update();
+
+        if (!group[i].active) { // Standardized cleanup flag
+          group.splice(i, 1);
+        }
+      }
+    });
+  }
+
+  // --- COLLISION LAYER ---
+  checkCollisions() {
+    // 4. Resolve hits using built-in AABB intersects method
+    this.resolveHitGroup(this.playerBullets, this.boss, (b, boss) => boss.takeDamage(b.damage));
+    this.resolveHitGroup(this.bossBullets, this.player, (b, p) => p.hp -= b.damage);
+
+    // 5. Minion-Specific Logic (Guard Clause)
+    if (this.boss.minions) {
+      // Minion Body vs Player (Touch Damage)
+      this.resolveHitGroup(this.boss.minions, this.player, (m, p) => {
+        const dir = (p.x < m.x) ? -1 : 1;
+        p.takeDamage(10, dir); //
+      });
+
+      // Player Bullets vs Minions
+      this.playerBullets.forEach((pb, i) => {
+        this.boss.minions.some(m => {
+          if (pb.intersects(m)) {
+            m.takeDamage(pb.damage);
+            pb.active = false;
+            this.playerBullets.splice(i, 1);
+            return true;
+          }
+        });
+      });
+
+      // Minion Bullets vs Player
+      if (this.boss.minionBullets) {
+        this.resolveHitGroup(this.boss.minionBullets, this.player, (mb, p) => p.hp -= mb.damage);
+      }
     }
   }
 
-  checkCollisions() {
-    // 4. Update collision math to use Bullet properties (.w instead of .size)
-    for (let i = this.playerBullets.length - 1; i >= 0; i--) {
-      let b = this.playerBullets[i];
-      if (dist(b.x, b.y, this.boss.x, this.boss.y) < 70) {
-        this.boss.takeDamage(b.damage); // Use the bullet's actual damage
-        this.playerBullets.splice(i, 1);
-      }
-    }
-
-    for (let i = this.bossBullets.length - 1; i >= 0; i--) {
-      let b = this.bossBullets[i];
-      if (dist(b.x, b.y, this.player.x, this.player.y) < 30) {
-        this.player.hp -= b.damage; // Use the bullet's actual damage
-        this.bossBullets.splice(i, 1);
-      }
-    }
-
-    // Guard Clause for Summoner Boss minions
-    if (this.boss.minions && Array.isArray(this.boss.minions)) {
-      for (let i = this.playerBullets.length - 1; i >= 0; i--) {
-        let pb = this.playerBullets[i];
-        for (let j = this.boss.minions.length - 1; j >= 0; j--) {
-          let m = this.boss.minions[j];
-          if (dist(pb.x, pb.y, m.x, m.y) < (m.w + pb.w) / 2) {
-            m.takeDamage(pb.damage);
-            this.playerBullets.splice(i, 1);
-            break;
-          }
-        }
-      }
-
-      for (let i = this.boss.minions.length - 1; i >= 0; i--) {
-        let m = this.boss.minions[i];
-        if (dist(m.x, m.y, this.player.x, this.player.y) < 30) {
-          const dir = (this.player.x < m.x) ? -1 : 1;
-          this.player.takeDamage(10, dir);
-          this.boss.minions.splice(i, 1);
-        }
-      }
-    }
-
-    // Minion Bullets
-    if (this.boss.minionBullets) {
-      for (let i = this.boss.minionBullets.length - 1; i >= 0; i--) {
-        let mb = this.boss.minionBullets[i];
-        if (dist(mb.x, mb.y, this.player.x, this.player.y) < 25) {
-          this.player.hp -= mb.damage;
-          this.boss.minionBullets.splice(i, 1);
-        }
+  /**
+   * REUSABLE UTILITY: Professional many-to-one collision handler
+   */
+  resolveHitGroup(projectiles, target, onHit) {
+    for (let i = projectiles.length - 1; i >= 0; i--) {
+      if (projectiles[i].intersects(target)) {
+        onHit(projectiles[i], target);
+        projectiles[i].active = false; // Standardized cleanup
+        projectiles.splice(i, 1);
       }
     }
   }

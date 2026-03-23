@@ -4,7 +4,6 @@ class Entity extends GameObject {
 
     this.hp = hp;
     this.speed = speed;
-    this.isDead = false;
 
     // Physical state
     this.velX = 0;
@@ -38,7 +37,7 @@ class Entity extends GameObject {
     this.hp -= amount;
     if (this.hp <= 0) {
       this.hp = 0;
-      this.isDead = true;
+      this.active = false;
     }
   }
 

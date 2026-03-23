@@ -33,7 +33,7 @@ class Minion extends Entity {
 
     // 4. Self-Cleanup: Mark as dead if flies off-screen
     if (this.x < -100 || this.x > width + 100 || this.y < -100 || this.y > height + 100) {
-      this.isDead = true;
+      this.active = false;
     }
   }
 
@@ -70,7 +70,7 @@ class Minion extends Entity {
     this.hp -= amount;
     if (this.hp <= 0) {
       this.hp = 0;
-      this.isDead = true;
+      this.active = false;
     }
   }
 
