@@ -122,7 +122,34 @@ class World {
         this.handleSolidCollision(enemy, platform);
       }
     }
+for (let bullet of this.player.bullets) {
+  for (let enemy of this.enemies) {
+    if (!bullet.active || !enemy.active) continue;
 
+    if (this.bulletHitsEnemy(bullet, enemy)) {
+      enemy.takeDamage(bullet.damage);
+      bullet.active = false;
+    }
+  }
+}
+for (let bullet of this.player.bullets) {
+    if (!bullet.active) continue; // 跳过已经失效的子弹
+
+    for (let enemy of this.enemies) {
+      if (!enemy.active) continue; // 跳过已经死亡的小怪
+
+      // 使用你已经写好的碰撞判定函数
+      if (this.bulletHitsEnemy(bullet, enemy)) {
+        // 1. 让小怪受伤
+        enemy.takeDamage(bullet.damage); 
+        
+        // 2. 让子弹消失
+        bullet.active = false; 
+        
+        console.log("击中小怪！");
+      }
+    }
+  }
     // Check Checkpoints
     for (let cp of this.checkpoints) {
       if (cp.update(this.player)) {
@@ -236,21 +263,21 @@ class World {
     }
   }
 
-  handleEnemyCollision(player, enemy) {
-    if (!player.active || !enemy.active) return;
-    // Check if Kirby is "Stomping"
-    const isStomping = player.velY > 0 && player.y < enemy.y - enemy.h / 2;
+handleEnemyCollision(player, enemy) {
+  if (!player.active || !enemy.active) return;
 
-    if (isStomping) {
-      enemy.die();
-      player.velY = -5;
-    } else {
-      // Kirby got hit: calculate direction (-1 or 1)
-      const dir = (player.x < enemy.x) ? -1 : 1;
-      player.takeDamage(10, dir); // Delegate to Player
-    }
-  }
-
+  // 直接判定为玩家受伤，不再检查是否是“踩”的动作
+  const dir = (player.x < enemy.x) ? -1 : 1;
+  player.takeDamage(10, dir); 
+}
+bulletHitsEnemy(bullet, enemy) {
+  return (
+    bullet.x < enemy.x + enemy.w / 2 &&
+    bullet.x > enemy.x - enemy.w / 2 &&
+    bullet.y < enemy.y + enemy.h / 2 &&
+    bullet.y > enemy.y - enemy.h / 2
+  );
+}
   handleWorldBoundaries(player) {
     const p = player.getBounds();
     const floorY = this.height - this.groundThickness;

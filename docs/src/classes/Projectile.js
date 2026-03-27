@@ -6,14 +6,14 @@ class Projectile extends GameObject {
     this.vy = vy; // Velocity Y
   }
 
-  update() {
-    this.x += this.vx;
-    this.y += this.vy;
+  // 建议的修改逻辑
+update(cameraX) {
+  this.x += this.vx;
+  this.y += this.vy;
 
-    // Standard off-screen cleanup
-    if (this.x < -100 || this.x > width + 100 ||
-      this.y < -100 || this.y > height + 100) {
-      this.active = false;
-    }
+  // 只有当子弹离开“当前屏幕显示区域”太远时才销毁
+  if (this.x < cameraX - 200 || this.x > cameraX + width + 200) {
+    this.active = false;
   }
+}
 }

@@ -174,4 +174,11 @@ class LevelScene {
       this.applyCanvasMode();
     }
   }
+  keyPressed() {
+  console.log("scene keyPressed");
+
+  if (this.world && this.world.player) {
+    this.world.player.handleKeyPress();
+  }
+}
 }

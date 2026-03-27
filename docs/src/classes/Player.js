@@ -34,6 +34,7 @@ class Player extends Entity {
     this.currentSkill = CONFIG.SKILLS.NONE;
     this.skillTimer = 0; // Useful for tracking how long a boost lasts
     this.invincibilityTimer = 0; // 0 means "can be hit"
+    this.bullets = [];
   }
 
   // Implementation of the abstract update() method
@@ -52,6 +53,13 @@ class Player extends Entity {
     if (this.invincibilityTimer > 0) {
       this.invincibilityTimer--;
     }
+    // 更新子弹
+for (let bullet of this.bullets) {
+  bullet.update(); 
+}
+
+// 清理失效子弹
+this.bullets = this.bullets.filter(b => b.active);
   }
 
   // Logic for horizontal movement and facing direction
@@ -71,12 +79,31 @@ class Player extends Entity {
     }
   }
 
-  handleKeyPress() {
-    if (keyCode === CONFIG.CONTROLS.JUMP) {
-      this.float();
-    }
+handleKeyPress() {
+  if (keyCode === CONFIG.CONTROLS.JUMP) {
+    this.float();
   }
 
+  if (keyCode === 75) { // K键射击
+    this.shoot();
+  }
+}
+
+  shoot() {
+  let dir = this.isFacingLeft ? -1 : 1;
+
+  let bullet = new Bullet(
+    this.x,
+    this.y,
+    dir * 8,  // 水平速度
+    0,        // 垂直速度
+    8,        // size
+    1,        // damage
+    'yellow'
+  );
+
+  this.bullets.push(bullet);
+}
   // Implementation of the abstract show() method
   show() {
     if (this.invincibilityTimer > 0 && frameCount % 10 < 5) {
@@ -107,6 +134,10 @@ class Player extends Entity {
     imageMode(CENTER);
     image(frameImg, 0, 0, this.w, this.h);
     pop();
+    // 画子弹
+for (let bullet of this.bullets) {
+    bullet.show();
+  }
   }
 
   // Handles which frame should be displayed

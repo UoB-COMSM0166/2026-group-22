@@ -5,6 +5,26 @@ class Enemy extends Entity {
     
     this.direction = 1; // 1 for Right, -1 for Left
     this.velX = this.speed;
+    this.active = true;
+  }
+
+  takeDamage(amount) {
+    if (!this.active) return; // 如果已经死了，就不再受伤害
+
+    this.hp -= amount;
+    console.log("小怪剩余血量:", this.hp);
+
+    // 受伤反馈（可选）：比如被子弹打中后稍微后退一点
+    // this.x += (this.direction * -5); 
+
+    if (this.hp <= 0) {
+      this.die();
+    }
+  }
+
+  die() {
+    this.active = false;
+    console.log("小怪被打死了！");
   }
 
   update(platforms) {
