@@ -119,13 +119,19 @@ class LevelScene {
       console.log("🛠️ Dev Mode: Jumping to Summoner Boss");
 
       // Switch to boss scene and tell it to load the 'summoner'
-      sceneManager.switch('boss', 'summoner');
+      sceneManager.switch('boss', {
+        bossType: 'summoner',
+        bgLayers: this.world.bgLayers
+      });
     }
 
     // Optional: Add another key for the regular boss
     if (key === 'n' || key === 'N') {
       console.log("🛠️ Dev Mode: Jumping to Regular Boss");
-      sceneManager.switch('boss', 'regular');
+      sceneManager.switch('boss', {
+        bossType: 'regular',
+        bgLayers: this.world.bgLayers
+      });
     }
   }
 

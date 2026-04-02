@@ -3,6 +3,7 @@ class BossScene {
   constructor() {
     this.player = null; // Reference to the existing player
     this.boss = null;
+    this.world = null;
     this.playerBullets = [];
     this.bossBullets = [];
     this.canvasActive = false;
@@ -13,17 +14,22 @@ class BossScene {
     this.CANVAS_H = CONFIG.WORLD.CANVAS_HEIGHT;
 
     // Combat Settings
-    this.flySpeed = 6;
-    this.shootCooldown = 10;
+    this.shootCooldown = 15;
     this.currentCooldown = 0;
   }
 
-  onEnter(bossType) {
+  onEnter(data) {
+    const { bossType, bgLayers } = data;
+
     this.player = sceneManager.player;
     this.currentBossType = bossType;
+    this.bgLayers = bgLayers;
     // 1. Tell the global manager this is the active scene
     // This allows the Boss/Minions to find playerBullets
     sceneManager.currentScene = this;
+
+    const arenaLevelIndex = 5;
+    this.world = new World(this.player, arenaLevelIndex, this.bgLayers);
 
     const bossMap = {
       'summoner': SummonerBoss,
@@ -31,8 +37,8 @@ class BossScene {
     };
 
     // 1. Dynamic Boss Creation
-    const startX = this.CANVAS_W - 120;
-    const startY = this.CANVAS_H / 2;
+    const startX = this.world.width - 120;
+    const startY = this.world.height - 150;
 
     const BossClass = bossMap[bossType] || Boss;
     this.boss = new BossClass(startX, startY);
@@ -42,7 +48,7 @@ class BossScene {
     // 2. Setup Player for flight mode
     // We use the global player instance but reset their position
     this.player.x = 100;
-    this.player.y = height / 2;
+    this.player.y = this.CANVAS_H - 150;
     this.player.velX = 0;
     this.player.velY = 0;
 
@@ -60,13 +66,14 @@ class BossScene {
   }
 
   update() {
-    if (!this.player) return;
+    if (!this.player || !this.world) return;
 
     if (this.player.hp <= 0) {
       this.resetScene();
       return; // Stop the rest of the update for this frame
     }
-    this.handlePlayerMovement();
+
+    this.world.update();
     this.handlePlayerShooting();
 
     // Update Boss and catch attacks
@@ -84,27 +91,17 @@ class BossScene {
     }
   }
 
-  handlePlayerMovement() {
-    // WASD or Arrow Keys for 8-way flying movement
-    if (keyIsDown(87) || keyIsDown(UP_ARROW)) this.player.y -= this.flySpeed;
-    if (keyIsDown(83) || keyIsDown(DOWN_ARROW)) this.player.y += this.flySpeed;
-    if (keyIsDown(65) || keyIsDown(LEFT_ARROW)) this.player.x -= this.flySpeed;
-    if (keyIsDown(68) || keyIsDown(RIGHT_ARROW)) this.player.x += this.flySpeed;
-
-    // Keep player inside the screen boundaries
-    this.player.x = constrain(this.player.x, 30, width - 30);
-    this.player.y = constrain(this.player.y, 30, height - 30);
-  }
-
   handlePlayerShooting() {
     if (this.currentCooldown > 0) this.currentCooldown--;
 
     // "J" Key to shoot stars
     if (keyIsDown(74) && this.currentCooldown <= 0) {
+      // Shoot in the direction player is facing
+      let dir = this.player.isFacingLeft ? -1 : 1;
       let pb = new Bullet(
-        this.player.x + 20,
+        this.player.x + (20 * dir),
         this.player.y,
-        12, 0,           // Fast movement right
+        12 * dir, 0,     // Fast movement right
         15, 10,          // Size and damage
         color(255, 255, 0)
       );
@@ -179,21 +176,15 @@ class BossScene {
 
   draw() {
     this.update();
-    // Dark Space/Boss Background
-    background(20, 20, 60);
 
+    this.world.show();
+
+    push();
+    translate(-this.world.cameraX, -this.world.cameraY);
     this.boss.show();
-    this.player.show();
-
-    // Draw Player's stars using the class method
-    for (let b of this.playerBullets) {
-      b.show();
-    }
-
-    // Draw Boss bullets using the class method
-    for (let b of this.bossBullets) {
-      b.show();
-    }
+    for (let b of this.playerBullets) b.show();
+    for (let b of this.bossBullets) b.show();
+    pop();
 
     this.drawUI();
   }
@@ -218,10 +209,17 @@ class BossScene {
 
       sceneManager.switch("camp");
     }
+
+    if (this.player) {
+      this.player.handleKeyPress();
+    }
   }
 
   resetScene() {
-    this.onEnter(this.currentBossType);
+    this.onEnter({
+      bossType: this.currentBossType,
+      bgLayers: this.bgLayers
+    });
 
     // 4. Reset shoot cooldown
     this.currentCooldown = 0;

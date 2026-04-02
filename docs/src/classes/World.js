@@ -36,12 +36,12 @@ class World {
       let centerY = this.height - p.altitude - p.h / 2;
       let topY = centerY - p.h / 2; // The top surface
 
-     // 1. Declare the variable first
+      // 1. Declare the variable first
       let platform;
       if (p.vanish === true) {
         platform = new DisappearingPlatform(centerX, centerY, p.w, p.h);
 
-      // 2. Assign the instance to the variable instead of pushing immediately
+        // 2. Assign the instance to the variable instead of pushing immediately
       } else if (p.isMoving) {
         platform = new MovingPlatform(
           centerX, centerY, p.w, p.h, p.rangeX, p.rangeY, p.speed
@@ -207,11 +207,17 @@ class World {
         // BOSS TRIGGER CHECK
         if (platform.hasBoss) {
           // Switch to the separate scene you created
-          sceneManager.switch("boss", "regular");
+          sceneManager.switch("boss", {
+            bossType: "regular",
+            bgLayers: this.bgLayers
+          });
         }
 
         if (platform.hasSummonerBoss) {
-          sceneManager.switch("boss", "summoner");
+          sceneManager.switch("boss", {
+            bossType: "summoner",
+            bgLayers: this.bgLayers
+          });
         }
       }
 
