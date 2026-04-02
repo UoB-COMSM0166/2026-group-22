@@ -5,8 +5,12 @@ class BossScene {
     this.boss = null;
     this.playerBullets = [];
     this.bossBullets = [];
+    this.canvasActive = false;
 
     this.statsBar = new StatsBar();
+
+    this.CANVAS_W = CONFIG.WORLD.CANVAS_WIDTH;
+    this.CANVAS_H = CONFIG.WORLD.CANVAS_HEIGHT;
 
     // Combat Settings
     this.flySpeed = 6;
@@ -15,6 +19,7 @@ class BossScene {
   }
 
   onEnter(bossType) {
+    this.player = sceneManager.player;
     this.currentBossType = bossType;
     // 1. Tell the global manager this is the active scene
     // This allows the Boss/Minions to find playerBullets
@@ -26,15 +31,16 @@ class BossScene {
     };
 
     // 1. Dynamic Boss Creation
-    const startX = width - 120;
-    const startY = height / 2;
+    const startX = this.CANVAS_W - 120;
+    const startY = this.CANVAS_H / 2;
 
     const BossClass = bossMap[bossType] || Boss;
     this.boss = new BossClass(startX, startY);
 
+    this.applyCanvasMode();
+
     // 2. Setup Player for flight mode
     // We use the global player instance but reset their position
-    this.player = sceneManager.player;
     this.player.x = 100;
     this.player.y = height / 2;
     this.player.velX = 0;
@@ -49,7 +55,13 @@ class BossScene {
     this.bossBullets = [];
   }
 
+  onExit() {
+    this.restoreFullCanvasMode();
+  }
+
   update() {
+    if (!this.player) return;
+
     if (this.player.hp <= 0) {
       this.resetScene();
       return; // Stop the rest of the update for this frame
@@ -195,18 +207,6 @@ class BossScene {
     fill(255, 0, 50);
     rect(width / 2 - barW / 2, 30, hpW, 15, 5);
 
-    // // 2. Player Health Bar (Bottom)
-    // let pBarW = 200;
-    // let pHpW = map(max(0, this.player.hp), 0, 100, 0, pBarW);
-    // fill(40, 200);
-    // rect(width / 2 - pBarW / 2, height - 30, pBarW, 12, 3);
-    // fill(0, 255, 100);
-    // rect(width / 2 - pBarW / 2, height - 30, pHpW, 12, 3);
-
-    // fill(255);
-    // textSize(12);
-    // textAlign(CENTER);
-    // text("KIRBY HP", width / 2, height - 35);
     this.statsBar.draw(this.player, shopState.coins, false);
   }
 
@@ -228,5 +228,51 @@ class BossScene {
 
     // Optional: If you used an 'isVictoryTriggered' flag, reset it too
     this.isVictoryTriggered = false;
+  }
+
+  /* =============================
+     DOM & Canvas Styling Methods
+     ============================= */
+
+  applyCanvasMode() {
+    resizeCanvas(this.CANVAS_W, this.CANVAS_H);
+    const body = document.body;
+    const c = document.querySelector("canvas");
+
+    body.style.display = "flex";
+    body.style.justifyContent = "center";
+    body.style.alignItems = "center";
+    body.style.background = "black";
+    body.style.overflow = "hidden";
+
+    if (c) {
+      c.style.width = this.CANVAS_W + "px";
+      c.style.height = this.CANVAS_H + "px";
+    }
+
+    this.canvasActive = true;
+  }
+
+  restoreFullCanvasMode() {
+    const body = document.body;
+    const c = document.querySelector("canvas");
+
+    body.style.display = "block";
+    body.style.background = "#111";
+    body.style.overflow = "";
+
+    if (c) {
+      c.style.width = "";
+      c.style.height = "";
+    }
+
+    resizeCanvas(window.innerWidth, window.innerHeight);
+    this.canvasActive = false;
+  }
+
+  handleResize() {
+    if (this.canvasActive) {
+      this.applyCanvasMode();
+    }
   }
 }
