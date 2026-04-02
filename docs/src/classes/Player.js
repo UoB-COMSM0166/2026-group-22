@@ -5,9 +5,9 @@ class Player extends Entity {
     // 1. super() calls the Entity/GameObject constructors
     // Passes: x, y, width, height
     super(
-      CONFIG.PLAYER.START_X, 
+      CONFIG.PLAYER.START_X,
       CONFIG.PLAYER.START_Y,
-      CONFIG.PLAYER.WIDTH, 
+      CONFIG.PLAYER.WIDTH,
       CONFIG.PLAYER.HEIGHT,
       CONFIG.PLAYER.HP,
       CONFIG.PLAYER.SPEED
@@ -30,7 +30,7 @@ class Player extends Entity {
     this.jumpCount = 0;
 
     // --- SKILL SYSTEM ---
-    this.hasSkill = false; 
+    this.hasSkill = false;
     this.currentSkill = CONFIG.SKILLS.NONE;
     this.skillTimer = 0; // Useful for tracking how long a boost lasts
     this.invincibilityTimer = 0; // 0 means "can be hit"
@@ -42,7 +42,7 @@ class Player extends Entity {
     this.applyPhysics(); // Inherited from Entity
 
     if (this.hasSkill && this.skillTimer > 0) {
-      this.skillTimer --; 
+      this.skillTimer--;
 
       if (this.skillTimer <= 0) {
         this.resetSkills();
@@ -80,7 +80,7 @@ class Player extends Entity {
   // Implementation of the abstract show() method
   show() {
     if (this.invincibilityTimer > 0 && frameCount % 10 < 5) {
-      return; 
+      return;
     }
 
     let frameImg
@@ -102,7 +102,7 @@ class Player extends Entity {
       drawingContext.shadowBlur = 20;
       drawingContext.shadowColor = 'yellow';
     }
-    
+
     if (this.isFacingLeft) scale(-1, 1);
     imageMode(CENTER);
     image(frameImg, 0, 0, this.w, this.h);
@@ -147,9 +147,9 @@ class Player extends Entity {
 
     this.hp -= amount;
     this.invincibilityTimer = 60; // 1 second of i-frames
-    
+
     // Apply Knockback: directionX is -1 (left) or 1 (right)
-    this.velX = directionX * 8; 
+    this.velX = directionX * 8;
     this.velY = -5;
 
     this.isGrounded = false;
@@ -188,6 +188,11 @@ class Player extends Entity {
   resetSkills() {
     if (this.currentSkill === CONFIG.SKILLS.JUMP) {
       this.lift /= 1.5;
+    } else if (this.currentSkill === CONFIG.SKILLS.SHRINK) {
+      this.w = CONFIG.PLAYER.WIDTH;
+      this.h = CONFIG.PLAYER.HEIGHT;
+      // 避免还原变大时脚底卡入地面，稍微把角色往上提一点
+      this.y -= (CONFIG.PLAYER.HEIGHT / 2);
     }
     this.hasSkill = false;
     this.currentSkill = CONFIG.SKILLS.NONE;

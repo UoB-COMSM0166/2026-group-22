@@ -29,12 +29,14 @@ const CONFIG = {
   SKILLS: {
     NONE: null,
     JUMP: "JUMP_BOOST",
+    SHRINK: "SHRINK",
     SPEED: "SPEED_BOOST",
     SHIELD: "INVINCIBILITY"
   },
 
   ITEM_TYPES: {
-    JUMP_BOOSTER: JumpBooster
+    JUMP_BOOSTER: JumpBooster,
+    SHRINK_POTION: ShrinkPotion
   },
 
   CONTROLS: {
