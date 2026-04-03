@@ -3,6 +3,10 @@ class World {
     this.player = player;
     this.cameraX = 0;
     this.cameraY = 0;
+    this.playerBullets = []; 
+    this.shootCooldown = 0;
+    this.player.worldReference = this; // 让玩家能找到世界
+    this.projectiles = [];
 
     const levelData = CONFIG.LEVELS[doorNumber - 1];
 
@@ -10,8 +14,10 @@ class World {
     this.width = levelData.worldWidth;
     this.height = levelData.worldHeight;
     this.groundThickness = CONFIG.WORLD.FLOOR_OFFSET;
-    this.spawnX = CONFIG.PLAYER.START_X;
-    this.spawnY = CONFIG.PLAYER.START_Y;
+    this.spawnX = levelData.spawnX || CONFIG.PLAYER.START_X;
+    this.spawnY = levelData.spawnY || CONFIG.PLAYER.START_Y;
+    this.player.x = this.spawnX;
+    this.player.y = this.spawnY;
     this.itemTypes = CONFIG.ITEM_TYPES;
     this.backgroundColor = [135, 206, 235];
     this.bgLayers = bgLayers;
@@ -26,6 +32,10 @@ class World {
 
     this.statsBar = new StatsBar();
   }
+
+  spawnArrow(x, y, vx, vy) {
+  this.projectiles.push(new Arrow(x, y, vx, vy));
+}
 
   setupLevel(data) {
     let currentX = data.startX;
@@ -48,6 +58,9 @@ class World {
         );
       } else if (p.isVanish) {
         platform = new VanishablePlatform(centerX, centerY, p.w, p.h);
+      } else if (p.isChainDrop) {
+        let targetY = this.height - p.dropAltitude - p.h / 2; // 计算下落目标在画布上的真实Y坐标
+        platform = new ChainPlatform(centerX, centerY, p.w, p.h, targetY);
       } else {
         platform = new Platform(centerX, centerY, p.w, p.h);
       }
@@ -95,8 +108,7 @@ class World {
     this.holes = data.holes.map(h => new Hole(h.startX, h.endX));
   }
 
-  update() {
-    // 1. Update the Player
+update() {
     this.player.update();
 
     for (let platform of this.platforms) {
@@ -109,69 +121,70 @@ class World {
       this.handleSolidCollision(this.player, platform);
     }
 
+    // 小怪逻辑
     for (let enemy of this.enemies) {
       enemy.update(this.platforms);
 
-      // Check for collision with Kirby
+      // 小怪碰到玩家
       if (this.player.intersects(enemy)) {
         this.handleEnemyCollision(this.player, enemy);
       }
-
-      // Check player-platform collision 
-      for (let platform of this.platforms) {
+        for (let platform of this.platforms) {
         this.handleSolidCollision(enemy, platform);
       }
     }
-for (let bullet of this.player.bullets) {
-  for (let enemy of this.enemies) {
-    if (!bullet.active || !enemy.active) continue;
 
-    if (this.bulletHitsEnemy(bullet, enemy)) {
-      enemy.takeDamage(bullet.damage);
-      bullet.active = false;
-    }
-  }
-}
-for (let bullet of this.player.bullets) {
-    if (!bullet.active) continue; // 跳过已经失效的子弹
+    // ==========================================
+    // 核心整合：抛物线弓箭的更新与碰撞检测（打锁链 + 打小怪）
+    // ==========================================
+    for (let i = this.projectiles.length - 1; i >= 0; i--) {
+      let arrow = this.projectiles[i];
+      arrow.update(); // 弓箭飞行并受重力影响
+      
+      // 1. 弓箭检测：是否射碎了锁链？
+      for (let plat of this.platforms) {
+        if (plat instanceof ChainPlatform && plat.state === 'IDLE') {
+          if (arrow.intersects(plat)) {
+            plat.triggerBreak(); // 击碎锁链！
+            arrow.active = false; // 弓箭消失
+          }
+        }
+      }
 
-    for (let enemy of this.enemies) {
-      if (!enemy.active) continue; // 跳过已经死亡的小怪
-
-      // 使用你已经写好的碰撞判定函数
-      if (this.bulletHitsEnemy(bullet, enemy)) {
-        // 1. 让小怪受伤
-        enemy.takeDamage(bullet.damage); 
-        
-        // 2. 让子弹消失
-        bullet.active = false; 
-        
-        console.log("击中小怪！");
+      // 2. 弓箭检测：是否射中了小怪？
+      if (arrow.active) {
+        for (let enemy of this.enemies) {
+          if (enemy.active && arrow.intersects(enemy)) {
+            enemy.takeDamage(10); // 造成伤害
+            arrow.active = false; // 弓箭消失
+            console.log("弓箭击中小怪！");
+          }
+        }
+      }
+      
+      // 清理掉失效的弓箭
+      if (!arrow.active) {
+        this.projectiles.splice(i, 1);
       }
     }
-  }
-    // Check Checkpoints
+    // ==========================================
+
+    // 检查点更新
     for (let cp of this.checkpoints) {
       if (cp.update(this.player)) {
-        // The moment Kirby touches a flag, this becomes the new respawn point
-        this.spawnX = cp.x;
-        // We spawn him slightly above (y - 10) so he doesn't get stuck in the floor
-        this.spawnY = cp.y - 10;
+          this.spawnX = cp.x;
+          this.spawnY = cp.y - 10;
       }
     }
 
-    // Update Coins
-    for (let coin of this.coins) {
+      for (let coin of this.coins) {
       coin.update(this.player);
     }
-
-    // update items
-    for (let item of this.items) {
+      for (let item of this.items) {
       item.update(this.player);
     }
 
-    // handle player hp
-    if (this.player.hp <= 0) {
+      if (this.player.hp <= 0) {
       this.resetPlayer();
     }
 
@@ -338,6 +351,7 @@ bulletHitsEnemy(bullet, enemy) {
 
     // Draw the Player
     this.player.show();
+    this.projectiles.forEach(p => p.show());
 
     pop();
 
@@ -381,7 +395,17 @@ bulletHitsEnemy(bullet, enemy) {
   }
 
   resetPlayer() {
+    // 1. 死亡瞬间，先偷偷记住卡比死前拿的是不是弓箭
+    let savedSkill = this.player.currentSkill;
+
+    // 2. 满血复活并重置坐标（注意：这步会自动清空所有技能）
     this.player.hp = 100;
     this.player.reset(this.spawnX, this.spawnY);
+
+    // 3. 如果死前拿着弓箭，复活后直接重新发给他！
+    if (savedSkill === CONFIG.SKILLS.BOW) {
+      this.player.hasSkill = true;
+      this.player.currentSkill = CONFIG.SKILLS.BOW;
+    }
   }
 }

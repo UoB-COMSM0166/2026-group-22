@@ -1,63 +1,135 @@
 // src/scenes/BossScene.js
 class BossScene {
   constructor() {
-    this.player = null; // Reference to the existing player
+    this.player = null; 
     this.boss = null;
     this.playerBullets = [];
     this.bossBullets = [];
 
+    this.projectiles = []; // 弓箭
+    this.platforms = [];   // 锁链机关
+
     this.statsBar = new StatsBar();
 
-    // Combat Settings
-    this.flySpeed = 6;
+     this.flySpeed = 6;
     this.shootCooldown = 10;
     this.currentCooldown = 0;
   }
 
+  spawnArrow(x, y, vx, vy) {
+    if (this.currentBossType === 'summoner') {
+      this.projectiles.push(new Arrow(x, y, vx, vy));
+    }
+  }
+
   onEnter(bossType) {
-    this.currentBossType = bossType;
-    // 1. Tell the global manager this is the active scene
-    // This allows the Boss/Minions to find playerBullets
+     this.currentBossType = bossType;
     sceneManager.currentScene = this;
 
     const bossMap = {
       'summoner': SummonerBoss,
       'regular': Boss,
-    };
-
-    // 1. Dynamic Boss Creation
-    const startX = width - 120;
-    const startY = height / 2;
-
+     };
+ 
     const BossClass = bossMap[bossType] || Boss;
-    this.boss = new BossClass(startX, startY);
-
-    // 2. Setup Player for flight mode
-    // We use the global player instance but reset their position
+    this.boss = new BossClass(width / 2, height / 2); 
+ 
     this.player = sceneManager.player;
-    this.player.x = 100;
-    this.player.y = height / 2;
-    this.player.velX = 0;
-    this.player.velY = 0;
+    this.player.hp = 100;               
+    this.player.active = true;          
+    this.player.invincibilityTimer = 0; 
+    this.player.worldReference = this; 
 
-    this.player.hp = 100;               // Restore HP to stop the reset loop
-    this.player.active = true;           // Reactivate the entity
-    this.player.invincibilityTimer = 0; // Stop the flashing immediately
-
-    // 3. Clear projectiles from previous attempts
     this.playerBullets = [];
     this.bossBullets = [];
+    this.projectiles = [];
+    this.platforms = [];
+
+    if (bossType === 'summoner') {
+      this.isPlatformerMode = true;
+      this.player.hasSkill = true;
+      this.player.currentSkill = CONFIG.SKILLS.BOW; 
+      
+      this.player.x = 150;
+      this.player.y = height / 2; 
+
+      // 【爽点1】：锁链增加到 8 个，排布更密集！宽度稍微调窄一点防拥挤
+      let pCount = 8;
+      let spacing = width / (pCount + 1);
+      for(let i = 1; i <= pCount; i++) {
+        this.platforms.push(new ChainPlatform(i * spacing, 80, 80, 30, height + 200));
+      }
+
+    } else {
+      this.isPlatformerMode = false;
+      this.player.resetSkills(); 
+      this.player.x = 100;
+      this.player.y = height / 2; 
+      this.boss.x = width - 120; 
+    }
   }
 
   update() {
     if (this.player.hp <= 0) {
       this.resetScene();
-      return; // Stop the rest of the update for this frame
+      return; 
     }
-    this.handlePlayerMovement();
-    this.handlePlayerShooting();
 
-    // Update Boss and catch attacks
+    if (this.isPlatformerMode) {
+      // 零重力飞行
+      let oldY = this.player.y;
+      this.player.update(); 
+      this.player.y = oldY; 
+      this.player.velY = 0; 
+
+      this.handlePlayerMovement();
+
+      // 更新锁链平台 & 检测是否砸中 Boss
+      for (let i = 0; i < this.platforms.length; i++) {
+        let p = this.platforms[i];
+        p.update();
+        
+        if (p.state === 'DROPPING' && !p.hasHitBoss && this.boss.intersects(p)) {
+          // 【爽点2】：砸中扣 100 血，总血量 300，精准三发入魂！
+          this.boss.takeDamage(100); 
+          p.hasHitBoss = true; 
+          console.log("天降正义！砸中 Boss！");
+        }
+
+        // 【爽点3】：无限弹药！掉出屏幕的锁链会在天花板自动重生！
+        if (p.y > height + 100) {
+          this.platforms[i] = new ChainPlatform(p.x, 80, 80, 30, height + 200);
+        }
+      }
+
+      // 更新弓箭碰撞
+      for (let i = this.projectiles.length - 1; i >= 0; i--) {
+        let arrow = this.projectiles[i];
+        arrow.update();
+
+        // 弓箭射断锁链
+        for (let p of this.platforms) {
+          if (p.state === 'IDLE' && arrow.intersects(p)) {
+            p.triggerBreak();
+            arrow.active = false;
+          }
+        }
+        
+        if (arrow.active && arrow.intersects(this.boss)) {
+          this.boss.takeDamage(15);
+          arrow.active = false;
+        }
+
+        if (!arrow.active || arrow.y > height) {
+          this.projectiles.splice(i, 1);
+        }
+      }
+
+    } else {
+      this.handlePlayerMovement();
+      this.handlePlayerShooting();
+    }
+ 
     let attack = this.boss.update();
     if (attack) {
       this.bossBullets.push(attack);
@@ -65,75 +137,65 @@ class BossScene {
 
     this.updateProjectiles();
     this.checkCollisions();
-
-    // If Boss dies, return to camp or go to victory screen
+ 
     if (this.boss.hp <= 0) {
       setTimeout(() => sceneManager.switch("camp"), 2000);
     }
   }
 
   handlePlayerMovement() {
-    // WASD or Arrow Keys for 8-way flying movement
-    if (keyIsDown(87) || keyIsDown(UP_ARROW)) this.player.y -= this.flySpeed;
+     if (keyIsDown(87) || keyIsDown(UP_ARROW)) this.player.y -= this.flySpeed;
     if (keyIsDown(83) || keyIsDown(DOWN_ARROW)) this.player.y += this.flySpeed;
     if (keyIsDown(65) || keyIsDown(LEFT_ARROW)) this.player.x -= this.flySpeed;
     if (keyIsDown(68) || keyIsDown(RIGHT_ARROW)) this.player.x += this.flySpeed;
-
-    // Keep player inside the screen boundaries
+ 
     this.player.x = constrain(this.player.x, 30, width - 30);
     this.player.y = constrain(this.player.y, 30, height - 30);
   }
 
   handlePlayerShooting() {
-    if (this.currentCooldown > 0) this.currentCooldown--;
-
-    // "J" Key to shoot stars
+     if (this.currentCooldown > 0) this.currentCooldown--;
     if (keyIsDown(74) && this.currentCooldown <= 0) {
-      let pb = new Bullet(
-        this.player.x + 20,
-        this.player.y,
-        12, 0,           // Fast movement right
-        15, 10,          // Size and damage
-        color(255, 255, 0)
-      );
+      let pb = new Bullet(this.player.x + 20, this.player.y, 12, 0, 15, 10, color(255, 255, 0));
       this.playerBullets.push(pb);
       this.currentCooldown = this.shootCooldown;
     }
   }
 
-  updateProjectiles() {
-    // Combine logic into a helper or keep loops separate for clarity
-    const bulletGroups = [this.playerBullets, this.bossBullets];
-
-    // Also clean up minion bullets if they exist
-    if (this.boss.minionBullets) bulletGroups.push(this.boss.minionBullets);
-
+   updateProjectiles() {
+     const bulletGroups = [this.playerBullets, this.bossBullets];
+     if (this.boss.minionBullets) bulletGroups.push(this.boss.minionBullets);
     bulletGroups.forEach(group => {
       for (let i = group.length - 1; i >= 0; i--) {
         group[i].update();
-
-        if (!group[i].active) { // Standardized cleanup flag
-          group.splice(i, 1);
-        }
+        if (!group[i].active) group.splice(i, 1);
       }
     });
   }
-
-  // --- COLLISION LAYER ---
-  checkCollisions() {
-    // 4. Resolve hits using built-in AABB intersects method
+ 
+   checkCollisions() {
     this.resolveHitGroup(this.playerBullets, this.boss, (b, boss) => boss.takeDamage(b.damage));
     this.resolveHitGroup(this.bossBullets, this.player, (b, p) => p.hp -= b.damage);
 
-    // 5. Minion-Specific Logic (Guard Clause)
-    if (this.boss.minions) {
-      // Minion Body vs Player (Touch Damage)
+      if (this.boss.minions) {
       this.resolveHitGroup(this.boss.minions, this.player, (m, p) => {
         const dir = (p.x < m.x) ? -1 : 1;
-        p.takeDamage(10, dir); //
+        p.takeDamage(10, dir); 
       });
 
-      // Player Bullets vs Minions
+      if (this.isPlatformerMode) {
+        this.projectiles.forEach((arrow) => {
+          if (!arrow.active) return;
+          this.boss.minions.some(m => {
+            if (m.active && arrow.intersects(m)) {
+              m.takeDamage(20);
+              arrow.active = false;
+              return true;
+            }
+          });
+        });
+      }
+
       this.playerBullets.forEach((pb, i) => {
         this.boss.minions.some(m => {
           if (pb.intersects(m)) {
@@ -144,89 +206,66 @@ class BossScene {
           }
         });
       });
-
-      // Minion Bullets vs Player
+ 
       if (this.boss.minionBullets) {
         this.resolveHitGroup(this.boss.minionBullets, this.player, (mb, p) => p.hp -= mb.damage);
       }
     }
   }
-
-  /**
-   * REUSABLE UTILITY: Professional many-to-one collision handler
-   */
+ 
   resolveHitGroup(projectiles, target, onHit) {
     for (let i = projectiles.length - 1; i >= 0; i--) {
       if (projectiles[i].intersects(target)) {
         onHit(projectiles[i], target);
-        projectiles[i].active = false; // Standardized cleanup
+        projectiles[i].active = false; 
         projectiles.splice(i, 1);
       }
     }
   }
 
   draw() {
-    this.update();
-    // Dark Space/Boss Background
+     this.update();
     background(20, 20, 60);
+
+    if (this.isPlatformerMode) {
+      this.platforms.forEach(p => p.show());
+      this.projectiles.forEach(p => p.show());
+    }
 
     this.boss.show();
     this.player.show();
 
-    // Draw Player's stars using the class method
-    for (let b of this.playerBullets) {
-      b.show();
-    }
-
-    // Draw Boss bullets using the class method
-    for (let b of this.bossBullets) {
-      b.show();
-    }
+    for (let b of this.playerBullets) b.show();
+    for (let b of this.bossBullets) b.show();
 
     this.drawUI();
   }
 
   drawUI() {
-    // 1. Boss Health Bar (Top)
-    let barW = 400;
+     let barW = 400;
     let hpW = map(max(0, this.boss.hp), 0, this.boss.maxHp, 0, barW);
+    
+    push();
+    rectMode(CORNER); 
     fill(40, 200);
     rect(width / 2 - barW / 2, 30, barW, 15, 5);
     fill(255, 0, 50);
     rect(width / 2 - barW / 2, 30, hpW, 15, 5);
+    pop();
 
-    // // 2. Player Health Bar (Bottom)
-    // let pBarW = 200;
-    // let pHpW = map(max(0, this.player.hp), 0, 100, 0, pBarW);
-    // fill(40, 200);
-    // rect(width / 2 - pBarW / 2, height - 30, pBarW, 12, 3);
-    // fill(0, 255, 100);
-    // rect(width / 2 - pBarW / 2, height - 30, pHpW, 12, 3);
-
-    // fill(255);
-    // textSize(12);
-    // textAlign(CENTER);
-    // text("KIRBY HP", width / 2, height - 35);
     this.statsBar.draw(this.player, shopState.coins, false);
   }
 
   keyPressed() {
-    if (keyCode === ESCAPE) {
-      // Clean up state before leaving
+     if (keyCode === ESCAPE) {
       this.playerBullets = [];
-      this.bossBullets = [];
-
+       this.bossBullets = [];
       sceneManager.switch("camp");
     }
   }
 
   resetScene() {
-    this.onEnter(this.currentBossType);
-
-    // 4. Reset shoot cooldown
-    this.currentCooldown = 0;
-
-    // Optional: If you used an 'isVictoryTriggered' flag, reset it too
-    this.isVictoryTriggered = false;
+     this.onEnter(this.currentBossType);
+     this.currentCooldown = 0;
   }
 }

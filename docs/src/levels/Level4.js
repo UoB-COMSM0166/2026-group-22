@@ -1,7 +1,106 @@
 CONFIG.LEVELS[3] = {
-  worldWidth: 2000, 
-  worldHeight: 800, 
-  platforms: [],
-  holes: [],
-  items: []
+  worldWidth: 15000, 
+  worldHeight: 1600, 
+  startX: 200,
+  
+  // 主角出生在开局的安全高台上 (高度 1000)
+  spawnX: 350, 
+  spawnY: 550, 
+  
+  platforms: [
+    // ==========================================
+    // 阶段一：高台神弓 -> 落地 -> 仰望第一锁链
+    // ==========================================
+    { gap: 0, altitude: 1000, w: 300, h: 20 }, // 出生高台拿弓
+    
+    { gap: 150, altitude: 800, w: 200, h: 20 }, // 往下跳，安稳落地
+    
+    // 高度差 350，视野绝佳，中高蓄力即可命中！
+    { gap: 200, altitude: 1000, w: 150, h: 20, isChainDrop: true, dropAltitude: 800 },
+    
+    { gap: 150, altitude: 800, w: 300, h: 20, hasEnemy: true },
+
+    // ==========================================
+    // 阶段二：混合跑酷 (消失 + 移动)
+    // ==========================================
+    { gap: 150, altitude: 800, w: 120, h: 20, isVanish: true }, // 踩了就跑
+    { gap: 120, altitude: 800, w: 120, h: 20, isMoving: true, rangeX: 100, rangeY: 0, speed: 0.03 }, // 接水平电梯
+    
+    { gap: 200, altitude: 800, w: 150, h: 20 }, // 固定的歇脚点
+    
+    { gap: 150, altitude: 850, w: 120, h: 20, isMoving: true, rangeX: 0, rangeY: 100, speed: 0.03 }, // 接垂直电梯
+    
+    // 第一个检查点！
+    { gap: 150, altitude: 850, w: 250, h: 20, hasCheckpoint: true, hasCoin: true },
+
+    // ==========================================
+    // 阶段三：混合大考 (消失 -> 固定狙击台 -> 锁链)
+    // ==========================================
+    // 连续踩两块消失平台跨越峡谷
+    { gap: 150, altitude: 850, w: 120, h: 20, isVanish: true },
+    { gap: 120, altitude: 850, w: 120, h: 20, isVanish: true },
+    
+    // 【点睛之笔】：一块安稳的“固定狙击台”，让你在这里从容拉弓！
+    { gap: 120, altitude: 850, w: 150, h: 20 }, 
+    
+    // 远处的靶子
+    { gap: 200, altitude: 1100, w: 150, h: 20, isChainDrop: true, dropAltitude: 850 }, 
+    
+    { gap: 150, altitude: 850, w: 200, h: 20, hasEnemy: true },
+
+    // ==========================================
+    // 阶段四：锁链连续阶梯 (向下俯冲)
+    // ==========================================
+    { gap: 150, altitude: 850, w: 150, h: 20 }, // 稳固起跳台
+    
+    { gap: 200, altitude: 1100, w: 120, h: 20, isChainDrop: true, dropAltitude: 750 },
+    { gap: 150, altitude: 1000, w: 120, h: 20, isChainDrop: true, dropAltitude: 650 },
+    
+    // 第二个检查点！
+    { gap: 150, altitude: 650, w: 250, h: 20, hasCheckpoint: true, hasCoin: true },
+
+    // ==========================================
+    // 阶段五：最后的移动连招
+    // ==========================================
+    { gap: 150, altitude: 650, w: 120, h: 20, isMoving: true, rangeX: 120, rangeY: 0, speed: 0.025 },
+    { gap: 180, altitude: 650, w: 120, h: 20, isMoving: true, rangeX: 0, rangeY: 100, speed: 0.025 },
+    { gap: 150, altitude: 750, w: 200, h: 20, hasEnemy: true },
+
+    // ==========================================
+    // 阶段六：【新增】黎明前的试炼 (难度微升！)
+    // ==========================================
+    // 1. 消失平台起跳，接一个速度稍微加快的水平移动平台 (需要一点预判)
+    { gap: 150, altitude: 750, w: 100, h: 20, isVanish: true },
+    { gap: 120, altitude: 750, w: 120, h: 20, isMoving: true, rangeX: 120, rangeY: 0, speed: 0.04 },
+    
+    // 2. 安稳落脚点，准备射击远处的“连环双锁链”
+    { gap: 150, altitude: 750, w: 180, h: 20 }, // 宽大的狙击台
+    { gap: 220, altitude: 900, w: 120, h: 20, isChainDrop: true, dropAltitude: 750 }, // 第一个锁链
+    { gap: 150, altitude: 900, w: 120, h: 20, isChainDrop: true, dropAltitude: 750 }, // 第二个锁链 (不用挪动位置，直接改蓄力力度连射！)
+    
+    // 3. 跨过自己搭的桥，迎接最后的三连极速消失跳！
+    { gap: 150, altitude: 750, w: 80, h: 20, isVanish: true },
+    { gap: 120, altitude: 750, w: 80, h: 20, isVanish: true },
+    { gap: 120, altitude: 750, w: 80, h: 20, isVanish: true },
+    // 阶段六：深渊坠落，决战前夕
+    // ==========================================
+    { gap: 150, altitude: 750, w: 80, h: 20, isVanish: true, hasCoin: true },
+    { gap: 120, altitude: 550, w: 80, h: 20, isVanish: true, hasCoin: true },
+    { gap: 120, altitude: 350, w: 80, h: 20, isVanish: true, hasCoin: true },
+    
+    { gap: 150, altitude: 150, w: 500, h: 20, hasCheckpoint: true, hasCoin: true }, 
+
+    // 最终 Boss 竞技场
+    { gap: 200, altitude: 0, w: 3000, h: 250, hasSummonerBoss: true } 
+  ],
+  holes: [
+    { startX: 200, endX: 15000 }
+  ],
+  items: [
+    // 开局道具：神弓在出生高台上等你
+    { type: "BOW_PICKUP", x: 420, y: 560 },
+    
+    // Boss 门前的补给
+    { type: "JUMP_BOOSTER", x: 10500, y: 1400 } 
+  ]
 };

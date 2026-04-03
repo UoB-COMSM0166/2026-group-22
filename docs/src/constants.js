@@ -29,12 +29,14 @@ const CONFIG = {
   SKILLS: {
     NONE: null,
     JUMP: "JUMP_BOOST",
+    BOW: "ARCHERY",
     SPEED: "SPEED_BOOST",
     SHIELD: "INVINCIBILITY"
   },
 
   ITEM_TYPES: {
-    JUMP_BOOSTER: JumpBooster
+    JUMP_BOOSTER: JumpBooster,
+    BOW_PICKUP: BowItem // 新增：弓箭道具
   },
 
   CONTROLS: {

@@ -34,17 +34,17 @@ class Player extends Entity {
     this.currentSkill = CONFIG.SKILLS.NONE;
     this.skillTimer = 0; // Useful for tracking how long a boost lasts
     this.invincibilityTimer = 0; // 0 means "can be hit"
+    this.isCharging = false; 
+    this.bowCharge = 0;
     this.bullets = [];
   }
 
-  // Implementation of the abstract update() method
-  update() {
-    this.move();         // Defined below
-    this.applyPhysics(); // Inherited from Entity
+update() {
+    this.move();         // 左右移动
+    this.applyPhysics(); // 应用重力（全场只能调用一次！）
 
     if (this.hasSkill && this.skillTimer > 0) {
-      this.skillTimer --; 
-
+      this.skillTimer--; 
       if (this.skillTimer <= 0) {
         this.resetSkills();
       }
@@ -53,13 +53,24 @@ class Player extends Entity {
     if (this.invincibilityTimer > 0) {
       this.invincibilityTimer--;
     }
-    // 更新子弹
-for (let bullet of this.bullets) {
-  bullet.update(); 
-}
 
-// 清理失效子弹
-this.bullets = this.bullets.filter(b => b.active);
+    // === J 键长按蓄力与松开发射逻辑 ===
+    if (this.currentSkill === CONFIG.SKILLS.BOW) {
+      if (keyIsDown(74)) { // 74 是 'J' 键
+        this.isCharging = true;
+        this.bowCharge += 0.6; // 蓄力速度
+        
+        // 最大力度上限拉高到 25
+        if (this.bowCharge > 25) {
+          this.bowCharge = 25; 
+        }
+      } else if (this.isCharging) {
+        // 松开 J 键时发射
+        this.fireArrow(this.bowCharge);
+        this.isCharging = false;
+        this.bowCharge = 0; // 重置蓄力
+      }
+    }
   }
 
   // Logic for horizontal movement and facing direction
@@ -80,14 +91,23 @@ this.bullets = this.bullets.filter(b => b.active);
   }
 
 handleKeyPress() {
-  if (keyCode === CONFIG.CONTROLS.JUMP) {
-    this.float();
+    if (keyCode === CONFIG.CONTROLS.JUMP) {
+      this.float();
+    }
   }
 
-  if (keyCode === 75) { // K键射击
-    this.shoot();
+// 修改：接收力度参数，动态计算抛物线
+  fireArrow(power) {
+    let dir = this.isFacingLeft ? -1 : 1;
+    
+    // 【修改】：提高基础速度，配合超高上限的蓄力
+    let vx = (8 + power) * dir; // 水平飞得更远 (基础从 6 改成了 8)
+    let vy = -5 - (power * 0.8); // 垂直飞得更高 (基础从 -4 改成了 -5)
+
+    if (this.worldReference) {
+      this.worldReference.spawnArrow(this.x, this.y, vx, vy);
+    }
   }
-}
 
   shoot() {
   let dir = this.isFacingLeft ? -1 : 1;
@@ -133,6 +153,14 @@ handleKeyPress() {
     if (this.isFacingLeft) scale(-1, 1);
     imageMode(CENTER);
     image(frameImg, 0, 0, this.w, this.h);
+    if (this.isCharging) {
+      stroke(255, 50, 50); // 红色瞄准线
+      strokeWeight(3);
+      // 根据蓄力大小画一条延展的线，模拟抛物线方向
+      let aimX = 10 + this.bowCharge * 2; 
+      let aimY = -10 - this.bowCharge * 1.5;
+      line(0, 0, aimX, aimY);
+    }
     pop();
     // 画子弹
 for (let bullet of this.bullets) {
