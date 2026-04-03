@@ -272,7 +272,7 @@ class World {
 
     // 3. If he falls off the bottom of the world, reset him (or kill him)
     if (p.top > this.height) {
-      this.resetPlayer();
+      this.respawnPlayer();
     }
 
     player.x = constrain(player.x, player.w / 2, this.width - player.w / 2);
@@ -359,8 +359,14 @@ class World {
     rect(currentX, groundY, this.width - currentX, this.groundThickness);
   }
 
-  resetPlayer() {
-    this.player.hp = 100;
+  respawnPlayer() {
+    this.player.hp -= 20;
     this.player.reset(this.spawnX, this.spawnY);
+  }
+
+  resetPlayer() {
+    // loss one heart
+    this.player.hp = 100;
+    this.player.reset(CONFIG.PLAYER.START_X, CONFIG.PLAYER.START_Y);
   }
 }
