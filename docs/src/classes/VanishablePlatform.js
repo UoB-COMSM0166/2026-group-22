@@ -1,7 +1,7 @@
 // src/classes/VanishablePlatform.js
 class VanishablePlatform extends Platform {
-  constructor(x, y, w, h) {
-    super(x, y, w, h);
+  constructor(x, y, w, h, img) {
+    super(x, y, w, h, img);
     this.originalColor = [200, 100, 100]; // Pink/Red warning color
     this.color = [...this.originalColor, 255]; // [R, G, B, Alpha]
     

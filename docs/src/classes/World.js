@@ -1,5 +1,5 @@
 class World {
-  constructor(player, doorNumber, bgLayers) {
+  constructor(player, doorNumber, bgLayers, worldAssets) {
     this.player = player;
     this.cameraX = 0;
     this.cameraY = 0;
@@ -15,6 +15,9 @@ class World {
     this.itemTypes = CONFIG.ITEM_TYPES;
     this.backgroundColor = [135, 206, 235];
     this.bgLayers = bgLayers;
+
+    this.worldAssets = worldAssets;
+    this.platformTile = worldAssets.platformTile;
 
     this.enemies = [];
     this.platforms = [];
@@ -38,18 +41,14 @@ class World {
 
       // 1. Declare the variable first
       let platform;
-      if (p.vanish === true) {
-        platform = new DisappearingPlatform(centerX, centerY, p.w, p.h);
-
-        // 2. Assign the instance to the variable instead of pushing immediately
-      } else if (p.isMoving) {
+      if (p.isMoving) {
         platform = new MovingPlatform(
-          centerX, centerY, p.w, p.h, p.rangeX, p.rangeY, p.speed
+          centerX, centerY, p.w, p.h, this.platformTile, p.rangeX, p.rangeY, p.speed
         );
       } else if (p.isVanish) {
-        platform = new VanishablePlatform(centerX, centerY, p.w, p.h);
+        platform = new VanishablePlatform(centerX, centerY, p.w, p.h, this.platformTile);
       } else {
-        platform = new Platform(centerX, centerY, p.w, p.h);
+        platform = new Platform(centerX, centerY, p.w, p.h, this.platformTile);
       }
 
       platform.removesSkill = p.removesSkill || false;
@@ -209,14 +208,16 @@ class World {
           // Switch to the separate scene you created
           sceneManager.switch("boss", {
             bossType: "regular",
-            bgLayers: this.bgLayers
+            bgLayers: this.bgLayers,
+            worldAssets: this.worldAssets
           });
         }
 
         if (platform.hasSummonerBoss) {
           sceneManager.switch("boss", {
             bossType: "summoner",
-            bgLayers: this.bgLayers
+            bgLayers: this.bgLayers,
+            worldAssets: this.worldAssets
           });
         }
       }

@@ -19,17 +19,18 @@ class BossScene {
   }
 
   onEnter(data) {
-    const { bossType, bgLayers } = data;
+    const { bossType, bgLayers, worldAssets } = data;
 
     this.player = sceneManager.player;
     this.currentBossType = bossType;
     this.bgLayers = bgLayers;
+    this.worldAssets = worldAssets;
     // 1. Tell the global manager this is the active scene
     // This allows the Boss/Minions to find playerBullets
     sceneManager.currentScene = this;
 
     const arenaLevelIndex = 5;
-    this.world = new World(this.player, arenaLevelIndex, this.bgLayers);
+    this.world = new World(this.player, arenaLevelIndex, this.bgLayers, this.worldAssets);
 
     const bossMap = {
       'summoner': SummonerBoss,
@@ -218,7 +219,8 @@ class BossScene {
   resetScene() {
     this.onEnter({
       bossType: this.currentBossType,
-      bgLayers: this.bgLayers
+      bgLayers: this.bgLayers,
+      worldAssets: this.worldAssets
     });
 
     // 4. Reset shoot cooldown

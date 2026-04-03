@@ -16,6 +16,10 @@ class LevelScene {
       jump: null,
     };
 
+    this.worldAssets = {
+      platformTile: null
+    };
+
     this.bgLayers = {
       far: null,
       mid: null,
@@ -27,6 +31,7 @@ class LevelScene {
     this.assets.idle = loadImage("./assets/kirby_idle.png");
     this.assets.walk = loadImage("./assets/kirby_move.png");
     this.assets.jump = loadImage("./assets/kirby_jump.png");
+    this.worldAssets.platformTile = loadImage("./assets/platform_tile.png")
 
     this.levelBackgrounds = CONFIG.LEVELS.map(level => {
       if (!level.backgrounds) return null;
@@ -70,7 +75,7 @@ class LevelScene {
 
     sceneManager.player = this.player;
 
-    this.world = new World(this.player, this.doorNumber, this.bgLayers);
+    this.world = new World(this.player, this.doorNumber, this.bgLayers , this.worldAssets);
 
     console.log("[LevelScene] World built for door:", doorNumber);
   }

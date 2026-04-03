@@ -1,7 +1,7 @@
 // src/classes/MovingPlatform.js
 class MovingPlatform extends Platform {
-  constructor(x, y, w, h, rangeX = 100, rangeY = 0, speed = 0.02) {
-    super(x, y, w, h);
+  constructor(x, y, w, h, img, rangeX = 100, rangeY = 0, speed = 0.02) {
+    super(x, y, w, h, img);
     this.color = [155, 89, 182];
     this.startX = x;
     this.startY = y;
