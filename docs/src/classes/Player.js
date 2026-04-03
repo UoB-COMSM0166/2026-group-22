@@ -17,6 +17,9 @@ class Player extends Entity {
     this.walkFrame = walk;
     this.jumpFrame = jump;
 
+    this.isInhaling = false;
+    this.inhaleRange = 250;
+
     // 2. Override Entity defaults with Player-specific values
     this.gravity = CONFIG.WORLD.GRAVITY;
     this.lift = CONFIG.PLAYER.LIFT;
@@ -38,6 +41,8 @@ class Player extends Entity {
 
   // Implementation of the abstract update() method
   update() {
+    this.isInhaling = keyIsDown(75);
+
     this.move();         // Defined below
     this.applyPhysics(); // Inherited from Entity
 
@@ -83,8 +88,11 @@ class Player extends Entity {
       return;
     }
 
-    let frameImg
+    if (this.isInhaling) {
+      this.drawInhaleEffect();
+    }
 
+    let frameImg
     if (!this.isGrounded) {
       frameImg = this.jumpFrame;
     } else if (this.isMoving()) {
@@ -106,6 +114,22 @@ class Player extends Entity {
     if (this.isFacingLeft) scale(-1, 1);
     imageMode(CENTER);
     image(frameImg, 0, 0, this.w, this.h);
+    pop();
+  }
+
+  // Helper method to keep show() clean
+  drawInhaleEffect() {
+    push();
+    fill(255, 255, 255, 80); // Semi-transparent white
+    noStroke();
+
+    // Draw suction cone in the direction Kirby is facing
+    let dir = this.isFacingLeft ? -1 : 1;
+    let startAngle = this.isFacingLeft ? PI - QUARTER_PI : -QUARTER_PI;
+    let endAngle = this.isFacingLeft ? PI + QUARTER_PI : QUARTER_PI;
+
+    // Center the arc at Kirby's mouth/front
+    arc(this.x + (15 * dir), this.y, 120, 100, startAngle, endAngle);
     pop();
   }
 
@@ -187,7 +211,7 @@ class Player extends Entity {
 
   resetSkills() {
     if (this.currentSkill === CONFIG.SKILLS.JUMP) {
-      this.lift /= 1.5;
+      this.lift = CONFIG.PLAYER.LIFT;
     } else if (this.currentSkill === CONFIG.SKILLS.SHRINK) {
       this.w = CONFIG.PLAYER.WIDTH;
       this.h = CONFIG.PLAYER.HEIGHT;

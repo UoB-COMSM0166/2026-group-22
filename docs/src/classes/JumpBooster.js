@@ -2,6 +2,10 @@
 class JumpBooster extends Collectable {
   constructor(x, y) {
     super(x, y, 35, 35);
+
+    this.isInhaleable = true;
+    this.isTouchCollectable = false;
+
     this.boostAmount = 1.5;
     this.boostTimer = 300;
     this.respawnTimer = 120;
