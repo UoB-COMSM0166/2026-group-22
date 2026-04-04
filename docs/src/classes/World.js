@@ -304,17 +304,9 @@ class World {
 
   handleEnemyCollision(player, enemy) {
     if (!player.active || !enemy.active) return;
-    // Check if Kirby is "Stomping"
-    const isStomping = player.velY > 0 && player.y < enemy.y - enemy.h / 2;
-
-    if (isStomping) {
-      enemy.die();
-      player.velY = -5;
-    } else {
-      // Kirby got hit: calculate direction (-1 or 1)
-      const dir = (player.x < enemy.x) ? -1 : 1;
-      player.takeDamage(10, dir); // Delegate to Player
-    }
+    // Kirby got hit: calculate direction (-1 or 1)
+    const dir = (player.x < enemy.x) ? -1 : 1;
+    player.takeDamage(10, dir); // Delegate to Player
   }
 
   handleWorldBoundaries(player) {
