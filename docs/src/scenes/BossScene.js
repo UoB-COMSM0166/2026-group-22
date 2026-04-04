@@ -4,18 +4,12 @@ class BossScene {
     this.player = null; // Reference to the existing player
     this.boss = null;
     this.world = null;
-    this.playerBullets = [];
     this.bossBullets = [];
     this.canvasActive = false;
-
     this.statsBar = new StatsBar();
 
     this.CANVAS_W = CONFIG.WORLD.CANVAS_WIDTH;
     this.CANVAS_H = CONFIG.WORLD.CANVAS_HEIGHT;
-
-    // Combat Settings
-    this.shootCooldown = 15;
-    this.currentCooldown = 0;
   }
 
   onEnter(data) {
@@ -52,13 +46,10 @@ class BossScene {
     this.player.y = this.CANVAS_H - 150;
     this.player.velX = 0;
     this.player.velY = 0;
-
     this.player.hp = 100;               // Restore HP to stop the reset loop
     this.player.active = true;           // Reactivate the entity
     this.player.invincibilityTimer = 0; // Stop the flashing immediately
 
-    // 3. Clear projectiles from previous attempts
-    this.playerBullets = [];
     this.bossBullets = [];
   }
 
@@ -75,7 +66,6 @@ class BossScene {
     }
 
     this.world.update();
-    this.handlePlayerShooting();
 
     // Update Boss and catch attacks
     let attack = this.boss.update();
@@ -83,7 +73,7 @@ class BossScene {
       this.bossBullets.push(attack);
     }
 
-    this.updateProjectiles();
+    this.updateBossProjectiles();
     this.checkCollisions();
 
     // If Boss dies, return to camp or go to victory screen
@@ -92,73 +82,44 @@ class BossScene {
     }
   }
 
-  handlePlayerShooting() {
-    if (this.currentCooldown > 0) this.currentCooldown--;
+  updateBossProjectiles() {
+    // Only handle boss and minion bullets here
+    const groups = [this.bossBullets];
+    if (this.boss.minionBullets) groups.push(this.boss.minionBullets);
 
-    // "J" Key to shoot stars
-    if (keyIsDown(74) && this.currentCooldown <= 0) {
-      // Shoot in the direction player is facing
-      let dir = this.player.isFacingLeft ? -1 : 1;
-      let pb = new Bullet(
-        this.player.x + (20 * dir),
-        this.player.y,
-        12 * dir, 0,     // Fast movement right
-        15, 10,          // Size and damage
-        color(255, 255, 0)
-      );
-      this.playerBullets.push(pb);
-      this.currentCooldown = this.shootCooldown;
-    }
-  }
-
-  updateProjectiles() {
-    // Combine logic into a helper or keep loops separate for clarity
-    const bulletGroups = [this.playerBullets, this.bossBullets];
-
-    // Also clean up minion bullets if they exist
-    if (this.boss.minionBullets) bulletGroups.push(this.boss.minionBullets);
-
-    bulletGroups.forEach(group => {
+    groups.forEach(group => {
       for (let i = group.length - 1; i >= 0; i--) {
         group[i].update();
-
-        if (!group[i].active) { // Standardized cleanup flag
-          group.splice(i, 1);
-        }
+        if (!group[i].active) group.splice(i, 1);
       }
     });
   }
 
   // --- COLLISION LAYER ---
   checkCollisions() {
-    // 4. Resolve hits using built-in AABB intersects method
-    this.resolveHitGroup(this.playerBullets, this.boss, (b, boss) => boss.takeDamage(b.damage));
+    // 6. FIX: Use this.world.playerBullets for boss hits
+    this.resolveHitGroup(this.world.playerBullets, this.boss, (b, boss) => boss.takeDamage(b.damage));
+
+    // Boss bullets hit player
     this.resolveHitGroup(this.bossBullets, this.player, (b, p) => p.hp -= b.damage);
 
-    // 5. Minion-Specific Logic (Guard Clause)
+    // Minion collisions
     if (this.boss.minions) {
-      // Minion Body vs Player (Touch Damage)
       this.resolveHitGroup(this.boss.minions, this.player, (m, p) => {
         const dir = (p.x < m.x) ? -1 : 1;
-        p.takeDamage(10, dir); //
+        p.takeDamage(10, dir);
       });
 
-      // Player Bullets vs Minions
-      this.playerBullets.forEach((pb, i) => {
+      // Player Bullets (from World) vs Minions
+      this.world.playerBullets.forEach((pb, i) => {
         this.boss.minions.some(m => {
           if (pb.intersects(m)) {
             m.takeDamage(pb.damage);
             pb.active = false;
-            this.playerBullets.splice(i, 1);
             return true;
           }
         });
       });
-
-      // Minion Bullets vs Player
-      if (this.boss.minionBullets) {
-        this.resolveHitGroup(this.boss.minionBullets, this.player, (mb, p) => p.hp -= mb.damage);
-      }
     }
   }
 
@@ -177,13 +138,11 @@ class BossScene {
 
   draw() {
     this.update();
-
     this.world.show();
 
     push();
     translate(-this.world.cameraX, -this.world.cameraY);
     this.boss.show();
-    for (let b of this.playerBullets) b.show();
     for (let b of this.bossBullets) b.show();
     pop();
 
@@ -222,9 +181,6 @@ class BossScene {
       bgLayers: this.bgLayers,
       worldAssets: this.worldAssets
     });
-
-    // 4. Reset shoot cooldown
-    this.currentCooldown = 0;
 
     // Optional: If you used an 'isVictoryTriggered' flag, reset it too
     this.isVictoryTriggered = false;

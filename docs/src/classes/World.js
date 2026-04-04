@@ -28,7 +28,9 @@ class World {
     this.checkpoints = [];
     this.setupLevel(levelData);
 
-    this.statsBar = new StatsBar();
+    this.statsBar = new StatsBar()
+
+    this.playerBullets = [];
   }
 
   setupLevel(data) {
@@ -84,7 +86,7 @@ class World {
 
       // place enemy
       if (p.hasEnemy) {
-        this.enemies.push(new Enemy(centerX, centerY - 100, 40, 40, 10, 2)); // temporaries
+        this.enemies.push(new Enemy(centerX, centerY - 100, 40, 40, 100, 2)); // temporaries
       }
 
       if (p.hasCheckpoint) {
@@ -114,6 +116,8 @@ class World {
   update() {
     // 1. Update the Player
     this.player.update();
+    this.handlePlayerShooting(); // Check for 'J' key
+    this.updateProjectiles();
 
     for (let platform of this.platforms) {
       platform.update();
@@ -133,7 +137,6 @@ class World {
         this.handleEnemyCollision(this.player, enemy);
       }
 
-      // Check player-platform collision 
       for (let platform of this.platforms) {
         this.handleSolidCollision(enemy, platform);
       }
@@ -172,6 +175,8 @@ class World {
       this.items = this.items.filter(c => c.active || c.shouldRespawn);
     }
 
+    this.checkProjectileCollisions();
+
     this.player.animate();
     this.updateCamera();
   }
@@ -188,6 +193,43 @@ class World {
     // Constrain it so we don't show the "void" above or below the map
     // 0 is the top of your world, this.height is the bottom
     this.cameraY = constrain(this.cameraY, 0, this.height - height);
+  }
+
+  handlePlayerShooting() {
+    // If 'J' is pressed and cooldown is ready
+    if (keyIsDown(74) && this.player.currentCooldown <= 0) {
+      let dir = this.player.isFacingLeft ? -1 : 1;
+      let pb = new Bullet(
+        this.player.x + (20 * dir),
+        this.player.y,
+        12 * dir, 0,     // Speed
+        15, 10,          // Size, Damage
+        color(255, 255, 0)
+      );
+      this.playerBullets.push(pb);
+      this.player.currentCooldown = this.player.shootCooldown;
+    }
+  }
+
+  updateProjectiles() {
+    for (let i = this.playerBullets.length - 1; i >= 0; i--) {
+      this.playerBullets[i].update();
+      if (!this.playerBullets[i].active) {
+        this.playerBullets.splice(i, 1);
+      }
+    }
+  }
+
+  checkProjectileCollisions() {
+    // Check Player Bullets vs Regular Enemies
+    for (let bullet of this.playerBullets) {
+      for (let enemy of this.enemies) {
+        if (enemy.active && bullet.intersects(enemy)) {
+          enemy.takeDamage(bullet.damage);
+          bullet.active = false;
+        }
+      }
+    }
   }
 
   handleSolidCollision(entity, platform) {
@@ -332,6 +374,8 @@ class World {
     this.items.forEach(item => item.show());
 
     this.enemies.forEach(e => e.show());
+
+    this.playerBullets.forEach(b => b.show());
 
     // Draw the Player
     this.player.show();

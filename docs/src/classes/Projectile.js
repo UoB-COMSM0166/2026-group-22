@@ -4,15 +4,19 @@ class Projectile extends GameObject {
     super(x, y, w, h);
     this.vx = vx; // Velocity X
     this.vy = vy; // Velocity Y
+
+    this.startX = x;       // Record birth position
+    this.startY = y;
+    this.maxRange = 1000;  // Maximum travel distance in pixels
   }
 
   update() {
     this.x += this.vx;
     this.y += this.vy;
 
-    // Standard off-screen cleanup
-    if (this.x < -100 || this.x > width + 100 ||
-      this.y < -100 || this.y > height + 100) {
+    let distanceTraveled = dist(this.startX, this.startY, this.x, this.y);
+
+    if (distanceTraveled > this.maxRange) {
       this.active = false;
     }
   }

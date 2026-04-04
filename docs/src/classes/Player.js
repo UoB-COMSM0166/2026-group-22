@@ -44,6 +44,9 @@ class Player extends Entity {
     this.bubbleStepTimer = 0;
     this.bubbleStepMax = 160;
     this.bubbleDamageCooldown = 0;
+
+    this.shootCooldown = 15;
+    this.currentCooldown = 0;
   }
 
   // Implementation of the abstract update() method
@@ -66,6 +69,8 @@ class Player extends Entity {
     if (this.invincibilityTimer > 0) {
       this.invincibilityTimer--;
     }
+
+    if (this.currentCooldown > 0) this.currentCooldown--;
   }
 
   // Logic for horizontal movement and facing direction
