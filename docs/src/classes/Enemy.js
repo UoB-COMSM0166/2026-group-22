@@ -32,7 +32,7 @@ class Enemy extends Entity {
     if (this.invincibilityTimer > 0) return;
 
     this.hp -= amount;
-    this.invincibilityTimer = 10; // 0.5 seconds of invincibility
+    this.invincibilityTimer = 20;
   }
 
   checkPlatformEdges(platforms) {
@@ -58,6 +58,10 @@ class Enemy extends Entity {
 
   show() {
     if (!this.active) return;
+
+    if (this.invincibilityTimer > 0 && frameCount % 10 < 5) {
+      return; // Don't draw the enemy for these frames
+    }
 
     push();
     translate(this.x, this.y);

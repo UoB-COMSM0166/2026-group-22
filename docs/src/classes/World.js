@@ -86,7 +86,7 @@ class World {
 
       // place enemy
       if (p.hasEnemy) {
-        this.enemies.push(new Enemy(centerX, centerY - 100, 40, 40, 100, 2)); // temporaries
+        this.enemies.push(new Enemy(centerX, centerY - 100, 40, 40, 50, 2)); // temporaries
       }
 
       if (p.hasCheckpoint) {
