@@ -1,15 +1,61 @@
 class BubbleItem extends Collectable {
   constructor(x, y) {
-    super(x, y, 24, 24);
+    super(x, y, 20, 20);
+
+    this.boostTimer = 300;
+    this.respawnTimer = 120;
+    this.shouldRespawn = true;
   }
 
-  update(player) {
-    if (!this.active) return;
+  // Refills the player's air
+  onCollect(player) {
+    player.bubbleCount = min(5, player.bubbleCount + 1);
+    player.bubbleStepTimer = player.bubbleStepMax;
+  }
 
-    if (this.intersects(player)) {
-      player.activateBubble();
-      this.active = false;
+  // --- STATIC LOGIC (The "Brain" of the Bubble System) ---
+
+  /**
+   * Handles the countdown and drowning damage
+   */
+  static updateSurvival(player) {
+    if (!player.bubbleMode) return;
+
+    if (player.bubbleCount > 0) {
+      player.bubbleStepTimer--;
+
+      if (player.bubbleStepTimer <= 0) {
+        player.bubbleCount--;
+        player.bubbleStepTimer = (player.bubbleCount > 0) ? player.bubbleStepMax : 0;
+      }
+    } else {
+      // Drowning logic: Take damage if out of air
+      if (player.bubbleDamageCooldown > 0) {
+        player.bubbleDamageCooldown--;
+      } else {
+        player.hp = max(0, player.hp - 5);
+        player.bubbleDamageCooldown = 60; // Damage every 1 second
+      }
     }
+  }
+
+  /**
+   * Draws the bubbles floating above Kirby's head
+   */
+  static drawUI(player) {
+    if (!player.bubbleMode || player.bubbleCount <= 0) return;
+
+    push();
+    for (let i = 0; i < player.bubbleCount; i++) {
+      fill(180, 220, 255, 200);
+      stroke(255);
+      strokeWeight(2);
+      // Offset so bubbles are centered above Kirby
+      let xPos = player.x - (10 * (player.bubbleCount - 1)) + (i * 20);
+      let yPos = player.y - player.h / 2 - 25;
+      ellipse(xPos, yPos, 12, 12);
+    }
+    pop();
   }
 
   show() {

@@ -39,11 +39,11 @@ class Player extends Entity {
     this.invincibilityTimer = 0; // 0 means "can be hit"
 
     // --- BUBBLE SYSTEM ---
+    this.bubbleMode = false;
     this.bubbleCount = 0;
     this.bubbleStepTimer = 0;
     this.bubbleStepMax = 160;
     this.bubbleDamageCooldown = 0;
-    this.bubbleMode = false;
   }
 
   // Implementation of the abstract update() method
@@ -60,39 +60,11 @@ class Player extends Entity {
         this.resetSkills();
       }
     }
-      
+
+    BubbleItem.updateSurvival(this);
+
     if (this.invincibilityTimer > 0) {
       this.invincibilityTimer--;
-    }
-
-      // Bubble timer logic 
-    if (this.bubbleMode) {
-      if (this.bubbleCount > 0) {
-        this.bubbleStepTimer--;
-
-        if (this.bubbleStepTimer <= 0) {
-          this.bubbleCount--;
-
-          if (this.bubbleCount > 0) {
-            this.bubbleStepTimer = this.bubbleStepMax;
-          } else {
-            this.bubbleStepTimer = 0;
-          }
-        }
-      } else {
-        // only bubble in level 2
-        if (this.bubbleDamageCooldown > 0) {
-          this.bubbleDamageCooldown--;
-        } else {
-          this.hp = max(0, this.hp - 5);
-          this.bubbleDamageCooldown = 60;
-        }
-      }
-    } else {
-      // in other levels
-      this.bubbleCount = 0;
-      this.bubbleStepTimer = 0;
-      this.bubbleDamageCooldown = 0;
     }
   }
 
@@ -153,16 +125,7 @@ class Player extends Entity {
     image(frameImg, 0, 0, this.w, this.h);
     pop();
 
-    // draw bubbles above player
-    if (this.bubbleMode) {
-      for (let i = 0; i < this.bubbleCount; i++) {
-        fill(180, 220, 255, 220);
-        stroke(255);
-        strokeWeight(2);
-        ellipse(this.x - 18 + i * 18, this.y - this.h / 2 - 25, 12, 12);
-      }
-      noStroke();
-    }
+    BubbleItem.drawUI(this);
   }
 
   // Helper method to keep show() clean
@@ -269,17 +232,22 @@ class Player extends Entity {
     }
     this.hasSkill = false;
     this.currentSkill = CONFIG.SKILLS.NONE;
-    this.skillTimer = 0;  
+    this.skillTimer = 0;
   }
-  activateBubble() {
-    this.bubbleCount = 3;
+
+  activateBubble(count = 3) {
+    this.bubbleCount = count;
     this.bubbleStepTimer = this.bubbleStepMax;
     this.bubbleDamageCooldown = 0;
   }
 
   resetBubbleState() {
-    this.bubbleCount = 0;
-    this.bubbleStepTimer = 0;
-    this.bubbleDamageCooldown = 0;
+    if (this.bubbleMode) {
+      this.activateBubble(3);
+    } else {
+      this.bubbleCount = 0;
+      this.bubbleStepTimer = 0;
+      this.bubbleDamageCooldown = 0;
+    }
   }
 }

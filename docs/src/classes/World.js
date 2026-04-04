@@ -32,6 +32,14 @@ class World {
   }
 
   setupLevel(data) {
+    if (data.bubbleMode) {
+      this.player.bubbleMode = true;
+      this.player.activateBubble(3); // Start with 3 bubbles
+    } else {
+      this.player.bubbleMode = false;
+      this.player.resetBubbleState(); // Ensure they are cleared for other levels
+    }
+
     let currentX = data.startX;
 
     // place platforms
@@ -100,7 +108,7 @@ class World {
 
     // place holes
     this.holes = data.holes.map(h => new Hole(h.startX, h.endX));
-    
+
   }
 
   update() {
@@ -372,10 +380,6 @@ class World {
   respawnPlayer() {
     this.player.hp -= 20;
     this.player.reset(this.spawnX, this.spawnY);
-
-    if (this.player.resetBubbleState) {
-      this.player.resetBubbleState();
-    }
   }
 
   resetPlayer() {
