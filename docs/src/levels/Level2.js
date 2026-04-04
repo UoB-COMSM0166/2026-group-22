@@ -1,8 +1,95 @@
 CONFIG.LEVELS[1] = {
-  worldWidth: 2000, 
+  worldWidth: 6300,
   worldHeight: 800,
   startX: 300,
-  platforms: [],
-  holes: [],
-  items: []
+  bubbleMode: true,
+
+  platforms: [
+    // a series of coins on one a long platform
+    { gap: 100, altitude: 100, w: 250, h: 20, coins: [-80, 0, 80],hasCheckpoint: true },
+    { gap: 150, altitude: 160, w: 300, h: 20, coins: [-80, 40],hasCheckpoint: true },
+    // a series of vanish platforms
+    { gap: 150, altitude: 220, w: 100, h: 20, isVanish: true, hasCoin: true,hasCheckpoint: true },
+    { gap: 90, altitude: 270, w: 100, h: 20, isVanish: true, hasCoin: true,hasCheckpoint: true },
+    { gap: 90, altitude: 320, w: 100, h: 20, isVanish: true, hasCoin: true,hasCheckpoint: true },
+    { gap: 90, altitude: 370, w: 100, h: 20, isVanish: true, hasCoin: true,hasCheckpoint: true },
+
+    // a series of enemy platforms
+    { gap: 100, altitude: 260, w: 130, h: 20, hasEnemy: true,hasCheckpoint: true },
+    { gap: 90, altitude: 320, w: 120, h: 20, hasEnemy: true,hasCheckpoint: true },
+    { gap: 100, altitude: 280, w: 140, h: 20, hasEnemy: true,hasCheckpoint: true },
+    { gap: 90, altitude: 360, w: 90, h: 20, hasEnemy: true,hasCheckpoint: true },
+    { gap: 70, altitude: 310, w: 130, h: 20, isVanish: true, hasEnemy: true,hasCheckpoint: true },
+    { gap: 70, altitude: 380, w: 90, h: 20,hasCheckpoint: true },
+
+    // moving platforms 
+    {
+      gap: 150,
+      altitude: 400,
+      w: 110,
+      h: 20,
+      isMoving: true,
+      rangeX: 60,
+      rangeY: 0,
+      speed: 0.04,
+      isVanish: true,
+      hasEnemy: true,
+      hasCheckpoint: true
+    },
+
+    {
+      gap: 150,
+      altitude: 340,
+      w: 110,
+      h: 20,
+      isMoving: true,
+      rangeX: 60,
+      rangeY: 0,
+      speed: 0.04,
+      isVanish: true,
+      hasEnemy: true,
+      hasCheckpoint: true
+    },
+
+    {
+      gap: 200,
+      altitude: 420,
+      w: 150,
+      h: 20,
+      isMoving: true,
+      rangeX: 65,
+      rangeY: 0,
+      speed: 0.04,
+      isVanish: true,
+      hasEnemy: true,
+      hasCheckpoint: true
+    },
+
+    // a series of vanished platforms
+    { gap: 200, altitude: 380, w: 130, h: 20,isVanish: true,coins: [-80, 40],hasCheckpoint: true },
+    { gap: 90, altitude: 290, w: 140, h: 20, isVanish: true,coins: [-80, 40],hasCheckpoint: true },
+    { gap: 100, altitude: 277, w: 140, h: 20,isVanish: true,coins: [-80, 40],hasCheckpoint: true },
+    { gap: 90, altitude: 360, w: 150, h: 20,isVanish: true,coins: [-80, 40],hasCheckpoint: true },
+    { gap: 70, altitude: 310, w: 130, h: 20,isVanish: true,coins: [-80, 40],hasCheckpoint: true },
+    { gap: 70, altitude: 380, w: 90, h: 20,hasCheckpoint: true, hasCoin: true },
+
+    // a series enemy platforms
+    { gap: 100, altitude: 260, w: 130, h: 20, hasEnemy: true,hasCoin: true,hasCheckpoint: true },
+    { gap: 90, altitude: 320, w: 120, h: 20, hasEnemy: true,hasCoin: true, hasCheckpoint: true },
+    { gap: 90, altitude: 260, w: 1000, h: 20, hasSummonerBoss: true}
+  ],
+
+  holes: [
+    { startX: 300, endX: 6300 },
+  ],
+
+  items: [
+    { type: "BUBBLE_ITEM", x: 430, y: 620 },
+    { type: "BUBBLE_ITEM", x: 1674, y: 420 },
+    { type: "BUBBLE_ITEM", x: 2530, y: 420 },
+    { type: "BUBBLE_ITEM", x: 3120, y: 360 },
+    { type: "BUBBLE_ITEM", x: 3930, y: 300 },
+    { type: "BUBBLE_ITEM", x: 4740, y: 400 },
+    { type: "BUBBLE_ITEM", x: 5790, y: 440 }
+  ]
 };

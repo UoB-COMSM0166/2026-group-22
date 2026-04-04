@@ -36,7 +36,8 @@ const CONFIG = {
 
   ITEM_TYPES: {
     JUMP_BOOSTER: JumpBooster,
-    SHRINK_POTION: ShrinkPotion
+    SHRINK_POTION: ShrinkPotion,
+    BUBBLE_ITEM: BubbleItem
   },
 
   CONTROLS: {

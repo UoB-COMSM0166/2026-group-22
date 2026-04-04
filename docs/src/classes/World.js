@@ -5,6 +5,7 @@ class World {
     this.cameraY = 0;
 
     const levelData = CONFIG.LEVELS[doorNumber - 1];
+    this.player.bubbleMode = !!levelData.bubbleMode;
 
     // Pull dimensions from your CONFIG
     this.width = levelData.worldWidth;
@@ -66,6 +67,13 @@ class World {
         this.coins.push(new Coin(centerX, centerY - 35));
       }
 
+      // a series of coins
+      if (p.coins && Array.isArray(p.coins)) {
+        for (let offsetX of p.coins) {
+          this.coins.push(new Coin(centerX + offsetX, centerY - 35));
+        }
+      }
+
       // place enemy
       if (p.hasEnemy) {
         this.enemies.push(new Enemy(centerX, centerY - 100, 40, 40, 10, 2)); // temporaries
@@ -92,6 +100,7 @@ class World {
 
     // place holes
     this.holes = data.holes.map(h => new Hole(h.startX, h.endX));
+    
   }
 
   update() {
@@ -363,6 +372,10 @@ class World {
   respawnPlayer() {
     this.player.hp -= 20;
     this.player.reset(this.spawnX, this.spawnY);
+
+    if (this.player.resetBubbleState) {
+      this.player.resetBubbleState();
+    }
   }
 
   resetPlayer() {
