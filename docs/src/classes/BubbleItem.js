@@ -9,8 +9,10 @@ class BubbleItem extends Collectable {
 
   // Refills the player's air
   onCollect(player) {
-    player.bubbleCount = min(5, player.bubbleCount + 1);
+    player.bubbleActivated = true;
+    player.bubbleCount = 3;
     player.bubbleStepTimer = player.bubbleStepMax;
+    player.bubbleDamageCooldown = 0;
   }
 
   // --- STATIC LOGIC (The "Brain" of the Bubble System) ---
@@ -20,6 +22,8 @@ class BubbleItem extends Collectable {
    */
   static updateSurvival(player) {
     if (!player.bubbleMode) return;
+    // before having the first bubble
+    if (!player.bubbleActivated) return;
 
     if (player.bubbleCount > 0) {
       player.bubbleStepTimer--;
@@ -29,15 +33,15 @@ class BubbleItem extends Collectable {
         player.bubbleStepTimer = (player.bubbleCount > 0) ? player.bubbleStepMax : 0;
       }
     } else {
-      // Drowning logic: Take damage if out of air
+      // losing blood when having no bubble
       if (player.bubbleDamageCooldown > 0) {
         player.bubbleDamageCooldown--;
       } else {
         player.hp = max(0, player.hp - 5);
-        player.bubbleDamageCooldown = 60; // Damage every 1 second
+        player.bubbleDamageCooldown = 60;
       }
     }
-  }
+}
 
   /**
    * Draws the bubbles floating above Kirby's head
