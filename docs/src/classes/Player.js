@@ -47,6 +47,9 @@ class Player extends Entity {
 
     this.shootCooldown = 15;
     this.currentCooldown = 0;
+    this.isCharging = false;
+    this.bowCharge = 0;
+    this.worldReference = null;
   }
 
   // Implementation of the abstract update() method
@@ -66,10 +69,23 @@ class Player extends Entity {
 
     BubbleItem.updateSurvival(this);
 
-    if (this.invincibilityTimer > 0) {
-      this.invincibilityTimer--;
-    }
+    if (this.invincibilityTimer > 0) this.invincibilityTimer--;
 
+    // --- BOW CHARGING LOGIC ---
+    if (this.currentSkill === CONFIG.SKILLS.BOW) {
+      if (keyIsDown(76) && this.currentCooldown <= 0) { // 'J' Key
+        this.isCharging = true;
+        // Increment charge up to a max of 25
+        this.bowCharge = min(this.bowCharge + 0.6, 25);
+      } else if (this.isCharging) {
+        // Release to fire
+        this.fireArrow(this.bowCharge);
+        this.isCharging = false;
+        this.bowCharge = 0;
+        this.currentCooldown = 30; // Hardcoded reload for the heavy bow
+      }
+    }
+    
     if (this.currentCooldown > 0) this.currentCooldown--;
   }
 
@@ -96,15 +112,23 @@ class Player extends Entity {
     }
   }
 
+  fireArrow(power) {
+    let dir = this.isFacingLeft ? -1 : 1;
+
+    // Dynamic physics based on power
+    // vx = horizontal speed, vy = upward "kick"
+    let vx = (8 + power) * dir;
+    let vy = -5 - (power * 0.8);
+
+    if (this.worldReference) {
+      this.worldReference.spawnArrow(this.x, this.y, vx, vy);
+    }
+  }
+
   // Implementation of the abstract show() method
   show() {
-    if (this.invincibilityTimer > 0 && frameCount % 10 < 5) {
-      return;
-    }
-
-    if (this.isInhaling) {
-      this.drawInhaleEffect();
-    }
+    if (this.invincibilityTimer > 0 && frameCount % 10 < 5) return;
+    if (this.isInhaling) this.drawInhaleEffect();
 
     let frameImg
     if (!this.isGrounded) {
@@ -128,6 +152,17 @@ class Player extends Entity {
     if (this.isFacingLeft) scale(-1, 1);
     imageMode(CENTER);
     image(frameImg, 0, 0, this.w, this.h);
+
+    // --- VISUAL CHARGE LINE ---
+    if (this.isCharging) {
+      stroke(255, 50, 50, 200); // Red aiming line
+      strokeWeight(3);
+      // Line extends based on charge amount
+      let aimX = 15 + this.bowCharge * 2;
+      let aimY = -10 - this.bowCharge * 1.5;
+      line(5, -5, aimX, aimY);
+    }
+
     pop();
 
     BubbleItem.drawUI(this);

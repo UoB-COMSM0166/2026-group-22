@@ -7,6 +7,10 @@ class Bullet extends Projectile {
     this.color = bulletColor;
   }
 
+  update() {
+    super.update(); // This runs the movement AND the distance check!
+  }
+
   show() {
     if (!this.active) return;
     push();

@@ -4,6 +4,8 @@ class World {
     this.cameraX = 0;
     this.cameraY = 0;
 
+    this.player.worldReference = this;
+
     const levelData = CONFIG.LEVELS[doorNumber - 1];
     this.player.bubbleMode = !!levelData.bubbleMode;
 
@@ -58,6 +60,9 @@ class World {
         );
       } else if (p.isVanish) {
         platform = new VanishablePlatform(centerX, centerY, p.w, p.h, this.platformTile);
+      } else if (p.isChainDrop) {
+        let targetY = this.height - p.dropAltitude - p.h / 2;
+        platform = new ChainPlatform(centerX, centerY, p.w, p.h, this.platformTile, targetY);
       } else {
         platform = new Platform(centerX, centerY, p.w, p.h, this.platformTile);
       }
@@ -119,9 +124,7 @@ class World {
     this.handlePlayerShooting(); // Check for 'J' key
     this.updateProjectiles();
 
-    for (let platform of this.platforms) {
-      platform.update();
-    }
+    this.platforms.forEach(p => p.update());
 
     // Check player-platform collision 
     for (let platform of this.platforms) {
@@ -196,16 +199,17 @@ class World {
   }
 
   handlePlayerShooting() {
-    // If 'J' is pressed and cooldown is ready
     if (keyIsDown(74) && this.player.currentCooldown <= 0) {
       let dir = this.player.isFacingLeft ? -1 : 1;
+
       let pb = new Bullet(
         this.player.x + (20 * dir),
         this.player.y,
-        12 * dir, 0,     // Speed
-        15, 10,          // Size, Damage
+        12 * dir, 0,
+        15, 10,
         color(255, 255, 0)
       );
+
       this.playerBullets.push(pb);
       this.player.currentCooldown = this.player.shootCooldown;
     }
@@ -227,6 +231,18 @@ class World {
         if (enemy.active && bullet.intersects(enemy)) {
           enemy.takeDamage(bullet.damage);
           bullet.active = false;
+        }
+      }
+
+      if (bullet.active) {
+        for (let platform of this.platforms) {
+          // If it's a ChainPlatform and it hasn't dropped yet
+          if (platform instanceof ChainPlatform && platform.state === 'IDLE') {
+            if (bullet.intersects(platform)) {
+              platform.triggerBreak();
+              bullet.active = false;
+            }
+          }
         }
       }
     }
@@ -331,6 +347,12 @@ class World {
     player.y = max(player.y, player.h / 2);
   }
 
+  spawnArrow(x, y, vx, vy) {
+    let arrow = new Arrow(x, y, vx, vy);
+    this.playerBullets.push(arrow);
+    console.log("World: Arrow spawned at", x, y);
+  }
+
   show() {
     background(this.backgroundColor);
 
@@ -414,8 +436,15 @@ class World {
   }
 
   respawnPlayer() {
+    let currentSkill = this.player.currentSkill;
+    
     this.player.hp -= 20;
     this.player.reset(this.spawnX, this.spawnY);
+
+    if (currentSkill === CONFIG.SKILLS.BOW) {
+      this.player.hasSkill = true;
+      this.player.currentSkill = CONFIG.SKILLS.BOW;
+    }
   }
 
   resetPlayer() {

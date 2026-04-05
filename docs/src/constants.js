@@ -30,6 +30,7 @@ const CONFIG = {
     NONE: null,
     JUMP: "JUMP_BOOST",
     SHRINK: "SHRINK",
+    BOW: "ARCHERY",
     SPEED: "SPEED_BOOST",
     SHIELD: "INVINCIBILITY"
   },
@@ -37,7 +38,8 @@ const CONFIG = {
   ITEM_TYPES: {
     JUMP_BOOSTER: JumpBooster,
     SHRINK_POTION: ShrinkPotion,
-    BUBBLE_ITEM: BubbleItem
+    BUBBLE_ITEM: BubbleItem,
+    BOW_PICKUP: BowItem
   },
 
   CONTROLS: {
