@@ -112,4 +112,23 @@ class InteractionManager {
     player.x = constrain(player.x, player.w / 2, world.width - player.w / 2);
     player.y = max(player.y, player.h / 2);
   }
+
+  static resolveHitGroup(projectiles, target, onHit) {
+    for (let i = projectiles.length - 1; i >= 0; i--) {
+      if (projectiles[i].active && projectiles[i].intersects(target)) {
+        onHit(projectiles[i], target);
+        projectiles[i].active = false;
+        projectiles.splice(i, 1);
+      }
+    }
+  }
+
+  static updateProjectiles(projectiles) {
+    for (let i = projectiles.length - 1; i >= 0; i--) {
+      projectiles[i].update();
+      if (!projectiles[i].active) {
+        projectiles.splice(i, 1);
+      }
+    }
+  }
 }

@@ -62,11 +62,13 @@ class BossScene extends GameplayScene {
 
     // Update Boss and catch attacks
     let attack = this.boss.update();
-    if (attack) {
-      this.bossBullets.push(attack);
+    if (attack) this.bossBullets.push(attack);
+
+    InteractionManager.updateProjectiles(this.bossBullets);
+    if (this.boss.minionBullets) {
+      InteractionManager.updateProjectiles(this.boss.minionBullets);
     }
 
-    this.updateBossProjectiles();
     this.checkCollisions();
 
     // If Boss dies, return to camp or go to victory screen
@@ -75,57 +77,25 @@ class BossScene extends GameplayScene {
     }
   }
 
-  updateBossProjectiles() {
-    // Only handle boss and minion bullets here
-    const groups = [this.bossBullets];
-    if (this.boss.minionBullets) groups.push(this.boss.minionBullets);
-
-    groups.forEach(group => {
-      for (let i = group.length - 1; i >= 0; i--) {
-        group[i].update();
-        if (!group[i].active) group.splice(i, 1);
-      }
-    });
-  }
-
-  // --- COLLISION LAYER ---
   checkCollisions() {
-    // 6. FIX: Use this.world.playerBullets for boss hits
-    this.resolveHitGroup(this.world.playerBullets, this.boss, (b, boss) => boss.takeDamage(b.damage));
+    InteractionManager.handleCombat(this.player, [this.boss], this.world.playerBullets);
 
-    // Boss bullets hit player
-    this.resolveHitGroup(this.bossBullets, this.player, (b, p) => p.hp -= b.damage);
+    InteractionManager.resolveHitGroup(this.bossBullets, this.player, (bullet, p) => {
+      // Calculate knockback direction
+      const dir = (p.x < bullet.x) ? -1 : 1;
+      p.takeDamage(bullet.damage, dir);
+    });
 
-    // Minion collisions
+    // 4. REUSE: Minion interactions
     if (this.boss.minions) {
-      this.resolveHitGroup(this.boss.minions, this.player, (m, p) => {
-        const dir = (p.x < m.x) ? -1 : 1;
-        p.takeDamage(10, dir);
-      });
+      // Handles playerBullets hitting minions AND minions touching player
+      InteractionManager.handleCombat(this.player, this.boss.minions, this.world.playerBullets);
 
-      // Player Bullets (from World) vs Minions
-      this.world.playerBullets.forEach((pb, i) => {
-        this.boss.minions.some(m => {
-          if (pb.intersects(m)) {
-            m.takeDamage(pb.damage);
-            pb.active = false;
-            return true;
-          }
-        });
+      // Handles minion bullets hitting player
+      InteractionManager.resolveHitGroup(this.boss.minionBullets, this.player, (bullet, p) => {
+        const dir = (p.x < bullet.x) ? -1 : 1;
+        p.takeDamage(bullet.damage, dir);
       });
-    }
-  }
-
-  /**
-   * REUSABLE UTILITY: Professional many-to-one collision handler
-   */
-  resolveHitGroup(projectiles, target, onHit) {
-    for (let i = projectiles.length - 1; i >= 0; i--) {
-      if (projectiles[i].intersects(target)) {
-        onHit(projectiles[i], target);
-        projectiles[i].active = false; // Standardized cleanup
-        projectiles.splice(i, 1);
-      }
     }
   }
 
