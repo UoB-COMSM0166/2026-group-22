@@ -42,18 +42,7 @@ class SummonerBoss extends Boss {
       }
     }
 
-    // 4. Update Minion Bullets
-    for (let i = this.minionBullets.length - 1; i >= 0; i--) {
-      const b = this.minionBullets[i];
-
-      // POLYMORPHISM: We use the inherited update() from Projectile.js
-      b.update();
-
-      // Clean up using the 'active' property from GameObject
-      if (!b.active) {
-        this.minionBullets.splice(i, 1);
-      }
-    }
+    InteractionManager.updateProjectiles(this.minionBullets);
 
     // 5. Inherited "Hurt" logic from Boss.js
     if (this.isHurt) {
