@@ -9,21 +9,20 @@ CONFIG.LEVELS[2] = {
     front: "assets/bg/lv2/frontBg2.png"
   },
   platforms: [
-    // ===== 第一段：热身 =====
-    { gap: 0, altitude: 100, w: 160, h: 20 },
+    { gap: 0, altitude: 100, w: 200, h: 20, coins: [-45,0,45] },
     { gap: 90, altitude: 170, w: 120, h: 20, hasCoin: true },
-    { gap: 80, altitude: 240, w: 100, h: 20 },
-    { gap: 90, altitude: 190, w: 100, h: 20, isVanish: true },
+    { gap: 80, altitude: 240, w: 100, h: 20, hasCoin: true },
+    { gap: 90, altitude: 190, w: 100, h: 20, isVanish: true, hasCoin: true },
 
-    // 第一个敌人（轻干扰）
+    // enemy
     { gap: 100, altitude: 280, w: 140, h: 20, hasEnemy: true },
 
     { gap: 100, altitude: 340, w: 130, h: 20, hasCheckpoint: true },
 
     // ===== 第二段：消失节奏 =====
-    { gap: 120, altitude: 420, w: 90, h: 20, isVanish: true },
-    { gap: 80, altitude: 360, w: 80, h: 20, isVanish: true },
-    { gap: 80, altitude: 300, w: 80, h: 20, isVanish: true },
+    { gap: 120, altitude: 420, w: 90, h: 20, isVanish: true, hasCoin: true },
+    { gap: 80, altitude: 360, w: 80, h: 20, isVanish: true, hasCoin: true },
+    { gap: 80, altitude: 300, w: 80, h: 20, isVanish: true, hasCoin: true },
 
     // 落点敌人（节奏点🔥）
     { gap: 90, altitude: 300, w: 120, h: 20, hasCheckpoint: true },
@@ -43,40 +42,40 @@ CONFIG.LEVELS[2] = {
     // 3. 接应平台（与落点敌人平台 altitude: 300 保持平行，紧贴墙上半部分）
     { gap: 0, altitude: 300, w: 100, h: 20, removesSkill: true },
 
-    { gap: 90, altitude: 330, w: 70, h: 20 },
-    { gap: 70, altitude: 380, w: 70, h: 20 },
-    { gap: 70, altitude: 330, w: 70, h: 20 },
+    { gap: 90, altitude: 330, w: 70, h: 20, hasCoin: true },
+    { gap: 70, altitude: 380, w: 70, h: 20, hasCoin: true },
+    { gap: 70, altitude: 330, w: 70, h: 20, hasCoin: true },
 
-    { gap: 80, altitude: 280, w: 90, h: 20, isVanish: true },
+    { gap: 80, altitude: 280, w: 90, h: 20, isVanish: true, hasCoin: true },
 
     // 第二个干扰点
     { gap: 90, altitude: 240, w: 140, h: 20, hasEnemy: true, hasCheckpoint: true },
 
     // ===== 第四段：移动技巧 =====
     {
-      gap: 110, altitude: 320, w: 110, h: 20,
-      isMoving: true, rangeX: 140, rangeY: 0, speed: 0.045
+      gap: 120, altitude: 320, w: 110, h: 20,
+      isMoving: true, rangeX: 100, rangeY: 0, speed: 0.035
     },
 
     // moving 后马上敌人（压节奏🔥）
-    { gap: 120, altitude: 360, w: 90, h: 20, hasEnemy: true },
+    { gap: 180, altitude: 360, w: 90, h: 20, hasEnemy: true },
 
     {
       gap: 120, altitude: 420, w: 100, h: 20,
       isMoving: true, rangeX: 0, rangeY: 120, speed: 0.045
     },
 
-    { gap: 110, altitude: 360, w: 80, h: 20 },
+    { gap: 110, altitude: 360, w: 80, h: 20, hasCoin: true },
     { gap: 80, altitude: 430, w: 80, h: 20, hasCoin: true, hasCheckpoint: true },
 
     // ===== 第五段：精准跳 =====
-    { gap: 90, altitude: 280, w: 60, h: 20 },
-    { gap: 70, altitude: 340, w: 60, h: 20 },
-    { gap: 70, altitude: 400, w: 60, h: 20 },
+    { gap: 90, altitude: 280, w: 60, h: 20, hasCoin: true },
+    { gap: 70, altitude: 340, w: 60, h: 20, hasCoin: true },
+    { gap: 70, altitude: 400, w: 60, h: 20, hasCoin: true },
 
-    { gap: 70, altitude: 360, w: 60, h: 20, isVanish: true },
-    { gap: 70, altitude: 440, w: 60, h: 20 },
-    { gap: 70, altitude: 320, w: 60, h: 20, isVanish: true },
+    { gap: 70, altitude: 360, w: 60, h: 20, isVanish: true, hasCoin: true },
+    { gap: 70, altitude: 440, w: 60, h: 20, hasCoin: true },
+    { gap: 70, altitude: 320, w: 60, h: 20, isVanish: true, hasCoin: true },
 
     // 高处干扰敌人（心理压力）
     { gap: 100, altitude: 400, w: 180, h: 20, hasEnemy: true, hasCheckpoint: true },
@@ -85,14 +84,14 @@ CONFIG.LEVELS[2] = {
 
     // ===== 第六段：Boss前 =====
     {
-      gap: 100, altitude: 300, w: 100, h: 20,
-      isMoving: true, rangeX: 180, rangeY: 0, speed: 0.04
+      gap: 120, altitude: 300, w: 100, h: 20,
+      isMoving: true, rangeX: 100, rangeY: 0, speed: 0.04
     },
 
-    { gap: 120, altitude: 380, w: 90, h: 20, hasCheckpoint: true },
+    { gap: 180, altitude: 380, w: 90, h: 20, hasCheckpoint: true },
     { gap: 90, altitude: 450, w: 90, h: 20 },
 
-    { gap: 100, altitude: 420, w: 220, h: 20, hasCoin: true },
+    { gap: 100, altitude: 420, w: 220, h: 20, hasCoin: true, coins: [-45,0,45]},
 
     // ===== Boss =====
     { gap: 150, altitude: 0, w: 2000, h: 500, hasSummonerBoss: true }
@@ -103,6 +102,6 @@ CONFIG.LEVELS[2] = {
     { startX: 300, endX: 12000 },
   ],
   items: [
-    { type: "SHRINK_POTION", x: 2200, y: 370 }
+    { type: "SHRINK_POTION", x: 2200, y: 370 },
   ]
 };
