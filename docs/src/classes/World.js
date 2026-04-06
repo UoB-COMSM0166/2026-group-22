@@ -123,62 +123,40 @@ class World {
     this.player.update();
     this.handlePlayerShooting(); // Check for 'J' key
     this.updateProjectiles();
-
     this.platforms.forEach(p => p.update());
-
-    // Check player-platform collision 
-    for (let platform of this.platforms) {
-      if (!platform.active) continue;
-      this.handleSolidCollision(this.player, platform);
-    }
-
-    for (let enemy of this.enemies) {
-      enemy.update(this.platforms);
-
-      // Check for collision with Kirby
-      if (this.player.intersects(enemy)) {
-        this.handleEnemyCollision(this.player, enemy);
-      }
-
-      for (let platform of this.platforms) {
-        this.handleSolidCollision(enemy, platform);
-      }
-    }
+    this.enemies.forEach(e => e.update(this.platforms));
+    this.coins.forEach(c => c.update(this.player));
+    this.items.forEach(item => item.update(this.player));
 
     // Check Checkpoints
     for (let cp of this.checkpoints) {
       if (cp.update(this.player)) {
-        // The moment Kirby touches a flag, this becomes the new respawn point
         this.spawnX = cp.x;
-        // We spawn him slightly above (y - 10) so he doesn't get stuck in the floor
         this.spawnY = cp.y - 10;
       }
     }
 
-    // Update Coins
-    for (let coin of this.coins) {
-      coin.update(this.player);
+    // 2. Resolve Interactions via InteractionManager
+    for (let platform of this.platforms) {
+      InteractionManager.resolveSolid(this.player, platform, this);
+      for (let enemy of this.enemies) {
+        InteractionManager.resolveSolid(enemy, platform, this);
+      }
     }
 
-    // update items
-    for (let item of this.items) {
-      item.update(this.player);
-    }
+    InteractionManager.handleCombat(this.player, this.enemies, this.playerBullets);
+    InteractionManager.handlePuzzles(this.playerBullets, this.platforms);
+    InteractionManager.handleWorldLimits(this.player, this);
 
     // handle player hp
-    if (this.player.hp <= 0) {
-      this.resetPlayer();
-    }
-
-    this.handleWorldBoundaries(this.player);
+    if (this.player.hp <= 0) this.resetPlayer();
 
     if (frameCount % 60 === 0) {
       this.enemies = this.enemies.filter(e => e.active);
+      this.playerBullets = this.playerBullets.filter(b => b.active);
       this.coins = this.coins.filter(c => c.active || c.shouldRespawn);
       this.items = this.items.filter(c => c.active || c.shouldRespawn);
     }
-
-    this.checkProjectileCollisions();
 
     this.player.animate();
     this.updateCamera();
@@ -224,133 +202,9 @@ class World {
     }
   }
 
-  checkProjectileCollisions() {
-    // Check Player Bullets vs Regular Enemies
-    for (let bullet of this.playerBullets) {
-      for (let enemy of this.enemies) {
-        if (enemy.active && bullet.intersects(enemy)) {
-          enemy.takeDamage(bullet.damage);
-          bullet.active = false;
-        }
-      }
-
-      if (bullet.active) {
-        for (let platform of this.platforms) {
-          // If it's a ChainPlatform and it hasn't dropped yet
-          if (platform instanceof ChainPlatform && platform.state === 'IDLE') {
-            if (bullet.intersects(platform)) {
-              platform.triggerBreak();
-              bullet.active = false;
-            }
-          }
-        }
-      }
-    }
-  }
-
-  handleSolidCollision(entity, platform) {
-    if (platform.active === false) return;
-
-    if (!entity.intersects(platform)) return;
-
-    // 1. Get clean bounds using your new GameObject method
-    const p = platform.getBounds();
-    const overlap = entity.getOverlap(platform);
-
-    // 2. Find the smallest overlap (that's the side we hit)
-    const minOverlap = Math.min(overlap.top, overlap.bottom, overlap.left, overlap.right);
-
-    if (minOverlap === overlap.top && entity.velY > 0) {
-      // Hit Top (Landing)
-      entity.y = p.top - entity.h / 2;
-      entity.velY = 0;
-
-      // Check if it's the player to trigger 'land' (animations/jump reset)
-      if (entity instanceof Player) {
-        entity.land();
-
-        if (platform instanceof VanishablePlatform) {
-          platform.isTouched = true; // This starts the vanishing timer!
-        }
-
-        // THE TRIGGER: Check if the platform is an "anti-skill" zone
-        if (platform.removesSkill) {
-          entity.resetSkills();
-        }
-
-        // BOSS TRIGGER CHECK
-        if (platform.hasBoss) {
-          // Switch to the separate scene you created
-          sceneManager.switch("boss", {
-            bossType: "regular",
-            bgLayers: this.bgLayers,
-            worldAssets: this.worldAssets
-          });
-        }
-
-        if (platform.hasSummonerBoss) {
-          sceneManager.switch("boss", {
-            bossType: "summoner",
-            bgLayers: this.bgLayers,
-            worldAssets: this.worldAssets
-          });
-        }
-      }
-
-      // handle moving platform
-      if (platform.velX || platform.velY) {
-        entity.x += platform.velX;
-        entity.y += platform.velY;
-      }
-    }
-    else if (minOverlap === overlap.bottom && entity.velY < 0) {
-      // Hit Bottom (Bonk head)
-      entity.y = p.bottom + entity.h / 2;
-      entity.velY = 0;
-    }
-    else if (minOverlap === overlap.left) {
-      // Hit Left Side
-      entity.x = p.left - entity.w / 2;
-    }
-    else if (minOverlap === overlap.right) {
-      // Hit Right Side
-      entity.x = p.right + entity.w / 2;
-    }
-  }
-
-  handleEnemyCollision(player, enemy) {
-    if (!player.active || !enemy.active) return;
-    // Kirby got hit: calculate direction (-1 or 1)
-    const dir = (player.x < enemy.x) ? -1 : 1;
-    player.takeDamage(10, dir); // Delegate to Player
-  }
-
-  handleWorldBoundaries(player) {
-    const p = player.getBounds();
-    const floorY = this.height - this.groundThickness;
-
-    // 1. Check if the player is currently over ANY hole
-    let overHole = this.holes.some(h => h.contains(p.left) && h.contains(p.right));
-
-    // Floor collision
-    if (!overHole && p.bottom > floorY) {
-      player.y = floorY - player.h / 2;
-      player.land();
-    }
-
-    // 3. If he falls off the bottom of the world, reset him (or kill him)
-    if (p.top > this.height) {
-      this.respawnPlayer();
-    }
-
-    player.x = constrain(player.x, player.w / 2, this.width - player.w / 2);
-    player.y = max(player.y, player.h / 2);
-  }
-
   spawnArrow(x, y, vx, vy) {
     let arrow = new Arrow(x, y, vx, vy);
     this.playerBullets.push(arrow);
-    console.log("World: Arrow spawned at", x, y);
   }
 
   show() {
@@ -437,7 +291,7 @@ class World {
 
   respawnPlayer() {
     let currentSkill = this.player.currentSkill;
-    
+
     this.player.hp -= 20;
     this.player.reset(this.spawnX, this.spawnY);
 
