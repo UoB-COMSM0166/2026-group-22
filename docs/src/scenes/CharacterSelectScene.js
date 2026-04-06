@@ -1,7 +1,7 @@
 // src/scenes/CharacterSelectScene.js
 class CharacterSelectScene {
   constructor() {
-    this.bgImg = null;
+    this.bgImg = assets.getImg('char_select_bg');
     this.popupOpen = false;
     this.pendingChar = null;
 
@@ -16,7 +16,6 @@ class CharacterSelectScene {
   }
 
   preload() {
-    this.bgImg = loadImage("assets/character_select.png");
   }
 
   onEnter() {

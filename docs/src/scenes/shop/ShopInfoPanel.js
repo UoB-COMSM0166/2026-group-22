@@ -12,7 +12,7 @@ class ShopInfoPanel {
     const item = this.state.getItem(itemId);
     if (!item) return;
 
-    const tf = this.ui.getContainTransform(shopAssets.bgImg);
+    const tf = this.ui.getContainTransform(assets.getImg('shop_bg'));
     const anchor = this.ui.getItemAnchorRect(tf, itemId, this.state);
     if (!anchor) return;
 

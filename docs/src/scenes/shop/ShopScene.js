@@ -4,12 +4,10 @@ class ShopScene {
     this.infoPanel = new ShopInfoPanel();
     this.buyModel = new ShopBuyModel();
     this.inventoryBar = new ShopInventoryBar();
-    this.bgImg = null;
+    this.bgImg = assets.getImg('shop_bg');
   }
 
   preload() {
-    this.bgImg = loadImage("assets/shop_bg.png");
-    shopAssets.preload(); 
   }
 
   onEnter() {

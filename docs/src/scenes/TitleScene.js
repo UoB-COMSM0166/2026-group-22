@@ -1,15 +1,13 @@
 // src/scenes/TitleScene.js
 class TitleScene {
   constructor() {
-    this.bgImg = null;
-    this.startBtnImg = null;
+    this.bgImg = assets.getImg('title_bg');
+    this.startBtnImg = assets.getImg('start_btn');
     this.btnRect = { x: 0, y: 0, w: 0, h: 0 };
   }
 
   // Use this for the logic usually found in p5's preload()
   preload() {
-    this.bgImg = loadImage("assets/title_cover.png");
-    this.startBtnImg = loadImage("assets/btn_start.png");
   }
 
   // One-time setup when the scene is first created

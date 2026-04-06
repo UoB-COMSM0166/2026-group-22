@@ -19,7 +19,7 @@ class ShopBuyModel {
     if (!item || !this.isOpen) return;
 
     // Get the transform for scaling math
-    const tf = this.ui.getContainTransform(shopAssets.bgImg);
+    const tf = this.ui.getContainTransform(assets.getImg('shop_bg'));
 
     push();
     // 1. Full-screen dark overlay

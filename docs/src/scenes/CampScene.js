@@ -21,10 +21,10 @@ class CampScene {
 
     this.views = [];
     this.assets = {
-      arrowRight: null,
-      arrowLeft: null,
-      settings: null,
-      sound: null
+      arrowRight: assets.getImg('arrow_r'),
+      arrowLeft: assets.getImg('arrow_l'),
+      settings: assets.getImg('icon_set'),
+      sound: assets.getImg('icon_snd')
     };
 
     // Dialogue State
@@ -50,12 +50,8 @@ class CampScene {
   }
 
   preload() {
-    const imgTwoDoors  = loadImage("assets/camp_B.png");
-    const imgFourDoors = loadImage("assets/camp_A.png");
-    this.assets.arrowRight = loadImage("assets/arrow_right_transparent.png");
-    this.assets.arrowLeft  = loadImage("assets/arrow_left_transparent.png");
-    this.assets.settings   = loadImage("assets/icon_settings.png");
-    this.assets.sound      = loadImage("assets/icon_sound.png");
+    const imgTwoDoors  = assets.getImg('camp_B');
+    const imgFourDoors = assets.getImg('camp_A');
 
     // Initialize views after images are requested
     this.views = [

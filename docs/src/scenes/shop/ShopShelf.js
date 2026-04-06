@@ -9,7 +9,7 @@ class ShopShelf {
   // No need to pass variables anymore, the class knows where to look!
   draw() {
     // 1. Get the current transform for the background
-    const tf = this.ui.getContainTransform(shopAssets.bgImg);
+    const tf = this.ui.getContainTransform(assets.getImg('shop_bg'));
     const selectedId = this.state.selectedItemId;
 
     for (const slot of SHOP_SLOTS) {
@@ -39,7 +39,7 @@ class ShopShelf {
 
       // Icon drawing
       const item = this.state.getItem(slot.itemId);
-      const icon = item ? shopAssets.getIconByKey(item.iconKey) : null;
+      const icon = item ? assets.getImg(item.iconKey) : null;
       if (icon) {
         this.ui.drawIconFit(icon, r, 0.80);
       }
@@ -49,7 +49,7 @@ class ShopShelf {
 
   // Renamed to handleMouse to match your ShopScene's mousePressed()
   handleMouse() {
-    const tf = this.ui.getContainTransform(shopAssets.bgImg);
+    const tf = this.ui.getContainTransform(assets.getImg('shop_bg'));
 
     for (const slot of SHOP_SLOTS) {
       if (this.state.isOwned(slot.itemId)) continue;

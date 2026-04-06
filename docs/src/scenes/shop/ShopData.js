@@ -35,7 +35,7 @@ const SHOP_ITEMS = [
     price: 3,
     damage: 10,
     desc: ["A reliable handgun.", "Good for single targets."],
-    iconKey: "pistol",
+    iconKey: "icon_pistol",
   },
   {
     id: "fireball",
@@ -44,6 +44,6 @@ const SHOP_ITEMS = [
     price: 4,
     damage: 25,
     desc: ["Cast a blazing fireball.", "Great for crowd damage."],
-    iconKey: "fireball",
+    iconKey: "icon_fireball",
   },
 ];

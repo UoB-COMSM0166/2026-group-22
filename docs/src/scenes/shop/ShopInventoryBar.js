@@ -6,8 +6,7 @@ class ShopInventoryBar {
   }
 
   draw() {
-    if (!shopAssets.bgImg || shopAssets.bgImg.width === 0) return;
-    const tf = this.ui.getContainTransform(shopAssets.bgImg);
+    const tf = this.ui.getContainTransform(assets.getImg('shop_bg'));
     const bar = this.getBarRect(tf);
     const ownedIds = this.state.getOwnedItemIds();
     this.slots = []; 
@@ -47,7 +46,7 @@ class ShopInventoryBar {
 
       if (itemId) {
         const item = this.state.getItem(itemId);
-        const icon = shopAssets.getIconByKey(item.iconKey);
+        const icon = assets.getImg(item.iconKey);
         this.ui.drawIconFit(icon, r, 0.75);
       }
     }

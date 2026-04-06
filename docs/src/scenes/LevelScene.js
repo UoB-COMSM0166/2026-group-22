@@ -10,16 +10,6 @@ class LevelScene {
     this.CANVAS_W = CONFIG.WORLD.CANVAS_WIDTH;
     this.CANVAS_H = CONFIG.WORLD.CANVAS_HEIGHT;
 
-    this.assets = {
-      idle: null,
-      walk: null,
-      jump: null,
-    };
-
-    this.worldAssets = {
-      platformTile: null
-    };
-
     this.bgLayers = {
       far: null,
       mid: null,
@@ -28,11 +18,6 @@ class LevelScene {
   }
 
   preload() {
-    this.assets.idle = loadImage("./assets/kirby_idle.png");
-    this.assets.walk = loadImage("./assets/kirby_move.png");
-    this.assets.jump = loadImage("./assets/kirby_jump.png");
-    this.worldAssets.platformTile = loadImage("./assets/platform_tile.png")
-
     this.levelBackgrounds = CONFIG.LEVELS.map(level => {
       if (!level.backgrounds) return null;
 
@@ -68,16 +53,22 @@ class LevelScene {
     this.bgLayers = preloadedBgs || { far: null, midBack: null, midFront: null, front: null };
 
     this.doorNumber = doorNumber;
-    const playerFrames = [this.assets.idle, this.assets.walk, this.assets.jump];
+
+    const playerFrames = [
+      assets.getImg('player_idle'),
+      assets.getImg('player_walk'),
+      assets.getImg('player_jump')
+    ];
 
     // Instantiate your physical objects
     this.player = new Player(playerFrames);
-
     sceneManager.player = this.player;
 
-    this.world = new World(this.player, this.doorNumber, this.bgLayers , this.worldAssets);
+    const worldAssets = {
+      platformTile: assets.getImg('platform_tile')
+    };
 
-    console.log("[LevelScene] World built for door:", doorNumber);
+    this.world = new World(this.player, this.doorNumber, this.bgLayers, worldAssets);
   }
 
   draw() {
