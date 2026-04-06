@@ -17,26 +17,31 @@ class Player extends Entity {
     this.walkFrame = walk;
     this.jumpFrame = jump;
 
-    this.isInhaling = false;
-    this.inhaleRange = 250;
-
-    // 2. Override Entity defaults with Player-specific values
     this.gravity = CONFIG.WORLD.GRAVITY;
     this.lift = CONFIG.PLAYER.LIFT;
     this.maxJumpCount = CONFIG.PLAYER.MAX_JUMP_COUNT;
     this.animationSpeed = CONFIG.PLAYER.ANIMATION_SPEED;
 
-    // 3. Animation-specific properties (only for Player)
     this.currentFrame = 0;
     this.isFacingLeft = false;
     this.isGrounded = false;
     this.jumpCount = 0;
 
+    this.state = CONFIG.PLAYER_STATES.NORMAL;
+    this.invincibilityTimer = 0; // 0 means "can be hit"
+
+    this.isInhaling = false;
+    this.inhaleRange = 250;
+
     // --- SKILL SYSTEM ---
     this.hasSkill = false;
     this.currentSkill = CONFIG.SKILLS.NONE;
     this.skillTimer = 0; // Useful for tracking how long a boost lasts
-    this.invincibilityTimer = 0; // 0 means "can be hit"
+
+    this.isCharging = false;
+    this.bowCharge = 0;
+    this.shootCooldown = 15;
+    this.currentCooldown = 0;
 
     // --- BUBBLE SYSTEM ---
     this.bubbleMode = false;
@@ -45,47 +50,36 @@ class Player extends Entity {
     this.bubbleStepMax = 160;
     this.bubbleDamageCooldown = 0;
 
-    this.shootCooldown = 15;
-    this.currentCooldown = 0;
-    this.isCharging = false;
-    this.bowCharge = 0;
     this.worldReference = null;
   }
 
   // Implementation of the abstract update() method
   update() {
-    this.isInhaling = keyIsDown(75);
-
-    this.move();         // Defined below
-    this.applyPhysics(); // Inherited from Entity
+    if (this.invincibilityTimer > 0) this.invincibilityTimer--;
+    BubbleItem.updateSurvival(this);
 
     if (this.hasSkill && this.skillTimer > 0) {
       this.skillTimer--;
-
-      if (this.skillTimer <= 0) {
-        this.resetSkills();
-      }
+      if (this.skillTimer <= 0) this.resetSkills();
     }
 
-    BubbleItem.updateSurvival(this);
-
-    if (this.invincibilityTimer > 0) this.invincibilityTimer--;
-
-    // --- BOW CHARGING LOGIC ---
-    if (this.currentSkill === CONFIG.SKILLS.BOW) {
-      if (keyIsDown(76) && this.currentCooldown <= 0) { // 'J' Key
-        this.isCharging = true;
-        // Increment charge up to a max of 25
-        this.bowCharge = min(this.bowCharge + 0.6, 25);
-      } else if (this.isCharging) {
-        // Release to fire
-        this.fireArrow(this.bowCharge);
-        this.isCharging = false;
-        this.bowCharge = 0;
-        this.currentCooldown = 30; // Hardcoded reload for the heavy bow
-      }
+    // 2. STATE MACHINE SWITCH
+    switch (this.state) {
+      case CONFIG.PLAYER_STATES.NORMAL:
+        this.updateNormal();
+        break;
+      case CONFIG.PLAYER_STATES.INHALING:
+        this.updateInhale();
+        break;
+      case CONFIG.PLAYER_STATES.BOW_CHARGING:
+        this.updateBow();
+        break;
+      case CONFIG.PLAYER_STATES.HURT:
+        this.updateHurt();
+        break;
     }
-    
+
+    this.applyPhysics(); // Inherited from Entity
     if (this.currentCooldown > 0) this.currentCooldown--;
   }
 
@@ -112,6 +106,45 @@ class Player extends Entity {
     }
   }
 
+  updateNormal() {
+    this.move(); // Standard A/D movement
+
+    // Transition Checks
+    if (keyIsDown(CONFIG.CONTROLS.INHALE)) { // 'K' for Inhale
+      this.state = CONFIG.PLAYER_STATES.INHALING;
+    } else if (keyIsDown(CONFIG.CONTROLS.BOW) && this.currentSkill === CONFIG.SKILLS.BOW && this.currentCooldown <= 0) { // 'L' for Bow
+      this.state = CONFIG.PLAYER_STATES.BOW_CHARGING;
+      this.isCharging = true;
+    }
+  }
+
+  updateInhale() {
+    this.move();
+    this.isInhaling = true;
+    this.velX *= 0.5; // Kirby slows down while inhaling
+
+    // Transition back to normal
+    if (!keyIsDown(CONFIG.CONTROLS.INHALE)) {
+      this.isInhaling = false;
+      this.state = CONFIG.PLAYER_STATES.NORMAL;
+    }
+  }
+
+  updateBow() {
+    this.move();
+    this.velX *= 0.2; // Strong movement penalty while aiming
+    this.bowCharge = min(this.bowCharge + 0.6, 25);
+
+    // Fire and Transition back
+    if (!keyIsDown(CONFIG.CONTROLS.BOW)) {
+      this.fireArrow(this.bowCharge);
+      this.isCharging = false;
+      this.bowCharge = 0;
+      this.currentCooldown = 30;
+      this.state = CONFIG.PLAYER_STATES.NORMAL;
+    }
+  }
+
   fireArrow(power) {
     let dir = this.isFacingLeft ? -1 : 1;
 
@@ -122,6 +155,13 @@ class Player extends Entity {
 
     if (this.worldReference) {
       this.worldReference.spawnArrow(this.x, this.y, vx, vy);
+    }
+  }
+
+  updateHurt() {
+    // Lock controls during knockback. Return to normal after i-frames stabilize.
+    if (this.invincibilityTimer < 45) {
+      this.state = CONFIG.PLAYER_STATES.NORMAL;
     }
   }
 
@@ -220,13 +260,18 @@ class Player extends Entity {
   takeDamage(amount, directionX) {
     if (this.invincibilityTimer > 0) return; // Ignore if already hit
 
-    this.hp -= amount;
+    super.takeDamage(amount);
     this.invincibilityTimer = 60; // 1 second of i-frames
+
+    this.state = CONFIG.PLAYER_STATES.HURT;
+
+    this.isCharging = false;
+    this.isInhaling = false;
+    this.bowCharge = 0;
 
     // Apply Knockback: directionX is -1 (left) or 1 (right)
     this.velX = directionX * 8;
     this.velY = -5;
-
     this.isGrounded = false;
   }
 
@@ -246,6 +291,7 @@ class Player extends Entity {
   }
 
   reset(startX, startY) {
+    this.active = true;
     // 1. Move him back to the starting coordinates from your CONFIG
     this.x = startX;
     this.y = startY;
@@ -256,9 +302,6 @@ class Player extends Entity {
 
     this.resetSkills();
     this.resetBubbleState();
-
-    // 4. (Optional) Penalize health
-    // this.player.hp -= 10;
   }
 
   resetSkills() {

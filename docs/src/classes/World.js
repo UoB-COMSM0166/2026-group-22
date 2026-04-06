@@ -92,7 +92,7 @@ class World {
   }
 
   handlePlayerShooting() {
-    if (keyIsDown(74) && this.player.currentCooldown <= 0) {
+    if (keyIsDown(CONFIG.CONTROLS.SHOOT) && this.player.currentCooldown <= 0) {
       let dir = this.player.isFacingLeft ? -1 : 1;
 
       let pb = new Bullet(

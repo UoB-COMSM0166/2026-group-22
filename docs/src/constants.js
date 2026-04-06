@@ -12,7 +12,7 @@ const CONFIG = {
   },
 
   LEVELS: [], // initialised as an empty array then add each level in their own corresponding file
-  
+
   // Player specific
   PLAYER: {
     START_X: 100,
@@ -24,6 +24,13 @@ const CONFIG = {
     LIFT: -5.5, // Jump/Float power
     HP: 100,
     ANIMATION_SPEED: 10
+  },
+
+  PLAYER_STATES: {
+    NORMAL: 'NORMAL',
+    INHALING: 'INHALING',
+    BOW_CHARGING: 'BOW_CHARGING',
+    HURT: 'HURT'
   },
 
   SKILLS: {
@@ -43,9 +50,12 @@ const CONFIG = {
   },
 
   CONTROLS: {
-    JUMP: 32, // Space
-    LEFT: 65, // Left Arrow
-    RIGHT: 68 // Right Arrow
+    JUMP: 32,    // Space
+    LEFT: 65,    // A
+    RIGHT: 68,   // D
+    SHOOT: 74,   // J (Star bullets)
+    INHALE: 75,  // K (Suction)
+    BOW: 76      // L (Archery Skill)
   },
 
   // File paths
