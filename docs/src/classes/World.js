@@ -7,9 +7,8 @@ class World {
     this.player.worldReference = this;
 
     const levelData = CONFIG.LEVELS[doorNumber - 1];
-    this.player.bubbleMode = !!levelData.bubbleMode;
 
-    // Pull dimensions from your CONFIG
+    // Pull dimensions from CONFIG
     this.width = levelData.worldWidth;
     this.height = levelData.worldHeight;
     this.groundThickness = CONFIG.WORLD.FLOOR_OFFSET;
@@ -18,7 +17,6 @@ class World {
     this.itemTypes = CONFIG.ITEM_TYPES;
     this.backgroundColor = [135, 206, 235];
     this.bgLayers = bgLayers;
-
     this.worldAssets = worldAssets;
     this.platformTile = worldAssets.platformTile;
 
@@ -28,94 +26,11 @@ class World {
     this.items = [];
     this.holes = [];
     this.checkpoints = [];
-    this.setupLevel(levelData);
-
-    this.statsBar = new StatsBar()
-
     this.playerBullets = [];
-  }
 
-  setupLevel(data) {
-    if (data.bubbleMode) {
-      this.player.bubbleMode = true;
-      this.player.activateBubble(3); // Start with 3 bubbles
-    } else {
-      this.player.bubbleMode = false;
-      this.player.resetBubbleState(); // Ensure they are cleared for other levels
-    }
+    this.statsBar = new StatsBar();
 
-    let currentX = data.startX;
-
-    // place platforms
-    for (let p of data.platforms) {
-      let centerX = currentX + p.gap + p.w / 2;
-      let centerY = this.height - p.altitude - p.h / 2;
-      let topY = centerY - p.h / 2; // The top surface
-
-      // 1. Declare the variable first
-      let platform;
-      if (p.isMoving) {
-        platform = new MovingPlatform(
-          centerX, centerY, p.w, p.h, this.platformTile, p.rangeX, p.rangeY, p.speed
-        );
-      } else if (p.isVanish) {
-        platform = new VanishablePlatform(centerX, centerY, p.w, p.h, this.platformTile);
-      } else if (p.isChainDrop) {
-        let targetY = this.height - p.dropAltitude - p.h / 2;
-        platform = new ChainPlatform(centerX, centerY, p.w, p.h, this.platformTile, targetY);
-      } else {
-        platform = new Platform(centerX, centerY, p.w, p.h, this.platformTile);
-      }
-
-      platform.removesSkill = p.removesSkill || false;
-
-      // 3. Now that 'platform' is defined, you can add properties to it
-      platform.hasBoss = p.hasBoss || false;
-
-      platform.hasSummonerBoss = p.hasSummonerBoss || false;
-
-      // 4. Push the platform to your array only ONCE
-      this.platforms.push(platform);
-
-      // place coins
-      if (p.hasCoin) {
-        this.coins.push(new Coin(centerX, centerY - 35));
-      }
-
-      // a series of coins
-      if (p.coins && Array.isArray(p.coins)) {
-        for (let offsetX of p.coins) {
-          this.coins.push(new Coin(centerX + offsetX, centerY - 35));
-        }
-      }
-
-      // place enemy
-      if (p.hasEnemy) {
-        this.enemies.push(new Enemy(centerX, centerY - 100, 40, 40, 50, 2)); // temporaries
-      }
-
-      if (p.hasCheckpoint) {
-        this.checkpoints.push(new Checkpoint(centerX + p.w / 4, topY));
-      }
-
-      currentX = centerX + p.w / 2;
-    }
-
-    // place items
-    this.items = data.items.map(itemData => {
-      const itemClass = this.itemTypes[itemData.type];
-
-      if (itemClass) {
-        return new itemClass(itemData.x, itemData.y);
-      }
-
-      console.warn(`Type ${itemData.type} not found in ITEM_TYPES`);
-      return null;
-    }).filter(i => i); // Remove nulls
-
-    // place holes
-    this.holes = data.holes.map(h => new Hole(h.startX, h.endX));
-
+    LevelBuilder.build(this, levelData);
   }
 
   update() {
