@@ -1,15 +1,12 @@
 // src/scenes/BossScene.js
-class BossScene {
+class BossScene extends GameplayScene {
   constructor() {
+    super();
     this.player = null; // Reference to the existing player
     this.boss = null;
     this.world = null;
     this.bossBullets = [];
-    this.canvasActive = false;
     this.statsBar = new StatsBar();
-
-    this.CANVAS_W = CONFIG.WORLD.CANVAS_WIDTH;
-    this.CANVAS_H = CONFIG.WORLD.CANVAS_HEIGHT;
   }
 
   onEnter(data) {
@@ -51,10 +48,6 @@ class BossScene {
     this.player.invincibilityTimer = 0; // Stop the flashing immediately
 
     this.bossBullets = [];
-  }
-
-  onExit() {
-    this.restoreFullCanvasMode();
   }
 
   update() {
@@ -184,51 +177,5 @@ class BossScene {
 
     // Optional: If you used an 'isVictoryTriggered' flag, reset it too
     this.isVictoryTriggered = false;
-  }
-
-  /* =============================
-     DOM & Canvas Styling Methods
-     ============================= */
-
-  applyCanvasMode() {
-    resizeCanvas(this.CANVAS_W, this.CANVAS_H);
-    const body = document.body;
-    const c = document.querySelector("canvas");
-
-    body.style.display = "flex";
-    body.style.justifyContent = "center";
-    body.style.alignItems = "center";
-    body.style.background = "black";
-    body.style.overflow = "hidden";
-
-    if (c) {
-      c.style.width = this.CANVAS_W + "px";
-      c.style.height = this.CANVAS_H + "px";
-    }
-
-    this.canvasActive = true;
-  }
-
-  restoreFullCanvasMode() {
-    const body = document.body;
-    const c = document.querySelector("canvas");
-
-    body.style.display = "block";
-    body.style.background = "#111";
-    body.style.overflow = "";
-
-    if (c) {
-      c.style.width = "";
-      c.style.height = "";
-    }
-
-    resizeCanvas(window.innerWidth, window.innerHeight);
-    this.canvasActive = false;
-  }
-
-  handleResize() {
-    if (this.canvasActive) {
-      this.applyCanvasMode();
-    }
   }
 }

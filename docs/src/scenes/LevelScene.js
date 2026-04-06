@@ -1,15 +1,10 @@
 // src/scenes/LevelScene.js
-class LevelScene {
+class LevelScene extends GameplayScene {
   constructor() {
+    super();
     this.player = null;
     this.world = null;
     this.doorNumber = 1;
-    this.canvasActive = false;
-
-    // Fixed dimensions for the Kirby demo style
-    this.CANVAS_W = CONFIG.WORLD.CANVAS_WIDTH;
-    this.CANVAS_H = CONFIG.WORLD.CANVAS_HEIGHT;
-
     this.bgLayers = {
       far: null,
       mid: null,
@@ -33,16 +28,8 @@ class LevelScene {
   // Logic to run when the scene starts
   onEnter() {
     this.applyCanvasMode();
-
     // Build the world if it doesn't exist yet
-    if (!this.world) {
-      this.buildLevel(this.doorNumber);
-    }
-  }
-
-  // New: Logic to run when leaving the scene
-  onExit() {
-    this.restoreFullCanvasMode();
+    if (!this.world) this.buildLevel(this.doorNumber);
   }
 
   buildLevel(doorNumber) {
@@ -113,11 +100,11 @@ class LevelScene {
     // Check for the 'B' key (Key Code 66)
     if (key === 'b' || key === 'B') {
       console.log("🛠️ Dev Mode: Jumping to Summoner Boss");
-
       // Switch to boss scene and tell it to load the 'summoner'
       sceneManager.switch('boss', {
         bossType: 'summoner',
-        bgLayers: this.world.bgLayers
+        bgLayers: this.world.bgLayers,
+        worldAssets: this.world.worldAssets
       });
     }
 
@@ -126,54 +113,9 @@ class LevelScene {
       console.log("🛠️ Dev Mode: Jumping to Regular Boss");
       sceneManager.switch('boss', {
         bossType: 'regular',
-        bgLayers: this.world.bgLayers
+        bgLayers: this.world.bgLayers,
+        worldAssets: this.world.worldAssets
       });
-    }
-  }
-
-  /* =============================
-     DOM & Canvas Styling Methods
-     ============================= */
-
-  applyCanvasMode() {
-    resizeCanvas(this.CANVAS_W, this.CANVAS_H);
-    const body = document.body;
-    const c = document.querySelector("canvas");
-
-    body.style.display = "flex";
-    body.style.justifyContent = "center";
-    body.style.alignItems = "center";
-    body.style.background = "black";
-    body.style.overflow = "hidden";
-
-    if (c) {
-      c.style.width = this.CANVAS_W + "px";
-      c.style.height = this.CANVAS_H + "px";
-    }
-
-    this.canvasActive = true;
-  }
-
-  restoreFullCanvasMode() {
-    const body = document.body;
-    const c = document.querySelector("canvas");
-
-    body.style.display = "block";
-    body.style.background = "#111";
-    body.style.overflow = "";
-
-    if (c) {
-      c.style.width = "";
-      c.style.height = "";
-    }
-
-    resizeCanvas(window.innerWidth, window.innerHeight);
-    this.canvasActive = false;
-  }
-
-  handleResize() {
-    if (this.canvasActive) {
-      this.applyCanvasMode();
     }
   }
 }
