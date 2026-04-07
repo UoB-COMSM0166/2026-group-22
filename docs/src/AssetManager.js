@@ -17,6 +17,11 @@ class AssetManager {
     this.images.player_walk = loadImage("./assets/kirby_move.png");
     this.images.player_jump = loadImage("./assets/kirby_jump.png");
 
+    this.images.enemy_idle = loadImage("./assets/enemy_idle.png");
+    this.images.enemy_walk1 = loadImage("./assets/enemy_walk1.png");
+    this.images.enemy_walk2 = loadImage("./assets/enemy_walk2.png");
+    this.images.enemy_hurt = loadImage("./assets/enemy_hurt.png");
+
     // 2. World & Environment
     this.images.platform_tile = loadImage("./assets/platform_tile.png");
 

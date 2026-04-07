@@ -54,9 +54,15 @@ class LevelBuilder {
         }
       }
 
+      const enemySprites = {
+        idle: assets.getImg('enemy_idle'),
+        walk: [assets.getImg('enemy_walk1'), assets.getImg('enemy_walk2')],
+        hurt: assets.getImg('enemy_hurt')
+      };
+
       // Place Enemies
       if (p.hasEnemy) {
-        world.enemies.push(new Enemy(centerX, centerY - 100, 40, 40, 50, 2));
+        world.enemies.push(new Enemy(centerX, centerY - 100, 60, 60, 50, 2, enemySprites));
       }
 
       // Place Checkpoints
