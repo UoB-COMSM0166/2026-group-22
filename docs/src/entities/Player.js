@@ -270,9 +270,9 @@ class Player extends Entity {
     this.bowCharge = 0;
 
     // Apply Knockback: directionX is -1 (left) or 1 (right)
-    this.velX = directionX * 8;
-    this.velY = -5;
-    this.isGrounded = false;
+    // this.velX = directionX * 8;
+    // this.velY = -5;
+    // this.isGrounded = false;
   }
 
   // Override applyPhysics to include floor collision logic
