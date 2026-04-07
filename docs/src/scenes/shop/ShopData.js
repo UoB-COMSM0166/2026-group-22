@@ -2,7 +2,6 @@
 
 /** * Persistence & Economy Constants
  */
-const SHOP_STORAGE_KEY = "kirby_isle_shop_v1";
 const START_COINS = 25;        // Give Kirby a little more starting cash for testing
 const SELL_REFUND_RATE = 1.0;  // 80% refund (more realistic than 100%)
 
