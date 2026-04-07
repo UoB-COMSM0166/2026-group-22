@@ -1,5 +1,9 @@
 // src/constants.js
 const CONFIG = {
+  SYSTEM: {
+    SAVE_KEY: "isle_save_v1",
+  },
+
   // World Physics
   WORLD: {
     GRAVITY: 0.2,
@@ -9,6 +13,37 @@ const CONFIG = {
     CANVAS_HEIGHT: 600,
     WIDTH: 2000,
     HEIGHT: 400,
+  },
+
+  SHOP: {
+    START_COINS: 25,
+    SELL_REFUND_RATE: 1.0,
+
+    SLOTS: [
+      { itemId: "pistol", rx: 0.287, ry: 0.255, rw: 0.075, rh: 0.100 },
+      { itemId: "fireball", rx: 0.375, ry: 0.255, rw: 0.075, rh: 0.100 },
+    ],
+
+    ITEMS: [
+      {
+        id: "pistol",
+        name: "Pistol",
+        type: "weapon",
+        price: 3,
+        damage: 10,
+        desc: ["A reliable handgun.", "Good for single targets."],
+        iconKey: "icon_pistol",
+      },
+      {
+        id: "fireball",
+        name: "Fireball Magic",
+        type: "spell",
+        price: 4,
+        damage: 25,
+        desc: ["Cast a blazing fireball.", "Great for crowd damage."],
+        iconKey: "icon_fireball",
+      },
+    ]
   },
 
   LEVELS: [], // initialised as an empty array then add each level in their own corresponding file

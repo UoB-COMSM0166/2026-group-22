@@ -5,6 +5,11 @@ class ShopScene {
     this.modalOpen = false;
     this.tf = null;
     this.inventorySlots = []; // To track hitboxes for clicking
+
+    // UI Layout Constants
+    this.INV_MAX = 6;
+    this.INV_OFFSET_X = 0.05;
+    this.INV_OFFSET_Y = 0.12;
   }
 
   onEnter() {
@@ -51,7 +56,7 @@ class ShopScene {
   }
 
   drawShelf() {
-    for (const slot of SHOP_SLOTS) {
+    for (const slot of CONFIG.SHOP.SLOTS) {
       if (gameState.isOwned(slot.itemId)) continue;
 
       const r = this.slotToScreen(slot);
@@ -83,8 +88,8 @@ class ShopScene {
   drawInventoryBar() {
     const pad = this.tf.dw * 0.03;
     const barH = this.tf.dh * 0.14;
-    const barX = this.tf.dx + pad + this.tf.dw * INVENTORY_OFFSET_X;
-    const barY = this.tf.dy + this.tf.dh - pad - barH - this.tf.dh * INVENTORY_OFFSET_Y;
+    const barX = this.tf.dx + pad + this.tf.dw * this.INV_OFFSET_X;
+    const barY = this.tf.dy + this.tf.dh - pad - barH - this.tf.dh * this.INV_OFFSET_Y;
     const barW = this.tf.dw - pad * 2;
 
     push();
@@ -97,7 +102,7 @@ class ShopScene {
 
     this.inventorySlots = [];
 
-    for (let i = 0; i < INVENTORY_MAX_SLOTS; i++) {
+    for (let i = 0; i < this.INV_MAX; i++) {
       const itemId = gameState.ownedItemIds[i] || null;
       const r = { x: startX + i * (slotSize + gap), y: barY + (barH - slotSize) / 2, w: slotSize, h: slotSize, itemId };
       this.inventorySlots.push(r);
@@ -240,7 +245,7 @@ class ShopScene {
     if (gameState.isOwned(itemId)) {
       return this.inventorySlots.find(s => s.itemId === itemId) || null;
     }
-    const slot = SHOP_SLOTS.find(s => s.itemId === itemId);
+    const slot = CONFIG.SHOP.SLOTS.find(s => s.itemId === itemId);
     return slot ? this.slotToScreen(slot) : null;
   }
 
@@ -248,7 +253,7 @@ class ShopScene {
     if (this.modalOpen) return;
 
     // Check Shelf
-    for (const slot of SHOP_SLOTS) {
+    for (const slot of CONFIG.SHOP.SLOTS) {
       if (!gameState.isOwned(slot.itemId) && this.inRect(mouseX, mouseY, this.slotToScreen(slot))) {
         gameState.selectedItemId = slot.itemId;
         return;

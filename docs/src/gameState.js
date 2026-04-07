@@ -2,7 +2,7 @@
 
 class GameState {
   constructor() {
-    this.STORAGE_KEY = "kirby_isle_save_v1";
+    this.SAVE_KEY = CONFIG.SYSTEM.SAVE_KEY;
 
     // --- Identification ---
     this.selectedCharacterId = null;
@@ -12,7 +12,7 @@ class GameState {
 
     // --- Economy & Inventory ---
     // Pulls default from ShopData if available, else defaults to 25
-    this.coins = typeof START_COINS !== 'undefined' ? START_COINS : 25;
+    this.coins = CONFIG.SHOP.START_COINS;
     this.ownedItemIds = [];
     this.equippedWeaponId = null;
 
@@ -45,13 +45,13 @@ class GameState {
       campIntroDone: this.campIntroDone,
       settings: this.settings
     };
-    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(data));
+    localStorage.setItem(this.SAVE_KEY, JSON.stringify(data));
     console.log("[GameState] Data saved to LocalStorage.");
   }
 
   load() {
     try {
-      const raw = localStorage.getItem(this.STORAGE_KEY);
+      const raw = localStorage.getItem(this.SAVE_KEY);
       if (!raw) return;
       const data = JSON.parse(raw);
 
@@ -73,9 +73,7 @@ class GameState {
 
   getItemData(itemId) {
     // Looks up item details in the global SHOP_ITEMS catalog
-    return typeof SHOP_ITEMS !== 'undefined'
-      ? SHOP_ITEMS.find(it => it.id === itemId) || null
-      : null;
+    return CONFIG.SHOP.ITEMS.find(it => it.id === itemId) || null;
   }
 
   purchaseItem(itemId) {
@@ -96,9 +94,7 @@ class GameState {
     if (!this.isOwned(itemId)) return false;
     const item = this.getItemData(itemId);
 
-    // Calculate refund based on the global rate in ShopData
-    const rate = typeof SELL_REFUND_RATE !== 'undefined' ? SELL_REFUND_RATE : 0.5;
-    const refund = Math.round(item.price * rate);
+    const refund = Math.round(item.price * CONFIG.SHOP.SELL_REFUND_RATE);
 
     this.coins += refund;
     this.ownedItemIds = this.ownedItemIds.filter(id => id !== itemId);
@@ -142,7 +138,7 @@ class GameState {
   }
 
   resetRun() {
-    this.coins = typeof START_COINS !== 'undefined' ? START_COINS : 25;
+    this.coins = CONFIG.SHOP.START_COINS;
     this.ownedItemIds = [];
     this.equippedWeaponId = null;
     this.levelsUnlocked = [true, false, false, false];
