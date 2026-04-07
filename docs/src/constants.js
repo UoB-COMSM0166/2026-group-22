@@ -15,6 +15,47 @@ const CONFIG = {
     HEIGHT: 400,
   },
 
+  CAMP: {
+    DIALOGUE: [
+      "Signal connecting...",
+      "Handshake complete.",
+      "Welcome to the Isle.\nFour doors.\nFour rules.\nOne escape.",
+      "The island does not sleep.\nIt watches.\nIt listens.",
+      "The doors are not portals.\nThey are tests.",
+      "Each door leads to a trial.\nEach trial rewrites you.",
+      "Choose a path.\nBut understand this:",
+      "Once you enter,\nyou will not return unchanged.",
+      "Failure is not death.\nIt is memory.",
+      "The fire is safe.\nFor now.",
+      "When the doors awaken,\nthe rules begin.",
+      "Proceed."
+    ],
+    VIEWS: [
+      {
+        name: "4 Doors",
+        imgKey: 'camp_A',
+        hotspots: [
+          { id: "shop", label: "Camp Shop", x: 183, y: 286, w: 230, h: 250, action: "shop" },
+          { id: "board", label: "Board", x: 427, y: 473, w: 213, h: 148, action: "board" },
+          { id: "door1", label: "Door 1", x: 613, y: 308, w: 132, h: 127, action: "door", val: 1 },
+          { id: "door2", label: "Door 2", x: 788, y: 311, w: 113, h: 127, action: "door", val: 2 },
+          { id: "door3", label: "Door 3", x: 961, y: 314, w: 103, h: 127, action: "door", val: 3 },
+          { id: "door4", label: "Door 4", x: 1134, y: 311, w: 116, h: 146, action: "door", val: 4 },
+        ]
+      },
+      {
+        name: "2 Doors",
+        imgKey: 'camp_B',
+        hotspots: [
+          { id: "shop", label: "Camp Shop", x: 183, y: 286, w: 230, h: 250, action: "shop" },
+          { id: "board", label: "Board", x: 362, y: 521, w: 194, h: 84, action: "board" },
+          { id: "door5", label: "Door 5", x: 583, y: 354, w: 178, h: 186, action: "door", val: 5 },
+          { id: "door6", label: "Door 6", x: 1002, y: 354, w: 173, h: 197, action: "door", val: 6 },
+        ]
+      }
+    ]
+  },
+
   SHOP: {
     START_COINS: 25,
     SELL_REFUND_RATE: 1.0,
