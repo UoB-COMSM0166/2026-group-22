@@ -7,10 +7,6 @@ class TitleScene extends BaseScene {
     this.btnRect = { x: 0, y: 0, w: 0, h: 0 };
   }
 
-  // Use this for the logic usually found in p5's preload()
-  preload() {
-  }
-
   // One-time setup when the scene is first created
   setup() {
     if (this.startBtnImg && this.startBtnImg.width > 0) {

@@ -16,9 +16,6 @@ class CharacterSelectScene extends BaseScene {
     ];
   }
 
-  preload() {
-  }
-
   onEnter() {
     // Reset state every time we navigate to this screen
     this.popupOpen = false;

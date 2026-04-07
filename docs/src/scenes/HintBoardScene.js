@@ -9,12 +9,7 @@ class HintBoardScene extends BaseScene {
       "Hint 4: Collect coins to spend in the Camp Shop."
     ];
   }
-
-  preload() {
-    // If you have a board background image, load it here
-    // this.boardImg = loadImage("assets/board_bg.png");
-  }
-
+  
   setup() {
     // One-time setup
   }

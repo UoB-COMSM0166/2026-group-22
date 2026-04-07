@@ -123,13 +123,6 @@ const CONFIG = {
     INHALE: 75,  // K (Suction)
     BOW: 76      // L (Archery Skill)
   },
-
-  // File paths
-  PATH: {
-    PLAYER_IDLE: './assets/kirby_idle.png', // path based on index.html, not the .js file
-    PLAYER_MOVE: './assets/kirby_move.png',
-    PLAYER_JUMP: './assets/kirby_jump.png'
-  }
 };
 
 // Optional: Prevent accidental changes during runtime

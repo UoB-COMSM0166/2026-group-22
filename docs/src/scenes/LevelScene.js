@@ -12,19 +12,6 @@ class LevelScene extends GameplayScene {
     };
   }
 
-  preload() {
-    this.levelBackgrounds = CONFIG.LEVELS.map(level => {
-      if (!level.backgrounds) return null;
-
-      return {
-        far: loadImage(level.backgrounds.far),
-        midBack: loadImage(level.backgrounds.midBack),
-        midFront: loadImage(level.backgrounds.midFront),
-        front: loadImage(level.backgrounds.front)
-      };
-    });
-  }
-
   // Logic to run when the scene starts
   onEnter() {
     this.applyCanvasMode();
@@ -33,11 +20,8 @@ class LevelScene extends GameplayScene {
   }
 
   buildLevel(doorNumber) {
-    const data = CONFIG.LEVELS[doorNumber - 1];
-
-    const preloadedBgs = this.levelBackgrounds[doorNumber - 1];
     // Safety fallback: if no backgrounds exist, provide nulls to avoid errors
-    this.bgLayers = preloadedBgs || { far: null, midBack: null, midFront: null, front: null };
+    this.bgLayers = assets.getLevelBgs(doorNumber - 1);
 
     this.doorNumber = doorNumber;
 
