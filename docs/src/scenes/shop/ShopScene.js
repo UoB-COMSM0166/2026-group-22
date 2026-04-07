@@ -11,8 +11,8 @@ class ShopScene {
   }
 
   onEnter() {
-    shopState.load(); // Load data from localStorage on entry
-    shopState.selectedItemId = null; 
+    gameState.load(); // Load data from localStorage on entry
+    gameState.selectedItemId = null; 
     this.buyModel.close();
   }
 
@@ -28,7 +28,7 @@ class ShopScene {
     if (this.buyModel.isOpen) this.buyModel.draw();
     
     // Fixed: Pass the instance coins to the header
-    ShopUI.drawHeader(shopState.coins); 
+    ShopUI.drawHeader(gameState.coins); 
   }
 
   mousePressed() {

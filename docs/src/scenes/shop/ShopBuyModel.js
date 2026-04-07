@@ -2,8 +2,7 @@
 class ShopBuyModel {
   constructor() {
     this.ui = ShopUI;
-    this.state = shopState;
-    
+    this.state = gameState;
     this.isOpen = false;
     this.buyBtnRect = null;
     this.cancelBtnRect = null;
@@ -15,7 +14,7 @@ class ShopBuyModel {
   draw() {
     // Only proceed if an item is selected and the modal is open
     const itemId = this.state.selectedItemId;
-    const item = this.state.getItem(itemId);
+    const item = this.state.getItemData(itemId);
     if (!item || !this.isOpen) return;
 
     // Get the transform for scaling math
@@ -104,7 +103,7 @@ class ShopBuyModel {
 
     // Check Buy Button
     if (this.buyBtnRect && this.ui.inRect(mouseX, mouseY, this.buyBtnRect)) {
-      const ok = this.state.buy(this.state.selectedItemId);
+      const ok = this.state.purchaseItem(this.state.selectedItemId);
       if (ok) {
         console.log("[Shop] Purchase successful!");
         this.close();

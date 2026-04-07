@@ -170,7 +170,7 @@ class World {
       image(this.bgLayers.front, 0, 0, width, height);
     }
 
-    this.statsBar.draw(this.player, shopState.coins);
+    this.statsBar.draw(this.player, gameState.coins);
   }
 
   // Helper to handle the looping image math

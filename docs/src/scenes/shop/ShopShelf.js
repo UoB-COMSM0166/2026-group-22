@@ -3,7 +3,7 @@ class ShopShelf {
   constructor() {
     // Reference the global helpers directly
     this.ui = ShopUI;
-    this.state = shopState;
+    this.state = gameState;
   }
 
   // No need to pass variables anymore, the class knows where to look!
@@ -38,7 +38,7 @@ class ShopShelf {
       rect(r.x, r.y, r.w, r.h, 14);
 
       // Icon drawing
-      const item = this.state.getItem(slot.itemId);
+      const item = this.state.getItemData(slot.itemId);
       const icon = item ? assets.getImg(item.iconKey) : null;
       if (icon) {
         this.ui.drawIconFit(icon, r, 0.80);

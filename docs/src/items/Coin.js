@@ -5,11 +5,7 @@ class Coin extends Collectable {
   }
 
   onCollect(player) {
-    // 1. Update the global shop wallet
-    shopState.coins += 1;
-    
-    // 2. Persist the change to localStorage
-    shopState.save();
+    gameState.addCoins(1);
   }
 
   show() {

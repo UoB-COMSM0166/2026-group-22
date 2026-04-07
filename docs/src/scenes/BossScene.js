@@ -121,7 +121,7 @@ class BossScene extends GameplayScene {
     fill(255, 0, 50);
     rect(width / 2 - barW / 2, 30, hpW, 15, 5);
 
-    this.statsBar.draw(this.player, shopState.coins, false);
+    this.statsBar.draw(this.player, gameState.coins, false);
   }
 
   keyPressed() {

@@ -1,14 +1,14 @@
 class ShopInventoryBar {
   constructor() {
     this.ui = ShopUI;
-    this.state = shopState;
+    this.state = gameState;
     this.slots = [];
   }
 
   draw() {
     const tf = this.ui.getContainTransform(assets.getImg('shop_bg'));
     const bar = this.getBarRect(tf);
-    const ownedIds = this.state.getOwnedItemIds();
+    const ownedIds = this.state.ownedItemIds;
     this.slots = []; 
 
     push();
@@ -45,7 +45,7 @@ class ShopInventoryBar {
       rect(r.x, r.y, r.w, r.h, 12);
 
       if (itemId) {
-        const item = this.state.getItem(itemId);
+        const item = this.state.getItemData(itemId);
         const icon = assets.getImg(item.iconKey);
         this.ui.drawIconFit(icon, r, 0.75);
       }

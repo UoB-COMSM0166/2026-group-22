@@ -1,7 +1,7 @@
 class ShopInfoPanel {
   constructor() {
     this.ui = ShopUI;
-    this.state = shopState;
+    this.state = gameState;
     this.equipBtnRect = null;
     this.sellBtnRect = null;
   }
@@ -9,7 +9,7 @@ class ShopInfoPanel {
   draw() {
     const itemId = this.state.selectedItemId;
     if (!itemId) return;
-    const item = this.state.getItem(itemId);
+    const item = this.state.getItemData(itemId);
     if (!item) return;
 
     const tf = this.ui.getContainTransform(assets.getImg('shop_bg'));
@@ -84,11 +84,11 @@ class ShopInfoPanel {
   handleMouse() {
     if (!this.state.selectedItemId) return false;
     if (this.equipBtnRect && this.ui.inRect(mouseX, mouseY, this.equipBtnRect)) {
-      this.state.equip(this.state.selectedItemId);
+      this.state.equipWeapon(this.state.selectedItemId);
       return true;
     }
     if (this.sellBtnRect && this.ui.inRect(mouseX, mouseY, this.sellBtnRect)) {
-      this.state.sell(this.state.selectedItemId);
+      this.state.sellItem(this.state.selectedItemId);
       if (!this.state.isOwned(this.state.selectedItemId)) this.state.selectedItemId = null;
       return true;
     }

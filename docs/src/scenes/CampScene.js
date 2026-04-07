@@ -81,13 +81,14 @@ class CampScene {
   }
 
   onEnter() {
-    if (window.GameState && window.GameState.campIntroDone) {
+    if (gameState.campIntroDone) {
       this.dialogueActive = false;
       return;
     }
     this.dialogueActive = true;
     this.dialogueIndex = 0;
-    if (window.GameState) window.GameState.campIntroDone = true;
+    gameState.campIntroDone = true;
+    gameState.save();
   }
 
   draw() {
@@ -245,7 +246,7 @@ class CampScene {
     rect(x, y, w, h, 18);
 
     const msg = this.INTRO_DIALOGUE[Math.min(this.dialogueIndex, this.INTRO_DIALOGUE.length - 1)];
-    const f = window.Assets?.plasdripFont;
+    const f = assets.getFont();
 
     if (f) textFont(f);
     textAlign(CENTER, CENTER);

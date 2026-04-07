@@ -56,9 +56,6 @@ class SceneManager {
     for (let key in this.scenes) {
       if (this.scenes[key].preload) this.scenes[key].preload();
     }
-
-    if (!window.Assets) window.Assets = {};
-    window.Assets.plasdripFont = loadFont("assets/plasdrip.ttf");
   }
 
   setup() {

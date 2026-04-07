@@ -42,7 +42,7 @@ class HintBoardScene {
 
     // Title
     fill(40, 20, 0);
-    if (window.Assets?.plasdripFont) textFont(window.Assets.plasdripFont);
+    textFont(assets.getFont());
     textAlign(CENTER, TOP);
     textSize(42);
     text("HINT BOARD", width / 2, by + 40);
