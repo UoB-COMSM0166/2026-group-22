@@ -42,16 +42,6 @@ const CONFIG = {
           { id: "door3", label: "Door 3", x: 961, y: 314, w: 103, h: 127, action: "door", val: 3 },
           { id: "door4", label: "Door 4", x: 1134, y: 311, w: 116, h: 146, action: "door", val: 4 },
         ]
-      },
-      {
-        name: "2 Doors",
-        imgKey: 'camp_B',
-        hotspots: [
-          { id: "shop", label: "Camp Shop", x: 183, y: 286, w: 230, h: 250, action: "shop" },
-          { id: "board", label: "Board", x: 362, y: 521, w: 194, h: 84, action: "board" },
-          { id: "door5", label: "Door 5", x: 583, y: 354, w: 178, h: 186, action: "door", val: 5 },
-          { id: "door6", label: "Door 6", x: 1002, y: 354, w: 173, h: 197, action: "door", val: 6 },
-        ]
       }
     ]
   },

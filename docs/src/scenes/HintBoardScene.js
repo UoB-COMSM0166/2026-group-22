@@ -36,12 +36,13 @@ class HintBoardScene extends BaseScene {
     // Board Frame
     fill(60, 40, 20); // Dark brown wood
     rect(bx - 10, by - 10, boardW + 20, boardH + 20, 10);
-    
+
     // Paper Surface
     fill(245, 230, 200); // Old paper color
     rect(bx, by, boardW, boardH, 5);
 
     // Title
+    push();
     fill(40, 20, 0);
     textFont(assets.getFont());
     textAlign(CENTER, TOP);
@@ -55,13 +56,14 @@ class HintBoardScene extends BaseScene {
     for (let i = 0; i < this.hints.length; i++) {
       text(`${i + 1}. ${this.hints[i]}`, bx + 50, startY + (i * 45));
     }
+    pop();
 
     // Footer
     textAlign(CENTER, BOTTOM);
     textSize(18);
     fill(100, 50, 0);
     text("Press ESC to return to Camp", width / 2, by + boardH - 30);
-    
+
     cursor("default");
   }
 
