@@ -1,6 +1,7 @@
 // src/scenes/HintBoardScene.js
-class HintBoardScene {
+class HintBoardScene extends BaseScene {
   constructor() {
+    super();
     this.hints = [
       "Hint 1: Kirby can float by holding SPACE!",
       "Hint 2: Watch out for holes between platforms.",

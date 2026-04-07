@@ -1,6 +1,7 @@
-// src/scenes/shop/ShopScene.js
-class ShopScene {
+// src/scenes/ShopScene.js
+class ShopScene extends BaseScene {
   constructor() {
+    super();
     this.bgImg = null;
     this.modalOpen = false;
     this.tf = null;
@@ -272,8 +273,6 @@ class ShopScene {
     if (keyCode === ESCAPE) sceneManager.switch("camp");
   }
 
-  inRect(px, py, r) { return px >= r.x && px <= r.x + r.w && py >= r.y && py <= r.y + r.h; }
-
   slotToScreen(slot) {
     return {
       x: this.tf.dx + slot.rx * this.tf.dw,
@@ -281,15 +280,6 @@ class ShopScene {
       w: slot.rw * this.tf.dw,
       h: slot.rh * this.tf.dh,
     };
-  }
-
-  getContainTransform(img) {
-    const canvasAspect = width / height;
-    const imgAspect = img.width / img.height;
-    let dw, dh;
-    if (imgAspect > canvasAspect) { dw = width; dh = width / imgAspect; }
-    else { dh = height; dw = height * imgAspect; }
-    return { dx: (width - dw) / 2, dy: (height - dh) / 2, dw, dh };
   }
 
   drawIcon(img, rect, scale) {

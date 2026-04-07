@@ -1,6 +1,7 @@
 // src/scenes/TitleScene.js
-class TitleScene {
+class TitleScene extends BaseScene {
   constructor() {
+    super();
     this.bgImg = assets.getImg('title_bg');
     this.startBtnImg = assets.getImg('start_btn');
     this.btnRect = { x: 0, y: 0, w: 0, h: 0 };
@@ -89,9 +90,5 @@ class TitleScene {
       dy: (height - dh) / 2, 
       dw, dh 
     };
-  }
-
-  inRect(px, py, r) {
-    return px >= r.x && px <= r.x + r.w && py >= r.y && py <= r.y + r.h;
   }
 }

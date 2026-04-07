@@ -1,8 +1,7 @@
 // src/scenes/GameplayScene.js
-class GameplayScene {
+class GameplayScene extends BaseScene {
   constructor() {
-    this.canvasActive = false;
-    
+    super();
     // Default dimensions from CONFIG
     this.CANVAS_W = CONFIG.WORLD.CANVAS_WIDTH;
     this.CANVAS_H = CONFIG.WORLD.CANVAS_HEIGHT;

@@ -12,8 +12,9 @@ class Hotspot {
   }
 }
 
-class CampScene {
+class CampScene extends BaseScene {
   constructor() {
+    super();
     this.viewIndex = 0;
     this.showHotspots = false;
     this.picking = null;
@@ -308,26 +309,13 @@ class CampScene {
   /* =============================
      Coordinate & Layout Helpers
      ============================= */
-
-  getContainTransform(img) {
-    const canvasAspect = width / height;
-    const imgAspect = img.width / img.height;
-    let dw, dh;
-    if (imgAspect > canvasAspect) { dw = width; dh = width / imgAspect; }
-    else { dh = height; dw = height * imgAspect; }
-    return { dx: (width - dw) / 2, dy: (height - dh) / 2, dw, dh, iw: img.width, ih: img.height };
-  }
-
+     
   screenToImage(mx, my, tf) {
     if (mx < tf.dx || mx > tf.dx + tf.dw || my < tf.dy || my > tf.dy + tf.dh) return null;
     return {
       x: ((mx - tf.dx) / tf.dw) * tf.iw,
       y: ((my - tf.dy) / tf.dh) * tf.ih
     };
-  }
-
-  inRect(px, py, r) {
-    return px >= r.x && px <= r.x + r.w && py >= r.y && py <= r.y + r.h;
   }
 
   getTopRightIconRect(tf, indexFromRight) {

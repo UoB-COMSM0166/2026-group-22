@@ -1,6 +1,7 @@
 // src/scenes/CharacterSelectScene.js
-class CharacterSelectScene {
+class CharacterSelectScene extends BaseScene {
   constructor() {
+    super();
     this.bgImg = assets.getImg('char_select_bg');
     this.popupOpen = false;
     this.pendingChar = null;
@@ -179,22 +180,5 @@ class CharacterSelectScene {
       this.pendingChar = null;
       sceneManager.switch("camp");
     }
-  }
-
-  // --- Common Helpers ---
-  getContainTransform(img) {
-    const canvasAspect = width / height;
-    const imgAspect = img.width / img.height;
-    let dw, dh;
-    if (imgAspect > canvasAspect) {
-      dw = width; dh = width / imgAspect;
-    } else {
-      dh = height; dw = height * imgAspect;
-    }
-    return { dx: (width - dw) / 2, dy: (height - dh) / 2, dw, dh };
-  }
-
-  inRect(px, py, r) {
-    return px >= r.x && px <= r.x + r.w && py >= r.y && py <= r.y + r.h;
   }
 }

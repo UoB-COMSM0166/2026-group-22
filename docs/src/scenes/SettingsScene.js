@@ -1,6 +1,7 @@
 // src/scenes/SettingsScene.js
-class SettingsScene {
+class SettingsScene extends BaseScene {
   constructor() {
+    super();
     this.resetBtnRect = { x: 0, y: 0, w: 200, h: 50 };
   }
 
@@ -63,8 +64,4 @@ class SettingsScene {
     }
   }
 
-  // Helper for collision
-  inRect(px, py, r) {
-    return px >= r.x && px <= r.x + r.w && py >= r.y && py <= r.y + r.h;
-  }
 }
