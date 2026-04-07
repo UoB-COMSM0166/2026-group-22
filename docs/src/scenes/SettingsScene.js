@@ -1,15 +1,7 @@
 // src/scenes/SettingsScene.js
 class SettingsScene {
   constructor() {
-    // You can add properties like this.volume = 100 later
-  }
-
-  preload() {
-    // Load any settings icons or background music here
-  }
-
-  setup() {
-    // One-time setup
+    this.resetBtnRect = { x: 0, y: 0, w: 200, h: 50 };
   }
 
   onEnter() {
@@ -18,31 +10,61 @@ class SettingsScene {
 
   draw() {
     background(0);
-    fill(255);
-    textSize(32);
     textAlign(CENTER, CENTER);
     
-    // Add a bit of style to your placeholder
-    text("SETTINGS", width / 2, height / 2 - 40);
+    // 1. Title
+    fill(255);
+    textSize(32);
+    if (window.Assets?.plasdripFont) textFont(window.Assets.plasdripFont);
+    text("SETTINGS", width / 2, height / 2 - 100);
     
-    textSize(16);
+    // 2. Button Setup
+    this.resetBtnRect.x = width / 2 - this.resetBtnRect.w / 2;
+    this.resetBtnRect.y = height / 2 - this.resetBtnRect.h / 2;
+
+    const isOver = this.inRect(mouseX, mouseY, this.resetBtnRect);
+
+    // 3. Draw Reset Button
+    stroke(255, 50);
+    fill(isOver ? [150, 0, 0] : [100, 0, 0]); // Dark red normally, brighter on hover
+    rect(this.resetBtnRect.x, this.resetBtnRect.y, this.resetBtnRect.w, this.resetBtnRect.h, 10);
+    
+    noStroke();
+    fill(255);
+    textSize(20);
+    textFont('sans-serif');
+    text("RESET ALL DATA", width / 2, height / 2);
+
+    // 4. Instructions
     fill(150);
-    text("(TODO: Add Volume & Graphics Options)", width / 2, height / 2);
+    textSize(14);
+    text("(Warning: This deletes all coins and progress)", width / 2, height / 2 + 40);
     
     fill(200);
-    text("Press ESC to return to Camp", width / 2, height / 2 + 60);
+    text("Press ESC to return to Camp", width / 2, height / 2 + 100);
     
-    cursor("default");
+    cursor(isOver ? HAND : ARROW);
   }
 
   mousePressed() {
-    // Handle slider clicks here later
+    // 5. Trigger the Reset
+    if (this.inRect(mouseX, mouseY, this.resetBtnRect)) {
+      if (confirm("Are you sure you want to delete all save data?")) {
+        gameState.resetRun(); // Call the centralized reset logic
+        console.log("Data Reset complete.");
+        sceneManager.switch("title"); // Optional: Send back to title after wipe
+      }
+    }
   }
 
   keyPressed() {
-    // Standard back-navigation
     if (keyCode === ESCAPE) {
       sceneManager.switch("camp");
     }
+  }
+
+  // Helper for collision
+  inRect(px, py, r) {
+    return px >= r.x && px <= r.x + r.w && py >= r.y && py <= r.y + r.h;
   }
 }
