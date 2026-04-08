@@ -6,21 +6,14 @@ class JumpBooster extends Collectable {
     this.isInhaleable = true;
     this.isTouchCollectable = false;
 
-    this.boostAmount = 1.5;
     this.boostTimer = 300;
     this.respawnTimer = 120;
     this.shouldRespawn = true;
   }
 
   onCollect(player) {
-    player.hasSkill = true;
-    player.currentSkill = CONFIG.SKILLS.JUMP;
-
-    // Apply the boost
-    player.lift *= this.boostAmount;
-
-    // Revert after the duration
-    player.skillTimer = this.boostTimer;
+    player.abilities.setSkill(CONFIG.SKILLS.JUMP, this.boostTimer);
+    this.active = false;
   }
 
   show() {

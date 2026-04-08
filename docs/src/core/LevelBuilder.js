@@ -9,10 +9,10 @@ class LevelBuilder {
     // 1. Bubble Mode Setup
     if (data.bubbleMode) {
       world.player.bubbleMode = true;
-      world.player.activateBubble(3);
+      world.player.abilities.activateBubble(3);
     } else {
       world.player.bubbleMode = false;
-      world.player.resetBubbleState();
+      world.player.abilities.resetBubbleState();
     }
 
     let currentX = data.startX;

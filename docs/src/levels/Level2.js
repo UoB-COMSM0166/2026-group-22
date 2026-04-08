@@ -2,6 +2,12 @@ CONFIG.LEVELS[1] = {
   worldWidth: 6300,
   worldHeight: 800,
   startX: 300,
+  backgrounds: {
+    far: "assets/bg/lv2/farBg2.png",
+    midBack: "assets/bg/lv2/midBackBg2.png",
+    midFront: "assets/bg/lv2/midFrontBg2.png",
+    front: "assets/bg/lv2/frontBg2.png"
+  },
   bubbleMode: true,
 
   platforms: [

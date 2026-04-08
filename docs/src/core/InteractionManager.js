@@ -20,7 +20,7 @@ class InteractionManager {
       // 2. Handle Logic Triggers (Scene switches, skill resets)
       if (entity instanceof Player) {
         if (platform instanceof VanishablePlatform) platform.isTouched = true;
-        if (platform.removesSkill) entity.resetSkills();
+        if (platform.removesSkill) entity.abilities.resetSkills();
 
         if (platform.hasBoss || platform.hasSummonerBoss) {
           sceneManager.switch("boss", {

@@ -6,6 +6,7 @@ class Coin extends Collectable {
 
   onCollect(player) {
     gameState.addCoins(1);
+    this.active = false;
   }
 
   show() {

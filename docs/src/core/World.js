@@ -36,7 +36,6 @@ class World {
   update() {
     // 1. Update the Player
     this.player.update();
-    this.handlePlayerShooting(); // Check for 'J' key
     this.updateProjectiles();
     this.platforms.forEach(p => p.update());
     this.enemies.forEach(e => e.update(this.platforms));
@@ -72,8 +71,6 @@ class World {
       this.coins = this.coins.filter(c => c.active || c.shouldRespawn);
       this.items = this.items.filter(c => c.active || c.shouldRespawn);
     }
-
-    this.player.animate();
     this.updateCamera();
   }
 
@@ -91,23 +88,6 @@ class World {
     this.cameraY = constrain(this.cameraY, 0, this.height - height);
   }
 
-  handlePlayerShooting() {
-    if (keyIsDown(CONFIG.CONTROLS.SHOOT) && this.player.currentCooldown <= 0) {
-      let dir = this.player.isFacingLeft ? -1 : 1;
-
-      let pb = new Bullet(
-        this.player.x + (20 * dir),
-        this.player.y,
-        12 * dir, 0,
-        15, 10,
-        color(255, 255, 0)
-      );
-
-      this.playerBullets.push(pb);
-      this.player.currentCooldown = this.player.shootCooldown;
-    }
-  }
-
   updateProjectiles() {
     for (let i = this.playerBullets.length - 1; i >= 0; i--) {
       this.playerBullets[i].update();
@@ -115,6 +95,16 @@ class World {
         this.playerBullets.splice(i, 1);
       }
     }
+  }
+
+  spawnBullet(x, y, dir) {
+    let pb = new Bullet(
+      x, y,
+      12 * dir, 0, // Velocity
+      15, 10,      // Damage/Speed
+      color(255, 255, 0)
+    );
+    this.playerBullets.push(pb);
   }
 
   spawnArrow(x, y, vx, vy) {
@@ -205,14 +195,14 @@ class World {
   }
 
   respawnPlayer() {
-    let currentSkill = this.player.currentSkill;
+    const ab = this.player.abilities;
+    let currentSkill = ab.currentSkill;
 
     this.player.hp -= 20;
     this.player.reset(this.spawnX, this.spawnY);
 
     if (currentSkill === CONFIG.SKILLS.BOW) {
-      this.player.hasSkill = true;
-      this.player.currentSkill = CONFIG.SKILLS.BOW;
+      ab.setSkill(CONFIG.SKILLS.BOW, 999999);
     }
   }
 

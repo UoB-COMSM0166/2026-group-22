@@ -20,10 +20,11 @@ class Collectable extends GameObject {
       // 1. Floating animation
       this.hoverOffset = sin(frameCount * this.floatSpeed) * this.floatAmplitude;
 
-      if (this.isInhaleable && player.isInhaling) {
+      const ab = player.abilities;
+      if (this.isInhaleable && ab.isInhaling) {
         let d = dist(this.x, this.y, player.x, player.y);
 
-        if (d < player.inhaleRange) {
+        if (d < ab.inhaleRange) {
           // Physics: Attraction
           this.x = lerp(this.x, player.x, 0.15);
           this.y = lerp(this.y, player.y, 0.15);
@@ -31,7 +32,6 @@ class Collectable extends GameObject {
           // Collection: Mouth threshold
           if (d < 25) {
             this.onCollect(player);
-            this.active = false;
             this.currentRespawnTimer = 0;
           }
         }
@@ -40,7 +40,6 @@ class Collectable extends GameObject {
       // 2. Collision check
       if (this.isTouchCollectable && this.intersects(player)) {
         this.onCollect(player);
-        this.active = false; // "Despawn"
         this.currentRespawnTimer = 0; // Reset the clock the moment it's grabbed
       }
     } else {
