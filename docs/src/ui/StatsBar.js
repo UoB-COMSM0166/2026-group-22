@@ -2,7 +2,7 @@
 class StatsBar {
   constructor() {
     this.margin = 20;
-    this.y = 75; 
+    this.y = 75;
     this.heartSpacing = 30;
   }
 
@@ -27,7 +27,7 @@ class StatsBar {
     push();
     translate(x, y);
     // Draw empty heart background
-    fill(50, 150); 
+    fill(50, 150);
     this.heartShape(15);
     // Draw red heart fill
     if (percent > 0) {
@@ -54,6 +54,25 @@ class StatsBar {
     textSize(22);
     textAlign(LEFT, TOP);
     text(`$ ${amount}`, this.margin, this.y + 20);
+    pop();
+  }
+
+  drawBossHealth(boss) {
+    if (!boss || !boss.active || boss.hp <= 0) return;
+
+    push();
+    let barW = 400;
+    // Calculate health width based on boss HP
+    let hpW = map(max(0, boss.hp), 0, boss.maxHp, 0, barW);
+
+    rectMode(CORNER);
+    // Background bar
+    fill(40, 200);
+    rect(width / 2 - barW / 2, 30, barW, 15, 5);
+
+    // Health fill (Red)
+    fill(255, 0, 50);
+    rect(width / 2 - barW / 2, 30, hpW, 15, 5);
     pop();
   }
 }

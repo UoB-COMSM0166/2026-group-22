@@ -113,14 +113,7 @@ class BossScene extends GameplayScene {
   }
 
   drawUI() {
-    // 1. Boss Health Bar (Top)
-    let barW = 400;
-    let hpW = map(max(0, this.boss.hp), 0, this.boss.maxHp, 0, barW);
-    fill(40, 200);
-    rect(width / 2 - barW / 2, 30, barW, 15, 5);
-    fill(255, 0, 50);
-    rect(width / 2 - barW / 2, 30, hpW, 15, 5);
-
+    this.statsBar.drawBossHealth(this.boss);
     this.statsBar.draw(this.player, gameState.coins, false);
   }
 

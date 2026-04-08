@@ -47,7 +47,8 @@ class DialogueManager {
     textAlign(CENTER, CENTER);
     textSize(Math.floor(h * 0.26));
     fill(170, 10, 10, 240);
-    stroke(0); strokeWeight(6);
+    stroke(0); 
+    strokeWeight(6);
     text(fullMsg, x + w / 2, y + h / 2);
 
     // Button Logic

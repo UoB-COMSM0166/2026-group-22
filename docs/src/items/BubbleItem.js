@@ -12,26 +12,6 @@ class BubbleItem extends Collectable {
     this.active = false;
   }
 
-  /**
-   * Draws the bubbles floating above Kirby's head
-   */
-  static drawUI(player) {
-    const ab = player.abilities;
-    if (!player.bubbleMode || ab.bubbleCount <= 0) return;
-
-    push();
-    for (let i = 0; i < ab.bubbleCount; i++) {
-      fill(180, 220, 255, 200);
-      stroke(255);
-      strokeWeight(2);
-      // Offset so bubbles are centered above Kirby
-      let xPos = player.x - (10 * (ab.bubbleCount - 1)) + (i * 20);
-      let yPos = player.y - player.h / 2 - 25;
-      ellipse(xPos, yPos, 12, 12);
-    }
-    pop();
-  }
-
   show() {
     if (!this.active) return;
 

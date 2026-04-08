@@ -105,8 +105,6 @@ class Player extends Entity {
     imageMode(CENTER);
     image(frameImg, 0, 0, this.w, this.h);
     pop();
-
-    BubbleItem.drawUI(this);
   }
 
   // Handles which frame should be displayed

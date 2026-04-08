@@ -139,19 +139,16 @@ class World {
 
     // Draw Checkpoints BEFORE the player
     this.checkpoints.forEach(cp => cp.show());
-
     this.platforms.forEach(p => p.show());
-
     this.coins.forEach(c => c.show());
-
     this.items.forEach(item => item.show());
-
     this.enemies.forEach(e => e.show());
-
     this.playerBullets.forEach(b => b.show());
 
     // Draw the Player
     this.player.show();
+
+    EntityOverlay.draw(this.player);
 
     pop();
 
