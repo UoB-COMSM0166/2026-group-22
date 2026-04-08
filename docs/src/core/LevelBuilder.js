@@ -62,7 +62,7 @@ class LevelBuilder {
 
       // Place Enemies
       if (p.hasEnemy) {
-        world.enemies.push(new Enemy(centerX, centerY - 100, 60, 60, 50, 2, enemySprites));
+        world.enemies.push(new Enemy(centerX, centerY - 100, enemySprites));
       }
 
       // Place Checkpoints
