@@ -4,48 +4,42 @@ class StatsBar {
     this.margin = 20;
     this.y = 75;
     this.heartSpacing = 30;
+    this.heartSize = 30;
   }
 
   // We pass in the data the StatsBar needs to "know" about
   draw(player, coins, showCoins = true) {
-    this.drawHearts(player.hp);
+    this.drawHearts(player.hp, player.maxHp);
     if (showCoins) this.drawCoins(coins);
   }
 
-  drawHearts(hp) {
+  drawHearts(hp, maxHp) {
     const maxHearts = 5;
-    const hpPerHeart = 100 / maxHearts;
+    const hpPerHeart = maxHp / maxHearts;
 
     for (let i = 0; i < maxHearts; i++) {
       let x = this.margin + i * this.heartSpacing;
-      let heartFill = constrain(hp - (i * hpPerHeart), 0, hpPerHeart);
-      this.renderHeart(x, this.y, heartFill / hpPerHeart);
+      let heartValue = hp - (i * hpPerHeart);
+
+      let img = null;
+      if (heartValue >= 20) {
+        img = assets.getImg('full_heart');
+      } else if (heartValue >= 10) {
+        img = assets.getImg('half_heart');
+      }
+
+      this.renderHeart(x, this.y, img);
     }
   }
 
-  renderHeart(x, y, percent) {
+  renderHeart(x, y, img) {
     push();
-    translate(x, y);
-    // Draw empty heart background
-    fill(50, 150);
-    this.heartShape(15);
-    // Draw red heart fill
-    if (percent > 0) {
-      fill(255, 50, 80);
-      this.heartShape(15 * percent);
+    imageMode(CENTER);
+
+    if (img) {
+      image(img, x, y, this.heartSize, this.heartSize);
     }
     pop();
-  }
-
-  heartShape(size) {
-    beginShape();
-    // Start at the bottom point
-    vertex(0, size);
-    // Left curve
-    bezierVertex(-size * 1.5, -size * 0.5, -size * 0.5, -size * 1.5, 0, -size * 0.5);
-    // Right curve
-    bezierVertex(size * 0.5, -size * 1.5, size * 1.5, -size * 0.5, 0, size);
-    endShape(CLOSE);
   }
 
   drawCoins(amount) {

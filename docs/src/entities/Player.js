@@ -12,6 +12,8 @@ class Player extends Entity {
       CONFIG.PLAYER.SPEED
     );
 
+    this.maxHp = this.hp;
+
     this.sprites = sprites;
 
     this.gravity = CONFIG.WORLD.GRAVITY;

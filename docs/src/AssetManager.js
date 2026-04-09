@@ -41,6 +41,9 @@ class AssetManager {
     this.images.icon_set = loadImage("assets/icon_settings.png");
     this.images.icon_snd = loadImage("assets/icon_sound.png");
 
+    this.images.full_heart = loadImage("assets/full_heart.png");
+    this.images.half_heart = loadImage("assets/half_heart.png");
+
     // 4. Shop Icons
     this.images.shop_bg = loadImage("assets/shop_bg.png");
     this.images.icon_pistol = loadImage("assets/icon_pistol.png");
