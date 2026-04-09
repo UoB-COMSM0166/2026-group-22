@@ -84,7 +84,7 @@ const CONFIG = {
     START_X: 100,
     START_Y: 600,
     WIDTH: 40,
-    HEIGHT: 40,
+    HEIGHT: 80,
     SPEED: 3,
     MAX_JUMP_COUNT: 2,
     LIFT: -5.5, // Jump/Float power

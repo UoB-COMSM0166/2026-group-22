@@ -12,7 +12,13 @@ class AssetManager {
    * This should be called inside the main p5.js preload().
    */
   preload() {
-    // 1. Player Sprites
+    this.images.char1_idle = loadImage("./assets/char/char1_idle.png");
+    this.images.char1_walk1 = loadImage("./assets/char/char1_walk1.png");
+    this.images.char1_walk2 = loadImage("./assets/char/char1_walk2.png");
+    this.images.char1_jump = loadImage("./assets/char/char1_jump.png");
+    this.images.char1_attack = loadImage("./assets/char/char1_attack.png");
+    this.images.char1_skill = loadImage("./assets/char/char1_skill.png");
+
     this.images.player_idle = loadImage("./assets/kirby_idle.png");
     this.images.player_walk = loadImage("./assets/kirby_move.png");
     this.images.player_jump = loadImage("./assets/kirby_jump.png");

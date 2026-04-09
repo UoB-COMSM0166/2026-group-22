@@ -25,14 +25,16 @@ class LevelScene extends GameplayScene {
 
     this.doorNumber = doorNumber;
 
-    const playerFrames = [
-      assets.getImg('player_idle'),
-      assets.getImg('player_walk'),
-      assets.getImg('player_jump')
-    ];
+    const playerSprites = {
+      idle: assets.getImg('char1_idle'),
+      walk: [assets.getImg('char1_walk1'), assets.getImg('char1_walk2')],
+      jump: assets.getImg('char1_jump'),
+      attack: assets.getImg('char1_attack'),
+      inhale: assets.getImg('char1_skill')
+    };
 
     // Instantiate your physical objects
-    this.player = new Player(playerFrames);
+    this.player = new Player(playerSprites);
     sceneManager.player = this.player;
 
     const worldAssets = {

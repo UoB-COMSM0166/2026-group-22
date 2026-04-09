@@ -147,7 +147,6 @@ class World {
 
     // Draw the Player
     this.player.show();
-
     EntityOverlay.draw(this.player);
 
     pop();

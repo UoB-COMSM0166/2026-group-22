@@ -1,7 +1,6 @@
 // Inherit from Entity, which already inherits from GameObject
 class Player extends Entity {
-  constructor(frames) {
-    const [idle, walk, jump] = frames;
+  constructor(sprites) {
     // 1. super() calls the Entity/GameObject constructors
     // Passes: x, y, width, height
     super(
@@ -13,16 +12,16 @@ class Player extends Entity {
       CONFIG.PLAYER.SPEED
     );
 
-    this.idleFrame = idle;
-    this.walkFrame = walk;
-    this.jumpFrame = jump;
+    this.sprites = sprites;
 
     this.gravity = CONFIG.WORLD.GRAVITY;
     this.lift = CONFIG.PLAYER.LIFT;
     this.maxJumpCount = CONFIG.PLAYER.MAX_JUMP_COUNT;
+
+    this.animationFrame = 0;
+    this.animationTimer = 0;
     this.animationSpeed = CONFIG.PLAYER.ANIMATION_SPEED;
 
-    this.currentFrame = 0;
     this.isFacingLeft = false;
     this.isGrounded = false;
     this.jumpCount = 0;
@@ -31,8 +30,6 @@ class Player extends Entity {
     this.invincibilityTimer = 0; // 0 means "can be hit"
 
     this.abilities = new AbilityManager(this);
-
-    // --- BUBBLE SYSTEM ---
     this.bubbleMode = false;
     this.worldReference = null;
   }
@@ -88,23 +85,50 @@ class Player extends Entity {
 
     this.abilities.draw();
 
-    let frameImg
-    if (!this.isGrounded) {
-      frameImg = this.jumpFrame;
-    } else if (this.isMoving()) {
-      frameImg = this.currentFrame === 1 ? this.walkFrame : this.idleFrame;
-    } else {
-      frameImg = this.idleFrame;
+    let currentSprite;
+
+    if (this.state === CONFIG.PLAYER_STATES.INHALING) {
+      currentSprite = this.sprites.inhale;
+    }
+    else if (this.abilities.cooldown > 5) {
+      currentSprite = this.sprites.attack;
+    }
+    else if (!this.isGrounded) {
+      currentSprite = this.sprites.jump;
+    }
+    else if (this.isMoving()) {
+      this.animationTimer++;
+      if (this.animationTimer >= this.animationSpeed) {
+        this.animationFrame = (this.animationFrame + 1) % 2;
+        this.animationTimer = 0;
+      }
+      currentSprite = this.sprites.walk[this.animationFrame];
+    }
+    else {
+      currentSprite = this.sprites.idle;
     }
 
-    if (!frameImg) return;
+    if (!currentSprite) return;
+
+    const size = this.getVisualSize(currentSprite);
 
     push();
     translate(this.x, this.y);
     if (this.isFacingLeft) scale(-1, 1);
     imageMode(CENTER);
-    image(frameImg, 0, 0, this.w, this.h);
+    image(currentSprite, 0, 0, size.w, size.h);
     pop();
+  }
+
+  getVisualSize(img) {
+    if (!img || img.width === 0 || img.height === 0) {
+      return { w: this.w, h: this.h };
+    }
+    const scale = this.h / img.height;
+    return {
+      w: img.width * scale,
+      h: this.h
+    };
   }
 
   // Handles which frame should be displayed
