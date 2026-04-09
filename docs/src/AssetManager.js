@@ -19,10 +19,6 @@ class AssetManager {
     this.images.char1_attack = loadImage("./assets/char/char1_attack.png");
     this.images.char1_skill = loadImage("./assets/char/char1_skill.png");
 
-    this.images.player_idle = loadImage("./assets/kirby_idle.png");
-    this.images.player_walk = loadImage("./assets/kirby_move.png");
-    this.images.player_jump = loadImage("./assets/kirby_jump.png");
-
     this.images.enemy_idle = loadImage("./assets/enemy_idle.png");
     this.images.enemy_walk1 = loadImage("./assets/enemy_walk1.png");
     this.images.enemy_walk2 = loadImage("./assets/enemy_walk2.png");
