@@ -48,7 +48,6 @@ class Player extends Entity {
     }
 
     this.applyPhysics();
-    this.animate();
   }
 
   // Logic for horizontal movement and facing direction
@@ -87,10 +86,10 @@ class Player extends Entity {
 
     let currentSprite;
 
-    if (this.state === CONFIG.PLAYER_STATES.INHALING) {
+    if (this.isInhaling()) {
       currentSprite = this.sprites.inhale;
     }
-    else if (this.abilities.cooldown > 5) {
+    else if (this.isAttacking()) {
       currentSprite = this.sprites.attack;
     }
     else if (!this.isGrounded) {
@@ -131,21 +130,16 @@ class Player extends Entity {
     };
   }
 
-  // Handles which frame should be displayed
-  animate() {
-    if (!this.isGrounded) return;
-
-    if (this.isMoving()) {
-      if (frameCount % this.animationSpeed === 0) {
-        this.currentFrame = this.currentFrame === 0 ? 1 : 0;
-      }
-    } else {
-      this.currentFrame = 0; // Reset to idle frame
-    }
-  }
-
   isMoving() {
     return keyIsDown(CONFIG.CONTROLS.LEFT) || keyIsDown(CONFIG.CONTROLS.RIGHT);
+  }
+
+  isAttacking() {
+    return keyIsDown(CONFIG.CONTROLS.SHOOT);
+  }
+
+  isInhaling() {
+    return keyIsDown(CONFIG.CONTROLS.INHALE);
   }
 
   float() {

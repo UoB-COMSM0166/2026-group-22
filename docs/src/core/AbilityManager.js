@@ -44,12 +44,12 @@ class AbilityManager {
     // Only allow input if player isn't in HURT state
     if (this.player.state === CONFIG.PLAYER_STATES.HURT) return;
 
-    if (keyIsDown(CONFIG.CONTROLS.SHOOT) && this.cooldown <= 0) {
+    if (this.player.isAttacking() && this.cooldown <= 0) {
       this.fireBullet();
     }
 
     // --- Inhale Logic (K Key) ---
-    if (keyIsDown(CONFIG.CONTROLS.INHALE)) {
+    if (this.player.isInhaling()) {
       this.player.state = CONFIG.PLAYER_STATES.INHALING;
       this.isInhaling = true;
       this.player.velX *= 0.5;
@@ -156,7 +156,7 @@ class AbilityManager {
   }
 
   draw() {
-    if (this.isInhaling) this.drawInhaleEffect();
+    if (this.player.isInhaling()) this.drawInhaleEffect();
     if (this.isCharging) this.drawAimLine();
 
     if (this.currentSkill !== CONFIG.SKILLS.NONE) {
