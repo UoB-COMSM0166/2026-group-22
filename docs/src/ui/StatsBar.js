@@ -5,12 +5,40 @@ class StatsBar {
     this.y = 75;
     this.heartSpacing = 30;
     this.heartSize = 30;
+
+    this.weaponX = this.margin + 5 * this.heartSpacing + 10;
+    this.weaponSize = 24;
   }
 
   // We pass in the data the StatsBar needs to "know" about
   draw(player, coins, showCoins = true) {
     this.drawHearts(player.hp, player.maxHp);
     if (showCoins) this.drawCoins(coins);
+
+    this.drawEquippedWeapon();
+  }
+
+  drawEquippedWeapon() {
+    const weaponId = gameState.equippedWeaponId;
+    if (!weaponId) return;
+
+    const itemData = gameState.getItemData(weaponId);
+    if (!itemData || !itemData.iconKey) return;
+
+    const icon = assets.getImg(itemData.iconKey);
+    if (!icon) return;
+
+    push();
+    imageMode(CENTER);
+
+    // Optional: Draw a subtle "backing" circle so the icon pops
+    noStroke();
+    fill(255, 50); // Very faint white glow
+    ellipse(this.weaponX, this.y, this.weaponSize + 8);
+
+    // Draw the weapon photo
+    image(icon, this.weaponX, this.y, this.weaponSize, this.weaponSize);
+    pop();
   }
 
   drawHearts(hp, maxHp) {
