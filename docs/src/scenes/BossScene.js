@@ -28,12 +28,17 @@ class BossScene extends GameplayScene {
       'regular': Boss,
     };
 
+    const bossSprites = {
+      idle: assets.getImg('boss_idle'),   // Make sure these keys exist in AssetManager
+      attack: assets.getImg('boss_shoot')
+    };
+
     // 1. Dynamic Boss Creation
     const startX = this.world.width - 120;
-    const startY = this.world.height - 150;
+    const startY = this.world.height - 300;
 
     const BossClass = bossMap[bossType] || Boss;
-    this.boss = new BossClass(startX, startY);
+    this.boss = new BossClass(startX, startY, bossSprites);
 
     this.applyCanvasMode();
 
@@ -63,6 +68,10 @@ class BossScene extends GameplayScene {
     // Update Boss and catch attacks
     let attack = this.boss.update();
     if (attack) this.bossBullets.push(attack);
+
+    for (let platform of this.world.platforms) {
+      InteractionManager.resolveSolid(this.boss, platform, this.world);
+    }
 
     InteractionManager.updateProjectiles(this.bossBullets);
     if (this.boss.minionBullets) {

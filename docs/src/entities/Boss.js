@@ -1,22 +1,28 @@
 class Boss extends Entity {
-  constructor(x, y) {
+  constructor(x, y, sprites) {
     // x, y, width, height, hp, speed
     super(x, y, 150, 200, 500, 0);
+    this.sprites = sprites;
+
     this.maxHp = 500;
     this.isHurt = false;
     this.hurtTimer = 0;
     this.attackTimer = 0;
+
+    this.attackSpriteTimer = 0;
   }
 
   update() {
-    // Floating motion
-    this.y += Math.sin(frameCount * 0.05) * 2;
 
     // Damage state handling
     if (this.isHurt) {
       this.hurtTimer--;
       if (this.hurtTimer <= 0) this.isHurt = false;
     }
+
+    this.applyPhysics();
+
+    if (this.attackSpriteTimer > 0) this.attackSpriteTimer--;
 
     // Attack Logic
     this.attackTimer++;
@@ -25,7 +31,8 @@ class Boss extends Entity {
 
     if (this.attackTimer > attackRate && this.hp > 0) {
       this.attackTimer = 0;
-      // TIP: Return a structured object that the Scene can easily manage
+      this.attackSpriteTimer = 15;
+
       return new Bullet(
         this.x - 50,                // Start slightly in front of boss
         this.y + random(-50, 50),    // Random height spread
@@ -44,27 +51,26 @@ class Boss extends Entity {
       this.drawExplosion(); // Add a "death" visual
       return;
     }
-    
+
     push();
     translate(this.x, this.y);
 
-    // Feedback: Flash white or red when hit
-    if (this.isHurt) {
-      fill(255);
-    } else {
-      fill(150, 50, 250);
+    scale(-1, 1);
+
+    let currentImg = this.sprites.idle;
+    if (this.attackSpriteTimer > 0) {
+      currentImg = this.sprites.attack;
     }
 
-    stroke(255);
-    strokeWeight(4);
-    rectMode(CENTER);
-    rect(0, 0, this.w, this.h, 20);
+    // Feedback: Flash white or red when hit
+    if (this.isHurt) {
+      fill(255, 100, 100);
+    }
 
-    // Eyes
-    fill(255);
-    let eyeH = map(this.hp, 0, this.maxHp, 5, 40);
-    ellipse(-30, -40, 30, eyeH);
-    ellipse(30, -40, 30, eyeH);
+    if (currentImg) {
+      imageMode(CENTER);
+      image(currentImg, 0, 0, this.w, this.h);
+    }
     pop();
   }
 
@@ -74,6 +80,10 @@ class Boss extends Entity {
     this.hurtTimer = 10;
     // Check if global shakeAmount exists before setting it
     if (window.shakeAmount !== undefined) window.shakeAmount = 10;
+  }
+
+  land() {
+    this.velY = 0; // Stop the falling force immediately
   }
 
   drawExplosion() {

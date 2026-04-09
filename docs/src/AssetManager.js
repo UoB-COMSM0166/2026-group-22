@@ -22,6 +22,9 @@ class AssetManager {
     this.images.enemy_walk2 = loadImage("./assets/enemy_walk2.png");
     this.images.enemy_hurt = loadImage("./assets/enemy_hurt.png");
 
+    this.images.boss_idle = loadImage("./assets/boss_idle.png");
+    this.images.boss_shoot = loadImage("./assets/boss_shoot.png");
+
     // 2. World & Environment
     this.images.platform_tile = loadImage("./assets/platform_tile.png");
 
