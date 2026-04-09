@@ -69,7 +69,7 @@ class World {
       this.enemies = this.enemies.filter(e => e.active);
       this.playerBullets = this.playerBullets.filter(b => b.active);
       this.coins = this.coins.filter(c => c.active || c.shouldRespawn);
-      this.items = this.items.filter(c => c.active || c.shouldRespawn);
+      this.items = this.items.filter(i => i.active || i.shouldRespawn);
     }
     this.updateCamera();
   }
