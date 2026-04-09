@@ -83,8 +83,7 @@ class GameState {
     this.coins -= item.price;
     this.ownedItemIds.push(itemId);
 
-    // Auto-equip the first item bought
-    if (!this.equippedWeaponId) this.equippedWeaponId = itemId;
+    this.equippedWeaponId = itemId;
 
     this.save();
     return true;
