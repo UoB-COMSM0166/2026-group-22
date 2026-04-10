@@ -5,7 +5,7 @@ class BossScene extends GameplayScene {
     this.player = null; // Reference to the existing player
     this.boss = null;
     this.world = null;
-    this.bossBullets = [];
+    this.bossProjectiles = [];
     this.statsBar = new StatsBar();
   }
 
@@ -30,7 +30,8 @@ class BossScene extends GameplayScene {
 
     const bossSprites = {
       idle: assets.getImg('boss_idle'),   // Make sure these keys exist in AssetManager
-      attack: assets.getImg('boss_shoot')
+      attack: assets.getImg('boss_shoot'),
+      slash: assets.getImg('boss_slash')
     };
 
     // 1. Dynamic Boss Creation
@@ -52,7 +53,7 @@ class BossScene extends GameplayScene {
     this.player.active = true;           // Reactivate the entity
     this.player.invincibilityTimer = 0; // Stop the flashing immediately
 
-    this.bossBullets = [];
+    this.bossProjectiles = [];
   }
 
   update() {
@@ -67,13 +68,13 @@ class BossScene extends GameplayScene {
 
     // Update Boss and catch attacks
     let attack = this.boss.update();
-    if (attack) this.bossBullets.push(attack);
+    if (attack) this.bossProjectiles.push(attack);
 
     for (let platform of this.world.platforms) {
       InteractionManager.resolveSolid(this.boss, platform, this.world);
     }
 
-    InteractionManager.updateProjectiles(this.bossBullets);
+    InteractionManager.updateProjectiles(this.bossProjectiles);
     if (this.boss.minionBullets) {
       InteractionManager.updateProjectiles(this.boss.minionBullets);
     }
@@ -89,7 +90,7 @@ class BossScene extends GameplayScene {
   checkCollisions() {
     InteractionManager.handleCombat(this.player, [this.boss], this.world.playerBullets);
 
-    InteractionManager.resolveHitGroup(this.bossBullets, this.player, (bullet, p) => {
+    InteractionManager.resolveHitGroup(this.bossProjectiles, this.player, (bullet, p) => {
       // Calculate knockback direction
       const dir = (p.x < bullet.x) ? -1 : 1;
       p.takeDamage(bullet.damage, dir);
@@ -115,7 +116,7 @@ class BossScene extends GameplayScene {
     push();
     translate(-this.world.cameraX, -this.world.cameraY);
     this.boss.show();
-    for (let b of this.bossBullets) b.show();
+    for (let b of this.bossProjectiles) b.show();
     pop();
 
     this.drawUI();
@@ -130,7 +131,7 @@ class BossScene extends GameplayScene {
     if (keyCode === ESCAPE) {
       // Clean up state before leaving
       this.playerBullets = [];
-      this.bossBullets = [];
+      this.bossProjectiles = [];
 
       sceneManager.switch("camp");
     }

@@ -33,6 +33,7 @@ class AssetManager {
 
     this.images.boss_idle = loadImage("./assets/boss_idle.png");
     this.images.boss_shoot = loadImage("./assets/boss_shoot.png");
+    this.images.boss_slash = loadImage("./assets/boss_slash.png");
 
     // 2. World & Environment
     this.images.platform_tile = loadImage("./assets/platform_tile.png");

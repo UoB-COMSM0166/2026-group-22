@@ -33,14 +33,14 @@ class Boss extends Entity {
       this.attackTimer = 0;
       this.attackSpriteTimer = 15;
 
-      return new Bullet(
+      return new Slash(
         this.x - 50,                // Start slightly in front of boss
         this.y + random(-50, 50),    // Random height spread
-        -8,                          // Velocity X (moving left)
+        -6,                          // Velocity X (moving left)
         0,                           // Velocity Y
-        25,                          // Size
-        10,                          // Damage
-        color(255, 100, 0)           // Orange color
+        25, 50,                          // Size
+        10,
+        this.sprites.slash
       );
     }
     return null;
