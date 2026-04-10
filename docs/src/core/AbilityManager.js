@@ -128,8 +128,8 @@ class AbilityManager {
     }
 
     if (skillType === CONFIG.SKILLS.SHRINK) {
-      this.player.w = CONFIG.PLAYER.WIDTH * 0.5;
-      this.player.h = CONFIG.PLAYER.HEIGHT * 0.5;
+      this.player.w = CONFIG.PLAYER.WIDTH * 0.4;
+      this.player.h = CONFIG.PLAYER.HEIGHT * 0.4;
     }
   }
 
