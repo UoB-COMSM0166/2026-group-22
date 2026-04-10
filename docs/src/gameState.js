@@ -133,7 +133,7 @@ class GameState {
   setSelectedCharacter(charObj) {
     this.selectedCharacterId = charObj?.id ?? null;
     this.selectedCharacter = charObj ?? null;
-    console.log("[GameState] Character selected:", this.selectedCharacter?.name);
+    this.save();
   }
 
   resetRun() {
@@ -144,7 +144,6 @@ class GameState {
     this.bossesDefeated = [];
     this.campIntroDone = false;
     this.save();
-    console.log("[GameState] State reset to defaults.");
   }
 }
 

@@ -25,12 +25,18 @@ class LevelScene extends GameplayScene {
 
     this.doorNumber = doorNumber;
 
+    const charId = gameState.selectedCharacterId;
+    const prefix = `char${charId}`;
+
     const playerSprites = {
-      idle: assets.getImg('char1_idle'),
-      walk: [assets.getImg('char1_walk1'), assets.getImg('char1_walk2')],
-      jump: assets.getImg('char1_jump'),
-      attack: assets.getImg('char1_attack'),
-      inhale: assets.getImg('char1_skill')
+      idle: assets.getImg(`${prefix}_idle`),
+      walk: [
+        assets.getImg(`${prefix}_walk1`),
+        assets.getImg(`${prefix}_walk2`)
+      ],
+      jump: assets.getImg(`${prefix}_jump`),
+      attack: assets.getImg(`${prefix}_attack`),
+      inhale: assets.getImg(`${prefix}_skill`)
     };
 
     // Instantiate your physical objects

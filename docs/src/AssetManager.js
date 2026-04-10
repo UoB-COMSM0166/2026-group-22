@@ -12,12 +12,19 @@ class AssetManager {
    * This should be called inside the main p5.js preload().
    */
   preload() {
-    this.images.char1_idle = loadImage("./assets/char/char1_idle.png");
-    this.images.char1_walk1 = loadImage("./assets/char/char1_walk1.png");
-    this.images.char1_walk2 = loadImage("./assets/char/char1_walk2.png");
-    this.images.char1_jump = loadImage("./assets/char/char1_jump.png");
-    this.images.char1_attack = loadImage("./assets/char/char1_attack.png");
-    this.images.char1_skill = loadImage("./assets/char/char1_skill.png");
+    this.images.char1_idle = loadImage("./assets/char/char1/char1_idle.png");
+    this.images.char1_walk1 = loadImage("./assets/char/char1/char1_walk1.png");
+    this.images.char1_walk2 = loadImage("./assets/char/char1/char1_walk2.png");
+    this.images.char1_jump = loadImage("./assets/char/char1/char1_jump.png");
+    this.images.char1_attack = loadImage("./assets/char/char1/char1_attack.png");
+    this.images.char1_skill = loadImage("./assets/char/char1/char1_skill.png");
+
+    this.images.char2_idle = loadImage("./assets/char/char2/char2_idle.png");
+    this.images.char2_walk1 = loadImage("./assets/char/char2/char2_walk1.png");
+    this.images.char2_walk2 = loadImage("./assets/char/char2/char2_walk2.png");
+    this.images.char2_jump = loadImage("./assets/char/char2/char2_jump.png");
+    this.images.char2_attack = loadImage("./assets/char/char2/char2_attack.png");
+    this.images.char2_skill = loadImage("./assets/char/char2/char2_skill.png");
 
     this.images.enemy_idle = loadImage("./assets/enemy_idle.png");
     this.images.enemy_walk1 = loadImage("./assets/enemy_walk1.png");

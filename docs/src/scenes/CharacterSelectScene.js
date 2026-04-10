@@ -10,9 +10,9 @@ class CharacterSelectScene extends BaseScene {
     this.CHARACTERS = [
       { id: 1, name: "Ash", desc: "A silent survivor. Balanced stats." },
       { id: 2, name: "Iris", desc: "Quick hands, quicker feet." },
-      { id: 3, name: "Nyx", desc: "A cursed wanderer with dark gifts." },
-      { id: 4, name: "Orin", desc: "Strong body, stubborn will." },
-      { id: 5, name: "Vale", desc: "Calm mind. Deadly precision." },
+      // { id: 3, name: "Nyx", desc: "A cursed wanderer with dark gifts." },
+      // { id: 4, name: "Orin", desc: "Strong body, stubborn will." },
+      // { id: 5, name: "Vale", desc: "Calm mind. Deadly precision." },
     ];
   }
 
@@ -82,17 +82,20 @@ class CharacterSelectScene extends BaseScene {
      ============================= */
 
   getSelectButtons(tf) {
-    const btnW = tf.dw * 0.14;
-    const btnH = tf.dh * 0.055;
-    const gap = tf.dw * 0.04;
-    const totalW = 5 * btnW + 4 * gap;
-    const startX = tf.dx + (tf.dw - totalW) / 2;
-    const y = tf.dy + tf.dh * 0.78;
+    const btnW = tf.dw * 0.145; // Match the width of the painted button
+    const btnH = tf.dh * 0.06;  // Match the height
+    const btnY = tf.dy + tf.dh * 0.765; // Position vertically on the plate
 
-    return Array.from({ length: 5 }, (_, i) => ({
-      index: i,
-      rect: { x: startX + i * (btnW + gap), y, w: btnW, h: btnH }
-    }));
+    return [
+      {
+        index: 0, // Left Portal (Ash)
+        rect: { x: tf.dx + tf.dw * 0.265, y: btnY, w: btnW, h: btnH }
+      },
+      {
+        index: 1, // Right Portal (Iris)
+        rect: { x: tf.dx + tf.dw * 0.595, y: btnY, w: btnW, h: btnH }
+      }
+    ];
   }
 
   getPopupRect(tf) {
