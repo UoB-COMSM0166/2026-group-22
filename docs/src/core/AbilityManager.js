@@ -123,7 +123,10 @@ class AbilityManager {
     this.currentSkill = skillType;
     this.skillTimer = duration;
 
-    if (skillType === CONFIG.SKILLS.JUMP) this.player.lift = -8.25;
+    if (skillType === CONFIG.SKILLS.JUMP) {
+      this.player.lift = CONFIG.PLAYER.LIFT * 1.5;
+    }
+
     if (skillType === CONFIG.SKILLS.SHRINK) {
       this.player.w = CONFIG.PLAYER.WIDTH * 0.5;
       this.player.h = CONFIG.PLAYER.HEIGHT * 0.5;
