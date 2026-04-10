@@ -46,11 +46,11 @@ class LevelBuilder {
 
       // Place Coins
       if (p.hasCoin) {
-        world.coins.push(new Coin(centerX, centerY - 35));
+        world.coins.push(new Coin(centerX, centerY - 40));
       }
       if (p.coins && Array.isArray(p.coins)) {
         for (let offsetX of p.coins) {
-          world.coins.push(new Coin(centerX + offsetX, centerY - 35));
+          world.coins.push(new Coin(centerX + offsetX, centerY - 40));
         }
       }
 

@@ -4,12 +4,12 @@ class Platform extends GameObject {
     super(x, y, w, h);
     this.color = [100, 100, 100];
     this.img = img;
-    this.tileSize = 20;
+    this.tileSize = 40;
 
     this.buffer = createGraphics(w, h);
-    for (let ix = 0; ix < w; ix += 20) {
-      for (let iy = 0; iy < h; iy += 20) {
-        this.buffer.image(this.img, ix, iy, 20, 20);
+    for (let ix = 0; ix < w; ix += this.tileSize) {
+      for (let iy = 0; iy < h; iy += this.tileSize) {
+        this.buffer.image(this.img, ix, iy, this.tileSize, this.tileSize);
       }
     }
   }
@@ -20,7 +20,7 @@ class Platform extends GameObject {
   }
 
   show() {
-    image(this.buffer, this.x - this.w/2, this.y - this.h/2);
+    image(this.buffer, this.x - this.w / 2, this.y - this.h / 2);
     // rectMode(CENTER);
     // stroke(0);        // Black outline for "Solid" look
     // strokeWeight(2);
