@@ -1,7 +1,25 @@
 class Coin extends Collectable {
   constructor(x, y) {
     super(x, y, 30, 30); // Pass dimensions to Item
+
+    this.totalFrames = 12;
+    this.currentFrame = 0;
+    this.lastUpdate = 0;
+    this.interval = 100; // 10fps
+
     this.shouldRespawn = false;
+  }
+
+  update(player) {
+    super.update(player); // Keeps the inhale and collection logic working
+
+    if (this.active) {
+      // Handle Animation Timer
+      if (millis() - this.lastUpdate >= this.interval) {
+        this.currentFrame = (this.currentFrame + 1) % this.totalFrames;
+        this.lastUpdate = millis();
+      }
+    }
   }
 
   onCollect(player) {
@@ -11,19 +29,16 @@ class Coin extends Collectable {
 
   show() {
     if (!this.active) return;
-    push();
-    translate(this.x, this.y + this.hoverOffset);
-    // Draw a gold coin
-    stroke(184, 134, 11); // Dark Goldenrod outline
-    strokeWeight(2);
-    fill(255, 215, 0);    // Gold
-    ellipse(0, 0, this.w, this.h);
-    
-    // Draw a small shining detail in the middle
-    noStroke();
-    fill(255, 255, 255, 150);
-    rectMode(CENTER);
-    rect(-5, -5, 4, 10);
-    pop();
+
+    const frameImg = assets.getImg(`coin${this.currentFrame + 1}`);
+
+    if (frameImg) {
+      push();
+      translate(this.x, this.y + this.hoverOffset);
+      
+      imageMode(CENTER);
+      image(frameImg, 0, 0, this.w, this.h);
+      pop();
+    }
   }
 }

@@ -44,6 +44,12 @@ class AssetManager {
     this.images.full_heart = loadImage("assets/full_heart.png");
     this.images.half_heart = loadImage("assets/half_heart.png");
 
+    for (let i = 1; i <= 12; i++) {
+      const key = `coin${i}`;
+      const path = `assets/coin/${key}.png`;
+      this.images[key] = loadImage(path);
+    }
+
     // 4. Shop Icons
     this.images.shop_bg = loadImage("assets/shop_bg.png");
     this.images.icon_pistol = loadImage("assets/icon_pistol.png");
