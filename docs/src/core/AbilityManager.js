@@ -36,7 +36,6 @@ class AbilityManager {
       this.bowCharge = min(this.bowCharge + 0.6, 25);
     }
 
-    // 3. Bubble Survival (Migrated from BubbleItem)
     this.updateSurvival();
   }
 

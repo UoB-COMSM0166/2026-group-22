@@ -1,4 +1,4 @@
-class BubbleItem extends Collectable {
+class Bubble extends Collectable {
   constructor(x, y) {
     super(x, y, 20, 20);
 

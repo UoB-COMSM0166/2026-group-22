@@ -90,12 +90,12 @@ CONFIG.LEVELS[1] = {
   ],
 
   items: [
-    { type: "BUBBLE_ITEM", x: 430, y: 620 },
-    { type: "BUBBLE_ITEM", x: 1674, y: 420 },
-    { type: "BUBBLE_ITEM", x: 2530, y: 420 },
-    { type: "BUBBLE_ITEM", x: 3120, y: 360 },
-    { type: "BUBBLE_ITEM", x: 3930, y: 300 },
-    { type: "BUBBLE_ITEM", x: 4740, y: 400 },
-    { type: "BUBBLE_ITEM", x: 5790, y: 440 }
+    { type: "BUBBLE", x: 430, y: 620 },
+    { type: "BUBBLE", x: 1674, y: 420 },
+    { type: "BUBBLE", x: 2530, y: 420 },
+    { type: "BUBBLE", x: 3120, y: 360 },
+    { type: "BUBBLE", x: 3930, y: 300 },
+    { type: "BUBBLE", x: 4740, y: 400 },
+    { type: "BUBBLE", x: 5790, y: 440 }
   ]
 };
