@@ -143,46 +143,75 @@ class ShopScene extends BaseScene {
 
     push();
     const pad = this.tf.dw * 0.02;
-    const w = this.tf.dw * 0.28, h = this.tf.dh * 0.26;
-    let x = anchor.x + anchor.w + pad;
+    const w = this.tf.dw * 0.30;
+    const h = this.tf.dh * 0.34;
+
+    let x = anchor.x + anchor.w + 12;
     let y = anchor.y - h * 0.15;
 
     // Boundary constraints
-    if (x + w > this.tf.dx + this.tf.dw) x = anchor.x - pad - w;
+    if (x + w > this.tf.dx + this.tf.dw) x = anchor.x - 12 - w;
     x = constrain(x, this.tf.dx + pad, this.tf.dx + this.tf.dw - pad - w);
     y = constrain(y, this.tf.dy + pad, this.tf.dy + this.tf.dh - pad - h);
 
-    fill(0, 0, 0, 220); rect(x, y, w, h, 16);
+    fill(0, 0, 0, 220);
+    rect(x, y, w, h, 16);
 
     // Title with custom font
     fill(255);
     textFont(assets.getFont());
     textAlign(LEFT, TOP);
-    textSize(Math.max(18, Math.floor(h * 0.14)));
-    text(item.name.toUpperCase(), x + pad * 0.7, y + pad * 0.5);
+    textSize(Math.max(20, Math.floor(h * 0.12)));
+    text(item.name.toUpperCase(), x + pad, y + pad);
 
     textFont('sans-serif');
-    textSize(Math.max(12, Math.floor(h * 0.10)));
-    fill(200);
+    textSize(Math.max(13, Math.floor(h * 0.08)));
+    fill(210);
 
     const isOwned = gameState.isOwned(itemId);
-    const lines = [...item.desc, "", isOwned ? "STATUS: Owned" : `PRICE: ${item.price} coins`, `WALLET: ${gameState.coins} coins`];
+    const lines = [...item.desc, "", isOwned ? "STATUS: Owned" : `PRICE: ${item.price} coins`];
 
-    let yy = y + pad * 0.5 + Math.max(14, Math.floor(h * 0.11)) * 2.2;
+    let yy = y + pad + Math.max(22, h * 0.18);
+    const lineLeading = Math.max(16, h * 0.1);
+
     for (const s of lines) {
-      text(s, x + pad * 0.7, yy);
-      yy += Math.max(14, Math.floor(h * 0.11));
+      text(s, x + pad, yy, w - pad * 2);
+      yy += lineLeading;
     }
+
+    const btnH = Math.max(32, h * 0.18);
+    const btnY = y + h - btnH - pad; // Anchor to bottom minus padding
+    const btnW = (w - pad * 3) / 2;
 
     if (isOwned) {
       const isEquipped = gameState.equippedWeaponId === itemId;
-      this.drawModalButton({ x: x + pad, y: y + h - 50, w: (w - pad * 3) / 2, h: 35 }, isEquipped ? "EQUIPPED" : "EQUIP", !isEquipped, () => gameState.equipWeapon(itemId));
-      this.drawModalButton({ x: x + pad + (w - pad * 3) / 2 + pad, y: y + h - 50, w: (w - pad * 3) / 2, h: 35 }, "SELL", true, () => {
-        gameState.sellItem(itemId);
-        if (!gameState.isOwned(itemId)) gameState.selectedItemId = null;
-      });
+
+      // EQUIP/EQUIPPED Button
+      this.drawModalButton(
+        { x: x + pad, y: btnY, w: btnW, h: btnH },
+        isEquipped ? "EQUIPPED" : "EQUIP",
+        !isEquipped,
+        () => gameState.equipWeapon(itemId)
+      );
+
+      // SELL Button
+      this.drawModalButton(
+        { x: x + pad + btnW + pad, y: btnY, w: btnW, h: btnH },
+        "SELL",
+        true,
+        () => {
+          gameState.sellItem(itemId);
+          if (!gameState.isOwned(itemId)) gameState.selectedItemId = null;
+        }
+      );
     } else {
-      this.drawModalButton({ x: x + pad, y: y + h - 50, w: w - pad * 2, h: 35 }, `BUY FOR ${item.price}`, gameState.coins >= item.price, () => this.modalOpen = true);
+      // BUY Button (Full Width)
+      this.drawModalButton(
+        { x: x + pad, y: btnY, w: w - pad * 2, h: btnH },
+        `BUY FOR ${item.price}`,
+        gameState.coins >= item.price,
+        () => this.modalOpen = true
+      );
     }
     pop();
   }
