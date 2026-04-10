@@ -1,46 +1,57 @@
 // src/scenes/BossScene.js
-class BossScene {
+class BossScene extends GameplayScene {
   constructor() {
-    this.player = null; 
+    super();
+    this.player = null; // Reference to the existing player
     this.boss = null;
-    this.playerBullets = [];
+    this.world = null;
     this.bossBullets = [];
-
-    this.projectiles = []; // 弓箭
-    this.platforms = [];   // 锁链机关
-
     this.statsBar = new StatsBar();
-
-     this.flySpeed = 6;
-    this.shootCooldown = 10;
-    this.currentCooldown = 0;
   }
 
-  spawnArrow(x, y, vx, vy) {
-    if (this.currentBossType === 'summoner') {
-      this.projectiles.push(new Arrow(x, y, vx, vy));
-    }
-  }
+  onEnter(data) {
+    const { bossType, bgLayers, worldAssets } = data;
 
-  onEnter(bossType) {
-     this.currentBossType = bossType;
+    this.player = sceneManager.player;
+    this.currentBossType = bossType;
+    this.bgLayers = bgLayers;
+    this.worldAssets = worldAssets;
+    // 1. Tell the global manager this is the active scene
+    // This allows the Boss/Minions to find playerBullets
     sceneManager.currentScene = this;
+
+    const arenaLevelIndex = 5;
+    this.world = new World(this.player, arenaLevelIndex, this.bgLayers, this.worldAssets);
 
     const bossMap = {
       'summoner': SummonerBoss,
       'regular': Boss,
-     };
- 
-    const BossClass = bossMap[bossType] || Boss;
-    this.boss = new BossClass(width / 2, height / 2); 
- 
-    this.player = sceneManager.player;
-    this.player.hp = 100;               
-    this.player.active = true;          
-    this.player.invincibilityTimer = 0; 
-    this.player.worldReference = this; 
+    };
 
-    this.playerBullets = [];
+    const bossSprites = {
+      idle: assets.getImg('boss_idle'),   // Make sure these keys exist in AssetManager
+      attack: assets.getImg('boss_shoot')
+    };
+
+    // 1. Dynamic Boss Creation
+    const startX = this.world.width - 120;
+    const startY = this.world.height - 300;
+
+    const BossClass = bossMap[bossType] || Boss;
+    this.boss = new BossClass(startX, startY, bossSprites);
+
+    this.applyCanvasMode();
+
+    // 2. Setup Player for flight mode
+    // We use the global player instance but reset their position
+    this.player.x = 100;
+    this.player.y = this.CANVAS_H - 150;
+    this.player.velX = 0;
+    this.player.velY = 0;
+    this.player.hp = 100;               // Restore HP to stop the reset loop
+    this.player.active = true;           // Reactivate the entity
+    this.player.invincibilityTimer = 0; // Stop the flashing immediately
+
     this.bossBullets = [];
     this.projectiles = [];
     this.platforms = [];
@@ -70,10 +81,14 @@ class BossScene {
   }
 
   update() {
+    if (!this.player || !this.world) return;
+
     if (this.player.hp <= 0) {
       this.resetScene();
       return; 
     }
+
+    this.world.update();
 
     if (this.isPlatformerMode) {
       // 零重力飞行
@@ -131,11 +146,17 @@ class BossScene {
     }
  
     let attack = this.boss.update();
-    if (attack) {
-      this.bossBullets.push(attack);
+    if (attack) this.bossBullets.push(attack);
+
+    for (let platform of this.world.platforms) {
+      InteractionManager.resolveSolid(this.boss, platform, this.world);
     }
 
-    this.updateProjectiles();
+    InteractionManager.updateProjectiles(this.bossBullets);
+    if (this.boss.minionBullets) {
+      InteractionManager.updateProjectiles(this.boss.minionBullets);
+    }
+
     this.checkCollisions();
  
     if (this.boss.hp <= 0) {
@@ -143,117 +164,44 @@ class BossScene {
     }
   }
 
-  handlePlayerMovement() {
-     if (keyIsDown(87) || keyIsDown(UP_ARROW)) this.player.y -= this.flySpeed;
-    if (keyIsDown(83) || keyIsDown(DOWN_ARROW)) this.player.y += this.flySpeed;
-    if (keyIsDown(65) || keyIsDown(LEFT_ARROW)) this.player.x -= this.flySpeed;
-    if (keyIsDown(68) || keyIsDown(RIGHT_ARROW)) this.player.x += this.flySpeed;
- 
-    this.player.x = constrain(this.player.x, 30, width - 30);
-    this.player.y = constrain(this.player.y, 30, height - 30);
-  }
+  checkCollisions() {
+    InteractionManager.handleCombat(this.player, [this.boss], this.world.playerBullets);
 
-  handlePlayerShooting() {
-     if (this.currentCooldown > 0) this.currentCooldown--;
-    if (keyIsDown(74) && this.currentCooldown <= 0) {
-      let pb = new Bullet(this.player.x + 20, this.player.y, 12, 0, 15, 10, color(255, 255, 0));
-      this.playerBullets.push(pb);
-      this.currentCooldown = this.shootCooldown;
-    }
-  }
-
-   updateProjectiles() {
-     const bulletGroups = [this.playerBullets, this.bossBullets];
-     if (this.boss.minionBullets) bulletGroups.push(this.boss.minionBullets);
-    bulletGroups.forEach(group => {
-      for (let i = group.length - 1; i >= 0; i--) {
-        group[i].update();
-        if (!group[i].active) group.splice(i, 1);
-      }
+    InteractionManager.resolveHitGroup(this.bossBullets, this.player, (bullet, p) => {
+      // Calculate knockback direction
+      const dir = (p.x < bullet.x) ? -1 : 1;
+      p.takeDamage(bullet.damage, dir);
     });
-  }
- 
-   checkCollisions() {
-    this.resolveHitGroup(this.playerBullets, this.boss, (b, boss) => boss.takeDamage(b.damage));
-    this.resolveHitGroup(this.bossBullets, this.player, (b, p) => p.hp -= b.damage);
 
-      if (this.boss.minions) {
-      this.resolveHitGroup(this.boss.minions, this.player, (m, p) => {
-        const dir = (p.x < m.x) ? -1 : 1;
-        p.takeDamage(10, dir); 
+    // 4. REUSE: Minion interactions
+    if (this.boss.minions) {
+      // Handles playerBullets hitting minions AND minions touching player
+      InteractionManager.handleCombat(this.player, this.boss.minions, this.world.playerBullets);
+
+      // Handles minion bullets hitting player
+      InteractionManager.resolveHitGroup(this.boss.minionBullets, this.player, (bullet, p) => {
+        const dir = (p.x < bullet.x) ? -1 : 1;
+        p.takeDamage(bullet.damage, dir);
       });
-
-      if (this.isPlatformerMode) {
-        this.projectiles.forEach((arrow) => {
-          if (!arrow.active) return;
-          this.boss.minions.some(m => {
-            if (m.active && arrow.intersects(m)) {
-              m.takeDamage(20);
-              arrow.active = false;
-              return true;
-            }
-          });
-        });
-      }
-
-      this.playerBullets.forEach((pb, i) => {
-        this.boss.minions.some(m => {
-          if (pb.intersects(m)) {
-            m.takeDamage(pb.damage);
-            pb.active = false;
-            this.playerBullets.splice(i, 1);
-            return true;
-          }
-        });
-      });
- 
-      if (this.boss.minionBullets) {
-        this.resolveHitGroup(this.boss.minionBullets, this.player, (mb, p) => p.hp -= mb.damage);
-      }
-    }
-  }
- 
-  resolveHitGroup(projectiles, target, onHit) {
-    for (let i = projectiles.length - 1; i >= 0; i--) {
-      if (projectiles[i].intersects(target)) {
-        onHit(projectiles[i], target);
-        projectiles[i].active = false; 
-        projectiles.splice(i, 1);
-      }
     }
   }
 
   draw() {
-     this.update();
-    background(20, 20, 60);
+    this.update();
+    this.world.show();
 
-    if (this.isPlatformerMode) {
-      this.platforms.forEach(p => p.show());
-      this.projectiles.forEach(p => p.show());
-    }
-
+    push();
+    translate(-this.world.cameraX, -this.world.cameraY);
     this.boss.show();
-    this.player.show();
-
-    for (let b of this.playerBullets) b.show();
     for (let b of this.bossBullets) b.show();
+    pop();
 
     this.drawUI();
   }
 
   drawUI() {
-     let barW = 400;
-    let hpW = map(max(0, this.boss.hp), 0, this.boss.maxHp, 0, barW);
-    
-    push();
-    rectMode(CORNER); 
-    fill(40, 200);
-    rect(width / 2 - barW / 2, 30, barW, 15, 5);
-    fill(255, 0, 50);
-    rect(width / 2 - barW / 2, 30, hpW, 15, 5);
-    pop();
-
-    this.statsBar.draw(this.player, shopState.coins, false);
+    this.statsBar.drawBossHealth(this.boss);
+    this.statsBar.draw(this.player, gameState.coins, false);
   }
 
   keyPressed() {
@@ -262,10 +210,20 @@ class BossScene {
        this.bossBullets = [];
       sceneManager.switch("camp");
     }
+
+    if (this.player) {
+      this.player.handleKeyPress();
+    }
   }
 
   resetScene() {
-     this.onEnter(this.currentBossType);
-     this.currentCooldown = 0;
+    this.onEnter({
+      bossType: this.currentBossType,
+      bgLayers: this.bgLayers,
+      worldAssets: this.worldAssets
+    });
+
+    // Optional: If you used an 'isVictoryTriggered' flag, reset it too
+    this.isVictoryTriggered = false;
   }
 }

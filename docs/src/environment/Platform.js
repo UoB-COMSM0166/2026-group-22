@@ -1,0 +1,31 @@
+// src/classes/Platform.js
+class Platform extends GameObject {
+  constructor(x, y, w, h, img) {
+    super(x, y, w, h);
+    this.color = [100, 100, 100];
+    this.img = img;
+    this.tileSize = 20;
+
+    this.buffer = createGraphics(w, h);
+    for (let ix = 0; ix < w; ix += 20) {
+      for (let iy = 0; iy < h; iy += 20) {
+        this.buffer.image(this.img, ix, iy, 20, 20);
+      }
+    }
+  }
+
+  update() {
+    // Static platforms don't need much logic, 
+    // but you could add moving platform logic here later!
+  }
+
+  show() {
+    image(this.buffer, this.x - this.w/2, this.y - this.h/2);
+    // rectMode(CENTER);
+    // stroke(0);        // Black outline for "Solid" look
+    // strokeWeight(2);
+    // fill(this.color); // Grey stone color
+    // rect(this.x, this.y, this.w, this.h);
+    // noStroke();
+  }
+}

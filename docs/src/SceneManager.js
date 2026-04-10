@@ -4,21 +4,23 @@ class SceneManager {
     this.currentScene = null;
     this.currentKey = "";
     // Added: A central reference to the player so HP/Items persist across scenes
-    this.player = null; 
+    this.player = null;
   }
 
   init() {
     this.scenes = {
-      "title":    new TitleScene(),
-      "select":   new CharacterSelectScene(),
-      "camp":     new CampScene(),
-      "shop":     new ShopScene(), 
-      "board":    new HintBoardScene(),
+      "title": new TitleScene(),
+      "select": new CharacterSelectScene(),
+      "camp": new CampScene(),
+      "shop": new ShopScene(),
+      "board": new HintBoardScene(),
       "settings": new SettingsScene(),
-      "level":    new LevelScene(),
-      "boss":     new BossScene() // REGISTER: Added the BossScene
+      "level": new LevelScene(),
+      "boss": new BossScene() // REGISTER: Added the BossScene
     };
-    
+  }
+
+  start() {
     this.switch("title");
   }
 
@@ -36,10 +38,10 @@ class SceneManager {
     if (this.currentScene && this.currentScene.onExit) {
       this.currentScene.onExit();
     }
-    
+
     this.currentKey = key;
     this.currentScene = this.scenes[key];
-    
+
     // Pass the 'data' argument to the new scene's onEnter method
     if (this.currentScene && this.currentScene.onEnter) {
       this.currentScene.onEnter(data);
@@ -54,9 +56,6 @@ class SceneManager {
     for (let key in this.scenes) {
       if (this.scenes[key].preload) this.scenes[key].preload();
     }
-    
-    if (!window.Assets) window.Assets = {};
-    window.Assets.plasdripFont = loadFont("assets/plasdrip.ttf");
   }
 
   setup() {

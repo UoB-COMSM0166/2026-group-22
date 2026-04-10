@@ -1,9 +1,9 @@
 // src/sketch.js
 
 function preload() {
+  assets.preload();
   // 1. Initialize the scenes so their preload methods can be called
   sceneManager.init(); 
-  
   // 2. Delegate preloading to the manager
   sceneManager.preload();
 }
@@ -11,6 +11,7 @@ function preload() {
 function setup() {
   // 3. Delegate canvas creation and scene-specific setup
   sceneManager.setup();
+  sceneManager.start();
 }
 
 function draw() {

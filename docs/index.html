@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,67 +9,69 @@
     <!-- p5.js -->
     <!-- <script src="libs/p5.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.min.js"></script>
-    
-</head>
-<body>
-    <script src="src/gameState.js"></script>
 
+</head>
+
+<body>
+    <script src="src/AssetManager.js"></script>
+
+    <script src="src/core/GameObject.js"></script>
+    <script src="src/core/Entity.js"></script>
+    <script src="src/core/InteractionManager.js"></script>
+    <script src="src/core/AbilityManager.js"></script>
+    <script src="src/core/LevelBuilder.js"></script>
+    <script src="src/core/World.js"></script>
+
+    <script src="src/environment/Platform.js"></script>
+    <script src="src/environment/MovingPlatform.js"></script>
+    <script src="src/environment/VanishablePlatform.js"></script>
+    <script src="src/environment/ChainPlatform.js"></script>
+    <script src="src/environment/Checkpoint.js"></script>
+    <script src="src/environment/Hole.js"></script>
+
+    <script src="src/items/Collectable.js"></script>
+    <script src="src/items/Coin.js"></script>
+    <script src="src/items/JumpBooster.js"></script>
+    <script src="src/items/ShrinkPotion.js"></script>
+    <script src="src/items/BubbleItem.js"></script>
+    <script src="src/items/BowItem.js"></script>
+
+    <script src="src/projectiles/Projectile.js"></script>
+    <script src="src/projectiles/Bullet.js"></script>
+    <script src="src/projectiles/Arrow.js"></script>
+
+    <script src="src/entities/Player.js"></script>
+    <script src="src/entities/Enemy.js"></script>
+    <script src="src/entities/Boss.js"></script>
+    <script src="src/entities/SummonerBoss.js"></script>
+    <script src="src/entities/Minion.js"></script>
+
+    <script src="src/ui/StatsBar.js"></script>
+    <script src="src/ui/EntityOverlay.js"></script>
+    <script src="src/ui/DialogueManager.js"></script>
+
+    <script src="src/scenes/BaseScene.js"></script>
+    <script src="src/scenes/GameplayScene.js"></script>
     <script src="src/scenes/TitleScene.js"></script>
     <script src="src/scenes/CharacterSelectScene.js"></script>
     <script src="src/scenes/CampScene.js"></script>
+    <script src="src/scenes/ShopScene.js"></script>
     <script src="src/scenes/HintBoardScene.js"></script>
     <script src="src/scenes/SettingsScene.js"></script>
     <script src="src/scenes/LevelScene.js"></script>
     <script src="src/scenes/BossScene.js"></script>
 
-    <script src="src/classes/StatsBar.js"></script>
-
-    <script src="src/classes/GameObject.js"></script>
-    <script src="src/classes/Entity.js"></script>
-    <script src="src/classes/Projectile.js"></script>
-    <script src="src/classes/Bullet.js"></script>
-    <script src="src/classes/Boss.js"></script>
-
-    <script src="src/classes/Minion.js"></script>
-    <script src="src/classes/SummonerBoss.js"></script>
-    <script src="src/classes/Player.js"></script>
-    <script src="src/classes/Enemy.js"></script>
-    <script src="src/classes/Platform.js"></script>
-    <script src="src/classes/MovingPlatform.js"></script>
-    <script src="src/classes/VanishablePlatform.js"></script>
-    <script src="src/classes/ChainPlatform.js"></script>
-    <script src="src/classes/Checkpoint.js"></script>
-    <script src="src/classes/Collectable.js"></script>
-    <script src="src/classes/Coin.js"></script>
-    <script src="src/classes/JumpBooster.js"></script>
-    <script src="src/classes/Hole.js"></script> 
-    <script src="src/classes/World.js"></script>
-    <script src="src/classes/Arrow.js"></script>
-    <script src="src/classes/BowItem.js"></script>
-
     <script src="src/constants.js"></script>
+    <script src="src/GameState.js"></script>
+    <script src="src/SceneManager.js"></script>
+
     <script src="src/levels/Level1.js"></script>
     <script src="src/levels/Level2.js"></script>
     <script src="src/levels/Level3.js"></script>
     <script src="src/levels/Level4.js"></script>
+    <script src="src/levels/Arena1.js"></script>
 
     <script src="src/sketch.js"></script>
-    
-    
-    <!-- Shop modules -->
-    <script src="src/scenes/shop/ShopData.js"></script>
-
-    <script src="src/scenes/shop/ShopState.js"></script>
-    <script src="src/scenes/shop/ShopUI.js"></script>
-    <script src="src/scenes/shop/ShopAssets.js"></script>
-
-    <script src="src/scenes/shop/ShopShelf.js"></script>
-    <script src="src/scenes/shop/ShopInfoPanel.js"></script>
-    <script src="src/scenes/shop/ShopBuyModel.js"></script>
-    <script src="src/scenes/shop/ShopInventoryBar.js"></script>
-    <script src="src/scenes/shop/ShopScene.js"></script>
-
-    <!-- 4) scene manager -->
-    <script src="src/SceneManager.js"></script>
 </body>
+
 </html>

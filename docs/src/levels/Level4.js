@@ -1,7 +1,7 @@
 CONFIG.LEVELS[3] = {
   worldWidth: 15000, 
   worldHeight: 1600, 
-  startX: 200,
+  startX: 0,
   
   // 主角出生在开局的安全高台上 (高度 1000)
   spawnX: 350, 
@@ -11,7 +11,7 @@ CONFIG.LEVELS[3] = {
     // ==========================================
     // 阶段一：高台神弓 -> 落地 -> 仰望第一锁链
     // ==========================================
-    { gap: 0, altitude: 1000, w: 300, h: 20 }, // 出生高台拿弓
+    { gap: 0, altitude: 950, w: 300, h: 20 }, // 出生高台拿弓
     
     { gap: 150, altitude: 800, w: 200, h: 20 }, // 往下跳，安稳落地
     
@@ -94,11 +94,11 @@ CONFIG.LEVELS[3] = {
     { gap: 200, altitude: 0, w: 3000, h: 250, hasSummonerBoss: true } 
   ],
   holes: [
-    { startX: 200, endX: 15000 }
+    { startX: 0, endX: 15000 }
   ],
   items: [
     // 开局道具：神弓在出生高台上等你
-    { type: "BOW_PICKUP", x: 420, y: 560 },
+    { type: "BOW_PICKUP", x: 200, y: 580 },
     
     // Boss 门前的补给
     { type: "JUMP_BOOSTER", x: 10500, y: 1400 } 

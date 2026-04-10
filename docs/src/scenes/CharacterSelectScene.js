@@ -1,22 +1,19 @@
 // src/scenes/CharacterSelectScene.js
-class CharacterSelectScene {
+class CharacterSelectScene extends BaseScene {
   constructor() {
-    this.bgImg = null;
+    super();
+    this.bgImg = assets.getImg('char_select_bg');
     this.popupOpen = false;
     this.pendingChar = null;
 
     // Static character data
     this.CHARACTERS = [
-      { id: 1, name: "Ash",   desc: "A silent survivor. Balanced stats." },
-      { id: 2, name: "Iris",  desc: "Quick hands, quicker feet." },
-      { id: 3, name: "Nyx",   desc: "A cursed wanderer with dark gifts." },
-      { id: 4, name: "Orin",  desc: "Strong body, stubborn will." },
-      { id: 5, name: "Vale",  desc: "Calm mind. Deadly precision." },
+      { id: 1, name: "Ash", desc: "A silent survivor. Balanced stats." },
+      { id: 2, name: "Iris", desc: "Quick hands, quicker feet." },
+      { id: 3, name: "Nyx", desc: "A cursed wanderer with dark gifts." },
+      { id: 4, name: "Orin", desc: "Strong body, stubborn will." },
+      { id: 5, name: "Vale", desc: "Calm mind. Deadly precision." },
     ];
-  }
-
-  preload() {
-    this.bgImg = loadImage("assets/character_select.png");
   }
 
   onEnter() {
@@ -116,7 +113,7 @@ class CharacterSelectScene {
 
     return {
       confirm: { x: p.x + p.w / 2 - gap / 2 - btnW, y, w: btnW, h: btnH },
-      cancel:  { x: p.x + p.w / 2 + gap / 2, y, w: btnW, h: btnH }
+      cancel: { x: p.x + p.w / 2 + gap / 2, y, w: btnW, h: btnH }
     };
   }
 
@@ -175,29 +172,10 @@ class CharacterSelectScene {
     }
 
     if (this.inRect(mouseX, mouseY, confirm)) {
-      if (window.GameState && typeof window.GameState.setSelectedCharacter === "function") {
-        window.GameState.setSelectedCharacter(this.pendingChar);
-      }
+      gameState.setSelectedCharacter(this.pendingChar);
       this.popupOpen = false;
       this.pendingChar = null;
       sceneManager.switch("camp");
     }
-  }
-
-  // --- Common Helpers ---
-  getContainTransform(img) {
-    const canvasAspect = width / height;
-    const imgAspect = img.width / img.height;
-    let dw, dh;
-    if (imgAspect > canvasAspect) {
-      dw = width; dh = width / imgAspect;
-    } else {
-      dh = height; dw = height * imgAspect;
-    }
-    return { dx: (width - dw) / 2, dy: (height - dh) / 2, dw, dh };
-  }
-
-  inRect(px, py, r) {
-    return px >= r.x && px <= r.x + r.w && py >= r.y && py <= r.y + r.h;
   }
 }
