@@ -156,7 +156,7 @@ class ShopScene extends BaseScene {
 
     // Title with custom font
     fill(255);
-    if (window.Assets?.plasdripFont) textFont(window.Assets.plasdripFont);
+    textFont(assets.getFont());
     textAlign(LEFT, TOP);
     textSize(Math.max(18, Math.floor(h * 0.14)));
     text(item.name.toUpperCase(), x + pad * 0.7, y + pad * 0.5);
@@ -203,7 +203,7 @@ class ShopScene extends BaseScene {
 
     textAlign(CENTER, CENTER);
     noStroke(); fill(255);
-    if (window.Assets?.plasdripFont) textFont(window.Assets.plasdripFont);
+    textFont(assets.getFont());
     textSize(Math.max(22, Math.floor(boxH * 0.16)));
     text("PURCHASE ITEM?", width / 2, y + boxH * 0.22);
 

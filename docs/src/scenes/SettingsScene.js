@@ -16,7 +16,7 @@ class SettingsScene extends BaseScene {
     // 1. Title
     fill(255);
     textSize(32);
-    if (window.Assets?.plasdripFont) textFont(window.Assets.plasdripFont);
+    textFont(assets.getFont());
     text("SETTINGS", width / 2, height / 2 - 100);
     
     // 2. Button Setup

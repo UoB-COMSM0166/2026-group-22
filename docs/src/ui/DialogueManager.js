@@ -42,8 +42,7 @@ class DialogueManager {
     // Display the full message instantly
     const fullMsg = this.lines[this.currentIndex] || "";
 
-    const f = assets.getFont();
-    if (f) textFont(f);
+    textFont(assets.getFont());
     textAlign(CENTER, CENTER);
     textSize(Math.floor(h * 0.26));
     fill(170, 10, 10, 240);
