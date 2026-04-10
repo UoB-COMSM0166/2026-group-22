@@ -112,7 +112,7 @@ const CONFIG = {
     JUMP_BOOSTER: JumpBooster,
     SHRINK_POTION: ShrinkPotion,
     BUBBLE: Bubble,
-    BOW_PICKUP: BowItem
+    BOW: Bow
   },
 
   CONTROLS: {

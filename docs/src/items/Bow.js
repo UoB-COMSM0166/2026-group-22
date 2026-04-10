@@ -1,5 +1,5 @@
-// src/classes/BowItem.js
-class BowItem extends Collectable {
+// src/classes/Bow.js
+class Bow extends Collectable {
   constructor(x, y) {
     super(x, y, 40, 40);
 

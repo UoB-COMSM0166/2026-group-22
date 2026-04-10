@@ -98,7 +98,7 @@ CONFIG.LEVELS[3] = {
   ],
   items: [
     // 开局道具：神弓在出生高台上等你
-    { type: "BOW_PICKUP", x: 200, y: 580 },
+    { type: "BOW", x: 200, y: 580 },
     
     // Boss 门前的补给
     { type: "JUMP_BOOSTER", x: 10500, y: 1400 } 
