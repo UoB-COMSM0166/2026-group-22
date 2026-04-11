@@ -20,6 +20,7 @@ class GameState {
     this.levelsUnlocked = [true, false, false, false]; // Door 1 is open by default
     this.bossesDefeated = [];
     this.campIntroDone = false;
+    this.campHintsDone = false;
 
     // --- Settings ---
     this.settings = {
@@ -43,6 +44,7 @@ class GameState {
       levelsUnlocked: this.levelsUnlocked,
       bossesDefeated: this.bossesDefeated,
       campIntroDone: this.campIntroDone,
+      campHintsDone: this.campHintsDone,
       settings: this.settings
     };
     localStorage.setItem(this.SAVE_KEY, JSON.stringify(data));
@@ -143,6 +145,7 @@ class GameState {
     this.levelsUnlocked = [true, false, false, false];
     this.bossesDefeated = [];
     this.campIntroDone = false;
+    this.campHintsDone = false;
     this.save();
   }
 }

@@ -35,12 +35,12 @@ const CONFIG = {
         name: "4 Doors",
         imgKey: 'camp_A',
         hotspots: [
-          { id: "shop", label: "Camp Shop", x: 183, y: 286, w: 230, h: 250, action: "shop" },
-          { id: "board", label: "Board", x: 427, y: 473, w: 213, h: 148, action: "board" },
-          { id: "door1", label: "Door 1", x: 613, y: 308, w: 132, h: 127, action: "door", val: 1 },
-          { id: "door2", label: "Door 2", x: 788, y: 311, w: 113, h: 127, action: "door", val: 2 },
-          { id: "door3", label: "Door 3", x: 961, y: 314, w: 103, h: 127, action: "door", val: 3 },
-          { id: "door4", label: "Door 4", x: 1134, y: 311, w: 116, h: 146, action: "door", val: 4 },
+          { id: "shop", label: "Camp Shop", x: 183, y: 260, w: 270, h: 270, action: "shop" },
+          { id: "board", label: "Board", x: 427, y: 465, w: 220, h: 155, action: "board" },
+          { id: "door1", label: "Door 1", x: 613, y: 308, w: 120, h: 140, action: "door", val: 1 },
+          { id: "door2", label: "Door 2", x: 788, y: 311, w: 113, h: 140, action: "door", val: 2 },
+          { id: "door3", label: "Door 3", x: 961, y: 314, w: 103, h: 140, action: "door", val: 3 },
+          { id: "door4", label: "Door 4", x: 1128, y: 311, w: 116, h: 146, action: "door", val: 4 },
         ]
       }
     ]

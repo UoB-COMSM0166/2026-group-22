@@ -20,6 +20,8 @@ class CharacterSelectScene extends BaseScene {
     // Reset state every time we navigate to this screen
     this.popupOpen = false;
     this.pendingChar = null;
+
+    sceneManager.instructions.show("Select your character.");
   }
 
   draw() {

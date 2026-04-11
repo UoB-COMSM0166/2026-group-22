@@ -5,6 +5,7 @@ class SceneManager {
     this.currentKey = "";
     // Added: A central reference to the player so HP/Items persist across scenes
     this.player = null;
+    this.instructions = new InstructionUI();
   }
 
   init() {
@@ -68,18 +69,31 @@ class SceneManager {
   draw() {
     if (this.currentScene) {
       this.currentScene.draw();
+      this.instructions.draw();
     } else {
       background(0);
     }
   }
 
   mousePressed() {
+    if (this.instructions.isActive) {
+      this.instructions.advance();
+      return;
+    }
+
     if (this.currentScene && this.currentScene.mousePressed) {
       this.currentScene.mousePressed();
     }
   }
 
   keyPressed() {
+    if (this.instructions.isActive) {
+      if (keyCode === ENTER) {
+        this.instructions.advance();
+        return;
+      }
+    }
+
     if (this.currentScene && this.currentScene.keyPressed) {
       this.currentScene.keyPressed();
     }

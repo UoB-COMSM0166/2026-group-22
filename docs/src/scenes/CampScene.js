@@ -61,8 +61,46 @@ class CampScene extends BaseScene {
       return;
     }
 
+    if (!gameState.campHintsDone) {
+      this.showInstructions();
+      gameState.campHintsDone = true;
+      gameState.save();
+    }
+
+    if (sceneManager.instructions.isActive) {
+      const target = sceneManager.instructions.getCurrentTarget();
+      sceneManager.instructions.targetRect = this.hotspotToScreen(this.view.img, target);
+    }
+
     this.renderInteractions(tf);
     this.renderUI(tf);
+  }
+
+  showInstructions() {
+    const d1 = this.view.hotspots.find(h => h.id === "door1");
+    const d2 = this.view.hotspots.find(h => h.id === "door2");
+    const shop = this.view.hotspots.find(h => h.id === "shop");
+    const board = this.view.hotspots.find(h => h.id === "board");
+
+    sceneManager.instructions.show([
+      { msg: "Welcome! Step into Door 1 for your first trial.", target: d1 },
+      { msg: "Door 2 is currently locked.", target: d2 },
+      { msg: "Visit the shop to upgrade your gear.", target: shop },
+      { msg: "Visit the hint board to see hints.", target: board }
+    ]);
+  }
+
+  hotspotToScreen(img, hotspot) {
+    if (!img || !hotspot) return null;
+
+    const tf = this.getContainTransform(img);
+
+    return {
+      x: tf.dx + (hotspot.x / tf.iw) * tf.dw,
+      y: tf.dy + (hotspot.y / tf.ih) * tf.dh,
+      w: (hotspot.w / tf.iw) * tf.dw,
+      h: (hotspot.h / tf.ih) * tf.dh
+    };
   }
 
   renderInteractions(tf) {
