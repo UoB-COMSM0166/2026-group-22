@@ -1,6 +1,6 @@
 class Enemy extends Entity {
   constructor(x, y, sprites) {
-    super(x, y, 80, 80, 50, 2);
+    super(x, y, 80, 80, 50, 1);
 
     this.sprites = sprites;
 
