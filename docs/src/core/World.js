@@ -34,10 +34,9 @@ class World {
   }
 
   update() {
-    // 1. Update the Player
+    this.platforms.forEach(p => p.update());
     this.player.update();
     this.updateProjectiles();
-    this.platforms.forEach(p => p.update());
     this.enemies.forEach(e => e.update(this.platforms));
     this.coins.forEach(c => c.update(this.player));
     this.items.forEach(item => item.update(this.player));
@@ -52,10 +51,8 @@ class World {
 
     // 2. Resolve Interactions via InteractionManager
     for (let platform of this.platforms) {
-      InteractionManager.resolveSolid(this.player, platform, this);
-      for (let enemy of this.enemies) {
-        InteractionManager.resolveSolid(enemy, platform, this);
-      }
+      platform.resolve(this.player, this); 
+      this.enemies.forEach(e => platform.resolve(e, this));
     }
 
     InteractionManager.handleCombat(this.player, this.enemies, this.playerBullets);

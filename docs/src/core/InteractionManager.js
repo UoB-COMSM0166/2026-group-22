@@ -1,55 +1,6 @@
 // src/classes/InteractionManager.js
 class InteractionManager {
   /**
-   * Handles physical collisions between an entity and a solid platform.
-   * Replaces handleSolidCollision from World.js.
-   */
-  static resolveSolid(entity, platform, world) {
-    if (!platform.active || !entity.intersects(platform)) return;
-
-    const p = platform.getBounds();
-    const overlap = entity.getOverlap(platform);
-    const minOverlap = Math.min(overlap.top, overlap.bottom, overlap.left, overlap.right);
-
-    // 1. Resolve Position (Push out of the platform)
-    if (minOverlap === overlap.top && entity.velY > 0) { // Landing
-      entity.y = p.top - entity.h / 2;
-      entity.velY = 0;
-      if (entity.land) entity.land(); // Trigger animations/jump reset
-
-      // 2. Handle Logic Triggers (Scene switches, skill resets)
-      if (entity instanceof Player) {
-        if (platform instanceof VanishablePlatform) platform.isTouched = true;
-        if (platform.removesSkill) entity.abilities.resetSkills();
-
-        if (platform.hasBoss || platform.hasSummonerBoss) {
-          sceneManager.switch("boss", {
-            bossType: platform.hasSummonerBoss ? "summoner" : "regular",
-            bgLayers: world.bgLayers,
-            worldAssets: world.worldAssets
-          });
-        }
-      }
-
-      // Moving platform momentum
-      if (platform.velX || platform.velY) {
-        entity.x += platform.velX;
-        entity.y += platform.velY;
-      }
-    }
-    else if (minOverlap === overlap.bottom && entity.velY < 0) { // Hit head
-      entity.y = p.bottom + entity.h / 2;
-      entity.velY = 0;
-    }
-    else if (minOverlap === overlap.left) {
-      entity.x = p.left - entity.w / 2;
-    }
-    else if (minOverlap === overlap.right) {
-      entity.x = p.right + entity.w / 2;
-    }
-  }
-
-  /**
    * Handles combat collisions: bullets vs enemies and enemies vs player.
    */
   static handleCombat(player, enemies, bullets) {

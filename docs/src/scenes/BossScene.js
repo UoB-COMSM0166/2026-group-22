@@ -71,7 +71,7 @@ class BossScene extends GameplayScene {
     if (attack) this.bossProjectiles.push(attack);
 
     for (let platform of this.world.platforms) {
-      InteractionManager.resolveSolid(this.boss, platform, this.world);
+      platform.resolve(this.boss, this.world);
     }
 
     InteractionManager.updateProjectiles(this.bossProjectiles);
