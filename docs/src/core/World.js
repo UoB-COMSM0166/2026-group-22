@@ -205,6 +205,8 @@ class World {
   resetPlayer() {
     // loss one heart
     this.player.hp = 100;
-    this.player.reset(CONFIG.PLAYER.START_X, CONFIG.PLAYER.START_Y);
+    this.spawnX = CONFIG.PLAYER.START_X;
+    this.spawnY = CONFIG.PLAYER.START_Y
+    this.player.reset(this.spawnX, this.spawnY);
   }
 }
