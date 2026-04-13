@@ -22,11 +22,11 @@ CONFIG.LEVELS[1] = {
 
     // a series of enemy platforms
     { gap: 100, altitude: 260, w: 130, h: 20, hasEnemy: true },
-    { gap: 90, altitude: 320, w: 120, h: 20, hasEnemy: true },
+    { gap: 90, altitude: 320, w: 120, h: 20 },
     { gap: 100, altitude: 280, w: 140, h: 20, hasEnemy: true },
-    { gap: 90, altitude: 360, w: 90, h: 20, hasEnemy: true },
+    { gap: 90, altitude: 360, w: 90, h: 20 },
     { gap: 70, altitude: 310, w: 130, h: 20, isVanish: true, hasEnemy: true },
-    { gap: 70, altitude: 380, w: 90, h: 20},
+    { gap: 70, altitude: 380, w: 90, h: 20, hasCheckpoint: true},
 
     // moving platforms 
     {
@@ -38,9 +38,7 @@ CONFIG.LEVELS[1] = {
       rangeX: 60,
       rangeY: 0,
       speed: 0.04,
-      isVanish: true,
-      hasEnemy: true,
-      hasCheckpoint: true
+      isVanish: true
     },
 
     {
@@ -52,9 +50,7 @@ CONFIG.LEVELS[1] = {
       rangeX: 60,
       rangeY: 0,
       speed: 0.04,
-      isVanish: true,
-      hasEnemy: true,
-      hasCheckpoint: true
+      isVanish: true
     },
 
     {
@@ -66,9 +62,7 @@ CONFIG.LEVELS[1] = {
       rangeX: 65,
       rangeY: 0,
       speed: 0.04,
-      isVanish: true,
-      hasEnemy: true,
-      hasCheckpoint: true
+      isVanish: true
     },
 
     // a series of vanished platforms
