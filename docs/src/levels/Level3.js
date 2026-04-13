@@ -1,11 +1,14 @@
 CONFIG.LEVELS[2] = {
   worldWidth: 12000,
   worldHeight: 800,
-  backgrounds: {
-    far: "assets/bg/lv2/farBg2.png",
-    midBack: "assets/bg/lv2/midBackBg2.png",
-    midFront: "assets/bg/lv2/midFrontBg2.png",
-    front: "assets/bg/lv2/frontBg2.png"
+  assets: {
+    platformTile: "./assets/platform_tile1.png",
+    backgrounds: {
+      far: "assets/bg/lv2/farBg2.png",
+      midBack: "assets/bg/lv2/midBackBg2.png",
+      midFront: "assets/bg/lv2/midFrontBg2.png",
+      front: "assets/bg/lv2/frontBg2.png"
+    }
   },
   platforms: [
     { gap: 0, altitude: 0, w: 240, h: 80 },

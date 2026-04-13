@@ -5,11 +5,6 @@ class LevelScene extends GameplayScene {
     this.player = null;
     this.world = null;
     this.doorNumber = 1;
-    this.bgLayers = {
-      far: null,
-      mid: null,
-      front: null
-    };
   }
 
   // Logic to run when the scene starts
@@ -20,10 +15,8 @@ class LevelScene extends GameplayScene {
   }
 
   buildLevel(doorNumber) {
-    // Safety fallback: if no backgrounds exist, provide nulls to avoid errors
-    this.bgLayers = assets.getLevelBgs(doorNumber - 1);
-
     this.doorNumber = doorNumber;
+    const levelAssets = assets.getLevelAssets(doorNumber - 1);
 
     const charId = gameState.selectedCharacterId;
     const prefix = `char${charId}`;
@@ -43,11 +36,7 @@ class LevelScene extends GameplayScene {
     this.player = new Player(playerSprites);
     sceneManager.player = this.player;
 
-    const worldAssets = {
-      platformTile: assets.getImg('platform_tile')
-    };
-
-    this.world = new World(this.player, this.doorNumber, this.bgLayers, worldAssets);
+    this.world = new World(this.player, this.doorNumber, levelAssets);
   }
 
   draw() {

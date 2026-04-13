@@ -2,7 +2,7 @@
 class AssetManager {
   constructor() {
     this.images = {};
-    this.levelBackgrounds = [];
+    this.levelAssets = [];
     this.fonts = {};
     this.isLoaded = false;
   }
@@ -35,9 +35,6 @@ class AssetManager {
     this.images.boss_shoot = loadImage("./assets/boss_shoot.png");
     this.images.boss_slash = loadImage("./assets/boss_slash.png");
 
-    // 2. World & Environment
-    this.images.platform_tile = loadImage("./assets/platform_tile.png");
-
     // 3. UI & Menus
     this.images.title_bg = loadImage("./assets/title_cover.png");
     this.images.start_btn = loadImage("./assets/btn_start.png");
@@ -66,22 +63,26 @@ class AssetManager {
     // 5. Fonts
     this.fonts.main = loadFont("./assets/plasdrip.ttf");
 
-    this.loadLevelBackgrounds();
+    this.loadLevelAssets();
 
     this.isLoaded = true;
     console.log("[AssetManager] All global assets preloaded.");
   }
 
-  loadLevelBackgrounds() {
-    this.levelBackgrounds = CONFIG.LEVELS.map(level => {
-      if (!level.backgrounds) return null;
+  loadLevelAssets() {
+    this.levelAssets = CONFIG.LEVELS.map(level => {
+      const data = level.assets;
+      if (!data) return null;
 
       return {
-        far: loadImage(level.backgrounds.far),
-        midBack: loadImage(level.backgrounds.midBack),
-        midFront: loadImage(level.backgrounds.midFront),
-        front: loadImage(level.backgrounds.front)
-      };
+        backgrounds: {
+        far: loadImage(data.backgrounds.far),
+        midBack: loadImage(data.backgrounds.midBack),
+        midFront: loadImage(data.backgrounds.midFront),
+        front: loadImage(data.backgrounds.front)
+      },
+      platformTile: loadImage(data.platformTile)
+    };
     });
   }
 
@@ -96,8 +97,8 @@ class AssetManager {
     return this.fonts[key];
   }
 
-  getLevelBgs(index) {
-    return this.levelBackgrounds[index] || { far: null, midBack: null, midFront: null, front: null };
+  getLevelAssets(index) {
+    return this.levelAssets[index] || null;
   }
 }
 

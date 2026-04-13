@@ -1,5 +1,5 @@
 class World {
-  constructor(player, doorNumber, bgLayers, worldAssets) {
+  constructor(player, doorNumber, levelAssets) {
     this.player = player;
     this.cameraX = 0;
     this.cameraY = 0;
@@ -15,9 +15,8 @@ class World {
     this.spawnY = CONFIG.PLAYER.START_Y;
     this.itemTypes = CONFIG.ITEM_TYPES;
     this.backgroundColor = [135, 206, 235];
-    this.bgLayers = bgLayers;
-    this.worldAssets = worldAssets;
-    this.platformTile = worldAssets.platformTile;
+    this.bgLayers = levelAssets.backgrounds;
+    this.platformTile = levelAssets.platformTile;
 
     this.enemies = [];
     this.platforms = [];

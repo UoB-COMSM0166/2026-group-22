@@ -1,11 +1,15 @@
 CONFIG.LEVELS[3] = {
   worldWidth: 15000,
   worldHeight: 1600,
-
-  // 主角出生在开局的安全高台上 (高度 1000)
-  spawnX: 350,
-  spawnY: 550,
-
+  assets: {
+    platformTile: "./assets/platform_tile1.png",
+    backgrounds: {
+      far: "assets/bg/lv2/farBg2.png",
+      midBack: "assets/bg/lv2/midBackBg2.png",
+      midFront: "assets/bg/lv2/midFrontBg2.png",
+      front: "assets/bg/lv2/frontBg2.png"
+    }
+  },
   platforms: [
     // ==========================================
     // 阶段一：高台神弓 -> 落地 -> 仰望第一锁链

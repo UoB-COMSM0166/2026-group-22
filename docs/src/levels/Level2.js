@@ -1,39 +1,42 @@
 CONFIG.LEVELS[1] = {
   worldWidth: 6300,
   worldHeight: 800,
-  backgrounds: {
-    far: "assets/bg/lv2/farBg2.png",
-    midBack: "assets/bg/lv2/midBackBg2.png",
-    midFront: "assets/bg/lv2/midFrontBg2.png",
-    front: "assets/bg/lv2/frontBg2.png"
+  assets: {
+    platformTile: "./assets/platform_tile2.png",
+    backgrounds: {
+      far: "assets/bg/lv2/farBg2.png",
+      midBack: "assets/bg/lv2/midBackBg2.png",
+      midFront: "assets/bg/lv2/midFrontBg2.png",
+      front: "assets/bg/lv2/frontBg2.png"
+    }
   },
   bubbleMode: true,
 
   platforms: [
     // a series of coins on one a long platform
     { gap: 0, altitude: 0, w: 240, h: 80 },
-    { gap: 100, altitude: 100, w: 250, h: 20, coins: [-80, 0, 80]},
-    { gap: 150, altitude: 160, w: 300, h: 20, coins: [-80, 40] },
+    { gap: 100, altitude: 100, w: 240, h: 40, coins: [-80, 0, 80] },
+    { gap: 150, altitude: 160, w: 320, h: 40, coins: [-80, 40] },
     // a series of vanish platforms
-    { gap: 150, altitude: 220, w: 100, h: 20, isVanish: true, hasCoin: true },
-    { gap: 90, altitude: 270, w: 100, h: 20, isVanish: true, hasCoin: true },
-    { gap: 90, altitude: 320, w: 100, h: 20, isVanish: true, hasCoin: true },
-    { gap: 90, altitude: 370, w: 100, h: 20, isVanish: true, hasCoin: true},
+    { gap: 150, altitude: 220, w: 120, h: 40, isVanish: true, hasCoin: true },
+    { gap: 90, altitude: 270, w: 120, h: 40, isVanish: true, hasCoin: true },
+    { gap: 90, altitude: 320, w: 120, h: 40, isVanish: true, hasCoin: true },
+    { gap: 90, altitude: 370, w: 120, h: 40, isVanish: true, hasCoin: true },
 
     // a series of enemy platforms
-    { gap: 100, altitude: 260, w: 130, h: 20, hasEnemy: true },
-    { gap: 90, altitude: 320, w: 120, h: 20 },
-    { gap: 100, altitude: 280, w: 140, h: 20, hasEnemy: true },
-    { gap: 90, altitude: 360, w: 90, h: 20 },
-    { gap: 70, altitude: 310, w: 130, h: 20, isVanish: true, hasEnemy: true },
-    { gap: 70, altitude: 380, w: 90, h: 20, hasCheckpoint: true},
+    { gap: 100, altitude: 260, w: 120, h: 40, hasEnemy: true },
+    { gap: 90, altitude: 320, w: 120, h: 40 },
+    { gap: 100, altitude: 280, w: 120, h: 40, hasEnemy: true },
+    { gap: 90, altitude: 360, w: 80, h: 40 },
+    { gap: 70, altitude: 310, w: 120, h: 40, isVanish: true, hasEnemy: true },
+    { gap: 70, altitude: 380, w: 80, h: 40, hasCheckpoint: true },
 
     // moving platforms 
     {
       gap: 150,
       altitude: 400,
-      w: 110,
-      h: 20,
+      w: 120,
+      h: 40,
       isMoving: true,
       rangeX: 60,
       rangeY: 0,
@@ -44,8 +47,8 @@ CONFIG.LEVELS[1] = {
     {
       gap: 150,
       altitude: 340,
-      w: 110,
-      h: 20,
+      w: 120,
+      h: 40,
       isMoving: true,
       rangeX: 60,
       rangeY: 0,
@@ -56,8 +59,8 @@ CONFIG.LEVELS[1] = {
     {
       gap: 200,
       altitude: 420,
-      w: 150,
-      h: 20,
+      w: 160,
+      h: 40,
       isMoving: true,
       rangeX: 65,
       rangeY: 0,
@@ -66,17 +69,17 @@ CONFIG.LEVELS[1] = {
     },
 
     // a series of vanished platforms
-    { gap: 200, altitude: 380, w: 130, h: 20,isVanish: true,coins: [-80, 40] },
-    { gap: 90, altitude: 290, w: 140, h: 20, isVanish: true,coins: [-80, 40] },
-    { gap: 100, altitude: 277, w: 140, h: 20,isVanish: true,coins: [-80, 40]},
-    { gap: 90, altitude: 360, w: 150, h: 20,isVanish: true,coins: [-80, 40] },
-    { gap: 70, altitude: 310, w: 130, h: 20,isVanish: true,coins: [-80, 40]},
-    { gap: 70, altitude: 380, w: 90, h: 20, hasCoin: true },
+    { gap: 200, altitude: 380, w: 120, h: 40, isVanish: true, coins: [-80, 40] },
+    { gap: 90, altitude: 290, w: 120, h: 40, isVanish: true, coins: [-80, 40] },
+    { gap: 100, altitude: 277, w: 120, h: 40, isVanish: true, coins: [-80, 40] },
+    { gap: 90, altitude: 360, w: 160, h: 40, isVanish: true, coins: [-80, 40] },
+    { gap: 70, altitude: 310, w: 120, h: 40, isVanish: true, coins: [-80, 40] },
+    { gap: 70, altitude: 380, w: 80, h: 40, hasCoin: true },
 
     // a series enemy platforms
-    { gap: 100, altitude: 260, w: 130, h: 20, hasEnemy: true,hasCoin: true },
-    { gap: 90, altitude: 320, w: 120, h: 20, hasEnemy: true,hasCoin: true },
-    { gap: 90, altitude: 260, w: 1000, h: 20, hasSummonerBoss: true}
+    { gap: 100, altitude: 260, w: 120, h: 40, hasEnemy: true, hasCoin: true },
+    { gap: 90, altitude: 320, w: 120, h: 40, hasEnemy: true, hasCoin: true },
+    { gap: 90, altitude: 260, w: 1000, h: 40, hasSummonerBoss: true }
   ],
 
   items: [
