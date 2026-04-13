@@ -39,32 +39,32 @@ class AssetManager {
     this.images.platform_tile = loadImage("./assets/platform_tile.png");
 
     // 3. UI & Menus
-    this.images.title_bg = loadImage("assets/title_cover.png");
-    this.images.start_btn = loadImage("assets/btn_start.png");
-    this.images.char_select_bg = loadImage("assets/character_select.png");
-    this.images.camp_A = loadImage("assets/camp_A.png");
-    this.images.camp_B = loadImage("assets/camp_B.png");
-    this.images.arrow_r = loadImage("assets/arrow_right_transparent.png");
-    this.images.arrow_l = loadImage("assets/arrow_left_transparent.png");
-    this.images.icon_set = loadImage("assets/icon_settings.png");
-    this.images.icon_snd = loadImage("assets/icon_sound.png");
+    this.images.title_bg = loadImage("./assets/title_cover.png");
+    this.images.start_btn = loadImage("./assets/btn_start.png");
+    this.images.char_select_bg = loadImage("./assets/character_select.png");
+    this.images.camp_A = loadImage("./assets/camp_A.png");
+    this.images.camp_B = loadImage("./assets/camp_B.png");
+    this.images.arrow_r = loadImage("./assets/arrow_right_transparent.png");
+    this.images.arrow_l = loadImage("./assets/arrow_left_transparent.png");
+    this.images.icon_set = loadImage("./assets/icon_settings.png");
+    this.images.icon_snd = loadImage("./assets/icon_sound.png");
 
-    this.images.full_heart = loadImage("assets/full_heart.png");
-    this.images.half_heart = loadImage("assets/half_heart.png");
+    this.images.full_heart = loadImage("./assets/full_heart.png");
+    this.images.half_heart = loadImage("./assets/half_heart.png");
 
     for (let i = 1; i <= 12; i++) {
       const key = `coin${i}`;
-      const path = `assets/coin/${key}.png`;
+      const path = `./assets/coin/${key}.png`;
       this.images[key] = loadImage(path);
     }
 
     // 4. Shop Icons
-    this.images.shop_bg = loadImage("assets/shop_bg.png");
-    this.images.icon_pistol = loadImage("assets/icon_pistol.png");
-    this.images.icon_fireball = loadImage("assets/icon_fireball.png");
+    this.images.shop_bg = loadImage("./assets/shop_bg.png");
+    this.images.icon_pistol = loadImage("./assets/icon_pistol.png");
+    this.images.icon_fireball = loadImage("./assets/icon_fireball.png");
 
     // 5. Fonts
-    this.fonts.main = loadFont("assets/plasdrip.ttf");
+    this.fonts.main = loadFont("./assets/plasdrip.ttf");
 
     this.loadLevelBackgrounds();
 
