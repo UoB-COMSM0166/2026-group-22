@@ -40,6 +40,7 @@ class InstructionUI {
     this.isActive = false;
     this.current = null;
     this.targetRect = null;
+    this.queue = [];
   }
 
   getCurrentTarget() {

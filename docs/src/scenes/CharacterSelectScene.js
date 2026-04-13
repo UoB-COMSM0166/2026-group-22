@@ -70,6 +70,10 @@ class CharacterSelectScene extends BaseScene {
 
   keyPressed() {
     if (key === "Escape") {
+      if (sceneManager.instructions.isActive) {
+        sceneManager.instructions.hide();
+      }
+      
       if (this.popupOpen) {
         this.popupOpen = false;
         this.pendingChar = null;

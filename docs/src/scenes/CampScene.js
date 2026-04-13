@@ -28,6 +28,7 @@ class CampScene extends BaseScene {
     ];
 
     this.dialogue = new DialogueManager(CONFIG.CAMP.DIALOGUE);
+    this.hintTriggered = false;
   }
 
   preload() {
@@ -42,6 +43,8 @@ class CampScene extends BaseScene {
   }
 
   onEnter() {
+    this.hintTriggered = false;
+
     if (!gameState.campIntroDone) {
       this.dialogue.start();
       gameState.campIntroDone = true;
@@ -61,10 +64,9 @@ class CampScene extends BaseScene {
       return;
     }
 
-    if (!gameState.campHintsDone) {
+    if (!gameState.campHintsDone && !this.hintTriggered) {
       this.showInstructions();
-      gameState.campHintsDone = true;
-      gameState.save();
+      this.hintTriggered = true;
     }
 
     if (sceneManager.instructions.isActive) {
@@ -126,6 +128,11 @@ class CampScene extends BaseScene {
   }
 
   handleAction(action, val) {
+    if (!gameState.campHintsDone) {
+      gameState.campHintsDone = true;
+      gameState.save();
+    }
+
     if (action === "shop") sceneManager.switch("shop");
     if (action === "board") sceneManager.switch("board");
     if (action === "door") this.enterDoor(val);
@@ -159,7 +166,15 @@ class CampScene extends BaseScene {
 
   keyPressed() {
     if (key === "h" || key === "H") this.showHotspots = !this.showHotspots;
-    if (key === "Escape") this.picking = null;
+
+    if (key === "Escape") {
+      if (sceneManager.instructions.isActive) {
+        sceneManager.instructions.hide();
+      }
+      sceneManager.switch("select");
+
+    }
+
 
     if (this.dialogue.isActive) {
       if (keyCode === ENTER || key === " ") this.dialogue.advance();
