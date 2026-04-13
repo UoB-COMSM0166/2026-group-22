@@ -20,14 +20,14 @@ class CharacterSelectScene extends BaseScene {
     // Reset state every time we navigate to this screen
     this.popupOpen = false;
     this.pendingChar = null;
-
-    sceneManager.instructions.show("Select your character.");
   }
 
   draw() {
     background(0);
     const tf = this.getContainTransform(this.bgImg);
     image(this.bgImg, tf.dx, tf.dy, tf.dw, tf.dh);
+
+    this.drawHeader(tf);
 
     cursor("default");
 
@@ -50,6 +50,21 @@ class CharacterSelectScene extends BaseScene {
     if (overAny) cursor("pointer");
   }
 
+  drawHeader(tf) {
+    push();
+    textAlign(CENTER, TOP);
+    textFont(assets.getFont()); 
+    
+    textSize(tf.dh * 0.07); 
+    
+    fill(0, 150);
+    text("SELECT YOUR CHARACTER", width / 2 + 3, tf.dy + tf.dh * 0.08 + 3);
+    
+    fill(255);
+    text("SELECT YOUR CHARACTER", width / 2, tf.dy + tf.dh * 0.08);
+    pop();
+  }
+
   mousePressed() {
     const tf = this.getContainTransform(this.bgImg);
 
@@ -69,11 +84,7 @@ class CharacterSelectScene extends BaseScene {
   }
 
   keyPressed() {
-    if (key === "Escape") {
-      if (sceneManager.instructions.isActive) {
-        sceneManager.instructions.hide();
-      }
-      
+    if (key === "Escape") {    
       if (this.popupOpen) {
         this.popupOpen = false;
         this.pendingChar = null;
