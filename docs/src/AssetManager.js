@@ -53,7 +53,7 @@ class AssetManager {
     this.images.half_heart = loadImage("./assets/half_heart.png");
 
     for (let i = 1; i <= 12; i++) {
-      const key = `Coin${i}`;
+      const key = `coin${i}`;
       const path = `./assets/coin/${key}.png`;
       this.images[key] = loadImage(path);
     }
