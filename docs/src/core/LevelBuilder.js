@@ -15,7 +15,7 @@ class LevelBuilder {
       world.player.abilities.resetBubbleState();
     }
 
-    let currentX = data.startX;
+    let currentX = 0;
 
     // 2. Platform & Entity Placement
     for (let p of data.platforms) {
@@ -78,8 +78,5 @@ class LevelBuilder {
       const itemClass = world.itemTypes[itemData.type];
       return itemClass ? new itemClass(itemData.x, itemData.y) : null;
     }).filter(i => i);
-
-    // 4. Hole Placement
-    world.holes = data.holes.map(h => new Hole(h.startX, h.endX));
   }
 }

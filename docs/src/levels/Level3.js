@@ -1,7 +1,6 @@
 CONFIG.LEVELS[2] = {
   worldWidth: 12000,
   worldHeight: 800,
-  startX: 300,
   backgrounds: {
     far: "assets/bg/lv2/farBg2.png",
     midBack: "assets/bg/lv2/midBackBg2.png",
@@ -9,7 +8,8 @@ CONFIG.LEVELS[2] = {
     front: "assets/bg/lv2/frontBg2.png"
   },
   platforms: [
-    { gap: 0, altitude: 100, w: 200, h: 20, coins: [-45,0,45] },
+    { gap: 0, altitude: 0, w: 240, h: 80 },
+    { gap: 100, altitude: 100, w: 200, h: 20, coins: [-45, 0, 45] },
     { gap: 90, altitude: 170, w: 120, h: 20, hasCoin: true },
     { gap: 80, altitude: 240, w: 100, h: 20, hasCoin: true },
     { gap: 90, altitude: 190, w: 100, h: 20, hasCoin: true },
@@ -30,7 +30,7 @@ CONFIG.LEVELS[2] = {
     { gap: -400, altitude: 350, w: 400, h: 400 },
     { gap: 0, altitude: 300, w: 100, h: 20, removesSkill: true },
 
-     // A seires of coins and vanishing platforms
+    // A seires of coins and vanishing platforms
     { gap: 90, altitude: 330, w: 70, h: 20, hasCoin: true, isVanish: true },
     { gap: 70, altitude: 380, w: 70, h: 20, hasCoin: true, isVanish: true },
     { gap: 70, altitude: 330, w: 70, h: 20, hasCoin: true, isVanish: true },
@@ -72,15 +72,10 @@ CONFIG.LEVELS[2] = {
 
     { gap: 180, altitude: 380, w: 90, h: 20, hasCheckpoint: true },
     { gap: 90, altitude: 450, w: 90, h: 20 },
-    { gap: 100, altitude: 420, w: 220, h: 20, hasCoin: true, coins: [-45,0,45]},
+    { gap: 100, altitude: 420, w: 220, h: 20, hasCoin: true, coins: [-45, 0, 45] },
 
     // Boss 
     { gap: 150, altitude: 0, w: 2000, h: 500, hasSummonerBoss: true }
-  ],
-
-
-  holes: [
-    { startX: 300, endX: 12000 },
   ],
   items: [
     { type: "SHRINK_POTION", x: 2320, y: 370 },

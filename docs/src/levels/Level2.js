@@ -1,7 +1,6 @@
 CONFIG.LEVELS[1] = {
   worldWidth: 6300,
   worldHeight: 800,
-  startX: 300,
   backgrounds: {
     far: "assets/bg/lv2/farBg2.png",
     midBack: "assets/bg/lv2/midBackBg2.png",
@@ -12,6 +11,7 @@ CONFIG.LEVELS[1] = {
 
   platforms: [
     // a series of coins on one a long platform
+    { gap: 0, altitude: 0, w: 240, h: 80 },
     { gap: 100, altitude: 100, w: 250, h: 20, coins: [-80, 0, 80]},
     { gap: 150, altitude: 160, w: 300, h: 20, coins: [-80, 40] },
     // a series of vanish platforms
@@ -77,10 +77,6 @@ CONFIG.LEVELS[1] = {
     { gap: 100, altitude: 260, w: 130, h: 20, hasEnemy: true,hasCoin: true },
     { gap: 90, altitude: 320, w: 120, h: 20, hasEnemy: true,hasCoin: true },
     { gap: 90, altitude: 260, w: 1000, h: 20, hasSummonerBoss: true}
-  ],
-
-  holes: [
-    { startX: 300, endX: 6300 },
   ],
 
   items: [

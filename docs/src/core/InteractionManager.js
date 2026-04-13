@@ -45,15 +45,6 @@ class InteractionManager {
    */
   static handleWorldLimits(player, world) {
     const p = player.getBounds();
-    const floorY = world.height - world.groundThickness;
-
-    // Check for pits/holes
-    let overHole = world.holes.some(h => h.contains(p.left) && h.contains(p.right));
-
-    if (!overHole && p.bottom > floorY) {
-      player.y = floorY - player.h / 2;
-      player.land();
-    }
 
     if (p.top > world.height) {
       world.respawnPlayer();

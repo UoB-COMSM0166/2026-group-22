@@ -11,7 +11,6 @@ class World {
     // Pull dimensions from CONFIG
     this.width = levelData.worldWidth;
     this.height = levelData.worldHeight;
-    this.groundThickness = CONFIG.WORLD.FLOOR_OFFSET;
     this.spawnX = CONFIG.PLAYER.START_X;
     this.spawnY = CONFIG.PLAYER.START_Y;
     this.itemTypes = CONFIG.ITEM_TYPES;
@@ -24,7 +23,6 @@ class World {
     this.platforms = [];
     this.coins = [];
     this.items = [];
-    this.holes = [];
     this.checkpoints = [];
     this.playerBullets = [];
 
@@ -132,7 +130,7 @@ class World {
     translate(-this.cameraX, -this.cameraY);
 
     // Draw the environment
-    this.drawBackground();
+    // this.drawBackground();
 
     // Draw Checkpoints BEFORE the player
     this.checkpoints.forEach(cp => cp.show());
@@ -168,24 +166,7 @@ class World {
     image(img, offset - drawW, 0, drawW, height);
   }
 
-  drawBackground() {
-    // Draw Ground
-    fill(34, 139, 34);
-
-    rectMode(CORNER);
-    // let groundX = this.width / 2;
-    let currentX = 0;
-    let groundY = this.height - this.groundThickness;
-
-    // Draw ground segments between holes
-    for (let hole of this.holes) {
-      // Draw ground from current position to the start of the hole
-      rect(currentX, groundY, hole.left - currentX, this.groundThickness);
-      currentX = hole.right; // Skip to the other side of the hole
-    }
-
-    rect(currentX, groundY, this.width - currentX, this.groundThickness);
-  }
+  drawBackground() {}
 
   respawnPlayer() {
     const ab = this.player.abilities;

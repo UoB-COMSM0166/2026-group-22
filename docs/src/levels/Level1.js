@@ -1,5 +1,5 @@
 CONFIG.LEVELS[0] = {
-  worldWidth: 12000, 
+  worldWidth: 12000,
   worldHeight: 800,
   backgrounds: {
     far: "assets/bg/lv1/farBg1.png",
@@ -7,53 +7,60 @@ CONFIG.LEVELS[0] = {
     midFront: "assets/bg/lv1/midFrontBg1.png",
     front: "assets/bg/lv1/frontBg1.png"
   },
-  startX: 300,
   platforms: [
     // --- 前半段保持绝对不变 ---
-    { gap: 0,   altitude: 100, w: 160, h: 40 },
+    { gap: 0, altitude: 0, w: 240, h: 80 },
+    { gap: 100, altitude: 100, w: 160, h: 40 },
     { gap: 120, altitude: 180, w: 120, h: 40, hasCoin: true },
     { gap: 150, altitude: 150, w: 200, h: 40, hasEnemy: true },
 
-    { gap: 120, altitude: 220, w: 120, h: 40, 
-      isMoving: true, rangeX: 0, rangeY: 130, speed: 0.04 },
-    { gap: 50,  altitude: 360, w: 160, h: 40, hasCheckpoint: true }, 
-    
-    { gap: 105, altitude: 0,   w: 240, h: 580, removesSkill: true }, 
+    {
+      gap: 120, altitude: 220, w: 120, h: 40,
+      isMoving: true, rangeX: 0, rangeY: 130, speed: 0.04
+    },
+    { gap: 50, altitude: 360, w: 160, h: 40, hasCheckpoint: true },
+
+    { gap: 105, altitude: 0, w: 240, h: 580, removesSkill: true },
 
     { gap: 150, altitude: 500, w: 320, h: 40, hasCoin: true },
-    { gap: 150, altitude: 300, w: 200, h: 40, hasEnemy: true }, 
+    { gap: 150, altitude: 300, w: 200, h: 40, hasEnemy: true },
 
-    { gap: 180, altitude: 350, w: 160, h: 40,  
-      isMoving: true, rangeX: 80, rangeY: 0, speed: 0.02 }, 
-    { gap: 180, altitude: 350, w: 160, h: 40, hasCoin: true, hasCheckpoint: true }, 
-    { gap: 180, altitude: 400, w: 160, h: 40, 
-      isMoving: true, rangeX: 80, rangeY: 0, speed: 0.02 },
+    {
+      gap: 180, altitude: 350, w: 160, h: 40,
+      isMoving: true, rangeX: 80, rangeY: 0, speed: 0.02
+    },
+    { gap: 180, altitude: 350, w: 160, h: 40, hasCoin: true, hasCheckpoint: true },
+    {
+      gap: 180, altitude: 400, w: 160, h: 40,
+      isMoving: true, rangeX: 80, rangeY: 0, speed: 0.02
+    },
 
-    { gap: 150, altitude: 400, w: 240, h: 40, hasEnemy: true }, 
+    { gap: 150, altitude: 400, w: 240, h: 40, hasEnemy: true },
 
-    { gap: 180, altitude: 0,   w: 240, h: 420 }, 
-    
+    { gap: 180, altitude: 0, w: 240, h: 420 },
+
     // 第二个跷跷板（已根据上个指令调低到350）
     { gap: 150, altitude: 350, w: 320, h: 40, hasCoin: true },
 
     // --- 核心修改点：在跷跷板之后先加一个静止平台 ---
-    { gap: 150, altitude: 320, w: 200, h: 40, hasCheckpoint: true }, 
-    
+    { gap: 150, altitude: 320, w: 200, h: 40, hasCheckpoint: true },
+
     // 然后再接移动平台
-    { gap: 120, altitude: 300, w: 120, h: 40, 
-      isMoving: true, rangeX: 0, rangeY: 150, speed: 0.03 },
+    {
+      gap: 120, altitude: 300, w: 120, h: 40,
+      isMoving: true, rangeX: 0, rangeY: 150, speed: 0.03
+    },
     { gap: 150, altitude: 350, w: 200, h: 40, hasEnemy: true },
 
     { gap: 150, altitude: 450, w: 120, h: 40, hasCoin: true },
-    { gap: 150, altitude: 400, w: 160, h: 40,  
-      isMoving: true, rangeX: 120, rangeY: 0, speed: 0.03 },
-    
-    { gap: 150, altitude: 0, w: 2000, h: 500, hasBoss: true}
-  ],
-  holes: [
-    { startX: 300, endX: 12000 },
+    {
+      gap: 150, altitude: 400, w: 160, h: 40,
+      isMoving: true, rangeX: 120, rangeY: 0, speed: 0.03
+    },
+
+    { gap: 150, altitude: 0, w: 2000, h: 500, hasBoss: true }
   ],
   items: [
-    { type: "JUMP_BOOSTER", x: 1420,  y: 370 }
+    { type: "JUMP_BOOSTER", x: 1420, y: 370 }
   ]
 };
