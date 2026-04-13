@@ -27,7 +27,7 @@ CONFIG.LEVELS[2] = {
 
     // The design of the narrowed passage
     { gap: 0, altitude: 0, w: 400, h: 320 },
-    { gap: -400, altitude: 350, w: 400, h: 400 },
+    { gap: -400, altitude: 370, w: 400, h: 400 },
     { gap: 0, altitude: 300, w: 100, h: 20, removesSkill: true },
 
     // A seires of coins and vanishing platforms
