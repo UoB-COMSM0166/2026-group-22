@@ -15,6 +15,14 @@ CONFIG.LEVELS[3] = {
       hurt: { path: "./assets/fire_spirit/hurt.png", w: 128, h: 128, count: 6 },
     }
   },
+  enemyConfig: {
+    width: 60,
+    height: 60,
+    visualW: 240,
+    visualH: 240,
+    maxHp: 50,
+    speed: 1
+  },
   platforms: [
     // ==========================================
     // 阶段一：高台神弓 -> 落地 -> 仰望第一锁链

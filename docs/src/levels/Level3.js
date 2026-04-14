@@ -15,6 +15,14 @@ CONFIG.LEVELS[2] = {
       hurt: { path: "./assets/fire_spirit/hurt.png", w: 128, h: 128, count: 6 },
     }
   },
+  enemyConfig: {
+    width: 60,
+    height: 60,
+    visualW: 240,
+    visualH: 240,
+    maxHp: 50,
+    speed: 1
+  },
   platforms: [
     { gap: 0, altitude: 0, w: 240, h: 80 },
     { gap: 100, altitude: 100, w: 200, h: 20, coins: [-45, 0, 45] },

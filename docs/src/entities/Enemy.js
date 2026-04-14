@@ -1,8 +1,11 @@
 class Enemy extends Entity {
-  constructor(x, y, sprites) {
-    super(x, y, 40, 40, 50, 1);
+  constructor(x, y, sprites, config) {
+    super(x, y, config.width, config.height, config.maxHp, config.speed);
 
     this.anim = new AnimationManager(this, sprites);
+
+    this.visualW = config.visualW;
+    this.visualH = config.visualH;
 
     this.direction = 1; // 1 for Right, -1 for Left
     this.velX = this.speed;
@@ -66,6 +69,6 @@ class Enemy extends Entity {
 
     this.anim.update(state);
     // direction 1 is right, -1 is left. scale(-1, 1) flips it.
-    this.anim.draw(this.x, this.y, this.direction === -1, 90, 90);
+    this.anim.draw(this.x, this.y, this.direction === -1, this.visualW, this.visualH);
   }
 }
