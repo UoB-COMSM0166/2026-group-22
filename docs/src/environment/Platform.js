@@ -74,8 +74,7 @@ class Platform extends GameObject {
     if (this.hasBoss || this.hasSummonerBoss) {
       sceneManager.switch("boss", {
         bossType: this.hasSummonerBoss ? "summoner" : "regular",
-        bgLayers: world.bgLayers,
-        worldAssets: world.worldAssets
+        levelAssets: world.levelAssets
       });
     }
   }
