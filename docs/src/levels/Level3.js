@@ -10,16 +10,17 @@ CONFIG.LEVELS[2] = {
       front: "./assets/bg/lv2/frontBg2.png"
     },
     enemySprites: {
-      idle: { path: "./assets/fire_spirit/idle.png", w: 128, h: 128, count: 6 },
-      walk: { path: "./assets/fire_spirit/walk.png", w: 128, h: 128, count: 6 },
-      hurt: { path: "./assets/fire_spirit/hurt.png", w: 128, h: 128, count: 6 },
+      idle: { path: "./assets/skeleton/idle.png", w: 128, h: 128, count: 7 },
+      walk: { path: "./assets/skeleton/walk.png", w: 128, h: 128, count: 6 },
+      hurt: { path: "./assets/skeleton/hurt.png", w: 128, h: 128, count: 6 },
     }
   },
   enemyConfig: {
-    width: 60,
+    width: 40,
     height: 60,
-    visualW: 240,
-    visualH: 240,
+    visualW: 100,
+    visualH: 110,
+    visualAlignment: 'bottom',
     maxHp: 50,
     speed: 1
   },

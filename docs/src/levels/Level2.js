@@ -10,16 +10,17 @@ CONFIG.LEVELS[1] = {
       front: "./assets/bg/lv2/frontBg2.png"
     },
     enemySprites: {
-      idle: { path: "./assets/fire_spirit/idle.png", w: 128, h: 128, count: 6 },
-      walk: { path: "./assets/fire_spirit/walk.png", w: 128, h: 128, count: 6 },
-      hurt: { path: "./assets/fire_spirit/hurt.png", w: 128, h: 128, count: 6 },
+      idle: { path: "./assets/plent/idle.png", w: 128, h: 128, count: 5 },
+      walk: { path: "./assets/plent/walk.png", w: 128, h: 128, count: 9 },
+      hurt: { path: "./assets/plent/hurt.png", w: 128, h: 128, count: 3 },
     }
   },
   enemyConfig: {
     width: 60,
     height: 60,
-    visualW: 240,
-    visualH: 240,
+    visualW: 140,
+    visualH: 140,
+    visualAlignment: 'bottom',
     maxHp: 50,
     speed: 1
   },
@@ -28,7 +29,7 @@ CONFIG.LEVELS[1] = {
   platforms: [
     // a series of coins on one a long platform
     { gap: 0, altitude: 0, w: 240, h: 80 },
-    { gap: 100, altitude: 100, w: 240, h: 40, coins: [-80, 0, 80] },
+    { gap: 100, altitude: 100, w: 240, h: 40, coins: [-80, 0, 80], hasEnemy: true },
     { gap: 150, altitude: 160, w: 320, h: 40, coins: [-80, 40] },
     // a series of vanish platforms
     { gap: 150, altitude: 220, w: 120, h: 40, isVanish: true, hasCoin: true },

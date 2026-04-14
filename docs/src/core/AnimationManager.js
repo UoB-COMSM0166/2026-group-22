@@ -33,7 +33,7 @@ class AnimationManager {
     }
   }
 
-  draw(x, y, flipX = false, visualW = null, visualH = null) {
+  draw(x, y, flipX = false, visualW = null, visualH = null, alignment = 'center') {
     const currentFrames = this.sprites[this.currentState];
     if (!currentFrames) return;
 
@@ -49,8 +49,13 @@ class AnimationManager {
       const drawW = visualW || this.entity.w;
       const drawH = visualH || this.entity.h;
 
+      let offsetY = 0;
+      if (alignment === 'bottom') {
+        offsetY = (this.entity.h / 2) - (drawH / 2);
+      }
 
-      image(img, 0, 0, drawW, drawH);
+
+      image(img, 0, offsetY, drawW, drawH);
       pop();
     }
 

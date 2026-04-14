@@ -20,6 +20,7 @@ CONFIG.LEVELS[0] = {
     height: 60,
     visualW: 240,
     visualH: 240,
+    visualAlignment: 'center',
     maxHp: 50,
     speed: 1
   },
