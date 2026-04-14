@@ -10,18 +10,17 @@ class BossScene extends GameplayScene {
   }
 
   onEnter(data) {
-    const { bossType, bgLayers, worldAssets } = data;
+    const { bossType, levelAssets } = data;
 
     this.player = sceneManager.player;
     this.currentBossType = bossType;
-    this.bgLayers = bgLayers;
-    this.worldAssets = worldAssets;
+    this.levelAssets = levelAssets;
     // 1. Tell the global manager this is the active scene
     // This allows the Boss/Minions to find playerBullets
     sceneManager.currentScene = this;
 
     const arenaLevelIndex = 5;
-    this.world = new World(this.player, arenaLevelIndex, this.bgLayers, this.worldAssets);
+    this.world = new World(this.player, arenaLevelIndex, this.levelAssets);
 
     const bossMap = {
       'summoner': SummonerBoss,
@@ -144,8 +143,7 @@ class BossScene extends GameplayScene {
   resetScene() {
     this.onEnter({
       bossType: this.currentBossType,
-      bgLayers: this.bgLayers,
-      worldAssets: this.worldAssets
+      levelAssets: this.levelAssets
     });
 
     // Optional: If you used an 'isVictoryTriggered' flag, reset it too

@@ -84,8 +84,7 @@ class LevelScene extends GameplayScene {
       // Switch to boss scene and tell it to load the 'summoner'
       sceneManager.switch('boss', {
         bossType: 'summoner',
-        bgLayers: this.world.bgLayers,
-        worldAssets: this.world.worldAssets
+        levelAssets: this.world.levelAssets
       });
     }
 
@@ -94,8 +93,7 @@ class LevelScene extends GameplayScene {
       console.log("🛠️ Dev Mode: Jumping to Regular Boss");
       sceneManager.switch('boss', {
         bossType: 'regular',
-        bgLayers: this.world.bgLayers,
-        worldAssets: this.world.worldAssets
+        levelAssets: this.world.levelAssets
       });
     }
   }

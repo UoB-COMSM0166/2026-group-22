@@ -15,6 +15,7 @@ class World {
     this.spawnY = CONFIG.PLAYER.START_Y;
     this.itemTypes = CONFIG.ITEM_TYPES;
     this.backgroundColor = [135, 206, 235];
+    this.levelAssets = levelAssets;
     this.bgLayers = levelAssets.backgrounds;
     this.platformTile = levelAssets.platformTile;
 
