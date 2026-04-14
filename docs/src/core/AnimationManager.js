@@ -59,7 +59,7 @@ class AnimationManager {
       pop();
     }
 
-    if (true) {
+    if (false) {
       push();
       noFill();
       stroke(255, 0, 0); // Bright Red

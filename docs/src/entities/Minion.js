@@ -2,7 +2,17 @@
 class Minion extends Entity {
   constructor(x, y) {
     // super(x, y, width, height, hp, speed)
-    super(x, y, 24, 24, 1, 2.5);
+    super(x, y, 30, 30, 1, 2.5);
+
+    const minionSprites = {
+      idle: assets.getImg('minion_idle'), // Ensure these keys exist in AssetManager
+      walk: assets.getImg('minion_walk'),
+      attack: assets.getImg('minion_attack')
+    };
+
+    this.sprites = minionSprites;
+
+    this.anim = new AnimationManager(this, this.sprites);
 
     // Custom movement vectors
     this.vx = -this.speed;
@@ -30,6 +40,7 @@ class Minion extends Entity {
 
     // 3. Countdown for shooting
     if (this.shootTimer > 0) this.shootTimer--;
+    if (this.attackSpriteTimer > 0) this.attackSpriteTimer--;
 
     // 4. Self-Cleanup: Mark as dead if flies off-screen
     if (this.x < -100 || this.x > width + 100 || this.y < -100 || this.y > height + 100) {
@@ -44,6 +55,7 @@ class Minion extends Entity {
     if (!player || this.shootTimer > 0) return null;
 
     this.shootTimer = this.shootCooldown;
+    this.attackSpriteTimer = 15;
 
     // Calculate direction towards player
     const dx = player.x - this.x;
@@ -76,21 +88,21 @@ class Minion extends Entity {
 
   // Visuals (Now uses this.w from the Entity class)
   show() {
-    push();
-    translate(this.x, this.y);
+    if (!this.active) return;
 
-    // Body (The little orange orb)
-    fill(255, 160, 60);
-    noStroke();
-    ellipse(0, 0, this.w);
+    let state = 'idle';
+    if (this.attackSpriteTimer > 0) state = 'attack';
+    else if (Math.abs(this.vx) > 0.1) state = 'walk';
 
-    // Eyes
-    fill(255);
-    ellipse(-5, -3, 5, 5);
-    ellipse(5, -3, 5, 5);
-    fill(60);
-    ellipse(-5, -3, 2, 2);
-    ellipse(5, -3, 2, 2);
-    pop();
+    this.anim.update(state);
+    
+    // Use the internal config for visual dimensions
+    this.anim.draw(
+      this.x, 
+      this.y, 
+      -1, 
+      90, 
+      90
+    );
   }
 }

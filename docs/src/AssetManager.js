@@ -28,6 +28,18 @@ class AssetManager {
 
     this.images.boss_slash = loadImage("./assets/boss_slash.png");
 
+    this.loadSpriteSheet("./assets/fire_spirit/idle.png", 128, 128, 6, (frames) => {
+      this.images.minion_idle = frames;
+    });
+
+    this.loadSpriteSheet("./assets/fire_spirit/walk.png", 128, 128, 7, (frames) => {
+      this.images.minion_walk = frames;
+    });
+
+    this.loadSpriteSheet("./assets/fire_spirit/attack.png", 128, 128, 12, (frames) => {
+      this.images.minion_attack = frames;
+    });
+
     // 3. UI & Menus
     this.images.title_bg = loadImage("./assets/title_cover.png");
     this.images.start_btn = loadImage("./assets/btn_start.png");
