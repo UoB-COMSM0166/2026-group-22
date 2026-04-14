@@ -16,13 +16,11 @@ class Player extends Entity {
 
     this.sprites = sprites;
 
+    this.anim = new AnimationManager(this, sprites, CONFIG.PLAYER.ANIMATION_SPEED);
+
     this.gravity = CONFIG.WORLD.GRAVITY;
     this.lift = CONFIG.PLAYER.LIFT;
     this.maxJumpCount = CONFIG.PLAYER.MAX_JUMP_COUNT;
-
-    this.animationFrame = 0;
-    this.animationTimer = 0;
-    this.animationSpeed = CONFIG.PLAYER.ANIMATION_SPEED;
 
     this.isFacingLeft = false;
     this.isGrounded = false;
@@ -86,39 +84,18 @@ class Player extends Entity {
 
     this.abilities.draw();
 
-    let currentSprite;
+    let currentState = 'idle';
+    if (this.isInhaling()) currentState = 'inhale';
+    else if (this.isAttacking()) currentState = 'attack';
+    else if (!this.isGrounded) currentState = 'jump';
+    else if (this.isMoving()) currentState = 'walk';
 
-    if (this.isInhaling()) {
-      currentSprite = this.sprites.inhale;
-    }
-    else if (this.isAttacking()) {
-      currentSprite = this.sprites.attack;
-    }
-    else if (!this.isGrounded) {
-      currentSprite = this.sprites.jump;
-    }
-    else if (this.isMoving()) {
-      this.animationTimer++;
-      if (this.animationTimer >= this.animationSpeed) {
-        this.animationFrame = (this.animationFrame + 1) % 2;
-        this.animationTimer = 0;
-      }
-      currentSprite = this.sprites.walk[this.animationFrame];
-    }
-    else {
-      currentSprite = this.sprites.idle;
-    }
+    this.anim.update(currentState);
 
-    if (!currentSprite) return;
-
-    const size = this.getVisualSize(currentSprite);
-
-    push();
-    translate(this.x, this.y);
-    if (this.isFacingLeft) scale(-1, 1);
-    imageMode(CENTER);
-    image(currentSprite, 0, 0, size.w, size.h);
-    pop();
+    const currentFrames = this.sprites[currentState];
+    const currentImg = Array.isArray(currentFrames) ? currentFrames[this.anim.frame] : currentFrames;
+    const size = this.getVisualSize(currentImg);
+    this.anim.draw(this.x, this.y, this.isFacingLeft, size.w, size.h);
   }
 
   getVisualSize(img) {
