@@ -13,6 +13,11 @@ CONFIG.LEVELS[0] = {
       idle: { path: "./assets/fire_spirit/idle.png", w: 128, h: 128, count: 6 },
       walk: { path: "./assets/fire_spirit/walk.png", w: 128, h: 128, count: 7 },
       hurt: { path: "./assets/fire_spirit/hurt.png", w: 128, h: 128, count: 3 },
+    },
+    bossSprites: {
+      idle: { path: "./assets/karasu_tengu/idle.png", w: 128, h: 128, count: 6 },
+      attack: { path: "./assets/karasu_tengu/attack_1.png", w: 128, h: 128, count: 6 },
+      hurt: { path: "./assets/karasu_tengu/hurt.png", w: 128, h: 128, count: 3 },
     }
   },
   enemyConfig: {
@@ -83,6 +88,15 @@ CONFIG.LEVELS[0] = {
   bossArena: {
     worldWidth: 800,
     worldHeight: 800,
+    bossConfig: {
+      width: 80,
+      height: 150,
+      visualW: 200,
+      visualH: 200,
+      visualAlignment: 'bottom',
+      maxHp: 500,
+      speed: 0
+    },
     platforms: [{ gap: 0, altitude: 0, w: 800, h: 100 }]
   }
 };

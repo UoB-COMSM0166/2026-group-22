@@ -1,8 +1,14 @@
 class Boss extends Entity {
-  constructor(x, y, sprites) {
+  constructor(x, y, sprites, config) {
     // x, y, width, height, hp, speed
-    super(x, y, 150, 200, 500, 0);
+    super(x, y, config.width, config.height, config.maxHp, config.speed);
     this.sprites = sprites;
+    this.anim = new AnimationManager(this, sprites, 10, 'bottom');
+
+    this.visualW = config.visualW;
+    this.visualH = config.visualH;
+    this.visualAlignment = config.visualAlignment;
+
 
     this.maxHp = 500;
     this.isHurt = false;
@@ -13,7 +19,6 @@ class Boss extends Entity {
   }
 
   update() {
-
     // Damage state handling
     if (this.isHurt) {
       this.hurtTimer--;
@@ -27,7 +32,7 @@ class Boss extends Entity {
     // Attack Logic
     this.attackTimer++;
     // Use a variable for attack speed so you can make him faster as HP drops!
-    let attackRate = this.hp < 200 ? 30 : 60;
+    let attackRate = this.hp < 200 ? 90 : 180;
 
     if (this.attackTimer > attackRate && this.hp > 0) {
       this.attackTimer = 0;
@@ -35,7 +40,7 @@ class Boss extends Entity {
 
       return new Slash(
         this.x - 50,                // Start slightly in front of boss
-        this.y + random(-50, 50),    // Random height spread
+        this.y + 10,    // Random height spread
         -6,                          // Velocity X (moving left)
         0,                           // Velocity Y
         25, 50,                          // Size
@@ -52,26 +57,22 @@ class Boss extends Entity {
       return;
     }
 
-    push();
-    translate(this.x, this.y);
-
-    scale(-1, 1);
-
-    let currentImg = this.sprites.idle;
-    if (this.attackSpriteTimer > 0) {
-      currentImg = this.sprites.attack;
+    let state = 'idle';
+    if (this.isHurt) {
+      state = 'hurt';
+    } else if (this.attackSpriteTimer > 0) {
+      state = 'attack';
     }
+
+    this.anim.update(state);
 
     // Feedback: Flash white or red when hit
     if (this.isHurt) {
       fill(255, 100, 100);
     }
 
-    if (currentImg) {
-      imageMode(CENTER);
-      image(currentImg, 0, 0, this.w, this.h);
-    }
-    pop();
+    this.anim.draw(this.x, this.y, -1, this.visualW, this.visualH, this.visualAlignment);
+    noTint();
   }
 
   takeDamage(amount) {

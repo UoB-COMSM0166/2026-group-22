@@ -28,18 +28,12 @@ class BossScene extends GameplayScene {
       'crusher': CrusherBoss
     };
 
-    const bossSprites = {
-      idle: assets.getImg('boss_idle'),   // Make sure these keys exist in AssetManager
-      attack: assets.getImg('boss_shoot'),
-      slash: assets.getImg('boss_slash')
-    };
-
     // 1. Dynamic Boss Creation
     const startX = this.world.width - 120;
     const startY = this.world.height - 300;
 
     const BossClass = bossMap[bossType] || Boss;
-    this.boss = new BossClass(startX, startY, bossSprites);
+    this.boss = new BossClass(startX, startY, this.levelAssets.bossSprites, arenaData.bossConfig);
 
     this.applyCanvasMode();
 

@@ -13,6 +13,11 @@ CONFIG.LEVELS[3] = {
       idle: { path: "./assets/fire_spirit/idle.png", w: 128, h: 128, count: 6 },
       walk: { path: "./assets/fire_spirit/walk.png", w: 128, h: 128, count: 6 },
       hurt: { path: "./assets/fire_spirit/hurt.png", w: 128, h: 128, count: 6 },
+    },
+    bossSprites: {
+      idle: { path: "./assets/karasu_tengu/idle.png", w: 128, h: 128, count: 6 },
+      attack: { path: "./assets/karasu_tengu/attack_1.png", w: 128, h: 128, count: 6 },
+      hurt: { path: "./assets/karasu_tengu/hurt.png", w: 128, h: 128, count: 3 },
     }
   },
   enemyConfig: {
@@ -120,6 +125,15 @@ CONFIG.LEVELS[3] = {
   bossArena: {
     worldWidth: 1200,
     worldHeight: 800,
+    bossConfig: {
+      width: 150,
+      height: 150,
+      visualW: 150,
+      visualH: 150,
+      visualAlignment: 'bottom',
+      maxHp: 500,
+      speed: 0
+    },
     platforms: [
       // 1. The Main Floor (1200px wide for boss patrol)
       { gap: 0, altitude: 0, w: 1200, h: 100 },

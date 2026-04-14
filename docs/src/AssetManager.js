@@ -26,8 +26,6 @@ class AssetManager {
     this.images.char2_attack = loadImage("./assets/char/char2/char2_attack.png");
     this.images.char2_skill = loadImage("./assets/char/char2/char2_skill.png");
 
-    this.images.boss_idle = loadImage("./assets/boss_idle.png");
-    this.images.boss_shoot = loadImage("./assets/boss_shoot.png");
     this.images.boss_slash = loadImage("./assets/boss_slash.png");
 
     // 3. UI & Menus
@@ -80,6 +78,12 @@ class AssetManager {
           idle: [],
           walk: [],
           hurt: []
+        },
+        bossSprites: {
+          idle: [],
+          attack: [],
+          hurt: [],
+          slash: this.getImg('boss_slash')
         }
       };
 
@@ -88,6 +92,14 @@ class AssetManager {
 
         this.loadSpriteSheet(config.path, config.w, config.h, config.count, (frames) => {
           levelBundle.enemySprites[action] = frames;
+        });
+      });
+
+      ['idle', 'attack', 'hurt'].forEach(action => {
+        const config = data.bossSprites[action];
+
+        this.loadSpriteSheet(config.path, config.w, config.h, config.count, (frames) => {
+          levelBundle.bossSprites[action] = frames;
         });
       });
 
