@@ -4,15 +4,15 @@ CONFIG.LEVELS[3] = {
   assets: {
     platformTile: "./assets/platform_tile1.png",
     backgrounds: {
-      far: "./assets/bg/lv2/farBg2.png",
-      midBack: "./assets/bg/lv2/midBackBg2.png",
-      midFront: "./assets/bg/lv2/midFrontBg2.png",
-      front: "./assets/bg/lv2/frontBg2.png"
+      far: "./assets/bg/lv4/farBg4.png",
+      midBack: "./assets/bg/lv4/midBackBg4.png",
+      midFront: "./assets/bg/lv4/midFrontBg4.png",
+      front: "./assets/bg/lv4/frontBg4.png"
     },
     enemySprites: {
-      idle: { path: "./assets/fire_spirit/idle.png", w: 128, h: 128, count: 6 },
-      walk: { path: "./assets/fire_spirit/walk.png", w: 128, h: 128, count: 6 },
-      hurt: { path: "./assets/fire_spirit/hurt.png", w: 128, h: 128, count: 6 },
+      idle: { path: "./assets/skeleton/idle.png", w: 128, h: 128, count: 7 },
+      walk: { path: "./assets/skeleton/walk.png", w: 128, h: 128, count: 6 },
+      hurt: { path: "./assets/skeleton/hurt.png", w: 128, h: 128, count: 6 },
     },
     bossSprites: {
       idle: { path: "./assets/karasu_tengu/idle.png", w: 128, h: 128, count: 6 },
