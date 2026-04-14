@@ -4,10 +4,10 @@ CONFIG.LEVELS[2] = {
   assets: {
     platformTile: "./assets/platform_tile1.png",
     backgrounds: {
-      far: "./assets/bg/lv2/farBg2.png",
-      midBack: "./assets/bg/lv2/midBackBg2.png",
-      midFront: "./assets/bg/lv2/midFrontBg2.png",
-      front: "./assets/bg/lv2/frontBg2.png"
+      far: "./assets/bg/lv3/farBg3.png",
+      midBack: "./assets/bg/lv3/midBackBg3.png",
+      midFront: "./assets/bg/lv3/midFrontBg3.png",
+      front: "./assets/bg/lv3/frontBg3.png"
     },
     enemySprites: {
       idle: { path: "./assets/skeleton/idle.png", w: 128, h: 128, count: 7 },
@@ -106,10 +106,10 @@ CONFIG.LEVELS[2] = {
     worldWidth: 800,
     worldHeight: 800,
     bossConfig: {
-      width: 150,
+      width: 80,
       height: 150,
-      visualW: 150,
-      visualH: 150,
+      visualW: 200,
+      visualH: 200,
       visualAlignment: 'bottom',
       maxHp: 500,
       speed: 0
