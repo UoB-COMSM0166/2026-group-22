@@ -8,6 +8,11 @@ CONFIG.LEVELS[0] = {
       midBack: "./assets/bg/lv1/midBackBg1.png",
       midFront: "./assets/bg/lv1/midFrontBg1.png",
       front: "./assets/bg/lv1/frontBg1.png"
+    },
+    enemySprites: {
+      idle: { path: "./assets/fire_spirit/idle.png", w: 128, h: 128, count: 6 },
+      walk: { path: "./assets/fire_spirit/walk.png", w: 128, h: 128, count: 7 },
+      hurt: { path: "./assets/fire_spirit/hurt.png", w: 128, h: 128, count: 3 },
     }
   },
   platforms: [

@@ -5,7 +5,7 @@ class LevelBuilder {
    * @param {World} world - The world instance to populate.
    * @param {Object} data - The level configuration data from CONFIG.LEVELS.
    */
-  static build(world, data) {
+  static build(world, data, levelAssets) {
     // 1. Bubble Mode Setup
     if (data.bubbleMode) {
       world.player.bubbleMode = true;
@@ -54,15 +54,9 @@ class LevelBuilder {
         }
       }
 
-      const enemySprites = {
-        idle: assets.getImg('enemy_idle'),
-        walk: [assets.getImg('enemy_walk1'), assets.getImg('enemy_walk2')],
-        hurt: assets.getImg('enemy_hurt')
-      };
-
       // Place Enemies
       if (p.hasEnemy) {
-        world.enemies.push(new Enemy(centerX, centerY - 100, enemySprites));
+        world.enemies.push(new Enemy(centerX, centerY - 100, levelAssets.enemySprites));
       }
 
       // Place Checkpoints

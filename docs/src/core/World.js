@@ -28,7 +28,7 @@ class World {
 
     this.statsBar = new StatsBar();
 
-    LevelBuilder.build(this, this.levelData);
+    LevelBuilder.build(this, this.levelData, this.levelAssets);
   }
 
   update() {

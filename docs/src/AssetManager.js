@@ -26,11 +26,6 @@ class AssetManager {
     this.images.char2_attack = loadImage("./assets/char/char2/char2_attack.png");
     this.images.char2_skill = loadImage("./assets/char/char2/char2_skill.png");
 
-    this.images.enemy_idle = loadImage("./assets/enemy_idle.png");
-    this.images.enemy_walk1 = loadImage("./assets/enemy_walk1.png");
-    this.images.enemy_walk2 = loadImage("./assets/enemy_walk2.png");
-    this.images.enemy_hurt = loadImage("./assets/enemy_hurt.png");
-
     this.images.boss_idle = loadImage("./assets/boss_idle.png");
     this.images.boss_shoot = loadImage("./assets/boss_shoot.png");
     this.images.boss_slash = loadImage("./assets/boss_slash.png");
@@ -73,15 +68,41 @@ class AssetManager {
       const data = level.assets;
       if (!data) return null;
 
-      return {
+      const levelBundle = {
         backgrounds: {
-        far: loadImage(data.backgrounds.far),
-        midBack: loadImage(data.backgrounds.midBack),
-        midFront: loadImage(data.backgrounds.midFront),
-        front: loadImage(data.backgrounds.front)
-      },
-      platformTile: loadImage(data.platformTile)
-    };
+          far: loadImage(data.backgrounds.far),
+          midBack: loadImage(data.backgrounds.midBack),
+          midFront: loadImage(data.backgrounds.midFront),
+          front: loadImage(data.backgrounds.front)
+        },
+        platformTile: loadImage(data.platformTile),
+        enemySprites: {
+          idle: [],
+          walk: [],
+          hurt: []
+        }
+      };
+
+      ['idle', 'walk', 'hurt'].forEach(action => {
+        const config = data.enemySprites[action];
+
+        this.loadSpriteSheet(config.path, config.w, config.h, config.count, (frames) => {
+          levelBundle.enemySprites[action] = frames;
+        });
+      });
+
+      return levelBundle;
+    });
+  }
+
+  loadSpriteSheet(path, frameW, frameH, frameCount, callback) {
+    loadImage(path, (sheet) => {
+      let frames = [];
+      for (let i = 0; i < frameCount; i++) {
+        // Slices the sheet horizontally
+        frames.push(sheet.get(i * frameW, 0, frameW, frameH));
+      }
+      callback(frames);
     });
   }
 

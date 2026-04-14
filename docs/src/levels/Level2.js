@@ -4,10 +4,15 @@ CONFIG.LEVELS[1] = {
   assets: {
     platformTile: "./assets/platform_tile2.png",
     backgrounds: {
-      far: "assets/bg/lv2/farBg2.png",
-      midBack: "assets/bg/lv2/midBackBg2.png",
-      midFront: "assets/bg/lv2/midFrontBg2.png",
-      front: "assets/bg/lv2/frontBg2.png"
+      far: "./assets/bg/lv2/farBg2.png",
+      midBack: "./assets/bg/lv2/midBackBg2.png",
+      midFront: "./assets/bg/lv2/midFrontBg2.png",
+      front: "./assets/bg/lv2/frontBg2.png"
+    },
+    enemySprites: {
+      idle: { path: "./assets/fire_spirit/idle.png", w: 128, h: 128, count: 6 },
+      walk: { path: "./assets/fire_spirit/walk.png", w: 128, h: 128, count: 6 },
+      hurt: { path: "./assets/fire_spirit/hurt.png", w: 128, h: 128, count: 6 },
     }
   },
   bubbleMode: true,

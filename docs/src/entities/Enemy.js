@@ -1,16 +1,12 @@
 class Enemy extends Entity {
   constructor(x, y, sprites) {
-    super(x, y, 80, 80, 50, 1);
+    super(x, y, 40, 40, 50, 1);
 
-    this.sprites = sprites;
+    this.anim = new AnimationManager(this, sprites);
 
     this.direction = 1; // 1 for Right, -1 for Left
     this.velX = this.speed;
     this.invincibilityTimer = 0;
-
-    this.animationFrame = 0;
-    this.animationTimer = 0;
-    this.animationSpeed = 10;
   }
 
   update(platforms) {
@@ -64,39 +60,12 @@ class Enemy extends Entity {
   show() {
     if (!this.active) return;
 
-    let currentSprite;
+    let state = 'idle';
+    if (this.invincibilityTimer > 0) state = 'hurt';
+    else if (Math.abs(this.velX) > 0.1) state = 'walk';
 
-    // 1. Determine which sprite to use
-    if (this.invincibilityTimer > 0) {
-      // Show Hurt Sprite
-      currentSprite = this.sprites.hurt;
-    } else if (Math.abs(this.velX) > 0.1) {
-      // Show Walking Animation (Cycle between index 0 and 1)
-      this.animationTimer++;
-      if (this.animationTimer >= this.animationSpeed) {
-        this.animationFrame = (this.animationFrame + 1) % 2;
-        this.animationTimer = 0;
-      }
-      currentSprite = this.sprites.walk[this.animationFrame];
-    } else {
-      // Show Idle Sprite
-      currentSprite = this.sprites.idle;
-    }
-
-    // 2. Draw the sprite
-    if (currentSprite) {
-      push();
-      translate(this.x, this.y);
-
-      // Flip the sprite based on direction
-      // We use scale(-1, 1) if moving left. 
-      // Note: If your original image faces Right, use this.direction.
-      // If your original image faces Left, use -this.direction.
-      scale(this.direction, 1);
-
-      imageMode(CENTER);
-      image(currentSprite, 0, 0, this.w, this.h);
-      pop();
-    }
+    this.anim.update(state);
+    // direction 1 is right, -1 is left. scale(-1, 1) flips it.
+    this.anim.draw(this.x, this.y, this.direction === -1, 90, 90);
   }
 }
