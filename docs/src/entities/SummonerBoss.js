@@ -24,6 +24,8 @@ class SummonerBoss extends Boss {
       this.spawnMinion();
     }
 
+    if (this.attackSpriteTimer > 0) this.attackSpriteTimer--;
+
     // 3. Update Minions
     // We loop backwards so we can safely splice (remove) dead minions
     for (let i = this.minions.length - 1; i >= 0; i--) {
@@ -60,6 +62,7 @@ class SummonerBoss extends Boss {
 
   spawnMinion() {
     const offsetY = random(-60, 60);
+    this.attackSpriteTimer = 20;
     // Add directly to internal array
     this.minions.push(new Minion(this.x - 50, this.y + offsetY));
   }
@@ -77,7 +80,7 @@ class SummonerBoss extends Boss {
 
     if (this.hp <= 0) {
       this.drawExplosion(); // This function is inherited from Boss.js
-      return; 
+      return;
     }
 
     super.show();
