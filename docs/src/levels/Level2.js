@@ -90,5 +90,10 @@ CONFIG.LEVELS[1] = {
     { type: "BUBBLE", x: 3930, y: 300 },
     { type: "BUBBLE", x: 4740, y: 400 },
     { type: "BUBBLE", x: 5790, y: 440 }
-  ]
+  ],
+  bossArena: {
+    worldWidth: 800,
+    worldHeight: 800,
+    platforms: [{ gap: 0, altitude: 0, w: 800, h: 100 }]
+  }
 };

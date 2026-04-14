@@ -74,9 +74,11 @@ class LevelBuilder {
     }
 
     // 3. Item Placement
-    world.items = data.items.map(itemData => {
-      const itemClass = world.itemTypes[itemData.type];
-      return itemClass ? new itemClass(itemData.x, itemData.y) : null;
-    }).filter(i => i);
+    if (data.items) {
+      world.items = data.items.map(itemData => {
+        const itemClass = world.itemTypes[itemData.type];
+        return itemClass ? new itemClass(itemData.x, itemData.y) : null;
+      }).filter(i => i);
+    }
   }
 }

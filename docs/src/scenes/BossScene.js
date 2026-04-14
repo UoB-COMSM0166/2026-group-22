@@ -10,17 +10,17 @@ class BossScene extends GameplayScene {
   }
 
   onEnter(data) {
-    const { bossType, levelAssets } = data;
+    const { bossType, arenaData, levelAssets } = data;
 
     this.player = sceneManager.player;
     this.currentBossType = bossType;
+    this.arenaData = arenaData;
     this.levelAssets = levelAssets;
     // 1. Tell the global manager this is the active scene
     // This allows the Boss/Minions to find playerBullets
     sceneManager.currentScene = this;
 
-    const arenaLevelIndex = 5;
-    this.world = new World(this.player, arenaLevelIndex, this.levelAssets);
+    this.world = new World(this.player, this.arenaData, this.levelAssets);
 
     const bossMap = {
       'regular': Boss,
@@ -67,7 +67,7 @@ class BossScene extends GameplayScene {
     this.world.update();
 
     // Update Boss and catch attacks
-    let attack = this.boss.update(this.world);
+    let attack = this.boss.update();
     if (attack) this.bossProjectiles.push(attack);
 
     for (let platform of this.world.platforms) {
@@ -144,6 +144,7 @@ class BossScene extends GameplayScene {
   resetScene() {
     this.onEnter({
       bossType: this.currentBossType,
+      arenaData: this.arenaData,
       levelAssets: this.levelAssets
     });
 

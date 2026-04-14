@@ -11,6 +11,17 @@ class ChainPlatform extends Platform {
     this.chainHeight = 400; // How high the "hitbox" for the chain goes
   }
 
+  resolve(entity, world) {
+    if (this.state === 'DROPPING') return false;
+
+    if (this.state === 'IDLE') {
+      const actualTop = this.y - this.h / 2;
+      if (entity.y + entity.h / 2 < actualTop) return false;
+    }
+
+    return super.resolve(entity, world);
+  }
+
   // --- COORDINATE SYSTEM ---
   // We extend the top of the hitbox so bullets can hit the "invisible" chain
   getBounds() {

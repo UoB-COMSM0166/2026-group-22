@@ -65,5 +65,10 @@ CONFIG.LEVELS[0] = {
   ],
   items: [
     { type: "JUMP_BOOSTER", x: 1420, y: 370 }
-  ]
+  ],
+  bossArena: {
+    worldWidth: 800,
+    worldHeight: 800,
+    platforms: [{ gap: 0, altitude: 0, w: 800, h: 100 }]
+  }
 };

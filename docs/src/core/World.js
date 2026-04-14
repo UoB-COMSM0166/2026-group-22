@@ -1,21 +1,21 @@
 class World {
-  constructor(player, doorNumber, levelAssets) {
+  constructor(player, levelData, levelAssets) {
     this.player = player;
     this.cameraX = 0;
     this.cameraY = 0;
 
     this.player.worldReference = this;
 
-    const levelData = CONFIG.LEVELS[doorNumber - 1];
+    this.levelData = levelData;
+    this.levelAssets = levelAssets;
 
     // Pull dimensions from CONFIG
-    this.width = levelData.worldWidth;
-    this.height = levelData.worldHeight;
+    this.width = this.levelData.worldWidth;
+    this.height = this.levelData.worldHeight;
     this.spawnX = CONFIG.PLAYER.START_X;
     this.spawnY = CONFIG.PLAYER.START_Y;
     this.itemTypes = CONFIG.ITEM_TYPES;
     this.backgroundColor = [135, 206, 235];
-    this.levelAssets = levelAssets;
     this.bgLayers = levelAssets.backgrounds;
     this.platformTile = levelAssets.platformTile;
 
@@ -28,7 +28,7 @@ class World {
 
     this.statsBar = new StatsBar();
 
-    LevelBuilder.build(this, levelData);
+    LevelBuilder.build(this, this.levelData);
   }
 
   update() {

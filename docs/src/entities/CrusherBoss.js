@@ -10,14 +10,14 @@ class CrusherBoss extends Boss {
     // Movement logic
     this.moveSpeed = 2;
     this.direction = -1;
-    this.leftBound = x - 400;
+    this.leftBound = x - 700;
     this.rightBound = x;
 
     // Resistance: It takes only 10% damage from standard bullets
     this.armorMultiplier = 0.1; 
   }
 
-  update(world) {
+  update() {
     if (!this.active || this.hp <= 0) return;
 
     // 1. Horizontal Patrolling
@@ -26,8 +26,13 @@ class CrusherBoss extends Boss {
       this.direction *= -1;
     }
 
+    this.applyPhysics();
+
     // 2. Specialized Damage Check: Falling Platforms
-    this.checkCrushed(world.platforms);
+    const world = sceneManager.currentScene.world;
+    if (world) {
+      this.checkCrushed(world.platforms);
+    }
 
     // 3. Inherit basic hurt timer/flash logic
     if (this.isHurt) {
@@ -35,7 +40,7 @@ class CrusherBoss extends Boss {
       if (this.hurtTimer <= 0) this.isHurt = false;
     }
 
-    this.applyPhysics(); // Use Entity physics
+    return null;
   }
 
   /**
@@ -43,11 +48,10 @@ class CrusherBoss extends Boss {
    */
   checkCrushed(platforms) {
     for (let p of platforms) {
-      if (p instanceof ChainPlatform && p.state === 'DROPPING') {
+      if (p instanceof ChainPlatform && p.state === 'DROPPING' && !this.isHurt) {
         // If the falling platform hits the boss
         if (this.intersects(p)) {
           this.applyCrushDamage(80); // Massive damage from environment
-          p.state = 'SETTLED'; // Stop the platform from dealing multiple hits
         }
       }
     }
@@ -58,10 +62,6 @@ class CrusherBoss extends Boss {
     this.isHurt = true;
     this.hurtTimer = 30; // Longer stun/flash for environmental hits
     if (window.shakeAmount !== undefined) window.shakeAmount = 25; // Bigger screen shake
-    
-    if (this.hp <= 0) {
-      this.active = false;
-    }
   }
 
   // Override to show resistance to standard bullets

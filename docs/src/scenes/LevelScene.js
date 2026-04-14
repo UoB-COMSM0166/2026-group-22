@@ -16,6 +16,7 @@ class LevelScene extends GameplayScene {
 
   buildLevel(doorNumber) {
     this.doorNumber = doorNumber;
+    const levelData = CONFIG.LEVELS[doorNumber - 1];
     const levelAssets = assets.getLevelAssets(doorNumber - 1);
 
     const charId = gameState.selectedCharacterId;
@@ -36,7 +37,7 @@ class LevelScene extends GameplayScene {
     this.player = new Player(playerSprites);
     sceneManager.player = this.player;
 
-    this.world = new World(this.player, this.doorNumber, levelAssets);
+    this.world = new World(this.player, levelData, levelAssets);
   }
 
   draw() {
@@ -84,6 +85,7 @@ class LevelScene extends GameplayScene {
       // Switch to boss scene and tell it to load the 'summoner'
       sceneManager.switch('boss', {
         bossType: 'summoner',
+        arenaData: this.world.levelData.bossArena,
         levelAssets: this.world.levelAssets
       });
     }
@@ -93,6 +95,7 @@ class LevelScene extends GameplayScene {
       console.log("🛠️ Dev Mode: Jumping to Regular Boss");
       sceneManager.switch('boss', {
         bossType: 'regular',
+        arenaData: this.world.levelData.bossArena,
         levelAssets: this.world.levelAssets
       });
     }
@@ -100,6 +103,7 @@ class LevelScene extends GameplayScene {
     if (key === 'm' || key === 'M') {
       sceneManager.switch('boss', {
         bossType: 'crusher',
+        arenaData: this.world.levelData.bossArena,
         levelAssets: this.world.levelAssets
       });
     }

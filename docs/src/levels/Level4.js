@@ -102,5 +102,30 @@ CONFIG.LEVELS[3] = {
 
     // Boss 门前的补给
     { type: "JUMP_BOOSTER", x: 10500, y: 1400 }
-  ]
+  ],
+  bossArena: {
+    worldWidth: 1200,
+    worldHeight: 800,
+    platforms: [
+      // 1. The Main Floor (1200px wide for boss patrol)
+      { gap: 0, altitude: 0, w: 1200, h: 100 },
+
+      // 2. Overhead Chain Traps
+      // currentX is 1200. We use negative gaps to move back over the floor.
+      // centerX = 1200 + (-950) + 75 = 325
+      { gap: -950, altitude: 550, w: 150, h: 20, isChainDrop: true, dropAltitude: 0 },
+
+      // currentX is now 400 (325 + 75). Next at centerX = 600
+      // 400 + gap + 75 = 600 => gap = 125
+      { gap: 125, altitude: 550, w: 150, h: 20, isChainDrop: true, dropAltitude: 0 },
+
+      // currentX is now 675. Next at centerX = 875
+      // 675 + gap + 75 = 875 => gap = 125
+      { gap: 125, altitude: 550, w: 150, h: 20, isChainDrop: true, dropAltitude: 0 },
+
+      { gap: 125, altitude: 550, w: 150, h: 20, isChainDrop: true, dropAltitude: 0 },
+
+      { gap: 125, altitude: 550, w: 150, h: 20, isChainDrop: true, dropAltitude: 0 }
+    ]
+  }
 };

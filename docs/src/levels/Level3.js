@@ -82,5 +82,10 @@ CONFIG.LEVELS[2] = {
   ],
   items: [
     { type: "SHRINK_POTION", x: 2320, y: 370 },
-  ]
+  ],
+  bossArena: {
+    worldWidth: 800,
+    worldHeight: 800,
+    platforms: [{ gap: 0, altitude: 0, w: 800, h: 100 }]
+  }
 };

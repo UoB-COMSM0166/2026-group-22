@@ -74,6 +74,7 @@ class Platform extends GameObject {
     if (this.hasBoss) {
       sceneManager.switch("boss", {
         bossType: this.bossType,
+        arenaData: world.levelData.bossArena,
         levelAssets: world.levelAssets
       });
     }
