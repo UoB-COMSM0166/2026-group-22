@@ -70,6 +70,6 @@ class Enemy extends Entity {
 
     this.anim.update(state);
     // direction 1 is right, -1 is left. scale(-1, 1) flips it.
-    this.anim.draw(this.x, this.y, -1, this.visualW, this.visualH, this.visualAlignment);
+    this.anim.draw(this.x, this.y, this.direction === -1, this.visualW, this.visualH, this.visualAlignment);
   }
 }
