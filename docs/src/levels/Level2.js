@@ -114,10 +114,10 @@ CONFIG.LEVELS[1] = {
     worldWidth: 800,
     worldHeight: 800,
     bossConfig: {
-      width: 150,
+      width: 80,
       height: 150,
-      visualW: 150,
-      visualH: 150,
+      visualW: 200,
+      visualH: 200,
       visualAlignment: 'bottom',
       maxHp: 500,
       speed: 0

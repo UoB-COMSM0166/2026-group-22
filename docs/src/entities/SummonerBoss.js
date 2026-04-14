@@ -1,8 +1,8 @@
 // src/entities/SummonerBoss.js
 class SummonerBoss extends Boss {
-  constructor(x, y) {
+  constructor(x, y, sprites, config) {
     // x, y, width, height, hp, speed
-    super(x, y, 120, 120, 220, 0);
+    super(x, y, sprites, config);
 
     // Internal "Management" arrays (replaced MinionManager)
     this.minions = [];
@@ -80,31 +80,6 @@ class SummonerBoss extends Boss {
       return; 
     }
 
-    // 2. Draw the Boss Body
-    push();
-    translate(this.x, this.y);
-
-    // Visual feedback for damage (Inherited from Boss.js)
-    if (this.isHurt) {
-      fill(255, 200, 200); // Flashing light red
-    } else {
-      fill(200, 80, 120); // Main pinkish-red color
-    }
-
-    stroke(255);
-    strokeWeight(3);
-    ellipse(0, 0, this.w, this.h);
-
-    // Eyes and mouth (Friend's logic)
-    fill(255);
-    ellipse(-20, -10, 16, 16);
-    ellipse(20, -10, 16, 16);
-    fill(40);
-    ellipse(-20, -10, 7, 7);
-    ellipse(20, -10, 7, 7);
-    fill(80);
-    rectMode(CENTER);
-    rect(0, 15, 40, 8, 4);
-    pop();
+    super.show();
   }
 }
