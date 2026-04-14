@@ -41,7 +41,7 @@ class LevelBuilder {
       // Assign platform flags
       platform.removesSkill = p.removesSkill || false;
       platform.hasBoss = p.hasBoss || false;
-      platform.hasSummonerBoss = p.hasSummonerBoss || false;
+      platform.bossType = p.bossType;
       world.platforms.push(platform);
 
       // Place Coins

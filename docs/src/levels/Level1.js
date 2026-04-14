@@ -61,7 +61,7 @@ CONFIG.LEVELS[0] = {
       isMoving: true, rangeX: 120, rangeY: 0, speed: 0.03
     },
 
-    { gap: 150, altitude: 0, w: 2000, h: 500, hasBoss: true }
+    { gap: 150, altitude: 0, w: 2000, h: 500, hasBoss: true, bossType: "regular" }
   ],
   items: [
     { type: "JUMP_BOOSTER", x: 1420, y: 370 }

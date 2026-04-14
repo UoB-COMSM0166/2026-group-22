@@ -78,7 +78,7 @@ CONFIG.LEVELS[2] = {
     { gap: 100, altitude: 420, w: 220, h: 20, hasCoin: true, coins: [-45, 0, 45] },
 
     // Boss 
-    { gap: 150, altitude: 0, w: 2000, h: 500, hasSummonerBoss: true }
+    { gap: 150, altitude: 0, w: 2000, h: 500, hasBoss: true, bossType: "summoner" }
   ],
   items: [
     { type: "SHRINK_POTION", x: 2320, y: 370 },

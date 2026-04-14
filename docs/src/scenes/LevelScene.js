@@ -96,5 +96,12 @@ class LevelScene extends GameplayScene {
         levelAssets: this.world.levelAssets
       });
     }
+
+    if (key === 'm' || key === 'M') {
+      sceneManager.switch('boss', {
+        bossType: 'crusher',
+        levelAssets: this.world.levelAssets
+      });
+    }
   }
 }

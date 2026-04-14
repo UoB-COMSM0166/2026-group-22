@@ -24,11 +24,11 @@ CONFIG.LEVELS[1] = {
     { gap: 90, altitude: 370, w: 120, h: 40, isVanish: true, hasCoin: true },
 
     // a series of enemy platforms
-    { gap: 100, altitude: 260, w: 120, h: 40, hasEnemy: true },
+    { gap: 100, altitude: 260, w: 120, h: 40 },
     { gap: 90, altitude: 320, w: 120, h: 40 },
-    { gap: 100, altitude: 280, w: 120, h: 40, hasEnemy: true },
+    { gap: 100, altitude: 280, w: 120, h: 40 },
     { gap: 90, altitude: 360, w: 80, h: 40 },
-    { gap: 70, altitude: 310, w: 120, h: 40, isVanish: true, hasEnemy: true },
+    { gap: 70, altitude: 310, w: 120, h: 40, isVanish: true },
     { gap: 70, altitude: 380, w: 80, h: 40, hasCheckpoint: true },
 
     // moving platforms 
@@ -79,7 +79,7 @@ CONFIG.LEVELS[1] = {
     // a series enemy platforms
     { gap: 100, altitude: 260, w: 120, h: 40, hasEnemy: true, hasCoin: true },
     { gap: 90, altitude: 320, w: 120, h: 40, hasEnemy: true, hasCoin: true },
-    { gap: 90, altitude: 260, w: 1000, h: 40, hasSummonerBoss: true }
+    { gap: 90, altitude: 260, w: 1000, h: 40, hasBoss: true, bossType: "regular" }
   ],
 
   items: [

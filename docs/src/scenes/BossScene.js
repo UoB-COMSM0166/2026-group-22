@@ -23,8 +23,9 @@ class BossScene extends GameplayScene {
     this.world = new World(this.player, arenaLevelIndex, this.levelAssets);
 
     const bossMap = {
-      'summoner': SummonerBoss,
       'regular': Boss,
+      'summoner': SummonerBoss,
+      'crusher': CrusherBoss
     };
 
     const bossSprites = {
@@ -66,7 +67,7 @@ class BossScene extends GameplayScene {
     this.world.update();
 
     // Update Boss and catch attacks
-    let attack = this.boss.update();
+    let attack = this.boss.update(this.world);
     if (attack) this.bossProjectiles.push(attack);
 
     for (let platform of this.world.platforms) {

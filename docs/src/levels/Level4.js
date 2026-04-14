@@ -94,7 +94,7 @@ CONFIG.LEVELS[3] = {
     { gap: 150, altitude: 150, w: 500, h: 20, hasCheckpoint: true, hasCoin: true },
 
     // 最终 Boss 竞技场
-    { gap: 200, altitude: 0, w: 3000, h: 250, hasSummonerBoss: true }
+    { gap: 200, altitude: 0, w: 3000, h: 250, hasBoss: true, bossType: "crusher" }
   ],
   items: [
     // 开局道具：神弓在出生高台上等你
