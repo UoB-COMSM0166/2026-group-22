@@ -32,7 +32,7 @@ const CONFIG = {
     VIEWS: [
       {
         name: "4 Doors",
-        imgKey: 'camp_A',
+        imgKey: 'camp_scene',
         hotspots: [
           { id: "shop", label: "Camp Shop", x: 183, y: 260, w: 270, h: 270, action: "shop" },
           { id: "board", label: "Board", x: 427, y: 465, w: 220, h: 155, action: "board" },

@@ -39,8 +39,7 @@ class AssetManager {
     this.images.title_bg = loadImage("./assets/title_cover.png");
     this.images.start_btn = loadImage("./assets/btn_start.png");
     this.images.char_select_bg = loadImage("./assets/character_select.png");
-    this.images.camp_A = loadImage("./assets/camp_A.png");
-    this.images.camp_B = loadImage("./assets/camp_B.png");
+    this.images.camp_scene = loadImage("./assets/camp_scene.png");
     this.images.arrow_r = loadImage("./assets/arrow_right_transparent.png");
     this.images.arrow_l = loadImage("./assets/arrow_left_transparent.png");
     this.images.icon_set = loadImage("./assets/icon_settings.png");
