@@ -47,16 +47,14 @@ class StatsBar {
 
     for (let i = 0; i < maxHearts; i++) {
       let x = this.margin + i * this.heartSpacing;
+      this.renderHeart(x, this.y, assets.getImg('empty_heart'));
       let heartValue = hp - (i * hpPerHeart);
 
-      let img = null;
       if (heartValue >= 20) {
-        img = assets.getImg('full_heart');
+        this.renderHeart(x, this.y, assets.getImg('full_heart'));
       } else if (heartValue >= 10) {
-        img = assets.getImg('half_heart');
+        this.renderHeart(x, this.y, assets.getImg('half_heart'));
       }
-
-      this.renderHeart(x, this.y, img);
     }
   }
 
