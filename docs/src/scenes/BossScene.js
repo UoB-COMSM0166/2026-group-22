@@ -7,6 +7,8 @@ class BossScene extends GameplayScene {
     this.world = null;
     this.bossProjectiles = [];
     this.statsBar = new StatsBar();
+
+    this.victoryTriggered = false;
   }
 
   onEnter(data) {
@@ -51,7 +53,7 @@ class BossScene extends GameplayScene {
   }
 
   update() {
-    if (!this.player || !this.world) return;
+    if (!this.player || !this.world || this.victoryTriggered) return;
 
     if (this.player.hp <= 0) {
       this.resetScene();
@@ -76,8 +78,8 @@ class BossScene extends GameplayScene {
     this.checkCollisions();
 
     // If Boss dies, return to camp or go to victory screen
-    if (this.boss.hp <= 0) {
-      setTimeout(() => sceneManager.switch("camp"), 2000);
+    if (this.boss.hp <= 0 && !this.victoryTriggered) {
+      this.victoryTriggered = true;
     }
   }
 
@@ -114,11 +116,71 @@ class BossScene extends GameplayScene {
     pop();
 
     this.drawUI();
+
+    if (this.victoryTriggered) {
+      this.drawVictoryPopup();
+    }
   }
 
   drawUI() {
     this.statsBar.drawBossHealth(this.boss);
     this.statsBar.draw(this.player, gameState.coins, false);
+  }
+
+  drawVictoryPopup() {
+    // 1. Dim the background
+    fill(0, 0, 0, 150);
+    rect(0, 0, width, height);
+
+    // 2. Main Panel
+    const w = 400;
+    const h = 220;
+    const x = width / 2 - w / 2;
+    const y = height / 2 - h / 2;
+
+    push();
+    // Use colors from your cover art (Deep Purple/Neon Blue)
+    fill(20, 10, 40, 240);
+    stroke(0, 255, 255); // Neon cyan border
+    strokeWeight(4);
+    rect(x, y, w, h, 15);
+
+    // 3. Title Text
+    noStroke();
+    fill(255);
+    textFont(assets.getFont());
+    textAlign(CENTER, TOP);
+    textSize(42);
+    text("VICTORY", width / 2, y + 40);
+
+    textSize(20);
+    fill(0, 255, 255);
+    text("TRIAL COMPLETE", width / 2, y + 90);
+    pop();
+
+    // 4. "OK" Button using BaseScene helper
+    const btnW = 120;
+    const btnH = 45;
+    const btnRect = {
+      x: width / 2 - btnW / 2,
+      y: y + h - 70,
+      w: btnW,
+      h: btnH
+    };
+
+    this.drawModalButton(btnRect, "OK", true, () => {
+      this.exitToCamp();
+    });
+
+    cursor("default");
+    if (this.inRect(mouseX, mouseY, btnRect)) cursor("pointer");
+  }
+
+  exitToCamp() {
+    // Clear projectiles before switching
+    this.playerBullets = [];
+    this.bossProjectiles = [];
+    sceneManager.switch("camp");
   }
 
   keyPressed() {

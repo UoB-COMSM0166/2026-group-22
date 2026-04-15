@@ -20,6 +20,11 @@ class Boss extends Entity {
 
   update() {
     // Damage state handling
+    if (this.hp <= 0) {
+      this.applyPhysics();
+      return;
+    }
+
     if (this.isHurt) {
       this.hurtTimer--;
       if (this.hurtTimer <= 0) this.isHurt = false;
@@ -53,7 +58,8 @@ class Boss extends Entity {
 
   show() {
     if (this.hp <= 0) {
-      this.drawExplosion(); // Add a "death" visual
+      this.anim.update('dead', false);
+      this.anim.draw(this.x, this.y, -1, this.visualW, this.visualH, this.visualAlignment);
       return;
     }
 
@@ -76,21 +82,17 @@ class Boss extends Entity {
   }
 
   takeDamage(amount) {
-    super.takeDamage(amount);
+    this.hp -= amount;
+
+    if (this.hp <= 0) {
+      this.hp = 0;
+    }
+
     this.isHurt = true;
     this.hurtTimer = 10;
-    // Check if global shakeAmount exists before setting it
-    if (window.shakeAmount !== undefined) window.shakeAmount = 10;
   }
 
   land() {
     this.velY = 0; // Stop the falling force immediately
-  }
-
-  drawExplosion() {
-    // Simple particle effect or expanding circle
-    noStroke();
-    fill(255, 200, 0, 150);
-    ellipse(this.x, this.y, frameCount % 100 * 2);
   }
 }

@@ -18,6 +18,7 @@ CONFIG.LEVELS[2] = {
       idle: { path: "./assets/karasu_tengu/idle.png", w: 128, h: 128, count: 6 },
       attack: { path: "./assets/karasu_tengu/attack_1.png", w: 128, h: 128, count: 6 },
       hurt: { path: "./assets/karasu_tengu/hurt.png", w: 128, h: 128, count: 3 },
+      dead: { path: "./assets/karasu_tengu/dead.png", w: 128, h: 128, count: 6 }
     }
   },
   enemyConfig: {

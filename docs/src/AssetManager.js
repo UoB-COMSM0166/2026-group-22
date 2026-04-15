@@ -108,7 +108,7 @@ class AssetManager {
         });
       });
 
-      ['idle', 'attack', 'hurt'].forEach(action => {
+      ['idle', 'attack', 'hurt', 'dead'].forEach(action => {
         const config = data.bossSprites[action];
 
         this.loadSpriteSheet(config.path, config.w, config.h, config.count, (frames) => {

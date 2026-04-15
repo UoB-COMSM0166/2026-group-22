@@ -11,7 +11,7 @@ class AnimationManager {
     this.lastState = 'idle';
   }
 
-  update(newState) {
+  update(newState, loop = true) {
     this.currentState = newState;
 
     // Reset frame if we switched states (e.g., from 'walk' to 'attack')
@@ -27,6 +27,9 @@ class AnimationManager {
     if (Array.isArray(currentFrames) && currentFrames.length > 1) {
       this.timer++;
       if (this.timer >= this.animationSpeed) {
+        if (!loop && this.frame === currentFrames.length - 1) {
+          return;
+        }
         this.frame = (this.frame + 1) % currentFrames.length;
         this.timer = 0;
       }
