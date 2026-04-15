@@ -1,10 +1,12 @@
 // src/classes/StatsBar.js
 class StatsBar {
   constructor() {
-    this.margin = 20;
-    this.y = 75;
+    this.margin = 30;
+    this.y = 40;
     this.heartSpacing = 30;
     this.heartSize = 30;
+
+    this.uiOpacity = 180;
 
     this.weaponX = this.margin + 5 * this.heartSpacing + 10;
     this.weaponSize = 24;
@@ -44,16 +46,20 @@ class StatsBar {
   drawHearts(hp, maxHp) {
     const maxHearts = 5;
     const hpPerHeart = maxHp / maxHearts;
+    const emptyHeart = assets.getImg('empty_heart');
+    const fullHeart = assets.getImg('full_heart');
+    const halfHeart = assets.getImg('half_heart');
 
     for (let i = 0; i < maxHearts; i++) {
       let x = this.margin + i * this.heartSpacing;
-      this.renderHeart(x, this.y, assets.getImg('empty_heart'));
       let heartValue = hp - (i * hpPerHeart);
 
-      if (heartValue >= 20) {
-        this.renderHeart(x, this.y, assets.getImg('full_heart'));
-      } else if (heartValue >= 10) {
-        this.renderHeart(x, this.y, assets.getImg('half_heart'));
+      this.renderHeart(x, this.y, emptyHeart);
+
+      if (heartValue >= hpPerHeart) {
+        this.renderHeart(x, this.y, fullHeart);
+      } else if (heartValue >= hpPerHeart / 2) {
+        this.renderHeart(x, this.y, halfHeart);
       }
     }
   }
@@ -63,6 +69,7 @@ class StatsBar {
     imageMode(CENTER);
 
     if (img) {
+      tint(255, this.uiOpacity);
       image(img, x, y, this.heartSize, this.heartSize);
     }
     pop();
@@ -70,7 +77,7 @@ class StatsBar {
 
   drawCoins(amount) {
     push();
-    fill(255, 215, 0);
+    fill(255, 215, 0, this.uiOpacity);
     textSize(22);
     textAlign(LEFT, TOP);
     text(`$ ${amount}`, this.margin, this.y + 20);
