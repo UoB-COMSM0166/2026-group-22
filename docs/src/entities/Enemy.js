@@ -3,7 +3,8 @@ class Enemy extends Entity {
     super(x, y, config.width, config.height, config.maxHp, config.speed);
 
     this.maxHp = config.maxHp;
-    
+    this.damage = config.damage;
+
     this.anim = new AnimationManager(this, sprites);
 
     this.visualW = config.visualW;

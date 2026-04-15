@@ -27,6 +27,7 @@ CONFIG.LEVELS[3] = {
     visualH: 240,
     visualAlignment: 'bottom',
     maxHp: 50,
+    damage: 5,
     speed: 1
   },
   platforms: [

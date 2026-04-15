@@ -17,8 +17,7 @@ class InteractionManager {
     // Enemies vs Player
     for (let enemy of enemies) {
       if (enemy.active && player.active && player.intersects(enemy)) {
-        const dir = (player.x < enemy.x) ? -1 : 1;
-        player.takeDamage(10, dir);
+        player.takeDamage(enemy.damage);
       }
     }
   }

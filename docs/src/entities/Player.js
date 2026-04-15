@@ -136,7 +136,7 @@ class Player extends Entity {
     this.isGrounded = true;
   }
 
-  takeDamage(amount, directionX) {
+  takeDamage(amount) {
     if (this.invincibilityTimer > 0) return; // Ignore if already hit
 
     super.takeDamage(amount);
