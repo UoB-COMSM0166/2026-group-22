@@ -16,6 +16,10 @@ class EntityOverlay {
     if (entity instanceof Player && entity.abilities && entity.abilities.isCharging) {
       this.drawChargeBar(entity);
     }
+
+    if (entity instanceof Enemy && entity.hp <= entity.maxHp) {
+      this.drawEnemyHP(entity);
+    }
   }
 
   static drawBubbles(player) {
@@ -57,6 +61,25 @@ class EntityOverlay {
     // Draw fill (Yellow/Orange)
     fill(255, 215, 0);
     rect(x, y, chargeWidth, 6, 2);
+    pop();
+  }
+
+  static drawEnemyHP(enemy) {
+    push();
+    const barW = 40;
+    const barH = 5;
+
+    const hpWidth = map(enemy.hp, 0, enemy.maxHp, 0, barW);
+
+    let x = enemy.x - barW / 2;
+    let y = enemy.y - enemy.h / 2 - 15;
+
+    noStroke();
+    fill(50, 50, 50, 200);
+    rect(x, y, barW, barH, 2);
+
+    fill(100, 255, 100);
+    rect(x, y, hpWidth, barH, 2);
     pop();
   }
 }

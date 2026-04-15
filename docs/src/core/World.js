@@ -137,7 +137,10 @@ class World {
     this.platforms.forEach(p => p.show());
     this.coins.forEach(c => c.show());
     this.items.forEach(item => item.show());
-    this.enemies.forEach(e => e.show());
+    this.enemies.forEach(e => {
+      e.show();
+      EntityOverlay.draw(e);
+    });
     this.playerBullets.forEach(b => b.show());
 
     // Draw the Player

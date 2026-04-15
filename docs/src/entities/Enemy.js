@@ -2,6 +2,8 @@ class Enemy extends Entity {
   constructor(x, y, sprites, config) {
     super(x, y, config.width, config.height, config.maxHp, config.speed);
 
+    this.maxHp = config.maxHp;
+    
     this.anim = new AnimationManager(this, sprites);
 
     this.visualW = config.visualW;
