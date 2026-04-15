@@ -6,8 +6,6 @@ class StatsBar {
     this.heartSpacing = 30;
     this.heartSize = 30;
 
-    this.uiOpacity = 180;
-
     this.weaponX = this.margin + 5 * this.heartSpacing + 10;
     this.weaponSize = 24;
   }
@@ -58,18 +56,25 @@ class StatsBar {
 
       if (heartValue >= hpPerHeart) {
         this.renderHeart(x, this.y, fullHeart);
-      } else if (heartValue >= hpPerHeart / 2) {
+      }
+      else if (heartValue >= hpPerHeart * 0.75) {
+        this.renderHeart(x, this.y, fullHeart, 150);
+      }
+      else if (heartValue >= hpPerHeart * 0.5) {
         this.renderHeart(x, this.y, halfHeart);
+      }
+      else if (heartValue >= hpPerHeart * 0.25) {
+        this.renderHeart(x, this.y, halfHeart, 150);
       }
     }
   }
 
-  renderHeart(x, y, img) {
+  renderHeart(x, y, img, alpha = 255) {
     push();
     imageMode(CENTER);
 
     if (img) {
-      tint(255, this.uiOpacity);
+      tint(255, alpha);
       image(img, x, y, this.heartSize, this.heartSize);
     }
     pop();
@@ -77,7 +82,7 @@ class StatsBar {
 
   drawCoins(amount) {
     push();
-    fill(255, 215, 0, this.uiOpacity);
+    fill(255, 215, 0);
     textSize(22);
     textAlign(LEFT, TOP);
     text(`$ ${amount}`, this.margin, this.y + 20);
