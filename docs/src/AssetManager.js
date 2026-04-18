@@ -13,6 +13,7 @@ class AssetManager {
     this.images.char1_jump = loadImage("./assets/char/char1/char1_jump.png");
     this.images.char1_attack = loadImage("./assets/char/char1/char1_attack.png");
     this.images.char1_skill = loadImage("./assets/char/char1/char1_skill.png");
+    this.images.char1_bust = loadImage("./assets/char/char1/char1_bust.png");
 
     this.images.char2_idle = loadImage("./assets/char/char2/char2_idle.png");
     this.images.char2_walk1 = loadImage("./assets/char/char2/char2_walk1.png");
@@ -20,6 +21,7 @@ class AssetManager {
     this.images.char2_jump = loadImage("./assets/char/char2/char2_jump.png");
     this.images.char2_attack = loadImage("./assets/char/char2/char2_attack.png");
     this.images.char2_skill = loadImage("./assets/char/char2/char2_skill.png");
+    this.images.char2_bust = loadImage("./assets/char/char2/char2_bust.png");
 
     this.images.boss_slash = loadImage("./assets/boss_slash.png");
 
@@ -38,6 +40,7 @@ class AssetManager {
     this.images.title_bg = loadImage("./assets/title_cover.png");
     this.images.start_btn = loadImage("./assets/btn_start.png");
     this.images.char_select_bg = loadImage("./assets/character_select.png");
+    this.images.select_btn = loadImage("./assets/btn_select.png");
     this.images.camp_scene = loadImage("./assets/camp_scene.png");
     this.images.arrow_r = loadImage("./assets/arrow_right_transparent.png");
     this.images.arrow_l = loadImage("./assets/arrow_left_transparent.png");

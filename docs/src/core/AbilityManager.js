@@ -1,20 +1,16 @@
-// src/core/AbilityManager.js
 class AbilityManager {
   constructor(player) {
     this.player = player;
 
-    // --- Core Abilities ---
     this.isInhaling = false;
     this.inhaleRange = 250;
 
-    // --- Skill System ---
     this.currentSkill = CONFIG.SKILLS.NONE;
     this.skillTimer = 0;
     this.isCharging = false;
     this.bowCharge = 0;
     this.cooldown = 0;
 
-    // --- Bubble System ---
     this.bubbleActivated = false;
     this.bubbleCount = 0;
     this.bubbleStepTimer = 0;
@@ -23,13 +19,11 @@ class AbilityManager {
   }
 
   update() {
-    // 1. Skill Timer Logic
     if (this.currentSkill !== CONFIG.SKILLS.NONE && this.skillTimer > 0) {
       this.skillTimer--;
       if (this.skillTimer <= 0) this.resetSkills();
     }
 
-    // 2. Cooldowns & Charge
     if (this.cooldown > 0) this.cooldown--;
     if (this.isCharging) {
       this.bowCharge = min(this.bowCharge + 0.6, 25);
@@ -39,14 +33,12 @@ class AbilityManager {
   }
 
   handleInput() {
-    // Only allow input if player isn't in HURT state
     if (this.player.state === CONFIG.PLAYER_STATES.HURT) return;
 
     if (this.player.isAttacking() && this.cooldown <= 0) {
       this.fireBullet();
     }
 
-    // --- Inhale Logic (K Key) ---
     if (this.player.isInhaling()) {
       this.player.state = CONFIG.PLAYER_STATES.INHALING;
       this.isInhaling = true;
@@ -56,7 +48,6 @@ class AbilityManager {
       this.player.state = CONFIG.PLAYER_STATES.NORMAL;
     }
 
-    // --- Bow Skill Logic (L Key) ---
     const canUseBow = this.currentSkill === CONFIG.SKILLS.BOW && this.cooldown <= 0;
     if (canUseBow && keyIsDown(CONFIG.CONTROLS.BOW)) {
       this.player.state = CONFIG.PLAYER_STATES.BOW_CHARGING;
@@ -71,7 +62,6 @@ class AbilityManager {
   fireBullet() {
     let dir = this.player.isFacingLeft ? -1 : 1;
 
-    // Use the world reference to spawn the bullet
     if (this.player.worldReference) {
       this.player.worldReference.spawnBullet(
         this.player.x + (20 * dir),
@@ -80,7 +70,6 @@ class AbilityManager {
       );
     }
 
-    // Set the cooldown inside the manager
     this.cooldown = 15;
   }
 
@@ -117,7 +106,7 @@ class AbilityManager {
   }
 
   setSkill(skillType, duration = 600) {
-    this.resetSkills(); // Clear current first
+    this.resetSkills();
     this.currentSkill = skillType;
     this.skillTimer = duration;
 
@@ -168,15 +157,13 @@ class AbilityManager {
 
   drawInhaleEffect() {
     push();
-    fill(255, 255, 255, 80); // Semi-transparent white
+    fill(255, 255, 255, 80);
     noStroke();
 
-    // Draw suction cone in the direction Kirby is facing
     let dir = this.player.isFacingLeft ? -1 : 1;
     let startAngle = this.player.isFacingLeft ? PI - QUARTER_PI : -QUARTER_PI;
     let endAngle = this.player.isFacingLeft ? PI + QUARTER_PI : QUARTER_PI;
 
-    // Center the arc at Kirby's mouth/front
     arc(this.player.x + (15 * dir), this.player.y, 120, 100, startAngle, endAngle);
     pop();
   }
@@ -188,7 +175,7 @@ class AbilityManager {
 
     if (this.player.isFacingLeft) scale(-1, 1);
 
-    stroke(255, 50, 50, 200); // Pulse-red aiming line
+    stroke(255, 50, 50, 200);
     strokeWeight(3);
 
     let aimX = 15 + this.bowCharge * 2;

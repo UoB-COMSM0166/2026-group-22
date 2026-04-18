@@ -4,9 +4,7 @@ class SettingsScene extends BaseScene {
     this.resetBtnRect = { x: 0, y: 0, w: 200, h: 50 };
   }
 
-  onEnter() {
-    console.log("Entering Settings...");
-  }
+  onEnter() { }
 
   draw() {
     background(0);
@@ -23,7 +21,7 @@ class SettingsScene extends BaseScene {
     const isOver = this.inRect(mouseX, mouseY, this.resetBtnRect);
 
     stroke(255, 50);
-    fill(isOver ? [150, 0, 0] : [100, 0, 0]); // Dark red normally, brighter on hover
+    fill(isOver ? [150, 0, 0] : [100, 0, 0]);
     rect(this.resetBtnRect.x, this.resetBtnRect.y, this.resetBtnRect.w, this.resetBtnRect.h, 10);
 
     noStroke();
