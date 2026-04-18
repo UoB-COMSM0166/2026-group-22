@@ -1,13 +1,12 @@
-// src/entities/Projectile.js
 class Projectile extends GameObject {
   constructor(x, y, w, h, vx, vy) {
     super(x, y, w, h);
-    this.vx = vx; // Velocity X
-    this.vy = vy; // Velocity Y
+    this.vx = vx;
+    this.vy = vy;
 
-    this.startX = x;       // Record birth position
+    this.startX = x;
     this.startY = y;
-    this.maxRange = 1000;  // Maximum travel distance in pixels
+    this.maxRange = 1000;
   }
 
   update() {

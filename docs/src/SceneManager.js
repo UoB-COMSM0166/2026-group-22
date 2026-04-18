@@ -3,7 +3,7 @@ class SceneManager {
     this.scenes = {};
     this.currentScene = null;
     this.currentKey = "";
-    // Added: A central reference to the player so HP/Items persist across scenes
+
     this.player = null;
     this.instructions = new InstructionUI();
   }
@@ -17,7 +17,7 @@ class SceneManager {
       "board": new HintBoardScene(),
       "settings": new SettingsScene(),
       "level": new LevelScene(),
-      "boss": new BossScene() // REGISTER: Added the BossScene
+      "boss": new BossScene()
     };
   }
 
@@ -25,11 +25,6 @@ class SceneManager {
     this.switch("title");
   }
 
-  /**
-   * Enhanced switch logic to allow passing data
-   * @param {string} key - The scene name
-   * @param {any} data - Optional data (Level index, Boss type, etc.)
-   */
   switch(key, data) {
     if (!this.scenes[key]) {
       console.error(`Scene "${key}" not found!`);
@@ -43,15 +38,11 @@ class SceneManager {
     this.currentKey = key;
     this.currentScene = this.scenes[key];
 
-    // Pass the 'data' argument to the new scene's onEnter method
     if (this.currentScene && this.currentScene.onEnter) {
       this.currentScene.onEnter(data);
     }
-
-    console.log(`[SceneManager] Switched to: ${key}`, data ? `with data: ${data}` : "");
   }
 
-  // --- p5.js Lifecycle Delegation ---
 
   preload() {
     for (let key in this.scenes) {
@@ -100,7 +91,6 @@ class SceneManager {
   }
 
   windowResized() {
-    // Only resize if not in 'Fixed Canvas' mode (LevelScene handleResize handles that)
     if (this.currentScene && this.currentScene.canvasActive) {
       if (this.currentScene.handleResize) this.currentScene.handleResize();
     } else {

@@ -1,16 +1,10 @@
-// src/scenes/GameplayScene.js
 class GameplayScene extends BaseScene {
   constructor() {
     super();
-    // Default dimensions from CONFIG
     this.CANVAS_W = CONFIG.WORLD.CANVAS_WIDTH;
     this.CANVAS_H = CONFIG.WORLD.CANVAS_HEIGHT;
   }
 
-  /**
-   * Centers the canvas and applies a fixed aspect ratio.
-   * Replaces duplicate code in LevelScene and BossScene.
-   */
   applyCanvasMode() {
     resizeCanvas(this.CANVAS_W, this.CANVAS_H);
     const body = document.body;
@@ -30,9 +24,6 @@ class GameplayScene extends BaseScene {
     this.canvasActive = true;
   }
 
-  /**
-   * Returns the canvas to a standard full-window state.
-   */
   restoreFullCanvasMode() {
     const body = document.body;
     const c = document.querySelector("canvas");
@@ -50,19 +41,15 @@ class GameplayScene extends BaseScene {
     this.canvasActive = false;
   }
 
-  /**
-   * Standard resize handler for fixed-canvas scenes.
-   */
   handleResize() {
     if (this.canvasActive) {
       this.applyCanvasMode();
     }
   }
 
-  // Define "stubs" so child classes don't crash if they forget to implement them
-  onEnter() {}
+  onEnter() { }
   onExit() { this.restoreFullCanvasMode(); }
-  draw() {}
-  keyPressed() {}
-  mousePressed() {}
+  draw() { }
+  keyPressed() { }
+  mousePressed() { }
 }

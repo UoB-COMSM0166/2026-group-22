@@ -1,4 +1,3 @@
-// src/classes/AssetManager.js
 class AssetManager {
   constructor() {
     this.images = {};
@@ -7,10 +6,6 @@ class AssetManager {
     this.isLoaded = false;
   }
 
-  /**
-   * Load every global asset here. 
-   * This should be called inside the main p5.js preload().
-   */
   preload() {
     this.images.char1_idle = loadImage("./assets/char/char1/char1_idle.png");
     this.images.char1_walk1 = loadImage("./assets/char/char1/char1_walk1.png");
@@ -40,7 +35,6 @@ class AssetManager {
       this.images.minion_attack = frames;
     });
 
-    // 3. UI & Menus
     this.images.title_bg = loadImage("./assets/title_cover.png");
     this.images.start_btn = loadImage("./assets/btn_start.png");
     this.images.char_select_bg = loadImage("./assets/character_select.png");
@@ -60,12 +54,10 @@ class AssetManager {
       this.images[key] = loadImage(path);
     }
 
-    // 4. Shop Icons
     this.images.shop_bg = loadImage("./assets/shop_bg.png");
     this.images.icon_pistol = loadImage("./assets/icon_pistol.png");
     this.images.icon_fireball = loadImage("./assets/icon_fireball.png");
 
-    // 5. Fonts
     this.fonts.main = loadFont("./assets/plasdrip.ttf");
 
     this.loadLevelAssets();
@@ -124,15 +116,12 @@ class AssetManager {
     loadImage(path, (sheet) => {
       let frames = [];
       for (let i = 0; i < frameCount; i++) {
-        // Slices the sheet horizontally
         frames.push(sheet.get(i * frameW, 0, frameW, frameH));
       }
       callback(frames);
     });
   }
 
-  // --- GETTERS ---
-  // Using getters prevents other classes from accidentally overwriting your assets
   getImg(key) {
     if (!this.images[key]) console.warn(`AssetManager: Image '${key}' not found.`);
     return this.images[key];
@@ -147,5 +136,4 @@ class AssetManager {
   }
 }
 
-// Create a global instance
 const assets = new AssetManager();

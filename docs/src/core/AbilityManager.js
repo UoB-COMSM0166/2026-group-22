@@ -1,5 +1,4 @@
 // src/core/AbilityManager.js
-
 class AbilityManager {
   constructor(player) {
     this.player = player;

@@ -11,32 +11,22 @@ class Enemy extends Entity {
     this.visualH = config.visualH;
     this.visualAlignment = config.visualAlignment;
 
-    this.direction = 1; // 1 for Right, -1 for Left
+    this.direction = 1;
     this.velX = this.speed;
     this.invincibilityTimer = 0;
   }
 
   update(platforms) {
-    if (this.invincibilityTimer > 0) {
-      this.invincibilityTimer--;
-    }
+    if (this.invincibilityTimer > 0) this.invincibilityTimer--;
 
-    // 1. Basic Movement
     this.velX = this.speed * this.direction;
-
-    // 2. Gravity and Movement
     this.applyPhysics();
-
-    // 3. Platform Awareness (Patrol Logic)
     this.checkPlatformEdges(platforms);
 
-    if (this.hp <= 0) {
-      this.die();
-    }
+    if (this.hp <= 0) this.die();
   }
 
   takeDamage(amount) {
-    // If already in i-frames, ignore the hit
     if (this.invincibilityTimer > 0) return;
 
     this.hp -= amount;
@@ -49,8 +39,6 @@ class Enemy extends Entity {
     for (let platform of platforms) {
       if (this.intersects(platform)) {
         pBounds = platform.getBounds();
-        // If we are getting close to the left or right edge, turn around!
-        // We check if the enemy's center is past the platform's edges
         if (this.x > pBounds.right - 10) {
           this.direction = -1;
         } else if (this.x < pBounds.left + 10) {
@@ -72,7 +60,6 @@ class Enemy extends Entity {
     else if (Math.abs(this.velX) > 0.1) state = 'walk';
 
     this.anim.update(state);
-    // direction 1 is right, -1 is left. scale(-1, 1) flips it.
     this.anim.draw(this.x, this.y, this.direction === -1, this.visualW, this.visualH, this.visualAlignment);
   }
 }

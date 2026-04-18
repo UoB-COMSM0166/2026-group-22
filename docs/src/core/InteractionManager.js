@@ -1,8 +1,4 @@
-// src/classes/InteractionManager.js
 class InteractionManager {
-  /**
-   * Handles combat collisions: bullets vs enemies and enemies vs player.
-   */
   static handleCombat(player, enemies, bullets) {
     // Bullets vs Enemies
     for (let bullet of bullets) {
@@ -22,9 +18,6 @@ class InteractionManager {
     }
   }
 
-  /**
-   * Handles puzzle-specific interactions (e.g., Bow vs ChainPlatforms).
-   */
   static handlePuzzles(bullets, platforms) {
     for (let bullet of bullets) {
       if (!bullet.active) continue;
@@ -39,9 +32,6 @@ class InteractionManager {
     }
   }
 
-  /**
-   * Handles map limits, holes, and falling off the screen.
-   */
   static handleWorldLimits(player, world) {
     const p = player.getBounds();
 
@@ -49,7 +39,6 @@ class InteractionManager {
       world.respawnPlayer();
     }
 
-    // Keep Kirby within horizontal walls
     player.x = constrain(player.x, player.w / 2, world.width - player.w / 2);
     player.y = max(player.y, player.h / 2);
   }

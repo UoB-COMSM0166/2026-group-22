@@ -1,8 +1,5 @@
-// Inherit from Entity, which already inherits from GameObject
 class Player extends Entity {
   constructor(sprites) {
-    // 1. super() calls the Entity/GameObject constructors
-    // Passes: x, y, width, height
     super(
       CONFIG.PLAYER.START_X,
       CONFIG.PLAYER.START_Y,
@@ -27,14 +24,13 @@ class Player extends Entity {
     this.jumpCount = 0;
 
     this.state = CONFIG.PLAYER_STATES.NORMAL;
-    this.invincibilityTimer = 0; // 0 means "can be hit"
+    this.invincibilityTimer = 0;
 
     this.abilities = new AbilityManager(this);
     this.bubbleMode = false;
     this.worldReference = null;
   }
 
-  // Implementation of the abstract update() method
   update() {
     if (this.invincibilityTimer > 0) this.invincibilityTimer--;
 
@@ -44,22 +40,21 @@ class Player extends Entity {
     if (this.state === CONFIG.PLAYER_STATES.HURT) {
       this.updateHurt();
     } else {
-      this.move(); // Movement is still a core Player responsibility
+      this.move();
     }
 
     this.applyPhysics();
   }
 
-  // Logic for horizontal movement and facing direction
   move() {
     if (keyIsDown(CONFIG.CONTROLS.LEFT)) {
-      this.velX = -this.speed; // Use velX instead of changing x directly
+      this.velX = -this.speed;
       this.isFacingLeft = true;
     } else if (keyIsDown(CONFIG.CONTROLS.RIGHT)) {
       this.velX = this.speed;
       this.isFacingLeft = false;
     } else {
-      this.velX *= 0.9; // Stop moving if no key is pressed
+      this.velX *= 0.9;
     }
   }
 
@@ -70,13 +65,11 @@ class Player extends Entity {
   }
 
   updateHurt() {
-    // Lock controls during knockback. Return to normal after i-frames stabilize.
     if (this.invincibilityTimer < 45) {
       this.state = CONFIG.PLAYER_STATES.NORMAL;
     }
   }
 
-  // Implementation of the abstract show() method
   show() {
     drawingContext.shadowBlur = 0;
 
@@ -95,6 +88,7 @@ class Player extends Entity {
     const currentFrames = this.sprites[currentState];
     const currentImg = Array.isArray(currentFrames) ? currentFrames[this.anim.frame] : currentFrames;
     const size = this.getVisualSize(currentImg);
+
     this.anim.draw(this.x, this.y, this.isFacingLeft, size.w, size.h);
   }
 
@@ -122,7 +116,6 @@ class Player extends Entity {
   }
 
   float() {
-    // Using velY instead of verticalSpeed to match Entity class
     if (this.jumpCount < this.maxJumpCount) {
       this.velY = this.lift;
       this.jumpCount++;
@@ -137,21 +130,19 @@ class Player extends Entity {
   }
 
   takeDamage(amount) {
-    if (this.invincibilityTimer > 0) return; // Ignore if already hit
+    if (this.invincibilityTimer > 0) return;
 
     super.takeDamage(amount);
-    this.invincibilityTimer = 60; // 1 second of i-frames
+    this.invincibilityTimer = 60;
     this.state = CONFIG.PLAYER_STATES.HURT;
   }
 
-  // Override applyPhysics to include floor collision logic
   applyPhysics() {
     let wasGrounded = this.isGrounded;
-
     this.isGrounded = false;
-    super.applyPhysics(); // Run the gravity logic from Entity.js first
 
-    // allow the player to jump only once if already on air
+    super.applyPhysics();
+
     if (wasGrounded && !this.isGrounded && this.velY > 0 && this.jumpCount === 0) {
       this.jumpCount = 1;
     }
@@ -159,15 +150,14 @@ class Player extends Entity {
 
   reset(startX, startY) {
     this.active = true;
-    // 1. Move him back to the starting coordinates from your CONFIG
+
     this.x = startX;
     this.y = startY;
 
-    // 2. Kill all momentum so he doesn't "carry" his fall speed into the respawn
     this.velX = 0;
     this.land();
 
-    this.abilities.resetSkills(); // Reset through manager
-    this.abilities.resetBubbleState(); // Should be added to AbilityManager
+    this.abilities.resetSkills();
+    this.abilities.resetBubbleState();
   }
 }

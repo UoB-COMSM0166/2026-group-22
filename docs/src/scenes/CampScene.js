@@ -1,10 +1,10 @@
-// src/scenes/CampScene.js
 class Hotspot {
   constructor(id, label, x, y, w, h, onClick) {
     this.id = id; this.label = label;
     this.x = x; this.y = y; this.w = w; this.h = h;
     this.onClick = onClick;
   }
+
   contains(ix, iy) {
     return ix >= this.x && ix <= this.x + this.w && iy >= this.y && iy <= this.y + this.h;
   }
@@ -58,7 +58,7 @@ class CampScene extends BaseScene {
     image(this.view.img, tf.dx, tf.dy, tf.dw, tf.dh);
 
     if (this.dialogue.isActive) {
-      this.dialogue.update(); // Even if empty, keeps the pattern clean
+      this.dialogue.update();
       this.dialogue.draw(tf, this);
       cursor(this.inRect(mouseX, mouseY, this.dialogue.nextBtnRect) ? HAND : ARROW);
       return;
@@ -121,8 +121,6 @@ class CampScene extends BaseScene {
     this.uiButtons.forEach(btn => {
       const r = this.getTopRightIconRect(tf, btn.idx);
       this.drawIconImage(this.assets[btn.icon], r, btn.id === 'settings' ? 0.88 : 0.92);
-
-      // Unified Hover Logic
       if (this.inRect(mouseX, mouseY, r)) cursor(HAND);
     });
   }
@@ -147,16 +145,14 @@ class CampScene extends BaseScene {
       return;
     }
 
-    // UI Clicks
     for (const btn of this.uiButtons) {
       const r = this.getTopRightIconRect(tf, btn.idx);
       if (this.inRect(mouseX, mouseY, r)) {
         btn.action();
-        return; // Stop checking once a button is clicked
+        return;
       }
     }
 
-    // Hotspot Clicks
     const imgPt = this.screenToImage(mouseX, mouseY, tf);
     if (imgPt) {
       const hit = this.view.hotspots.find(hs => hs.contains(imgPt.x, imgPt.y));
@@ -175,17 +171,12 @@ class CampScene extends BaseScene {
 
     }
 
-
     if (this.dialogue.isActive) {
       if (keyCode === ENTER || key === " ") this.dialogue.advance();
       if (key === "s" || key === "S") this.dialogue.skip();
       return;
     }
   }
-
-  /* =============================
-     Scene Logic
-     ============================= */
 
   toggleMute() {
     this.muted = !this.muted;
@@ -200,13 +191,10 @@ class CampScene extends BaseScene {
     }
   }
 
-  /* =============================
-     Drawing Helpers (UI Overlays)
-     ============================= */
-
   drawTooltip(label) {
     push();
-    textSize(22); textAlign(CENTER, CENTER);
+    textSize(22);
+    textAlign(CENTER, CENTER);
     const x = constrain(mouseX, 20, width - 20);
     const y = constrain(mouseY - 28, 20, height - 20);
     stroke(0, 180); strokeWeight(6); fill(255);
@@ -238,7 +226,9 @@ class CampScene extends BaseScene {
 
   drawHotspotsOverlay(tf) {
     push();
-    stroke(0, 255, 0); strokeWeight(2); noFill();
+    stroke(0, 255, 0);
+    strokeWeight(2);
+    noFill();
     for (const hs of this.view.hotspots) {
       const x = tf.dx + (hs.x / tf.iw) * tf.dw;
       const y = tf.dy + (hs.y / tf.ih) * tf.dh;

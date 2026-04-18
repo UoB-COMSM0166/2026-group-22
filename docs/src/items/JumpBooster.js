@@ -1,4 +1,3 @@
-// src/classes/JumpBooster.js
 class JumpBooster extends Collectable {
   constructor(x, y) {
     super(x, y, 35, 35);
@@ -22,12 +21,10 @@ class JumpBooster extends Collectable {
     push();
     translate(this.x, this.y + this.hoverOffset);
 
-    // Draw a "Booster" Star
-    fill(255, 255, 0); // Bright Yellow
-    stroke(255, 150, 0); // Orange outline
+    fill(255, 255, 0);
+    stroke(255, 150, 0);
     strokeWeight(3);
 
-    // Draw a star shape
     beginShape();
     for (let i = 0; i < 5; i++) {
       let angle = TWO_PI * i / 5 - HALF_PI;

@@ -1,4 +1,3 @@
-// src/scenes/CharacterSelectScene.js
 class CharacterSelectScene extends BaseScene {
   constructor() {
     super();
@@ -6,18 +5,13 @@ class CharacterSelectScene extends BaseScene {
     this.popupOpen = false;
     this.pendingChar = null;
 
-    // Static character data
     this.CHARACTERS = [
       { id: 1, name: "Ash", desc: "A silent survivor. Balanced stats." },
       { id: 2, name: "Iris", desc: "Quick hands, quicker feet." },
-      // { id: 3, name: "Nyx", desc: "A cursed wanderer with dark gifts." },
-      // { id: 4, name: "Orin", desc: "Strong body, stubborn will." },
-      // { id: 5, name: "Vale", desc: "Calm mind. Deadly precision." },
     ];
   }
 
   onEnter() {
-    // Reset state every time we navigate to this screen
     this.popupOpen = false;
     this.pendingChar = null;
   }
@@ -31,14 +25,12 @@ class CharacterSelectScene extends BaseScene {
 
     cursor("default");
 
-    // 1) if popup open -> draw popup + hover logic
     if (this.popupOpen && this.pendingChar) {
       this.drawSelectPopup(tf, this.pendingChar);
       if (this.isMouseOverPopup(tf)) cursor("pointer");
       return;
     }
 
-    // 2) normal state -> hover SELECT buttons
     const buttons = this.getSelectButtons(tf);
     let overAny = false;
     for (const b of buttons) {
@@ -53,13 +45,13 @@ class CharacterSelectScene extends BaseScene {
   drawHeader(tf) {
     push();
     textAlign(CENTER, TOP);
-    textFont(assets.getFont()); 
-    
-    textSize(tf.dh * 0.07); 
-    
+    textFont(assets.getFont());
+
+    textSize(tf.dh * 0.07);
+
     fill(0, 150);
     text("SELECT YOUR CHARACTER", width / 2 + 3, tf.dy + tf.dh * 0.08 + 3);
-    
+
     fill(255);
     text("SELECT YOUR CHARACTER", width / 2, tf.dy + tf.dh * 0.08);
     pop();
@@ -84,7 +76,7 @@ class CharacterSelectScene extends BaseScene {
   }
 
   keyPressed() {
-    if (key === "Escape") {    
+    if (key === "Escape") {
       if (this.popupOpen) {
         this.popupOpen = false;
         this.pendingChar = null;
@@ -94,22 +86,18 @@ class CharacterSelectScene extends BaseScene {
     }
   }
 
-  /* =============================
-     UI Logic & Drawing Methods
-     ============================= */
-
   getSelectButtons(tf) {
-    const btnW = tf.dw * 0.145; // Match the width of the painted button
-    const btnH = tf.dh * 0.06;  // Match the height
-    const btnY = tf.dy + tf.dh * 0.765; // Position vertically on the plate
+    const btnW = tf.dw * 0.145;
+    const btnH = tf.dh * 0.06;
+    const btnY = tf.dy + tf.dh * 0.765;
 
     return [
       {
-        index: 0, // Left Portal (Ash)
+        index: 0,
         rect: { x: tf.dx + tf.dw * 0.265, y: btnY, w: btnW, h: btnH }
       },
       {
-        index: 1, // Right Portal (Iris)
+        index: 1,
         rect: { x: tf.dx + tf.dw * 0.595, y: btnY, w: btnW, h: btnH }
       }
     ];
@@ -148,7 +136,6 @@ class CharacterSelectScene extends BaseScene {
     fill(20, 20, 22, 230);
     rect(p.x, p.y, p.w, p.h, 18);
 
-    // Right text area
     fill(255);
     textAlign(LEFT, TOP);
     textSize(28);

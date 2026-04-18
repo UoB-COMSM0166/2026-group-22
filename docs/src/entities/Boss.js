@@ -1,6 +1,5 @@
 class Boss extends Entity {
   constructor(x, y, sprites, config) {
-    // x, y, width, height, hp, speed
     super(x, y, config.width, config.height, config.maxHp, config.speed);
     this.sprites = sprites;
     this.anim = new AnimationManager(this, sprites, 10, 'bottom');
@@ -8,7 +7,6 @@ class Boss extends Entity {
     this.visualW = config.visualW;
     this.visualH = config.visualH;
     this.visualAlignment = config.visualAlignment;
-
 
     this.maxHp = 500;
     this.isHurt = false;
@@ -19,7 +17,6 @@ class Boss extends Entity {
   }
 
   update() {
-    // Damage state handling
     if (this.hp <= 0) {
       this.applyPhysics();
       return;
@@ -34,25 +31,20 @@ class Boss extends Entity {
 
     if (this.attackSpriteTimer > 0) this.attackSpriteTimer--;
 
-    // Attack Logic
     this.attackTimer++;
-    // Use a variable for attack speed so you can make him faster as HP drops!
     let attackRate = this.hp < 200 ? 90 : 180;
 
     if (this.attackTimer > attackRate && this.hp > 0) {
       this.attackTimer = 0;
       this.attackSpriteTimer = 15;
 
-      return new Slash(
-        this.x - 50,                // Start slightly in front of boss
-        this.y + 10,    // Random height spread
-        -6,                          // Velocity X (moving left)
-        0,                           // Velocity Y
-        25, 50,                          // Size
-        10,
-        this.sprites.slash
+      let slash = new Slash(
+        this.x - 50, this.y + 10, -6, 0, 25, 50, 10, this.sprites.slash
       );
+
+      return slash;
     }
+
     return null;
   }
 
@@ -71,14 +63,7 @@ class Boss extends Entity {
     }
 
     this.anim.update(state);
-
-    // Feedback: Flash white or red when hit
-    if (this.isHurt) {
-      fill(255, 100, 100);
-    }
-
     this.anim.draw(this.x, this.y, -1, this.visualW, this.visualH, this.visualAlignment);
-    noTint();
   }
 
   takeDamage(amount) {
@@ -93,6 +78,6 @@ class Boss extends Entity {
   }
 
   land() {
-    this.velY = 0; // Stop the falling force immediately
+    this.velY = 0;
   }
 }

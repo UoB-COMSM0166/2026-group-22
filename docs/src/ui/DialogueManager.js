@@ -1,11 +1,9 @@
-// src/ui/DialogueManager.js
 class DialogueManager {
   constructor(lines) {
     this.lines = lines || [];
     this.currentIndex = 0;
     this.isActive = false;
 
-    // UI Bounds (Calculated during draw)
     this.nextBtnRect = null;
     this.skipBtnRect = null;
   }
@@ -15,7 +13,7 @@ class DialogueManager {
     this.currentIndex = 0;
   }
 
-  update() {}
+  update() { }
 
   advance() {
     this.currentIndex++;
@@ -39,18 +37,16 @@ class DialogueManager {
     fill(0, 0, 0, 170);
     rect(x, y, w, h, 18);
 
-    // Display the full message instantly
     const fullMsg = this.lines[this.currentIndex] || "";
 
     textFont(assets.getFont());
     textAlign(CENTER, CENTER);
     textSize(Math.floor(h * 0.26));
     fill(170, 10, 10, 240);
-    stroke(0); 
+    stroke(0);
     strokeWeight(6);
     text(fullMsg, x + w / 2, y + h / 2);
 
-    // Button Logic
     const btnW = tf.dw * 0.10, btnH = tf.dh * 0.075;
     const bx = tf.dx + tf.dw - pad - btnW, by = tf.dy + tf.dh * 0.42;
     this.nextBtnRect = { x: bx, y: by, w: btnW, h: btnH };

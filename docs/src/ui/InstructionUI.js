@@ -9,17 +9,10 @@ class InstructionUI {
     this.opacity = 0;
   }
 
-  /**
-   * Triggers the instruction box
-   * @param {string} msg - The text to show
-   * @param {Object} target - Optional rect {x, y, w, h} to point at
-   */
   show(input, target = null) {
     if (Array.isArray(input)) {
-      // If input is an array, push all its contents into the queue
       this.queue.push(...input);
     } else {
-      // If input is just a string, create the standard object and push it
       this.queue.push({ msg: input, target });
     }
 
@@ -79,7 +72,6 @@ class InstructionUI {
     stroke(255, 50 * (this.opacity / 255));
     rect(x, y, w, h, 12);
 
-    // Text Styling
     textAlign(CENTER, CENTER);
     textFont(assets.getFont());
     textSize(20);
@@ -87,7 +79,6 @@ class InstructionUI {
     noStroke();
     text(this.current.msg, x + w / 2, y + h / 2);
 
-    // Prompt to dismiss
     textSize(12);
     fill(200, 150 * (this.opacity / 255));
     text("(Press ENTER or click to dismiss)", x + w / 2, y + h + 15);

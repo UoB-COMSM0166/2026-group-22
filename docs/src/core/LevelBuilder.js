@@ -1,12 +1,6 @@
-// src/classes/LevelBuilder.js
 class LevelBuilder {
-  /**
-   * Main build method to populate the world.
-   * @param {World} world - The world instance to populate.
-   * @param {Object} data - The level configuration data from CONFIG.LEVELS.
-   */
   static build(world, data, levelAssets) {
-    // 1. Bubble Mode Setup
+
     if (data.bubbleMode) {
       world.player.bubbleMode = true;
       world.player.abilities.activateBubble(3);
@@ -17,13 +11,11 @@ class LevelBuilder {
 
     let currentX = 0;
 
-    // 2. Platform & Entity Placement
     for (let p of data.platforms) {
       let centerX = currentX + p.gap + p.w / 2;
       let centerY = world.height - p.altitude - p.h / 2;
       let topY = centerY - p.h / 2;
 
-      // Platform instantiation
       let platform;
       if (p.isMoving) {
         platform = new MovingPlatform(
@@ -38,10 +30,10 @@ class LevelBuilder {
         platform = new Platform(centerX, centerY, p.w, p.h, world.platformTile);
       }
 
-      // Assign platform flags
       platform.removesSkill = p.removesSkill || false;
       platform.hasBoss = p.hasBoss || false;
       platform.bossType = p.bossType;
+      
       world.platforms.push(platform);
 
       // Place Coins
@@ -67,7 +59,7 @@ class LevelBuilder {
       currentX = centerX + p.w / 2;
     }
 
-    // 3. Item Placement
+    // Item Placement
     if (data.items) {
       world.items = data.items.map(itemData => {
         const itemClass = world.itemTypes[itemData.type];

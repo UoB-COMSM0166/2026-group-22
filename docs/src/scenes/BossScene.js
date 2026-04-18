@@ -1,8 +1,7 @@
-// src/scenes/BossScene.js
 class BossScene extends GameplayScene {
   constructor() {
     super();
-    this.player = null; // Reference to the existing player
+    this.player = null;
     this.boss = null;
     this.world = null;
     this.bossProjectiles = [];
@@ -18,8 +17,7 @@ class BossScene extends GameplayScene {
     this.currentBossType = bossType;
     this.arenaData = arenaData;
     this.levelAssets = levelAssets;
-    // 1. Tell the global manager this is the active scene
-    // This allows the Boss/Minions to find playerBullets
+
     sceneManager.currentScene = this;
 
     this.world = new World(this.player, this.arenaData, this.levelAssets);
@@ -30,7 +28,6 @@ class BossScene extends GameplayScene {
       'crusher': CrusherBoss
     };
 
-    // 1. Dynamic Boss Creation
     const startX = this.world.width - 120;
     const startY = this.world.height - 300;
 
@@ -39,15 +36,13 @@ class BossScene extends GameplayScene {
 
     this.applyCanvasMode();
 
-    // 2. Setup Player for flight mode
-    // We use the global player instance but reset their position
     this.player.x = 100;
     this.player.y = this.CANVAS_H - 150;
     this.player.velX = 0;
     this.player.velY = 0;
-    this.player.hp = 100;               // Restore HP to stop the reset loop
-    this.player.active = true;           // Reactivate the entity
-    this.player.invincibilityTimer = 0; // Stop the flashing immediately
+    this.player.hp = 100;
+    this.player.active = true;
+    this.player.invincibilityTimer = 0;
 
     this.bossProjectiles = [];
   }
@@ -57,12 +52,11 @@ class BossScene extends GameplayScene {
 
     if (this.player.hp <= 0) {
       this.resetScene();
-      return; // Stop the rest of the update for this frame
+      return;
     }
 
     this.world.update();
 
-    // Update Boss and catch attacks
     let attack = this.boss.update();
     if (attack) this.bossProjectiles.push(attack);
 
@@ -77,7 +71,6 @@ class BossScene extends GameplayScene {
 
     this.checkCollisions();
 
-    // If Boss dies, return to camp or go to victory screen
     if (this.boss.hp <= 0 && !this.victoryTriggered) {
       this.victoryTriggered = true;
     }
@@ -85,22 +78,14 @@ class BossScene extends GameplayScene {
 
   checkCollisions() {
     InteractionManager.handleCombat(this.player, [this.boss], this.world.playerBullets);
-
     InteractionManager.resolveHitGroup(this.bossProjectiles, this.player, (bullet, p) => {
-      // Calculate knockback direction
-      const dir = (p.x < bullet.x) ? -1 : 1;
-      p.takeDamage(bullet.damage, dir);
+      p.takeDamage(bullet.damage);
     });
 
-    // 4. REUSE: Minion interactions
     if (this.boss.minions) {
-      // Handles playerBullets hitting minions AND minions touching player
       InteractionManager.handleCombat(this.player, this.boss.minions, this.world.playerBullets);
-
-      // Handles minion bullets hitting player
       InteractionManager.resolveHitGroup(this.boss.minionBullets, this.player, (bullet, p) => {
-        const dir = (p.x < bullet.x) ? -1 : 1;
-        p.takeDamage(bullet.damage, dir);
+        p.takeDamage(bullet.damage);
       });
     }
   }
@@ -128,24 +113,20 @@ class BossScene extends GameplayScene {
   }
 
   drawVictoryPopup() {
-    // 1. Dim the background
     fill(0, 0, 0, 150);
     rect(0, 0, width, height);
 
-    // 2. Main Panel
     const w = 400;
     const h = 220;
     const x = width / 2 - w / 2;
     const y = height / 2 - h / 2;
 
     push();
-    // Use colors from your cover art (Deep Purple/Neon Blue)
     fill(20, 10, 40, 240);
-    stroke(0, 255, 255); // Neon cyan border
+    stroke(0, 255, 255);
     strokeWeight(4);
     rect(x, y, w, h, 15);
 
-    // 3. Title Text
     noStroke();
     fill(255);
     textFont(assets.getFont());
@@ -158,7 +139,6 @@ class BossScene extends GameplayScene {
     text("TRIAL COMPLETE", width / 2, y + 90);
     pop();
 
-    // 4. "OK" Button using BaseScene helper
     const btnW = 120;
     const btnH = 45;
     const btnRect = {
@@ -177,7 +157,6 @@ class BossScene extends GameplayScene {
   }
 
   exitToCamp() {
-    // Clear projectiles before switching
     this.playerBullets = [];
     this.bossProjectiles = [];
     sceneManager.switch("camp");
@@ -185,10 +164,8 @@ class BossScene extends GameplayScene {
 
   keyPressed() {
     if (keyCode === ESCAPE) {
-      // Clean up state before leaving
       this.playerBullets = [];
       this.bossProjectiles = [];
-
       sceneManager.switch("camp");
     }
 
@@ -204,7 +181,6 @@ class BossScene extends GameplayScene {
       levelAssets: this.levelAssets
     });
 
-    // Optional: If you used an 'isVictoryTriggered' flag, reset it too
     this.isVictoryTriggered = false;
   }
 }

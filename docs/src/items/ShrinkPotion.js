@@ -1,4 +1,3 @@
-// src/classes/ShrinkPotion.js
 class ShrinkPotion extends Collectable {
   constructor(x, y) {
     super(x, y, 35, 35);
@@ -18,7 +17,6 @@ class ShrinkPotion extends Collectable {
     push();
     translate(this.x, this.y + this.hoverOffset);
 
-    // 绘制一个代表缩小的道具（比如蓝色的药水瓶或圆形）
     fill(100, 200, 255);
     stroke(0, 100, 200);
     strokeWeight(2);

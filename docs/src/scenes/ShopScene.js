@@ -1,13 +1,11 @@
-// src/scenes/ShopScene.js
 class ShopScene extends BaseScene {
   constructor() {
     super();
     this.bgImg = null;
     this.modalOpen = false;
     this.tf = null;
-    this.inventorySlots = []; // To track hitboxes for clicking
+    this.inventorySlots = [];
 
-    // UI Layout Constants
     this.INV_MAX = 6;
     this.INV_OFFSET_X = 0.05;
     this.INV_OFFSET_Y = 0.12;
@@ -31,7 +29,6 @@ class ShopScene extends BaseScene {
     this.drawInfoPanel();
     if (this.modalOpen) this.drawBuyModal();
 
-    // Navigation Hint from original ShopUI
     push();
     const pad = this.tf.dw * 0.02;
     textAlign(LEFT, BOTTOM);
@@ -40,10 +37,6 @@ class ShopScene extends BaseScene {
     text("Press ESC to return", this.tf.dx + pad, this.tf.dy + this.tf.dh - pad);
     pop();
   }
-
-  /* =============================
-     UI DRAWING METHODS (REFINED)
-     ============================= */
 
   drawHeader() {
     push();
@@ -100,7 +93,6 @@ class ShopScene extends BaseScene {
     const item = gameState.getItemData(itemId);
     if (!itemId || !item || this.modalOpen) return;
 
-    // Anchor math to float next to items
     const anchor = this.getItemAnchor(itemId);
     if (!anchor) return;
 
@@ -110,11 +102,10 @@ class ShopScene extends BaseScene {
     fill(0, 0, 0, 220);
     rect(p.x, p.y, p.w, p.h, 16);
 
-    // Title (Using p.x, p.y, etc.)
     fill(255);
     textFont(assets.getFont());
     textAlign(LEFT, TOP);
-    const pad = this.tf.dw * 0.02; // Keep pad for internal spacing
+    const pad = this.tf.dw * 0.02;
     textSize(Math.max(20, Math.floor(p.h * 0.12)));
     text(item.name.toUpperCase(), p.x + pad, p.y + pad);
 
@@ -134,13 +125,12 @@ class ShopScene extends BaseScene {
     }
 
     const btnH = Math.max(32, p.h * 0.18);
-    const btnY = p.y + p.h - btnH - pad; // Anchor to bottom minus padding
+    const btnY = p.y + p.h - btnH - pad;
     const btnW = (p.w - pad * 3) / 2;
 
     if (isOwned) {
       const isEquipped = gameState.equippedWeaponId === itemId;
 
-      // EQUIP/EQUIPPED Button
       this.drawModalButton(
         { x: p.x + pad, y: btnY, w: btnW, h: btnH },
         isEquipped ? "EQUIPPED" : "EQUIP",
@@ -148,7 +138,6 @@ class ShopScene extends BaseScene {
         () => gameState.equipWeapon(itemId)
       );
 
-      // SELL Button
       this.drawModalButton(
         { x: p.x + pad + btnW + pad, y: btnY, w: btnW, h: btnH },
         "SELL",
@@ -159,7 +148,6 @@ class ShopScene extends BaseScene {
         }
       );
     } else {
-      // BUY Button (Full Width)
       this.drawModalButton(
         { x: p.x + pad, y: btnY, w: p.w - pad * 2, h: btnH },
         `BUY FOR ${item.price}`,
@@ -201,10 +189,6 @@ class ShopScene extends BaseScene {
     this.drawModalButton({ x: width / 2 + 10, y: y + boxH * 0.7, w: btnW, h: btnH }, "CANCEL", true, () => this.modalOpen = false);
   }
 
-  /* =============================
-     HELPERS & INPUT
-     ============================= */
-
   getItemAnchor(itemId) {
     if (gameState.isOwned(itemId)) {
       return this.inventorySlots.find(s => s.itemId === itemId) || null;
@@ -218,7 +202,6 @@ class ShopScene extends BaseScene {
 
     let hitItem = false;
 
-    // Check Shelf
     for (const slot of CONFIG.SHOP.SLOTS) {
       if (!gameState.isOwned(slot.itemId) && this.inRect(mouseX, mouseY, this.slotToScreen(slot))) {
         gameState.selectedItemId = slot.itemId;
@@ -226,7 +209,7 @@ class ShopScene extends BaseScene {
         return;
       }
     }
-    // Check Inventory
+
     for (const slot of this.inventorySlots) {
       if (slot.itemId && this.inRect(mouseX, mouseY, slot)) {
         gameState.selectedItemId = slot.itemId;
@@ -237,9 +220,8 @@ class ShopScene extends BaseScene {
 
     if (!hitItem && gameState.selectedItemId) {
       const anchor = this.getItemAnchor(gameState.selectedItemId);
-      const p = this.getInfoPanelRect(anchor); // Using our new helper!
+      const p = this.getInfoPanelRect(anchor);
 
-      // If the click is OUTSIDE the info panel, close it
       if (!this.inRect(mouseX, mouseY, p)) {
         gameState.selectedItemId = null;
       }
@@ -254,7 +236,6 @@ class ShopScene extends BaseScene {
     let x = anchor.x + anchor.w + 12;
     let y = anchor.y - h * 0.15;
 
-    // Apply boundary constraints
     if (x + w > this.tf.dx + this.tf.dw) x = anchor.x - 12 - w;
     x = constrain(x, this.tf.dx + pad, this.tf.dx + this.tf.dw - pad - w);
     y = constrain(y, this.tf.dy + pad, this.tf.dy + this.tf.dh - pad - h);
@@ -279,22 +260,19 @@ class ShopScene extends BaseScene {
     const over = this.inRect(mouseX, mouseY, r);
 
     push();
-    // 1. Background
     noStroke();
     fill(0, 0, 0, over ? 120 : 90);
     rect(r.x, r.y, r.w, r.h, 14);
 
-    // 2. Border Logic
     strokeWeight(3);
-    if (isSelected) stroke(255, 200, 0); // Selected (Gold)
-    else if (isEquipped) stroke(0, 255, 200); // Equipped (Cyan/Green)
-    else if (over) stroke(255); // Hover (White)
-    else stroke(160, 160, 160, 120); // Default (Gray)
+    if (isSelected) stroke(255, 200, 0);
+    else if (isEquipped) stroke(0, 255, 200);
+    else if (over) stroke(255);
+    else stroke(160, 160, 160, 120);
 
     noFill();
     rect(r.x, r.y, r.w, r.h, 14);
 
-    // 3. Icon
     const item = gameState.getItemData(itemId);
     if (item) this.drawIcon(assets.getImg(item.iconKey), r, 0.75);
     pop();

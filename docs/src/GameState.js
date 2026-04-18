@@ -1,40 +1,28 @@
-// src/core/GameState.js
-
 class GameState {
   constructor() {
     this.SAVE_KEY = CONFIG.SYSTEM.SAVE_KEY;
 
-    // --- Identification ---
     this.selectedCharacterId = null;
     this.selectedCharacter = null;
 
     this.selectedItemId = null;
 
-    // --- Economy & Inventory ---
-    // Pulls default from ShopData if available, else defaults to 25
     this.coins = CONFIG.SHOP.START_COINS;
     this.ownedItemIds = [];
     this.equippedWeaponId = null;
 
-    // --- Progression ---
-    this.levelsUnlocked = [true, false, false, false]; // Door 1 is open by default
+    this.levelsUnlocked = [true, false, false, false];
     this.bossesDefeated = [];
     this.campIntroDone = false;
     this.campHintsDone = false;
 
-    // --- Settings ---
     this.settings = {
       musicVolume: 0.8,
       sfxVolume: 1.0,
     };
 
-    // Automatically attempt to load existing data on startup
     this.load();
   }
-
-  /* =============================
-     Persistence (Save/Load)
-     ============================= */
 
   save() {
     const data = {
@@ -57,7 +45,6 @@ class GameState {
       if (!raw) return;
       const data = JSON.parse(raw);
 
-      // Use Object.assign to merge saved data into this instance
       Object.assign(this, data);
       console.log("[GameState] Data loaded successfully.");
     } catch (e) {
@@ -65,16 +52,11 @@ class GameState {
     }
   }
 
-  /* =============================
-     Shop & Inventory Logic
-     ============================= */
-
   isOwned(itemId) {
     return this.ownedItemIds.includes(itemId);
   }
 
   getItemData(itemId) {
-    // Looks up item details in the global SHOP_ITEMS catalog
     return CONFIG.SHOP.ITEMS.find(it => it.id === itemId) || null;
   }
 
@@ -100,7 +82,6 @@ class GameState {
     this.coins += refund;
     this.ownedItemIds = this.ownedItemIds.filter(id => id !== itemId);
 
-    // If the sold item was equipped, equip the next available item or null
     if (this.equippedWeaponId === itemId) {
       this.equippedWeaponId = this.ownedItemIds[0] || null;
     }
@@ -115,10 +96,6 @@ class GameState {
       this.save();
     }
   }
-
-  /* =============================
-     Progression & Character Logic
-     ============================= */
 
   addCoins(amount) {
     this.coins += amount;
@@ -150,5 +127,4 @@ class GameState {
   }
 }
 
-// Create the global instance
 const gameState = new GameState();

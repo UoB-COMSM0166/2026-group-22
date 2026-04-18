@@ -1,10 +1,8 @@
-// src/constants.js
 const CONFIG = {
   SYSTEM: {
     SAVE_KEY: "isle_save_v1",
   },
 
-  // World Physics
   WORLD: {
     GRAVITY: 0.2,
     CEILING_LIMIT: 0,
@@ -86,7 +84,7 @@ const CONFIG = {
     HEIGHT: 80,
     SPEED: 3,
     MAX_JUMP_COUNT: 2,
-    LIFT: -5.5, // Jump/Float power
+    LIFT: -5.5,
     HP: 100,
     ANIMATION_SPEED: 10
   },
@@ -124,5 +122,4 @@ const CONFIG = {
   },
 };
 
-// Optional: Prevent accidental changes during runtime
 Object.freeze(CONFIG);

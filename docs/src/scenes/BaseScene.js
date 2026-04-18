@@ -3,7 +3,6 @@ class BaseScene {
     this.canvasActive = false;
   }
 
-  // --- Common Utilities
   inRect(px, py, r) {
     if (!r) return false;
     return px >= r.x && px <= r.x + r.w && py >= r.y && py <= r.y + r.h;
@@ -47,17 +46,19 @@ class BaseScene {
 
     if (enabled && hover && mouseIsPressed) {
       onClick();
-      mouseIsPressed = false; // Prevent multiple triggers
+      mouseIsPressed = false;
     }
   }
 
   onEnter(data) { }
+
   onExit() {
     if (this.canvasActive) {
       resizeCanvas(windowWidth, windowHeight);
       this.canvasActive = false;
     }
   }
+
   update() { }
   draw() { }
   mousePressed() { }

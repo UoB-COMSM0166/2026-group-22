@@ -1,4 +1,3 @@
-// src/scenes/TitleScene.js
 class TitleScene extends BaseScene {
   constructor() {
     super();

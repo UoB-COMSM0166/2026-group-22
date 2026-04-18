@@ -1,4 +1,3 @@
-// src/classes/StatsBar.js
 class StatsBar {
   constructor() {
     this.margin = 30;
@@ -10,7 +9,6 @@ class StatsBar {
     this.weaponSize = 24;
   }
 
-  // We pass in the data the StatsBar needs to "know" about
   draw(player, coins, showCoins = true) {
     this.drawHearts(player.hp, player.maxHp);
     if (showCoins) this.drawCoins(coins);
@@ -31,12 +29,10 @@ class StatsBar {
     push();
     imageMode(CENTER);
 
-    // Optional: Draw a subtle "backing" circle so the icon pops
     noStroke();
-    fill(255, 50); // Very faint white glow
+    fill(255, 50);
     ellipse(this.weaponX, this.y, this.weaponSize + 8);
 
-    // Draw the weapon photo
     image(icon, this.weaponX, this.y, this.weaponSize, this.weaponSize);
     pop();
   }
@@ -94,15 +90,12 @@ class StatsBar {
 
     push();
     let barW = 400;
-    // Calculate health width based on boss HP
     let hpW = map(max(0, boss.hp), 0, boss.maxHp, 0, barW);
 
     rectMode(CORNER);
-    // Background bar
     fill(40, 200);
     rect(width / 2 - barW / 2, 30, barW, 15, 5);
 
-    // Health fill (Red)
     fill(255, 0, 50);
     rect(width / 2 - barW / 2, 30, hpW, 15, 5);
     pop();

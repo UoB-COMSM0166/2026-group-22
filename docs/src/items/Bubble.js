@@ -6,7 +6,6 @@ class Bubble extends Collectable {
     this.shouldRespawn = true;
   }
 
-  // Refills the player's air
   onCollect(player) {
     player.abilities.activateBubble(3);
     this.active = false;

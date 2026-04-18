@@ -1,4 +1,3 @@
-// src/scenes/LevelScene.js
 class LevelScene extends GameplayScene {
   constructor() {
     super();
@@ -7,10 +6,8 @@ class LevelScene extends GameplayScene {
     this.doorNumber = 1;
   }
 
-  // Logic to run when the scene starts
   onEnter() {
     this.applyCanvasMode();
-    // Build the world if it doesn't exist yet
     if (!this.world) this.buildLevel(this.doorNumber);
   }
 
@@ -33,7 +30,6 @@ class LevelScene extends GameplayScene {
       inhale: assets.getImg(`${prefix}_skill`)
     };
 
-    // Instantiate your physical objects
     this.player = new Player(playerSprites);
     sceneManager.player = this.player;
 
@@ -46,7 +42,6 @@ class LevelScene extends GameplayScene {
       return;
     }
 
-    // Standard game loop pattern: Update then Show
     this.world.update();
     this.world.show();
     this.drawUI();
@@ -79,10 +74,8 @@ class LevelScene extends GameplayScene {
       this.player.handleKeyPress();
     }
 
-    // Check for the 'B' key (Key Code 66)
     if (key === 'b' || key === 'B') {
       console.log("🛠️ Dev Mode: Jumping to Summoner Boss");
-      // Switch to boss scene and tell it to load the 'summoner'
       sceneManager.switch('boss', {
         bossType: 'summoner',
         arenaData: this.world.levelData.bossArena,
@@ -90,7 +83,6 @@ class LevelScene extends GameplayScene {
       });
     }
 
-    // Optional: Add another key for the regular boss
     if (key === 'n' || key === 'N') {
       console.log("🛠️ Dev Mode: Jumping to Regular Boss");
       sceneManager.switch('boss', {

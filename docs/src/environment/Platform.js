@@ -1,8 +1,6 @@
-// src/classes/Platform.js
 class Platform extends GameObject {
   constructor(x, y, w, h, img) {
     super(x, y, w, h);
-    this.color = [100, 100, 100];
     this.img = img;
     this.tileSize = 40;
 
@@ -17,10 +15,7 @@ class Platform extends GameObject {
     }
   }
 
-  update() {
-    // Static platforms don't need much logic, 
-    // but you could add moving platform logic here later!
-  }
+  update() { }
 
   resolve(entity, world) {
     if (!this.active || !entity.active || !entity.intersects(this)) return false;
@@ -60,17 +55,14 @@ class Platform extends GameObject {
   handlePlatformTriggers(entity, world) {
     if (!(entity instanceof Player)) return;
 
-    // Vanishing platforms
     if (this instanceof VanishablePlatform) {
       this.isTouched = true;
     }
 
-    // Skill resets
     if (this.removesSkill) {
       entity.abilities.resetSkills();
     }
 
-    // Boss transitions
     if (this.hasBoss) {
       sceneManager.switch("boss", {
         bossType: this.bossType,

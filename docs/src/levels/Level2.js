@@ -33,17 +33,15 @@ CONFIG.LEVELS[1] = {
   bubbleMode: true,
 
   platforms: [
-    // a series of coins on one a long platform
     { gap: 0, altitude: 0, w: 240, h: 80 },
     { gap: 100, altitude: 100, w: 240, h: 40, coins: [-80, 0, 80], hasEnemy: true },
     { gap: 150, altitude: 160, w: 320, h: 40, coins: [-80, 40] },
-    // a series of vanish platforms
+
     { gap: 150, altitude: 220, w: 120, h: 40, isVanish: true, hasCoin: true },
     { gap: 90, altitude: 270, w: 120, h: 40, isVanish: true, hasCoin: true },
     { gap: 90, altitude: 320, w: 120, h: 40, isVanish: true, hasCoin: true },
     { gap: 90, altitude: 370, w: 120, h: 40, isVanish: true, hasCoin: true },
 
-    // a series of enemy platforms
     { gap: 100, altitude: 260, w: 120, h: 40 },
     { gap: 90, altitude: 320, w: 120, h: 40 },
     { gap: 100, altitude: 280, w: 120, h: 40 },
@@ -51,7 +49,6 @@ CONFIG.LEVELS[1] = {
     { gap: 70, altitude: 310, w: 120, h: 40, isVanish: true },
     { gap: 70, altitude: 380, w: 80, h: 40, hasCheckpoint: true },
 
-    // moving platforms 
     {
       gap: 150,
       altitude: 400,
@@ -88,7 +85,6 @@ CONFIG.LEVELS[1] = {
       isVanish: true
     },
 
-    // a series of vanished platforms
     { gap: 200, altitude: 380, w: 120, h: 40, isVanish: true, coins: [-80, 40] },
     { gap: 90, altitude: 290, w: 120, h: 40, isVanish: true, coins: [-80, 40] },
     { gap: 100, altitude: 277, w: 120, h: 40, isVanish: true, coins: [-80, 40] },
@@ -96,7 +92,6 @@ CONFIG.LEVELS[1] = {
     { gap: 70, altitude: 310, w: 120, h: 40, isVanish: true, coins: [-80, 40] },
     { gap: 70, altitude: 380, w: 80, h: 40, hasCoin: true },
 
-    // a series enemy platforms
     { gap: 100, altitude: 260, w: 120, h: 40, hasEnemy: true, hasCoin: true },
     { gap: 90, altitude: 320, w: 120, h: 40, hasEnemy: true, hasCoin: true },
     { gap: 90, altitude: 260, w: 1000, h: 40, hasBoss: true, bossType: "regular" }
