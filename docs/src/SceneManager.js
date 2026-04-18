@@ -11,7 +11,8 @@ class SceneManager {
   init() {
     this.scenes = {
       "title": new TitleScene(),
-      "select": new CharacterSelectScene(),
+      "select": new CharSelectScene(),
+      "difficulty": new DiffSelectScene(),
       "camp": new CampScene(),
       "shop": new ShopScene(),
       "board": new HintBoardScene(),

@@ -167,7 +167,7 @@ class CampScene extends BaseScene {
       if (sceneManager.instructions.isActive) {
         sceneManager.instructions.hide();
       }
-      sceneManager.switch("select");
+      sceneManager.switch("difficulty");
 
     }
 

@@ -31,8 +31,18 @@ class BossScene extends GameplayScene {
     const startX = this.world.width - 120;
     const startY = this.world.height - 300;
 
+    const m = CONFIG.DIFFICULTY_PRESETS[gameState.difficulty || "EASY"];
+    const base = arenaData.bossConfig;
+
+    const scaledBossConfig = {
+      ...base,
+      maxHp: base.maxHp * m.hp,
+      damage: base.damage * m.damage,
+      speed: base.speed * m.speed
+    };
+
     const BossClass = bossMap[bossType] || Boss;
-    this.boss = new BossClass(startX, startY, this.levelAssets.bossSprites, arenaData.bossConfig);
+    this.boss = new BossClass(startX, startY, this.levelAssets.bossSprites, scaledBossConfig);
 
     this.applyCanvasMode();
 

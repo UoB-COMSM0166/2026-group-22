@@ -3,6 +3,16 @@ const CONFIG = {
     SAVE_KEY: "isle_save_v1",
   },
 
+  DIFFICULTY: {
+    EASY: "EASY",
+    DIFFICULT: "DIFFICULT"
+  },
+
+  DIFFICULTY_PRESETS: {
+    EASY: { hp: 1.0, damage: 1.0, speed: 1.0 },
+    DIFFICULT: { hp: 2.0, damage: 2, speed: 1.2 }
+  },
+
   WORLD: {
     GRAVITY: 0.2,
     CEILING_LIMIT: 0,

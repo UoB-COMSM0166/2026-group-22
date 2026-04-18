@@ -1,6 +1,9 @@
 class LevelBuilder {
   static build(world, data, levelAssets) {
 
+    const currentDiff = gameState.difficulty || "EASY";
+    const m = CONFIG.DIFFICULTY_PRESETS[currentDiff];
+
     if (data.bubbleMode) {
       world.player.bubbleMode = true;
       world.player.abilities.activateBubble(3);
@@ -33,7 +36,7 @@ class LevelBuilder {
       platform.removesSkill = p.removesSkill || false;
       platform.hasBoss = p.hasBoss || false;
       platform.bossType = p.bossType;
-      
+
       world.platforms.push(platform);
 
       // Place Coins
@@ -48,7 +51,15 @@ class LevelBuilder {
 
       // Place Enemies
       if (p.hasEnemy) {
-        world.enemies.push(new Enemy(centerX, centerY - 100, levelAssets.enemySprites, data.enemyConfig));
+        const base = data.enemyConfig;
+
+        const scaledConfig = {
+          ...base,
+          maxHp: base.maxHp * m.hp,
+          damage: base.damage * m.damage,
+          speed: base.speed * m.speed
+        };
+        world.enemies.push(new Enemy(centerX, centerY - 100, levelAssets.enemySprites, scaledConfig));
       }
 
       // Place Checkpoints

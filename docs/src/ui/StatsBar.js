@@ -13,7 +13,28 @@ class StatsBar {
     this.drawHearts(player.hp, player.maxHp);
     if (showCoins) this.drawCoins(coins);
 
+    this.drawDifficulty(gameState.difficulty);
+
     this.drawEquippedWeapon();
+  }
+
+  drawDifficulty(difficulty) {
+    if (!difficulty) return;
+
+    push();
+    textAlign(RIGHT, TOP);
+    textFont(assets.getFont());
+    textSize(18);
+
+    const isHard = (difficulty === "DIFFICULT");
+    if (isHard) {
+      fill(255, 80, 80, 200);
+    } else {
+      fill(80, 255, 200, 200);
+    }
+
+    text(difficulty, width - this.margin, 20);
+    pop();
   }
 
   drawEquippedWeapon() {

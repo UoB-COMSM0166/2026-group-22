@@ -21,11 +21,19 @@ class GameState {
       sfxVolume: 1.0,
     };
 
+    this.difficulty = "EASY";
+
     this.load();
+  }
+
+  setDifficulty(level) {
+    this.difficulty = level;
+    this.save();
   }
 
   save() {
     const data = {
+      difficulty: this.difficulty,
       coins: this.coins,
       ownedItemIds: this.ownedItemIds,
       equippedWeaponId: this.equippedWeaponId,
