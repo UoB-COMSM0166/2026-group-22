@@ -60,7 +60,8 @@ class LevelScene extends GameplayScene {
     fill(255);
     textSize(16);
     textAlign(CENTER, TOP);
-    text("A / D to Move | SPACE to Jump | ESC to Camp", width / 2, 16);
+    text("A / D to Move Left / Right | SPACE to Jump | ESC to Camp", width / 2, 30);
+    text("J to Shoot | K to Collect Skill Items", width / 2, 60);
     pop();
   }
 
