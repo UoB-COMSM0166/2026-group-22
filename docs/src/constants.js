@@ -15,19 +15,16 @@ const CONFIG = {
 
   WORLD: {
     GRAVITY: 0.2,
-    CEILING_LIMIT: 0,
     CANVAS_WIDTH: 800,
     CANVAS_HEIGHT: 600,
-    WIDTH: 2000,
-    HEIGHT: 400,
   },
 
   CAMP: {
     DIALOGUE: [
       "Signal connecting...",
       "Handshake complete.",
-      "Welcome to the Isle.\nFour doors.\nFour rules.\nOne escape.",
-      "The island does not sleep.\nIt watches.\nIt listens.",
+      "Welcome to the Isle.\nFour doors. Four rules. One escape.",
+      "The island does not sleep.\nIt watches. It listens.",
       "The doors are not portals.\nThey are tests.",
       "Each door leads to a trial.\nEach trial rewrites you.",
       "Choose a path.\nBut understand this:",
@@ -140,9 +137,7 @@ const CONFIG = {
     NONE: null,
     JUMP: "JUMP_BOOST",
     SHRINK: "SHRINK",
-    BOW: "ARCHERY",
-    SPEED: "SPEED_BOOST",
-    SHIELD: "INVINCIBILITY"
+    BOW: "ARCHERY"
   },
 
   ITEM_TYPES: {
