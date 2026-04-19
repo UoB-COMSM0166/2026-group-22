@@ -15,7 +15,6 @@ class World {
     this.spawnY = CONFIG.PLAYER.START_Y;
     this.itemTypes = CONFIG.ITEM_TYPES;
     this.bgLayers = levelAssets.backgrounds;
-    this.platformTile = levelAssets.platformTile;
 
     this.enemies = [];
     this.platforms = [];

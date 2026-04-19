@@ -22,15 +22,15 @@ class LevelBuilder {
       let platform;
       if (p.isMoving) {
         platform = new MovingPlatform(
-          centerX, centerY, p.w, p.h, world.platformTile, p.rangeX, p.rangeY, p.speed
+          centerX, centerY, p.w, p.h, levelAssets.tile, p.rangeX, p.rangeY, p.speed
         );
       } else if (p.isVanish) {
-        platform = new VanishablePlatform(centerX, centerY, p.w, p.h, world.platformTile);
+        platform = new VanishablePlatform(centerX, centerY, p.w, p.h, levelAssets.crackTile);
       } else if (p.isChainDrop) {
         let targetY = world.height - p.dropAltitude - p.h / 2;
-        platform = new ChainPlatform(centerX, centerY, p.w, p.h, world.platformTile, targetY);
+        platform = new ChainPlatform(centerX, centerY, p.w, p.h, levelAssets.tile, targetY);
       } else {
-        platform = new Platform(centerX, centerY, p.w, p.h, world.platformTile);
+        platform = new Platform(centerX, centerY, p.w, p.h, levelAssets.tile);
       }
 
       platform.removesSkill = p.removesSkill || false;

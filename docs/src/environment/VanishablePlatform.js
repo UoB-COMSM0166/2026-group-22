@@ -1,11 +1,10 @@
 class VanishablePlatform extends Platform {
   constructor(x, y, w, h, img) {
     super(x, y, w, h, img);
-    this.originalColor = [200, 100, 100];
-    this.color = [...this.originalColor, 255];
+    this.alpha = 255;
 
     this.isTouched = false;
-    this.timer = 15;
+    this.timer = 20;
     this.respawnTimer = 60;
     this.active = true;
   }
@@ -14,37 +13,43 @@ class VanishablePlatform extends Platform {
     if (this.isTouched && this.active) {
       this.timer--;
 
-      this.color[3] = map(this.timer, 0, 60, 0, 255);
+      this.alpha = map(this.timer, 0, 20, 0, 255);
 
       if (this.timer <= 0) {
         this.active = false;
         this.isTouched = false;
-        this.timer = 15;
       }
     }
 
     if (!this.active) {
       this.respawnTimer--;
-
       if (this.respawnTimer <= 0) this.reset();
     }
   }
 
   reset() {
     this.active = true;
+    this.timer = 20;
     this.respawnTimer = 60;
-    this.color[3] = 255;
+    this.alpha = 255;
   }
 
   show() {
     if (!this.active) return;
 
     push();
-    rectMode(CENTER);
-    stroke(0, this.color[3]);
-    strokeWeight(2);
-    fill(this.color[0], this.color[1], this.color[2], this.color[3]);
-    rect(this.x, this.y, this.w, this.h);
+
+    let offsetX = 0;
+    if (this.isTouched) {
+      const shakeIntensity = map(this.timer, 20, 0, 1, 5);
+      offsetX = sin(frameCount * 0.8) * shakeIntensity;
+    }
+
+    translate(offsetX, 0);
+
+    tint(255, this.alpha);
+
+    super.show();
     pop();
   }
 }

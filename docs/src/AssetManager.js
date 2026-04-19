@@ -92,7 +92,8 @@ class AssetManager {
           midFront: loadImage(`./assets/levels/${data.backgrounds.midFront}`),
           front: loadImage(`./assets/levels/${data.backgrounds.front}`)
         },
-        platformTile: loadImage(`./assets/levels/${data.platformTile}`),
+        tile: loadImage(`./assets/levels/${data.tile}`),
+        crackTile: null,
         enemySprites: {
           idle: [],
           walk: [],
@@ -105,6 +106,10 @@ class AssetManager {
           slash: this.getImg('boss_slash')
         }
       };
+
+      if (data.crackTile) {
+        levelBundle.crackTile = loadImage(`./assets/levels/${data.crackTile}`)
+      }
 
       ['idle', 'walk', 'hurt'].forEach(action => {
         const config = data.enemySprites[action];

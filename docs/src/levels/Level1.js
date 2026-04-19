@@ -2,7 +2,8 @@ CONFIG.LEVELS[0] = {
   worldWidth: 12000,
   worldHeight: 800,
   assets: {
-    platformTile: "lv1/env/tile.png",
+    tile: "lv1/env/tile.png",
+    crackTile: null,
     backgrounds: {
       far: "lv1/bg/far.png",
       midBack: "lv1/bg/mid_back.png",
