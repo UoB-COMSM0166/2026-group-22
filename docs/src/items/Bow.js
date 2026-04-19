@@ -1,6 +1,8 @@
 class Bow extends Collectable {
   constructor(x, y) {
-    super(x, y, 40, 40);
+    super(x, y, 30, 50);
+
+    this.img = assets.getImg('bow');
 
     this.duration = 999999;
     this.respawnTimer = 300;
@@ -18,21 +20,8 @@ class Bow extends Collectable {
     push();
     translate(this.x, this.y + this.hoverOffset);
 
-    stroke(139, 69, 19);
-    strokeWeight(3);
-    noFill();
-    arc(0, 0, 30, 40, HALF_PI, -HALF_PI);
-
-    stroke(200);
-    strokeWeight(1);
-    line(-5, -20, -5, 20);
-
-    stroke(255, 200, 0);
-    line(-10, 0, 10, 0);
-    fill(255, 200, 0);
-    noStroke();
-    triangle(10, -3, 10, 3, 15, 0);
-
+    imageMode(CENTER);
+    image(this.img, 0, 0, 50, this.h);
     pop();
   }
 }

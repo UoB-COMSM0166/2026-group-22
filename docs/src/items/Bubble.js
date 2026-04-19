@@ -1,6 +1,8 @@
 class Bubble extends Collectable {
   constructor(x, y) {
-    super(x, y, 20, 20);
+    super(x, y, 30, 30);
+
+    this.img = assets.getImg('bubble');
 
     this.respawnTimer = 120;
     this.shouldRespawn = true;
@@ -15,14 +17,10 @@ class Bubble extends Collectable {
     if (!this.active) return;
 
     push();
-    fill(180, 220, 255, 220);
-    stroke(255);
-    strokeWeight(2);
-    ellipse(this.x, this.y, this.w, this.h);
+    translate(this.x, this.y + this.hoverOffset);
 
-    fill(255);
-    noStroke();
-    ellipse(this.x - 4, this.y - 4, 5, 5);
+    imageMode(CENTER);
+    image(this.img, 0, 0, this.w, this.h);
     pop();
   }
 }

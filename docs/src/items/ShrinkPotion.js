@@ -1,6 +1,8 @@
 class ShrinkPotion extends Collectable {
   constructor(x, y) {
-    super(x, y, 35, 35);
+    super(x, y, 35, 55);
+
+    this.img = assets.getImg("shrink_potion");
 
     this.boostTimer = 300;
     this.respawnTimer = 120;
@@ -14,14 +16,12 @@ class ShrinkPotion extends Collectable {
 
   show() {
     if (!this.active) return;
+
     push();
     translate(this.x, this.y + this.hoverOffset);
 
-    fill(100, 200, 255);
-    stroke(0, 100, 200);
-    strokeWeight(2);
-    circle(0, 0, 20);
-
+    imageMode(CENTER);
+    image(this.img, 0, 0, this.w, this.h);
     pop();
   }
 }

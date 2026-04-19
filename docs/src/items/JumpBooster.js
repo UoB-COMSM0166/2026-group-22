@@ -1,6 +1,8 @@
 class JumpBooster extends Collectable {
   constructor(x, y) {
-    super(x, y, 35, 35);
+    super(x, y, 50, 35);
+
+    this.img = assets.getImg('jump_booster');
 
     this.isInhaleable = true;
     this.isTouchCollectable = false;
@@ -21,23 +23,8 @@ class JumpBooster extends Collectable {
     push();
     translate(this.x, this.y + this.hoverOffset);
 
-    fill(255, 255, 0);
-    stroke(255, 150, 0);
-    strokeWeight(3);
-
-    beginShape();
-    for (let i = 0; i < 5; i++) {
-      let angle = TWO_PI * i / 5 - HALF_PI;
-      let x = cos(angle) * 15;
-      let y = sin(angle) * 15;
-      vertex(x, y);
-      angle += TWO_PI / 10;
-      x = cos(angle) * 7;
-      y = sin(angle) * 7;
-      vertex(x, y);
-    }
-    endShape(CLOSE);
-
+    imageMode(CENTER);
+    image(this.img, 0, 0, this.w, this.h);
     pop();
   }
 }

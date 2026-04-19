@@ -62,6 +62,11 @@ class AssetManager {
       const path = `./assets/collectables/coin/${key}.png`;
       this.images[key] = loadImage(path);
     }
+    this.images.bow = loadImage("./assets/collectables/bow.png");
+    this.images.bubble = loadImage("./assets/collectables/bubble.png");
+    this.images.jump_booster = loadImage("./assets/collectables/jump_booster.png");
+    this.images.shrink_potion = loadImage("./assets/collectables/shrink_potion.png");
+    
 
     this.images.icon_pistol = loadImage("./assets/weapons/pistol.png");
     this.images.icon_fireball = loadImage("./assets/weapons/fireball.png");
