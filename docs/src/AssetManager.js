@@ -67,9 +67,10 @@ class AssetManager {
     this.images.jump_booster = loadImage("./assets/collectables/jump_booster.png");
     this.images.shrink_potion = loadImage("./assets/collectables/shrink_potion.png");
     
-
-    this.images.icon_pistol = loadImage("./assets/weapons/pistol.png");
-    this.images.icon_fireball = loadImage("./assets/weapons/fireball.png");
+    this.images.ion_fury = loadImage("./assets/weapons/ion_fury.png");
+    this.images.the_shredder = loadImage("./assets/weapons/the_shredder.png");
+    this.images.vipers_kiss = loadImage("./assets/weapons/vipers_kiss.png");
+    this.images.titans_breath = loadImage("./assets/weapons/titans_breath.png");
 
     this.fonts.main = loadFont("./assets/fonts/plasdrip.ttf");
 
