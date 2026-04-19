@@ -67,6 +67,7 @@ class AssetManager {
     this.images.jump_booster = loadImage("./assets/collectables/jump_booster.png");
     this.images.shrink_potion = loadImage("./assets/collectables/shrink_potion.png");
     
+    this.images.pistol = loadImage("./assets/weapons/pistol.png");
     this.images.ion_fury = loadImage("./assets/weapons/ion_fury.png");
     this.images.the_shredder = loadImage("./assets/weapons/the_shredder.png");
     this.images.vipers_kiss = loadImage("./assets/weapons/vipers_kiss.png");

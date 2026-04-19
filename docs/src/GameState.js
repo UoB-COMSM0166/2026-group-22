@@ -8,8 +8,8 @@ class GameState {
     this.selectedItemId = null;
 
     this.coins = CONFIG.SHOP.START_COINS;
-    this.ownedItemIds = [];
-    this.equippedWeaponId = null;
+    this.ownedItemIds = ["pistol"];
+    this.equippedWeaponId = "pistol";
 
     this.levelsUnlocked = [true, false, false, false];
     this.bossesDefeated = [];
@@ -50,7 +50,12 @@ class GameState {
   load() {
     try {
       const raw = localStorage.getItem(this.SAVE_KEY);
-      if (!raw) return;
+      if (!raw) {
+      this.ownedItemIds = ["pistol"];
+      this.equippedWeaponId = "pistol";
+      this.save();
+      return;
+    }
       const data = JSON.parse(raw);
 
       Object.assign(this, data);
@@ -125,8 +130,8 @@ class GameState {
 
   resetRun() {
     this.coins = CONFIG.SHOP.START_COINS;
-    this.ownedItemIds = [];
-    this.equippedWeaponId = null;
+    this.ownedItemIds = ["pistol"];
+    this.equippedWeaponId = "pistol";
     this.levelsUnlocked = [true, false, false, false];
     this.bossesDefeated = [];
     this.campIntroDone = false;

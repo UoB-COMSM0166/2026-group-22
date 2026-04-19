@@ -274,7 +274,7 @@ class ShopScene extends BaseScene {
     rect(r.x, r.y, r.w, r.h, 14);
 
     const item = gameState.getItemData(itemId);
-    if (item) this.drawIcon(assets.getImg(item.iconKey), r, 0.75);
+    if (item) this.drawIcon(assets.getImg(item.id), r, 0.75);
     pop();
   }
 }

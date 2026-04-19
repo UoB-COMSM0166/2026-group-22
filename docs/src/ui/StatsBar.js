@@ -42,9 +42,9 @@ class StatsBar {
     if (!weaponId) return;
 
     const itemData = gameState.getItemData(weaponId);
-    if (!itemData || !itemData.iconKey) return;
+    if (!itemData) return;
 
-    const icon = assets.getImg(itemData.iconKey);
+    const icon = assets.getImg(itemData.id);
     if (!icon) return;
 
     push();

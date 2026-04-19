@@ -59,29 +59,39 @@ const CONFIG = {
 
     SLOTS: [
       { itemId: "ion_fury", rx: 0.287, ry: 0.255, rw: 0.075, rh: 0.100 },
-      { itemId: "shredder", rx: 0.375, ry: 0.255, rw: 0.075, rh: 0.100 },
+      { itemId: "the_shredder", rx: 0.375, ry: 0.255, rw: 0.075, rh: 0.100 },
       { itemId: "vipers_kiss", rx: 0.463, ry: 0.255, rw: 0.075, rh: 0.100 },
       { itemId: "titans_breath", rx: 0.551, ry: 0.255, rw: 0.075, rh: 0.100 },
     ],
 
     ITEMS: [
       {
+        id: "pistol",
+        name: "Pistol",
+        type: "weapon",
+        price: 3,
+        damage: 10,
+        bulletSpeed: 8,
+        cooldown: 30,
+        desc: ["A reliable handgun.", "Good for single targets."]
+      },
+      {
         id: "ion_fury",
         name: "Ion Fury",
         price: 5,
         damage: 15,
         bulletSpeed: 12,
-        desc: ["Sleek energy revolver.", "High precision, low recoil."],
-        iconKey: "ion_fury",
+        cooldown: 20,
+        desc: ["Sleek energy revolver.", "High precision, low recoil."]
       },
       {
-        id: "shredder",
+        id: "the_shredder",
         name: "The Shredder",
         price: 8,
         damage: 8,
         bulletSpeed: 18,
-        desc: ["Rapid-fire void repeater.", "Devastates at high speeds."],
-        iconKey: "the_shredder",
+        cooldown: 8,
+        desc: ["Rapid-fire void repeater.", "Devastates at high speeds."]
       },
       {
         id: "vipers_kiss",
@@ -89,8 +99,8 @@ const CONFIG = {
         price: 12,
         damage: 35,
         bulletSpeed: 10,
-        desc: ["Corrosive burst rifle.", "Melts through armor easily."],
-        iconKey: "vipers_kiss",
+        cooldown: 35,
+        desc: ["Corrosive burst rifle.", "Melts through armor easily."]
       },
       {
         id: "titans_breath",
@@ -98,8 +108,8 @@ const CONFIG = {
         price: 20,
         damage: 75,
         bulletSpeed: 8,
-        desc: ["Heavy thermal cannon.", "Massive damage, slow fire."],
-        iconKey: "titans_breath",
+        cooldown: 60,
+        desc: ["Heavy thermal cannon.", "Massive damage, slow fire."]
       },
     ]
   },
