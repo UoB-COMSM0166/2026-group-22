@@ -72,9 +72,9 @@ class World {
     this.cameraY = constrain(this.cameraY, 0, this.height - height);
   }
 
-  spawnBullet(x, y, dir) {
+  spawnBullet(x, y, dir, damage, speed) {
     let pb = new Bullet(
-      x, y, 12 * dir, 0, 15, 10, color(255, 255, 0)
+      x, y, speed * dir, 0, 15, damage, color(255, 255, 0)
     );
     this.playerBullets.push(pb);
   }

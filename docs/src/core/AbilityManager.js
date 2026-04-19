@@ -60,17 +60,26 @@ class AbilityManager {
   }
 
   fireBullet() {
+    const weaponId = gameState.equippedWeaponId;
+    const weapon = gameState.getItemData(weaponId);
+
+    const cooldown = weapon.cooldown;
+    const damage = weapon.damage;
+    const speed = weapon.bulletSpeed;
+
     let dir = this.player.isFacingLeft ? -1 : 1;
 
     if (this.player.worldReference) {
       this.player.worldReference.spawnBullet(
         this.player.x + (20 * dir),
         this.player.y,
-        dir
+        dir,
+        damage,
+        speed
       );
     }
 
-    this.cooldown = 15;
+    this.cooldown = cooldown;
   }
 
   fireArrow() {
