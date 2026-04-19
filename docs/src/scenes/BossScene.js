@@ -7,11 +7,15 @@ class BossScene extends GameplayScene {
     this.bossProjectiles = [];
     this.statsBar = new StatsBar();
 
+    this.isEnding = false;
     this.victoryTriggered = false;
   }
 
   onEnter(data) {
     const { bossType, arenaData, levelAssets } = data;
+
+    this.isEnding = false;
+    this.victoryTriggered = false;
 
     this.player = sceneManager.player;
     this.currentBossType = bossType;
@@ -81,8 +85,12 @@ class BossScene extends GameplayScene {
 
     this.checkCollisions();
 
-    if (this.boss.hp <= 0 && !this.victoryTriggered) {
-      this.victoryTriggered = true;
+    if (this.boss.hp <= 0 && !this.victoryTriggered && !this.isEnding) {
+      this.isEnding = true;
+      setTimeout(() => {
+        this.victoryTriggered = true;
+        this.isEnding = false;
+      }, 2000);
     }
   }
 
@@ -191,6 +199,6 @@ class BossScene extends GameplayScene {
       levelAssets: this.levelAssets
     });
 
-    this.isVictoryTriggered = false;
+    this.victoryTriggered = false;
   }
 }
