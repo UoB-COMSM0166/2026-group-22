@@ -28,6 +28,7 @@ CONFIG.LEVELS[1] = {
     visualH: 140,
     visualAlignment: 'bottom',
     maxHp: 50,
+    damage: 5,
     speed: 1
   },
   bubbleMode: true,
