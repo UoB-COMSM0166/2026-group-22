@@ -2,23 +2,23 @@ CONFIG.LEVELS[1] = {
   worldWidth: 6300,
   worldHeight: 800,
   assets: {
-    platformTile: "./assets/platform_tile2.png",
+    platformTile: "lv2/env/tile.png",
     backgrounds: {
-      far: "./assets/bg/lv2/farBg2.png",
-      midBack: "./assets/bg/lv2/midBackBg2.png",
-      midFront: "./assets/bg/lv2/midFrontBg2.png",
-      front: "./assets/bg/lv2/frontBg2.png"
+      far: "lv2/bg/far.png",
+      midBack: "lv2/bg/mid_back.png",
+      midFront: "lv2/bg/mid_front.png",
+      front: "lv2/bg/front.png"
     },
     enemySprites: {
-      idle: { path: "./assets/plent/idle.png", w: 128, h: 128, count: 5 },
-      walk: { path: "./assets/plent/walk.png", w: 128, h: 128, count: 9 },
-      hurt: { path: "./assets/plent/hurt.png", w: 128, h: 128, count: 3 },
+      idle: { path: "plent/idle.png", w: 128, h: 128, count: 5 },
+      walk: { path: "plent/walk.png", w: 128, h: 128, count: 9 },
+      hurt: { path: "plent/hurt.png", w: 128, h: 128, count: 3 },
     },
     bossSprites: {
-      idle: { path: "./assets/karasu_tengu/idle.png", w: 128, h: 128, count: 6 },
-      attack: { path: "./assets/karasu_tengu/attack_1.png", w: 128, h: 128, count: 6 },
-      hurt: { path: "./assets/karasu_tengu/hurt.png", w: 128, h: 128, count: 3 },
-      dead: { path: "./assets/karasu_tengu/dead.png", w: 128, h: 128, count: 6 }
+      idle: { path: "karasu_tengu/idle.png", w: 128, h: 128, count: 6 },
+      attack: { path: "karasu_tengu/attack_1.png", w: 128, h: 128, count: 6 },
+      hurt: { path: "karasu_tengu/hurt.png", w: 128, h: 128, count: 3 },
+      dead: { path: "karasu_tengu/dead.png", w: 128, h: 128, count: 6 }
     }
   },
   enemyConfig: {
