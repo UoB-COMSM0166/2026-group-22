@@ -51,12 +51,20 @@ class GameState {
     try {
       const raw = localStorage.getItem(this.SAVE_KEY);
       if (!raw) {
-      this.ownedItemIds = ["pistol"];
-      this.equippedWeaponId = "pistol";
-      this.save();
-      return;
-    }
+        this.ownedItemIds = ["pistol"];
+        this.equippedWeaponId = "pistol";
+        this.save();
+        return;
+      }
       const data = JSON.parse(raw);
+
+      if (!this.ownedItemIds || this.ownedItemIds.length === 0) {
+        this.ownedItemIds = ["pistol"];
+      }
+
+      if (!this.equippedWeaponId || !this.isOwned(this.equippedWeaponId)) {
+        this.equippedWeaponId = this.ownedItemIds[0];
+      }
 
       Object.assign(this, data);
       console.log("[GameState] Data loaded successfully.");
