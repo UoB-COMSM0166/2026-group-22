@@ -23,14 +23,14 @@ CONFIG.LEVELS[3] = {
     }
   },
   enemyConfig: {
-    width: 60,
+    width: 40,
     height: 60,
-    visualW: 240,
-    visualH: 240,
+    visualW: 100,
+    visualH: 110,
     visualAlignment: 'bottom',
-    maxHp: 50,
-    damage: 5,
-    speed: 1
+    maxHp: 150,
+    damage: 12,
+    speed: 1.7
   },
   platforms: [
     { gap: 0, altitude: 950, w: 320, h: 40 },

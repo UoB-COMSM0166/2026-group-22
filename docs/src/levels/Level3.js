@@ -28,9 +28,9 @@ CONFIG.LEVELS[2] = {
     visualW: 100,
     visualH: 110,
     visualAlignment: 'bottom',
-    maxHp: 50,
-    damage: 5,
-    speed: 1
+    maxHp: 120,
+    damage: 10,
+    speed: 1.5
   },
   platforms: [
     { gap: 0, altitude: 0, w: 240, h: 80 },
@@ -106,7 +106,7 @@ CONFIG.LEVELS[2] = {
       visualW: 200,
       visualH: 200,
       visualAlignment: 'bottom',
-      maxHp: 500,
+      maxHp: 1000,
       speed: 0
     },
     platforms: [{ gap: 0, altitude: 0, w: 800, h: 100 }]

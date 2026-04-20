@@ -28,9 +28,9 @@ CONFIG.LEVELS[1] = {
     visualW: 140,
     visualH: 140,
     visualAlignment: 'bottom',
-    maxHp: 50,
-    damage: 5,
-    speed: 1
+    maxHp: 80,
+    damage: 7,
+    speed: 1.2
   },
   bubbleMode: true,
 
@@ -118,7 +118,6 @@ CONFIG.LEVELS[1] = {
       visualH: 160,
       visualAlignment: 'bottom',
       maxHp: 800,
-
       speed: 0
     },
     platforms: [{ gap: 0, altitude: 0, w: 800, h: 100 }]

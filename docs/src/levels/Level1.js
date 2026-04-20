@@ -11,9 +11,9 @@ CONFIG.LEVELS[0] = {
       front: "lv1/bg/front.png"
     },
     enemySprites: {
-      idle: { path: "crawler/idle.png", w: 370, h: 425, count: 1 },
-      walk: { path: "crawler/walk.png", w: 484, h: 434, count: 3 },
-      hurt: { path: "crawler/hurt.png", w: 381, h: 433, count: 1 },
+      idle: { path: "skeleton/idle.png", w: 128, h: 128, count: 7 },
+      walk: { path: "skeleton/walk.png", w: 128, h: 128, count: 6 },
+      hurt: { path: "skeleton/hurt.png", w: 128, h: 128, count: 6 },
     },
     bossSprites: {
       idle: { path: "ocular/idle.png", w: 828, h: 997, count: 1 },
@@ -23,11 +23,11 @@ CONFIG.LEVELS[0] = {
     }
   },
   enemyConfig: {
-    width: 100,
-    height: 100,
+    width: 40,
+    height: 60,
     visualW: 100,
-    visualH: 100,
-    visualAlignment: 'center',
+    visualH: 110,
+    visualAlignment: 'bottom',
     maxHp: 50,
     damage: 5,
     speed: 1
