@@ -1,8 +1,6 @@
 class CrusherBoss extends Boss {
-  constructor(x, y, sprites) {
-    super(x, y, sprites);
-    this.w = 180;
-    this.h = 180;
+  constructor(x, y, sprites, config) {
+    super(x, y, sprites, config);
     this.hp = 300;
     this.maxHp = 300;
 

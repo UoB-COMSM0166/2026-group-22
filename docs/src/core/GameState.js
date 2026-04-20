@@ -56,7 +56,9 @@ class GameState {
         this.save();
         return;
       }
+
       const data = JSON.parse(raw);
+      Object.assign(this, data);
 
       if (!this.ownedItemIds || this.ownedItemIds.length === 0) {
         this.ownedItemIds = ["pistol"];
@@ -66,7 +68,6 @@ class GameState {
         this.equippedWeaponId = this.ownedItemIds[0];
       }
 
-      Object.assign(this, data);
       console.log("[GameState] Data loaded successfully.");
     } catch (e) {
       console.error("[GameState] Load failed:", e);

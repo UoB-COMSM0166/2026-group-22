@@ -2,7 +2,7 @@ class Boss extends Entity {
   constructor(x, y, sprites, config) {
     super(x, y, config.width, config.height, config.maxHp, config.speed);
     this.sprites = sprites;
-    this.anim = new AnimationManager(this, sprites, 10, 'bottom');
+    this.anim = new AnimationManager(this, sprites, 10);
 
     this.visualW = config.visualW;
     this.visualH = config.visualH;
