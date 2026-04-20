@@ -54,9 +54,16 @@ class Minion extends Entity {
     const vx = (dx / distance) * bulletSpeed;
     const vy = (dy / distance) * bulletSpeed;
 
-    return new Bullet(
-      this.x, this.y, vx, vy, 10, 8, color(255, 60, 60)
-    );
+    const bulletConfig = {
+      id: "fire_ball",
+      width: 15,
+      height: 10,
+      damage: 8,
+      speedX: vx,
+      speedY: vy
+    }
+
+    return new Bullet(this.x, this.y, 1, bulletConfig);
   }
 
   takeDamage(amount) {

@@ -37,6 +37,8 @@ class AssetManager {
       this.images.minion_attack = frames;
     });
 
+    this.images.fire_ball = loadImage("./assets/entities/enemies/fire_spirit/fire_ball.png")
+
     this.images.title_bg = loadImage("./assets/scenes/title.png");
     this.images.char_select_bg = loadImage("./assets/scenes/char_select.png");
     this.images.difficult_select_bg = loadImage("./assets/scenes/diff_select.png");

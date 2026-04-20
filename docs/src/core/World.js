@@ -73,7 +73,7 @@ class World {
   }
 
   spawnBullet(x, y, dir, bulletConfig) {
-    let pb = new Bullet(x, y, dir, bulletConfig);
+    let pb = new Bullet(x, y - 12, dir, bulletConfig);
     this.playerBullets.push(pb);
   }
 

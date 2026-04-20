@@ -1,6 +1,6 @@
 class Bullet extends Projectile {
   constructor(x, y, dir, config) {
-    super(x, y - 12, config.width, config.height, config.speedX * dir, config.speedY);
+    super(x, y, config.width, config.height, config.speedX * dir, config.speedY);
     this.damage = config.damage;
     this.img = assets.getImg(config.id);
 
