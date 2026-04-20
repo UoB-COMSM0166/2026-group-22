@@ -65,10 +65,15 @@ const CONFIG = {
       {
         id: "pistol",
         name: "Pistol",
-        type: "weapon",
         price: 3,
-        damage: 10,
-        bulletSpeed: 8,
+        bullet: {
+          id: "pistol_bullet",
+          width: 20,
+          height: 8,
+          damage: 10,
+          speedX: 8,
+          speedY: 0
+        },
         cooldown: 30,
         desc: ["A reliable handgun.", "Good for single targets."]
       },
@@ -76,8 +81,14 @@ const CONFIG = {
         id: "ion_fury",
         name: "Ion Fury",
         price: 5,
-        damage: 15,
-        bulletSpeed: 12,
+        bullet: {
+          id: "fury_bullet",
+          width: 18,
+          height: 8,
+          damage: 15,
+          speedX: 12,
+          speedY: 0
+        },
         cooldown: 20,
         desc: ["Sleek energy revolver.", "High precision, low recoil."]
       },
@@ -85,8 +96,14 @@ const CONFIG = {
         id: "the_shredder",
         name: "The Shredder",
         price: 8,
-        damage: 8,
-        bulletSpeed: 18,
+        bullet: {
+          id: "shredder_bullet",
+          width: 22,
+          height: 8,
+          damage: 8,
+          speedX: 18,
+          speedY: 0
+        },
         cooldown: 8,
         desc: ["Rapid-fire void repeater.", "Devastates at high speeds."]
       },
@@ -94,8 +111,14 @@ const CONFIG = {
         id: "vipers_kiss",
         name: "Viper's Kiss",
         price: 12,
-        damage: 35,
-        bulletSpeed: 10,
+        bullet: {
+          id: "viper_bullet",
+          width: 24,
+          height: 5,
+          damage: 35,
+          speedX: 10,
+          speedY: 0
+        },
         cooldown: 35,
         desc: ["Corrosive burst rifle.", "Melts through armor easily."]
       },
@@ -103,8 +126,14 @@ const CONFIG = {
         id: "titans_breath",
         name: "Titan's Breath",
         price: 20,
-        damage: 75,
-        bulletSpeed: 8,
+        bullet: {
+          id: "titan_bullet",
+          width: 30,
+          height: 8,
+          damage: 75,
+          speedX: 8,
+          speedY: 0
+        },
         cooldown: 60,
         desc: ["Heavy thermal cannon.", "Massive damage, slow fire."]
       },

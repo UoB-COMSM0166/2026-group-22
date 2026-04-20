@@ -73,6 +73,12 @@ class AssetManager {
     this.images.vipers_kiss = loadImage("./assets/weapons/vipers_kiss.png");
     this.images.titans_breath = loadImage("./assets/weapons/titans_breath.png");
 
+    this.images.pistol_bullet = loadImage("./assets/weapons/bullets/pistol.png");
+    this.images.fury_bullet = loadImage("./assets/weapons/bullets/ion_fury.png");
+    this.images.shredder_bullet = loadImage("./assets/weapons/bullets/the_shredder.png");
+    this.images.viper_bullet = loadImage("./assets/weapons/bullets/vipers_kiss.png");
+    this.images.titan_bullet = loadImage("./assets/weapons/bullets/titans_breath.png");
+
     this.fonts.main = loadFont("./assets/fonts/plasdrip.ttf");
 
     this.loadLevelAssets();

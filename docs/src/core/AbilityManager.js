@@ -64,8 +64,7 @@ class AbilityManager {
     const weapon = gameState.getItemData(weaponId);
 
     const cooldown = weapon.cooldown;
-    const damage = weapon.damage;
-    const speed = weapon.bulletSpeed;
+    const bulletConfig = weapon.bullet;
 
     let dir = this.player.isFacingLeft ? -1 : 1;
 
@@ -74,8 +73,7 @@ class AbilityManager {
         this.player.x + (20 * dir),
         this.player.y,
         dir,
-        damage,
-        speed
+        bulletConfig
       );
     }
 

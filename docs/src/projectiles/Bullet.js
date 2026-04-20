@@ -1,8 +1,10 @@
 class Bullet extends Projectile {
-  constructor(x, y, vx, vy, size, damage, bulletColor) {
-    super(x, y, size, size, vx, vy);
-    this.damage = damage;
-    this.color = bulletColor;
+  constructor(x, y, dir, config) {
+    super(x, y - 12, config.width, config.height, config.speedX * dir, config.speedY);
+    this.damage = config.damage;
+    this.img = assets.getImg(config.id);
+
+    this.angle = atan2(this.vy, this.vx);
   }
 
   update() {
@@ -11,10 +13,12 @@ class Bullet extends Projectile {
 
   show() {
     if (!this.active) return;
+
     push();
-    fill(this.color);
-    noStroke();
-    ellipse(this.x, this.y, this.w);
+    translate(this.x, this.y);
+    rotate(this.angle);
+    imageMode(CENTER);
+    image(this.img, 0, 0, this.w, this.h);
     pop();
   }
 }
