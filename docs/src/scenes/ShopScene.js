@@ -7,7 +7,6 @@ class ShopScene extends BaseScene {
     this.inventorySlots = [];
 
     this.INV_MAX = 5;
-    this.INV_OFFSET_Y = 0.12;
   }
 
   onEnter() {
@@ -40,13 +39,15 @@ class ShopScene extends BaseScene {
   }
 
   drawHeader() {
+    const pad = this.tf.dw * 0.02;
+    const hX = this.tf.dx + pad;
+    const hY = this.tf.dy + pad;
+
     push();
-    fill(0, 0, 0, 180);
-    rect(20, 20, 180, 50, 10);
     fill(255, 215, 0);
     textAlign(LEFT, CENTER);
     textSize(22);
-    text(`$ ${gameState.coins}`, 40, 45);
+    text(`$ ${gameState.coins}`, hX + 20, hY + 25);
     pop();
   }
 
@@ -66,7 +67,7 @@ class ShopScene extends BaseScene {
     const barW = this.tf.dw * 0.8;
     const barH = this.tf.dh * 0.14;
     const barX = this.tf.dx + (this.tf.dw - barW) / 2;
-    const barY = this.tf.dy + this.tf.dh - pad - barH - this.tf.dh * this.INV_OFFSET_Y;
+    const barY = this.tf.dy + this.tf.dh - pad - barH - this.tf.dh * 0.12;
 
     push();
     fill(0, 0, 0, 150);
