@@ -11,22 +11,22 @@ CONFIG.LEVELS[0] = {
       front: "lv1/bg/front.png"
     },
     enemySprites: {
-      idle: { path: "fire_spirit/idle.png", w: 128, h: 128, count: 6 },
-      walk: { path: "fire_spirit/walk.png", w: 128, h: 128, count: 7 },
-      hurt: { path: "fire_spirit/hurt.png", w: 128, h: 128, count: 3 },
+      idle: { path: "crawler/idle.png", w: 370, h: 425, count: 1 },
+      walk: { path: "crawler/walk.png", w: 484, h: 434, count: 3 },
+      hurt: { path: "crawler/hurt.png", w: 381, h: 433, count: 1 },
     },
     bossSprites: {
-      idle: { path: "karasu_tengu/idle.png", w: 128, h: 128, count: 6 },
-      attack: { path: "karasu_tengu/attack_1.png", w: 128, h: 128, count: 6 },
-      hurt: { path: "karasu_tengu/hurt.png", w: 128, h: 128, count: 3 },
-      dead: { path: "karasu_tengu/dead.png", w: 128, h: 128, count: 6 }
+      idle: { path: "ocular/idle.png", w: 828, h: 997, count: 1 },
+      attack: { path: "ocular/attack.png", w: 731, h: 1027, count: 1 },
+      hurt: { path: "ocular/hurt.png", w: 1872, h: 2254, count: 1 },
+      dead: { path: "ocular/dead.png", w: 1653, h: 2247, count: 1 }
     }
   },
   enemyConfig: {
-    width: 60,
-    height: 60,
-    visualW: 240,
-    visualH: 240,
+    width: 100,
+    height: 100,
+    visualW: 100,
+    visualH: 100,
     visualAlignment: 'center',
     maxHp: 50,
     damage: 5,
@@ -88,10 +88,10 @@ CONFIG.LEVELS[0] = {
     worldWidth: 800,
     worldHeight: 800,
     bossConfig: {
-      width: 80,
-      height: 150,
-      visualW: 200,
-      visualH: 200,
+      width: 112,
+      height: 160,
+      visualW: 136,
+      visualH: 160,
       visualAlignment: 'bottom',
       maxHp: 500,
       speed: 0

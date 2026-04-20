@@ -16,10 +16,10 @@ CONFIG.LEVELS[1] = {
       hurt: { path: "plent/hurt.png", w: 128, h: 128, count: 3 },
     },
     bossSprites: {
-      idle: { path: "karasu_tengu/idle.png", w: 128, h: 128, count: 6 },
-      attack: { path: "karasu_tengu/attack_1.png", w: 128, h: 128, count: 6 },
-      hurt: { path: "karasu_tengu/hurt.png", w: 128, h: 128, count: 3 },
-      dead: { path: "karasu_tengu/dead.png", w: 128, h: 128, count: 6 }
+      idle: { path: "ocular/idle.png", w: 828, h: 997, count: 1 },
+      attack: { path: "ocular/attack.png", w: 731, h: 1027, count: 1 },
+      hurt: { path: "ocular/hurt.png", w: 1872, h: 2254, count: 1 },
+      dead: { path: "ocular/dead.png", w: 1653, h: 2247, count: 1 }
     }
   },
   enemyConfig: {
@@ -112,13 +112,13 @@ CONFIG.LEVELS[1] = {
     worldWidth: 800,
     worldHeight: 800,
     bossConfig: {
-      width: 80,
-      height: 150,
-      visualW: 200,
-      visualH: 200,
+      width: 112,
+      height: 160,
+      visualW: 136,
+      visualH: 160,
       visualAlignment: 'bottom',
-      maxHp: 500,
-      damage: 5,
+      maxHp: 800,
+
       speed: 0
     },
     platforms: [{ gap: 0, altitude: 0, w: 800, h: 100 }]
