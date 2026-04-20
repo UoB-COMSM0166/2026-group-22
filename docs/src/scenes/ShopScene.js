@@ -6,8 +6,7 @@ class ShopScene extends BaseScene {
     this.tf = null;
     this.inventorySlots = [];
 
-    this.INV_MAX = 6;
-    this.INV_OFFSET_X = 0.05;
+    this.INV_MAX = 5;
     this.INV_OFFSET_Y = 0.12;
   }
 
@@ -21,6 +20,8 @@ class ShopScene extends BaseScene {
 
   draw() {
     background(0);
+
+    this.tf = this.getContainTransform(this.bgImg);
     if (this.bgImg) image(this.bgImg, this.tf.dx, this.tf.dy, this.tf.dw, this.tf.dh);
 
     this.drawHeader();
@@ -62,10 +63,10 @@ class ShopScene extends BaseScene {
 
   drawInventoryBar() {
     const pad = this.tf.dw * 0.03;
+    const barW = this.tf.dw * 0.8;
     const barH = this.tf.dh * 0.14;
-    const barX = this.tf.dx + pad + this.tf.dw * this.INV_OFFSET_X;
+    const barX = this.tf.dx + (this.tf.dw - barW) / 2;
     const barY = this.tf.dy + this.tf.dh - pad - barH - this.tf.dh * this.INV_OFFSET_Y;
-    const barW = this.tf.dw - pad * 2;
 
     push();
     fill(0, 0, 0, 150);
@@ -126,7 +127,7 @@ class ShopScene extends BaseScene {
 
     const btnH = Math.max(32, p.h * 0.18);
     const btnY = p.y + p.h - btnH - pad;
-    const btnW = (p.w - pad * 3) / 2;
+    const btnW = p.w - pad * 2;
 
     if (isOwned) {
       const isEquipped = gameState.equippedWeaponId === itemId;
@@ -138,18 +139,9 @@ class ShopScene extends BaseScene {
         () => gameState.equipWeapon(itemId)
       );
 
-      this.drawModalButton(
-        { x: p.x + pad + btnW + pad, y: btnY, w: btnW, h: btnH },
-        "SELL",
-        true,
-        () => {
-          gameState.sellItem(itemId);
-          if (!gameState.isOwned(itemId)) gameState.selectedItemId = null;
-        }
-      );
     } else {
       this.drawModalButton(
-        { x: p.x + pad, y: btnY, w: p.w - pad * 2, h: btnH },
+        { x: p.x + pad, y: btnY, w: btnW, h: btnH },
         `BUY FOR ${item.price}`,
         gameState.coins >= item.price,
         () => this.modalOpen = true
