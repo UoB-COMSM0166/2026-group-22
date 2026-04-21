@@ -3,9 +3,9 @@ CONFIG.LEVELS[2] = {
   worldHeight: 800,
   assets: {
     enemySprites: {
-      idle: { path: "skeleton/idle.png", w: 128, h: 128, count: 7 },
-      walk: { path: "skeleton/walk.png", w: 128, h: 128, count: 6 },
-      hurt: { path: "skeleton/hurt.png", w: 128, h: 128, count: 6 },
+      idle: { path: "gorgon/idle.png", w: 128, h: 128, count: 7 },
+      walk: { path: "gorgon/walk.png", w: 128, h: 128, count: 13 },
+      hurt: { path: "gorgon/hurt.png", w: 128, h: 128, count: 3 },
     },
     bossSprites: {
       idle: { path: "karasu_tengu/idle.png", w: 128, h: 128, count: 6 },
