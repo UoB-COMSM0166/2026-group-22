@@ -4,7 +4,7 @@ class ShrinkPotion extends Collectable {
 
     this.img = assets.getImg("shrink_potion");
 
-    this.boostTimer = 300;
+    this.boostTimer = 999999;
     this.respawnTimer = 120;
     this.shouldRespawn = true;
   }
