@@ -64,7 +64,7 @@ class LevelBuilder {
 
       // Place Checkpoints
       if (p.hasCheckpoint) {
-        world.checkpoints.push(new Checkpoint(centerX + p.w / 4, topY));
+        world.checkpoints.push(new Checkpoint(centerX + p.w / 4, topY, levelAssets.checkpoint));
       }
 
       currentX = centerX + p.w / 2;

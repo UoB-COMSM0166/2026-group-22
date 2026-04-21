@@ -2,12 +2,12 @@ class Coin extends Collectable {
   constructor(x, y) {
     super(x, y, 30, 30);
 
+    this.shouldRespawn = false;
+    
     this.totalFrames = 12;
     this.currentFrame = 0;
     this.lastUpdate = 0;
     this.interval = 100;
-
-    this.shouldRespawn = false;
   }
 
   update(player) {

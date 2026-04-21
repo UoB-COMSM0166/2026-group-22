@@ -2,14 +2,6 @@ CONFIG.LEVELS[0] = {
   worldWidth: 12000,
   worldHeight: 800,
   assets: {
-    tile: "lv1/env/tile.png",
-    crackTile: null,
-    backgrounds: {
-      far: "lv1/bg/far.png",
-      midBack: "lv1/bg/mid_back.png",
-      midFront: "lv1/bg/mid_front.png",
-      front: "lv1/bg/front.png"
-    },
     enemySprites: {
       idle: { path: "skeleton/idle.png", w: 128, h: 128, count: 7 },
       walk: { path: "skeleton/walk.png", w: 128, h: 128, count: 6 },

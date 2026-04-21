@@ -90,19 +90,23 @@ class AssetManager {
   }
 
   loadLevelAssets() {
-    this.levelAssets = CONFIG.LEVELS.map(level => {
+    this.levelAssets = CONFIG.LEVELS.map((level, i) => {
       const data = level.assets;
       if (!data) return null;
 
+      const levelNum = i + 1;
+      const levelPath = `./assets/levels/lv${levelNum}`
+
       const levelBundle = {
         backgrounds: {
-          far: loadImage(`./assets/levels/${data.backgrounds.far}`),
-          midBack: loadImage(`./assets/levels/${data.backgrounds.midBack}`),
-          midFront: loadImage(`./assets/levels/${data.backgrounds.midFront}`),
-          front: loadImage(`./assets/levels/${data.backgrounds.front}`)
+          far: loadImage(`${levelPath}/bg/far.png`),
+          midBack: loadImage(`${levelPath}/bg/mid_back.png`),
+          midFront: loadImage(`${levelPath}/bg/mid_front.png`),
+          front: loadImage(`${levelPath}/bg/front.png`)
         },
-        tile: loadImage(`./assets/levels/${data.tile}`),
+        tile: loadImage(`${levelPath}/env/tile.png`),
         crackTile: null,
+        checkpoint: [],
         enemySprites: {
           idle: [],
           walk: [],
@@ -116,8 +120,14 @@ class AssetManager {
         }
       };
 
-      if (data.crackTile) {
-        levelBundle.crackTile = loadImage(`./assets/levels/${data.crackTile}`)
+      for (let i = 0; i <= 3; i++) {
+        levelBundle.checkpoint.push(
+          loadImage(`${levelPath}/env/checkpoint/cp${i}.png`)
+        );
+      }
+
+      if (levelNum !== 1) {
+        levelBundle.crackTile = loadImage(`${levelPath}/env/crack_tile.png`)
       }
 
       ['idle', 'walk', 'hurt'].forEach(action => {
