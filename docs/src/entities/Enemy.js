@@ -30,7 +30,7 @@ class Enemy extends Entity {
     if (this.invincibilityTimer > 0) return;
 
     this.hp -= amount;
-    this.invincibilityTimer = 10;
+    this.invincibilityTimer = 4;
   }
 
   checkPlatformEdges(platforms) {

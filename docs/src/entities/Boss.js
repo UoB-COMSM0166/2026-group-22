@@ -74,7 +74,7 @@ class Boss extends Entity {
     }
 
     this.isHurt = true;
-    this.hurtTimer = 10;
+    this.hurtTimer = 4;
   }
 
   land() {
