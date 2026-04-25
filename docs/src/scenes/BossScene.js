@@ -16,6 +16,7 @@ class BossScene extends GameplayScene {
 
     this.isEnding = false;
     this.victoryTriggered = false;
+    this.exitPromptActive = false;
 
     this.player = sceneManager.player;
     this.currentBossType = bossType;
@@ -61,8 +62,15 @@ class BossScene extends GameplayScene {
     this.bossProjectiles = [];
   }
 
+  onExit() {
+  super.onExit(); 
+  
+  this.bossProjectiles = [];
+  if (this.world) this.world.playerBullets = [];
+}
+
   update() {
-    if (!this.player || !this.world || this.victoryTriggered) return;
+    if (!this.player || !this.world || this.victoryTriggered || this.exitPromptActive) return;
 
     if (this.player.hp <= 0) {
       this.resetScene();
@@ -123,6 +131,7 @@ class BossScene extends GameplayScene {
     if (this.victoryTriggered) {
       this.drawVictoryPopup();
     }
+    this.drawExitPrompt("camp", true);
   }
 
   drawUI() {
@@ -181,13 +190,9 @@ class BossScene extends GameplayScene {
   }
 
   keyPressed() {
-    if (keyCode === ESCAPE) {
-      this.playerBullets = [];
-      this.bossProjectiles = [];
-      sceneManager.switch("camp");
-    }
+    if (this.handleExitInput()) return;
 
-    if (this.player) {
+    if (this.player && !this.exitPromptActive) {
       this.player.handleKeyPress();
     }
   }

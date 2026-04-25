@@ -1,6 +1,7 @@
 class BaseScene {
   constructor() {
     this.canvasActive = false;
+    this.exitPromptActive = false;
   }
 
   inRect(px, py, r) {
@@ -50,7 +51,68 @@ class BaseScene {
     }
   }
 
-  onEnter(data) { }
+  drawExitPrompt(targetScene = "camp", warnLoss = false) {
+    if (!this.exitPromptActive) return;
+
+    push();
+    fill(0, 180);
+    rect(0, 0, width, height);
+
+    const w = 350;
+    const h = warnLoss ? 200 : 160;
+    const x = width / 2 - w / 2;
+    const y = height / 2 - h / 2;
+
+    fill(30, 30, 35, 240);
+    stroke(255, 50);
+    rect(x, y, w, h, 15);
+
+    noStroke();
+    textAlign(CENTER, CENTER);
+
+    fill(255);
+    textSize(18);
+    const mainTextY = warnLoss ? y + h * 0.28 : y + h * 0.35;
+    text("ARE YOU SURE YOU\nWANT TO EXIT?", width / 2, mainTextY);
+
+    if (warnLoss) {
+      fill(255, 80, 80);
+      textSize(13);
+      text("WARNING: UNSAVED COINS WILL BE LOST!", width / 2, y + h * 0.52);
+    }
+
+    const btnW = 100;
+    const btnH = 40;
+    const btnY = y + h - 55;
+
+    this.drawModalButton(
+      { x: width / 2 - btnW - 10, y: btnY, w: btnW, h: btnH },
+      "YES", true,
+      () => {
+        this.exitPromptActive = false;
+        sceneManager.switch(targetScene); //
+      }
+    );
+
+    this.drawModalButton(
+      { x: width / 2 + 10, y: btnY, w: btnW, h: btnH },
+      "NO", true,
+      () => this.exitPromptActive = false
+    );
+    pop();
+  }
+
+  handleExitInput() {
+    if (keyCode === ESCAPE) {
+      this.exitPromptActive = !this.exitPromptActive;
+      return true;
+    }
+    return false;
+  }
+
+  onEnter(data) { 
+    this.exitPromptActive = false;
+  }
 
   onExit() {
     if (this.canvasActive) {

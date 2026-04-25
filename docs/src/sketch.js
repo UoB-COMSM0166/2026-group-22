@@ -6,8 +6,8 @@ function preload() {
 
 function setup() {
   sceneManager.initLoader(bootImg);
-  sceneManager.setup();
-  assets.preload(); 
+
+  assets.preload();
   sceneManager.start();
 }
 

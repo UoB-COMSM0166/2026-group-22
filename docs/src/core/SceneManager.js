@@ -26,6 +26,9 @@ class SceneManager {
       "level": new LevelScene(),
       "boss": new BossScene()
     };
+
+    this.preload();
+    this.setup();
   }
 
   start() {

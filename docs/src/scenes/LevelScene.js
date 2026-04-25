@@ -45,6 +45,7 @@ class LevelScene extends GameplayScene {
     this.world.update();
     this.world.show();
     this.drawUI();
+    this.drawExitPrompt("camp", true);
   }
 
   drawLoadingScreen() {
@@ -66,10 +67,7 @@ class LevelScene extends GameplayScene {
   }
 
   keyPressed() {
-    if (keyCode === ESCAPE) {
-      sceneManager.switch("camp");
-      return;
-    }
+    if (this.handleExitInput()) return;
 
     if (this.player) {
       this.player.handleKeyPress();
