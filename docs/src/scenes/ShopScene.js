@@ -27,7 +27,9 @@ class ShopScene extends BaseScene {
     this.drawShelf();
     this.drawInventoryBar();
     this.drawInfoPanel();
+    this.drawBackButton(this.tf);
     if (this.modalOpen) this.drawBuyModal();
+    this.drawExitPrompt("camp");
 
     push();
     const pad = this.tf.dw * 0.02;
@@ -192,6 +194,7 @@ class ShopScene extends BaseScene {
 
   mousePressed() {
     if (this.modalOpen) return;
+    if (this.handleBackClick()) return;
 
     let hitItem = false;
 

@@ -45,6 +45,7 @@ class LevelScene extends GameplayScene {
     this.world.update();
     this.world.show();
     this.drawUI();
+    this.drawBackButton();
     this.drawExitPrompt("camp", true);
   }
 
@@ -64,6 +65,10 @@ class LevelScene extends GameplayScene {
     text("A / D to Move Left / Right | SPACE to Jump | ESC to Camp", width / 2, 30);
     text("J to Shoot | K to Collect Skill Items", width / 2, 60);
     pop();
+  }
+
+  mousePressed() {
+    if (this.handleBackClick()) return;
   }
 
   keyPressed() {
