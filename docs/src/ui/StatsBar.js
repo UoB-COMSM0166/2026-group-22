@@ -110,15 +110,26 @@ class StatsBar {
     if (!boss || !boss.active || boss.hp <= 0) return;
 
     push();
-    let barW = 200;
-    let hpW = map(max(0, boss.hp), 0, boss.maxHp, 0, barW);
+    let barW = 400;
+    let barH = 20;
+    let x = width / 2 - barW / 2;
+    let y = 30;
 
-    rectMode(CENTER);
+    let hpW = map(constrain(boss.hp, 0, boss.maxHp), 0, boss.maxHp, 0, barW);
+
+    rectMode(CORNER);
+
     fill(40, 200);
-    rect(width / 2, 30, barW, 15, 5);
+    noStroke();
+    rect(x, y, barW, barH, 5);
 
     fill(255, 0, 50);
-    rect(width / 2, 30, hpW, 15, 5);
+    rect(x, y, hpW, barH, 5);
+
+    stroke(255, 50);
+    strokeWeight(2);
+    noFill();
+    rect(x, y, barW, barH, 5);
     pop();
   }
 }

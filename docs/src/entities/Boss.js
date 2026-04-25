@@ -8,7 +8,8 @@ class Boss extends Entity {
     this.visualH = config.visualH;
     this.visualAlignment = config.visualAlignment;
 
-    this.maxHp = 500;
+    this.maxHp = config.maxHp;
+    
     this.isHurt = false;
     this.hurtTimer = 0;
     this.attackTimer = 0;
