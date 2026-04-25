@@ -7,6 +7,7 @@ class ShopScene extends BaseScene {
     this.inventorySlots = [];
 
     this.INV_MAX = 5;
+    this.statsBar = new StatsBar();
   }
 
   onEnter() {
@@ -28,10 +29,11 @@ class ShopScene extends BaseScene {
     this.drawInventoryBar();
     this.drawInfoPanel();
     this.drawSystemUI(this.tf);
+
     if (this.modalOpen) this.drawBuyModal();
 
     push();
-    const pad = this.tf.dw * 0.02;
+    const pad = this.tf.dw * 0.01;
     textAlign(LEFT, BOTTOM);
     textSize(Math.max(14, this.tf.dh * 0.028));
     fill(255, 180);
@@ -40,16 +42,19 @@ class ShopScene extends BaseScene {
   }
 
   drawHeader() {
-    const pad = this.tf.dw * 0.02;
-    const hX = this.tf.dx + pad;
-    const hY = this.tf.dy + pad;
+    const s = this.tf.dw * 0.06;
+    const pad = this.tf.dw * 0.01;
 
-    push();
-    fill(255, 215, 0);
-    textAlign(LEFT, CENTER);
-    textSize(22);
-    text(`$ ${gameState.coins}`, hX + 20, hY + 25);
-    pop();
+    const yPos = this.tf.dy + pad;
+    const centerY = yPos + s / 2;
+
+    const coinX = this.tf.dx + pad + s + (this.tf.dw * 0.02);
+
+    this.statsBar.drawCoins(gameState.coins, coinX, centerY, this.tf);
+
+    const weaponCenterX = coinX + this.tf.dw * 0.08 + (s / 2);
+    
+    this.statsBar.drawEquippedWeapon(weaponCenterX, centerY, this.tf);
   }
 
   drawShelf() {

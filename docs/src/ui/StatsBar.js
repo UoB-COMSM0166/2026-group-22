@@ -1,16 +1,17 @@
 class StatsBar {
   constructor() {
-    this.margin = 30;
-    this.y = 40;
-    this.heartSpacing = 30;
-    this.heartSize = 30;
+    this.margin = 70;
+    this.y = 30;
 
-    this.weaponX = this.margin + 5 * this.heartSpacing + 10;
-    this.weaponSize = 24;
+    this.heartSpacing = 26;
+    this.heartSize = 24;
+
+    this.weaponSize = 40;
   }
 
   draw(player, coins, showCoins = true) {
     this.drawHearts(player.hp, player.maxHp);
+
     if (showCoins) this.drawCoins(coins);
 
     this.drawDifficulty(gameState.difficulty);
@@ -22,7 +23,7 @@ class StatsBar {
     if (!difficulty) return;
 
     push();
-    textAlign(RIGHT, TOP);
+    textAlign(RIGHT, CENTER);
     textFont(assets.getFont());
     textSize(18);
 
@@ -33,11 +34,11 @@ class StatsBar {
       fill(80, 255, 200, 200);
     }
 
-    text(difficulty, width - this.margin, 20);
+    text(difficulty, width - this.margin, this.y);
     pop();
   }
 
-  drawEquippedWeapon() {
+  drawEquippedWeapon(x = 40, y = this.y + 60, tf = null) {
     const weaponId = gameState.equippedWeaponId;
     if (!weaponId) return;
 
@@ -47,14 +48,39 @@ class StatsBar {
     const icon = assets.getImg(itemData.id);
     if (!icon) return;
 
+    const baseSize = tf ? tf.dw * 0.06 : this.weaponSize;
+    const labelSize = tf ? Math.max(12, tf.dh * 0.025) : 12;
+
+    const aspect = icon.width / icon.height;
+    let dw = baseSize;
+    let dh = baseSize;
+
+    if (aspect > 1) {
+      dh = baseSize / aspect;
+    } else {
+      dw = baseSize * aspect;
+    }
+
     push();
     imageMode(CENTER);
+    rectMode(CENTER);
 
+    const pad = tf ? tf.dw * 0.012 : 10;
     noStroke();
-    fill(255, 50);
-    ellipse(this.weaponX, this.y, this.weaponSize + 8);
+    fill(0, 120);
+    rect(x, y, dw + pad, dh + pad, 8);
 
-    image(icon, this.weaponX, this.y, this.weaponSize, this.weaponSize);
+    stroke(255, 40);
+    strokeWeight(1);
+    noFill();
+    rect(x, y, dw + pad, dh + pad, 8);
+
+    image(icon, x, y, dw, dh);
+
+    textAlign(LEFT, CENTER);
+    textSize(labelSize);
+    fill(255, 180);
+    text("EQUIPPED", x + (dw / 2) + (tf ? tf.dw * 0.015 : 12), y);
     pop();
   }
 
@@ -97,12 +123,14 @@ class StatsBar {
     pop();
   }
 
-  drawCoins(amount) {
+  drawCoins(amount, x = this.margin, y = this.y + 28, tf = null) {
+    const tSize = tf ? Math.max(22, tf.dh * 0.04) : 22;
+
     push();
     fill(255, 215, 0);
-    textSize(22);
-    textAlign(LEFT, TOP);
-    text(`$ ${amount}`, this.margin, this.y + 20);
+    textSize(tSize);
+    textAlign(LEFT, CENTER);
+    text(`$ ${amount}`, x, y);
     pop();
   }
 
@@ -113,7 +141,7 @@ class StatsBar {
     let barW = 400;
     let barH = 20;
     let x = width / 2 - barW / 2;
-    let y = 30;
+    let y = this.y - barH / 2;
 
     let hpW = map(constrain(boss.hp, 0, boss.maxHp), 0, boss.maxHp, 0, barW);
 
