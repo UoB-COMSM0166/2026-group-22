@@ -57,7 +57,11 @@ class SystemControls {
     }
 
     if (this.scene.inRect(mouseX, mouseY, this.settingsRect)) {
-      sceneManager.switch("settings");
+      const snapshot = get();
+      sceneManager.switch("settings", {
+        returnTo: sceneManager.currentSceneName,
+        bg: snapshot
+      });
       return true;
     }
 

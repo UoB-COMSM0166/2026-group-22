@@ -48,6 +48,8 @@ class SceneManager {
     this.currentKey = key;
     this.currentScene = this.scenes[key];
 
+    this.currentSceneName = key;
+
     if (this.currentScene && this.currentScene.onEnter) {
       this.currentScene.onEnter(data);
     }
