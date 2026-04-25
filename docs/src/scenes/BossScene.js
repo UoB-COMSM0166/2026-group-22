@@ -127,12 +127,11 @@ class BossScene extends GameplayScene {
     pop();
 
     this.drawUI();
-    this.drawBackButton();
+    this.drawSystemUI(null, true);
 
     if (this.victoryTriggered) {
       this.drawVictoryPopup();
     }
-    this.drawExitPrompt("camp", true);
   }
 
   drawUI() {
@@ -191,7 +190,8 @@ class BossScene extends GameplayScene {
   }
 
   mousePressed() {
-    if (this.handleBackClick()) return;
+    if (this.handleSystemClick()) return;
+    if (this.isInputBlocked) return;
   }
 
   keyPressed() {

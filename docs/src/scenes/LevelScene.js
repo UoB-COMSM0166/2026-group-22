@@ -45,8 +45,7 @@ class LevelScene extends GameplayScene {
     this.world.update();
     this.world.show();
     this.drawUI();
-    this.drawBackButton();
-    this.drawExitPrompt("camp", true);
+    this.drawSystemUI(null, true);
   }
 
   drawLoadingScreen() {
@@ -68,7 +67,8 @@ class LevelScene extends GameplayScene {
   }
 
   mousePressed() {
-    if (this.handleBackClick()) return;
+    if (this.handleSystemClick()) return;
+    if (this.isInputBlocked) return;
   }
 
   keyPressed() {

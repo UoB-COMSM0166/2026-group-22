@@ -27,9 +27,8 @@ class ShopScene extends BaseScene {
     this.drawShelf();
     this.drawInventoryBar();
     this.drawInfoPanel();
-    this.drawBackButton(this.tf);
+    this.drawSystemUI(this.tf);
     if (this.modalOpen) this.drawBuyModal();
-    this.drawExitPrompt("camp");
 
     push();
     const pad = this.tf.dw * 0.02;
@@ -194,7 +193,8 @@ class ShopScene extends BaseScene {
 
   mousePressed() {
     if (this.modalOpen) return;
-    if (this.handleBackClick()) return;
+    if (this.handleSystemClick()) return;
+    if (this.isInputBlocked) return;
 
     let hitItem = false;
 
@@ -240,7 +240,7 @@ class ShopScene extends BaseScene {
   }
 
   keyPressed() {
-    if (keyCode === ESCAPE) sceneManager.switch("camp");
+    if (this.handleExitInput()) return;
   }
 
   slotToScreen(slot) {

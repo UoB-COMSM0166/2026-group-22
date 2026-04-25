@@ -3,7 +3,7 @@ class BaseScene {
     this.canvasActive = false;
     this.exitPromptActive = false;
 
-    this.backBtnRect = { x: 0, y: 0, w: 0, h: 0 };
+    this.controls = new SystemControls(this);
   }
 
   inRect(px, py, r) {
@@ -39,18 +39,18 @@ class BaseScene {
     push();
     const alpha = enabled ? (hover ? 200 : 140) : 60;
 
-    noStroke(); 
+    noStroke();
     fill(40, 40, 45, alpha);
     rect(r.x, r.y, r.w, r.h, 10);
 
     stroke(255, enabled ? (hover ? 255 : 150) : 50);
     strokeWeight(hover ? 3 : 1.5);
-    noFill(); 
+    noFill();
     rect(r.x, r.y, r.w, r.h, 10);
-    noStroke(); 
+    noStroke();
 
     fill(enabled ? 255 : 100);
-    textAlign(CENTER, CENTER); 
+    textAlign(CENTER, CENTER);
     textSize(Math.max(12, r.h * 0.45));
     text(label, r.x + r.w / 2, r.y + r.h / 2);
     pop();
@@ -61,45 +61,13 @@ class BaseScene {
     }
   }
 
-  drawBackButton(tf = null) {
-    const baseSize = tf ? tf.dw * 0.06 : 50;
-    this.backBtnRect.w = baseSize;
-    this.backBtnRect.h = baseSize;
-
-    const x = tf ? tf.dx + 5 : 5;
-    const y = tf ? tf.dy - 5 : 5;
-
-    this.backBtnRect.x = x;
-    this.backBtnRect.y = y;
-
-    const isHovered = this.inRect(mouseX, mouseY, this.backBtnRect);
-    const img = assets.getImg('arrow_l');
-
-    if (img) {
-      push();
-      imageMode(CORNER);
-      if (isHovered) {
-        tint(255, 255);
-        cursor(HAND);
-      } else {
-        tint(255, 180);
-      }
-
-      const s = isHovered ? 1.1 : 1.0;
-      const dw = this.backBtnRect.w * s;
-      const dh = this.backBtnRect.h * s;
-
-      image(img, x, y, dw, dh);
-      pop();
-    }
+  drawSystemUI(tf = null, warnLoss = false, target = "camp") {
+    this.controls.draw(tf);
+    this.drawExitPrompt(target, warnLoss);
   }
 
-  handleBackClick() {
-    if (this.inRect(mouseX, mouseY, this.backBtnRect)) {
-      this.exitPromptActive = !this.exitPromptActive;
-      return true;
-    }
-    return false;
+  handleSystemClick() {
+    return this.controls.handleClick();
   }
 
   drawExitPrompt(targetScene = "camp", warnLoss = false) {
@@ -159,6 +127,10 @@ class BaseScene {
       return true;
     }
     return false;
+  }
+
+  get isInputBlocked() {
+    return this.exitPromptActive || (sceneManager.instructions && sceneManager.instructions.isActive);
   }
 
   onEnter(data) {

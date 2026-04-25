@@ -14,18 +14,7 @@ class CampScene extends BaseScene {
   constructor() {
     super();
     this.showHotspots = false;
-    this.muted = false;
     this.view = null;
-
-    this.assets = {
-      settings: assets.getImg('icon_set'),
-      sound: assets.getImg('icon_snd')
-    };
-
-    this.uiButtons = [
-      { id: "sound", icon: 'sound', idx: 0, action: () => this.muted = !this.muted },
-      { id: "settings", icon: 'settings', idx: 1, action: () => sceneManager.switch("settings") },
-    ];
 
     this.dialogue = new DialogueManager(CONFIG.CAMP.DIALOGUE);
     this.hintTriggered = false;
@@ -43,6 +32,7 @@ class CampScene extends BaseScene {
   }
 
   onEnter() {
+    super.onEnter()
     this.hintTriggered = false;
 
     if (!gameState.campIntroDone) {
@@ -75,7 +65,7 @@ class CampScene extends BaseScene {
     }
 
     this.renderInteractions(tf);
-    this.renderUI(tf);
+    this.drawSystemUI(tf, false, "difficulty");
   }
 
   showInstructions() {
@@ -106,6 +96,8 @@ class CampScene extends BaseScene {
   }
 
   renderInteractions(tf) {
+    if (this.exitPromptActive || sceneManager.instructions.isActive) return;
+
     const imgPt = this.screenToImage(mouseX, mouseY, tf);
     const hovered = imgPt ? this.view.hotspots.find(hs => hs.contains(imgPt.x, imgPt.y)) : null;
 
@@ -114,15 +106,17 @@ class CampScene extends BaseScene {
     }
 
     if (this.showHotspots) this.drawHotspotsOverlay(tf);
-    cursor(hovered ? HAND : ARROW);
-  }
 
-  renderUI(tf) {
-    this.uiButtons.forEach(btn => {
-      const r = this.getTopRightIconRect(tf, btn.idx);
-      this.drawIconImage(this.assets[btn.icon], r, btn.id === 'settings' ? 0.88 : 0.92);
-      if (this.inRect(mouseX, mouseY, r)) cursor(HAND);
-    });
+    if (hovered) {
+      cursor(HAND);
+    } else {
+      const overBack = this.inRect(mouseX, mouseY, this.controls.backRect);
+      const overSet = this.inRect(mouseX, mouseY, this.controls.settingsRect);
+
+      if (!overBack && !overSet) {
+        cursor(ARROW);
+      }
+    }
   }
 
   handleAction(action, val) {
@@ -139,18 +133,13 @@ class CampScene extends BaseScene {
   mousePressed() {
     const tf = this.getContainTransform(this.view.img);
 
+    if (this.handleSystemClick()) return;
+    if (this.isInputBlocked) return;
+
     if (this.dialogue.isActive) {
       if (this.inRect(mouseX, mouseY, this.dialogue.nextBtnRect)) this.dialogue.advance();
       if (this.inRect(mouseX, mouseY, this.dialogue.skipBtnRect)) this.dialogue.skip();
       return;
-    }
-
-    for (const btn of this.uiButtons) {
-      const r = this.getTopRightIconRect(tf, btn.idx);
-      if (this.inRect(mouseX, mouseY, r)) {
-        btn.action();
-        return;
-      }
     }
 
     const imgPt = this.screenToImage(mouseX, mouseY, tf);
@@ -161,26 +150,20 @@ class CampScene extends BaseScene {
   }
 
   keyPressed() {
-    if (key === "h" || key === "H") this.showHotspots = !this.showHotspots;
-
-    if (key === "Escape") {
+    if (this.handleExitInput()) {
       if (sceneManager.instructions.isActive) {
         sceneManager.instructions.hide();
       }
-      sceneManager.switch("difficulty");
-
+      return;
     }
+
+    if (key === "h" || key === "H") this.showHotspots = !this.showHotspots;
 
     if (this.dialogue.isActive) {
       if (keyCode === ENTER || key === " ") this.dialogue.advance();
       if (key === "s" || key === "S") this.dialogue.skip();
       return;
     }
-  }
-
-  toggleMute() {
-    this.muted = !this.muted;
-    console.log("MUTED:", this.muted);
   }
 
   enterDoor(n) {
@@ -202,26 +185,12 @@ class CampScene extends BaseScene {
     pop();
   }
 
-  drawIconImage(img, r, scaleFactor = 1.0) {
-    const over = this.inRect(mouseX, mouseY, r);
-    push();
-    imageMode(CENTER);
-    const s = (over ? 1.06 : 1.0) * scaleFactor;
-    image(img, r.x + r.w / 2, r.y + r.h / 2, r.w * s, r.h * s);
-    pop();
-  }
-
   screenToImage(mx, my, tf) {
     if (mx < tf.dx || mx > tf.dx + tf.dw || my < tf.dy || my > tf.dy + tf.dh) return null;
     return {
       x: ((mx - tf.dx) / tf.dw) * tf.iw,
       y: ((my - tf.dy) / tf.dh) * tf.ih
     };
-  }
-
-  getTopRightIconRect(tf, indexFromRight) {
-    const s = tf.dw * 0.06, pad = tf.dw * 0.01;
-    return { x: tf.dx + tf.dw - pad - s - indexFromRight * (s + pad), y: tf.dy + pad, w: s, h: s };
   }
 
   drawHotspotsOverlay(tf) {
