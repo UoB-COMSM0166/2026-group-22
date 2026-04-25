@@ -1,11 +1,13 @@
+let bootImg
+
 function preload() {
-  assets.preload();
-  sceneManager.init();
-  sceneManager.preload();
+  bootImg = loadImage("./assets/scenes/title.png")
 }
 
 function setup() {
+  sceneManager.initLoader(bootImg);
   sceneManager.setup();
+  assets.preload(); 
   sceneManager.start();
 }
 

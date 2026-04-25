@@ -4,26 +4,44 @@ class AssetManager {
     this.levelAssets = [];
     this.fonts = {};
     this.isLoaded = false;
+
+    this.totalAssets = 0;
+    this.loadedAssets = 0;
+  }
+
+  trackLoad(path, type = 'image', callback = null) {
+    this.totalAssets++;
+    const onComplete = (asset) => {
+      this.loadedAssets++;
+      if (callback) callback(asset);
+    };
+
+    if (type === 'font') return loadFont(path, onComplete);
+    return loadImage(path, onComplete);
+  }
+
+  getProgress() {
+    return this.loadedAssets / this.totalAssets;
   }
 
   preload() {
-    this.images.char1_idle = loadImage("./assets/entities/char/char1/idle.png");
-    this.images.char1_walk1 = loadImage("./assets/entities/char/char1/walk1.png");
-    this.images.char1_walk2 = loadImage("./assets/entities/char/char1/walk2.png");
-    this.images.char1_jump = loadImage("./assets/entities/char/char1/jump.png");
-    this.images.char1_attack = loadImage("./assets/entities/char/char1/attack.png");
-    this.images.char1_skill = loadImage("./assets/entities/char/char1/skill.png");
-    this.images.char1_bust = loadImage("./assets/entities/char/char1/bust.png");
+    this.images.char1_idle = this.trackLoad("./assets/entities/char/char1/idle.png");
+    this.images.char1_walk1 = this.trackLoad("./assets/entities/char/char1/walk1.png");
+    this.images.char1_walk2 = this.trackLoad("./assets/entities/char/char1/walk2.png");
+    this.images.char1_jump = this.trackLoad("./assets/entities/char/char1/jump.png");
+    this.images.char1_attack = this.trackLoad("./assets/entities/char/char1/attack.png");
+    this.images.char1_skill = this.trackLoad("./assets/entities/char/char1/skill.png");
+    this.images.char1_bust = this.trackLoad("./assets/entities/char/char1/bust.png");
 
-    this.images.char2_idle = loadImage("./assets/entities/char/char2/idle.png");
-    this.images.char2_walk1 = loadImage("./assets/entities/char/char2/walk1.png");
-    this.images.char2_walk2 = loadImage("./assets/entities/char/char2/walk2.png");
-    this.images.char2_jump = loadImage("./assets/entities/char/char2/jump.png");
-    this.images.char2_attack = loadImage("./assets/entities/char/char2/attack.png");
-    this.images.char2_skill = loadImage("./assets/entities/char/char2/skill.png");
-    this.images.char2_bust = loadImage("./assets/entities/char/char2/bust.png");
+    this.images.char2_idle = this.trackLoad("./assets/entities/char/char2/idle.png");
+    this.images.char2_walk1 = this.trackLoad("./assets/entities/char/char2/walk1.png");
+    this.images.char2_walk2 = this.trackLoad("./assets/entities/char/char2/walk2.png");
+    this.images.char2_jump = this.trackLoad("./assets/entities/char/char2/jump.png");
+    this.images.char2_attack = this.trackLoad("./assets/entities/char/char2/attack.png");
+    this.images.char2_skill = this.trackLoad("./assets/entities/char/char2/skill.png");
+    this.images.char2_bust = this.trackLoad("./assets/entities/char/char2/bust.png");
 
-    this.images.boss_slash = loadImage("./assets/projectiles/slash.png");
+    this.images.boss_slash = this.trackLoad("./assets/projectiles/slash.png");
 
     this.loadSpriteSheet("./assets/entities/enemies/fire_spirit/idle.png", 128, 128, 6, (frames) => {
       this.images.minion_idle = frames;
@@ -37,51 +55,51 @@ class AssetManager {
       this.images.minion_attack = frames;
     });
 
-    this.images.fire_ball = loadImage("./assets/entities/enemies/fire_spirit/fire_ball.png")
+    this.images.fire_ball = this.trackLoad("./assets/entities/enemies/fire_spirit/fire_ball.png")
 
-    this.images.title_bg = loadImage("./assets/scenes/title.png");
-    this.images.char_select_bg = loadImage("./assets/scenes/char_select.png");
-    this.images.difficult_select_bg = loadImage("./assets/scenes/diff_select.png");
-    this.images.camp_scene = loadImage("./assets/scenes/camp.png");
-    this.images.shop_bg = loadImage("./assets/scenes/shop.png");
+    this.images.title_bg = this.trackLoad("./assets/scenes/title.png");
+    this.images.char_select_bg = this.trackLoad("./assets/scenes/char_select.png");
+    this.images.difficult_select_bg = this.trackLoad("./assets/scenes/diff_select.png");
+    this.images.camp_scene = this.trackLoad("./assets/scenes/camp.png");
+    this.images.shop_bg = this.trackLoad("./assets/scenes/shop.png");
 
-    this.images.start_btn = loadImage("./assets/ui/btn_start.png");
-    this.images.select_btn = loadImage("./assets/ui/btn_select.png");
-    this.images.easy_btn = loadImage("./assets/ui/btn_easy.png");
-    this.images.difficult_btn = loadImage("./assets/ui/btn_difficult.png");
+    this.images.start_btn = this.trackLoad("./assets/ui/btn_start.png");
+    this.images.select_btn = this.trackLoad("./assets/ui/btn_select.png");
+    this.images.easy_btn = this.trackLoad("./assets/ui/btn_easy.png");
+    this.images.difficult_btn = this.trackLoad("./assets/ui/btn_difficult.png");
 
-    this.images.arrow_r = loadImage("./assets/ui/arrow_right_transparent.png");
-    this.images.arrow_l = loadImage("./assets/ui/arrow_left_transparent.png");
-    this.images.icon_set = loadImage("./assets/ui/icon_settings.png");
-    this.images.icon_snd = loadImage("./assets/ui/icon_sound.png");
+    this.images.arrow_r = this.trackLoad("./assets/ui/arrow_right_transparent.png");
+    this.images.arrow_l = this.trackLoad("./assets/ui/arrow_left_transparent.png");
+    this.images.icon_set = this.trackLoad("./assets/ui/icon_settings.png");
+    this.images.icon_snd = this.trackLoad("./assets/ui/icon_sound.png");
 
-    this.images.full_heart = loadImage("./assets/ui/full_heart.png");
-    this.images.half_heart = loadImage("./assets/ui/half_heart.png");
-    this.images.empty_heart = loadImage("./assets/ui/empty_heart.png");
+    this.images.full_heart = this.trackLoad("./assets/ui/full_heart.png");
+    this.images.half_heart = this.trackLoad("./assets/ui/half_heart.png");
+    this.images.empty_heart = this.trackLoad("./assets/ui/empty_heart.png");
 
     for (let i = 1; i <= 12; i++) {
       const key = `coin${i}`;
       const path = `./assets/collectables/coin/${key}.png`;
-      this.images[key] = loadImage(path);
+      this.images[key] = this.trackLoad(path);
     }
-    this.images.bow = loadImage("./assets/collectables/bow.png");
-    this.images.bubble = loadImage("./assets/collectables/bubble.png");
-    this.images.jump_booster = loadImage("./assets/collectables/jump_booster.png");
-    this.images.shrink_potion = loadImage("./assets/collectables/shrink_potion.png");
-    
-    this.images.pistol = loadImage("./assets/weapons/pistol.png");
-    this.images.ion_fury = loadImage("./assets/weapons/ion_fury.png");
-    this.images.the_shredder = loadImage("./assets/weapons/the_shredder.png");
-    this.images.vipers_kiss = loadImage("./assets/weapons/vipers_kiss.png");
-    this.images.titans_breath = loadImage("./assets/weapons/titans_breath.png");
+    this.images.bow = this.trackLoad("./assets/collectables/bow.png");
+    this.images.bubble = this.trackLoad("./assets/collectables/bubble.png");
+    this.images.jump_booster = this.trackLoad("./assets/collectables/jump_booster.png");
+    this.images.shrink_potion = this.trackLoad("./assets/collectables/shrink_potion.png");
 
-    this.images.pistol_bullet = loadImage("./assets/weapons/bullets/pistol.png");
-    this.images.fury_bullet = loadImage("./assets/weapons/bullets/ion_fury.png");
-    this.images.shredder_bullet = loadImage("./assets/weapons/bullets/the_shredder.png");
-    this.images.viper_bullet = loadImage("./assets/weapons/bullets/vipers_kiss.png");
-    this.images.titan_bullet = loadImage("./assets/weapons/bullets/titans_breath.png");
+    this.images.pistol = this.trackLoad("./assets/weapons/pistol.png");
+    this.images.ion_fury = this.trackLoad("./assets/weapons/ion_fury.png");
+    this.images.the_shredder = this.trackLoad("./assets/weapons/the_shredder.png");
+    this.images.vipers_kiss = this.trackLoad("./assets/weapons/vipers_kiss.png");
+    this.images.titans_breath = this.trackLoad("./assets/weapons/titans_breath.png");
 
-    this.fonts.main = loadFont("./assets/fonts/plasdrip.ttf");
+    this.images.pistol_bullet = this.trackLoad("./assets/weapons/bullets/pistol.png");
+    this.images.fury_bullet = this.trackLoad("./assets/weapons/bullets/ion_fury.png");
+    this.images.shredder_bullet = this.trackLoad("./assets/weapons/bullets/the_shredder.png");
+    this.images.viper_bullet = this.trackLoad("./assets/weapons/bullets/vipers_kiss.png");
+    this.images.titan_bullet = this.trackLoad("./assets/weapons/bullets/titans_breath.png");
+
+    this.fonts.main = this.trackLoad("./assets/fonts/plasdrip.ttf", 'font');
 
     this.loadLevelAssets();
 
@@ -99,12 +117,12 @@ class AssetManager {
 
       const levelBundle = {
         backgrounds: {
-          far: loadImage(`${levelPath}/bg/far.png`),
-          midBack: loadImage(`${levelPath}/bg/mid_back.png`),
-          midFront: loadImage(`${levelPath}/bg/mid_front.png`),
-          front: loadImage(`${levelPath}/bg/front.png`)
+          far: this.trackLoad(`${levelPath}/bg/far.png`),
+          midBack: this.trackLoad(`${levelPath}/bg/mid_back.png`),
+          midFront: this.trackLoad(`${levelPath}/bg/mid_front.png`),
+          front: this.trackLoad(`${levelPath}/bg/front.png`)
         },
-        tile: loadImage(`${levelPath}/env/tile.png`),
+        tile: this.trackLoad(`${levelPath}/env/tile.png`),
         crackTile: null,
         checkpoint: [],
         enemySprites: {
@@ -122,12 +140,12 @@ class AssetManager {
 
       for (let i = 0; i <= 3; i++) {
         levelBundle.checkpoint.push(
-          loadImage(`${levelPath}/env/checkpoint/cp${i}.png`)
+          this.trackLoad(`${levelPath}/env/checkpoint/cp${i}.png`)
         );
       }
 
       if (levelNum !== 1) {
-        levelBundle.crackTile = loadImage(`${levelPath}/env/crack_tile.png`)
+        levelBundle.crackTile = this.trackLoad(`${levelPath}/env/crack_tile.png`)
       }
 
       ['idle', 'walk', 'hurt'].forEach(action => {
@@ -153,7 +171,7 @@ class AssetManager {
   }
 
   loadSpriteSheet(path, frameW, frameH, frameCount, callback) {
-    loadImage(path, (sheet) => {
+    this.trackLoad(path, 'image', (sheet) => {
       let frames = [];
       for (let i = 0; i < frameCount; i++) {
         frames.push(sheet.get(i * frameW, 0, frameW, frameH));

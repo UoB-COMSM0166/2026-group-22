@@ -41,24 +41,4 @@ class TitleScene extends BaseScene {
       sceneManager.switch("select");
     }
   }
-
-  getContainTransform(img) {
-    const canvasAspect = width / height;
-    const imgAspect = img.width / img.height;
-    let dw, dh;
-
-    if (imgAspect > canvasAspect) {
-      dw = width;
-      dh = width / imgAspect;
-    } else {
-      dh = height;
-      dw = height * imgAspect;
-    }
-
-    return {
-      dx: (width - dw) / 2,
-      dy: (height - dh) / 2,
-      dw, dh
-    };
-  }
 }

@@ -8,7 +8,13 @@ class SceneManager {
     this.instructions = new InstructionUI();
   }
 
-  init() {
+  initLoader(bgImg) {
+    this.scenes = {
+      "loading": new LoadingScene(bgImg)
+    }
+  }
+
+  initGameScenes() {
     this.scenes = {
       "title": new TitleScene(),
       "select": new CharSelectScene(),
@@ -23,7 +29,7 @@ class SceneManager {
   }
 
   start() {
-    this.switch("title");
+    this.switch("loading");
   }
 
   switch(key, data) {
