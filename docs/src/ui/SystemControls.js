@@ -19,8 +19,10 @@ class SystemControls {
     this.settingsRect = { x: trX, y: yPos, w: s, h: s };
 
     this._renderIcon(assets.getImg('arrow_l'), this.backRect, 1.0);
-    
-    if (sceneManager.currentSceneName !== "settings") {
+
+    const currentScene = sceneManager.currentSceneName
+
+    if (currentScene !== "settings" && currentScene !== "board") {
       this._renderIcon(assets.getImg('icon_set'), this.settingsRect, 0.88);
     }
   }

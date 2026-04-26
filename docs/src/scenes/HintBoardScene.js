@@ -13,13 +13,16 @@ class HintBoardScene extends BaseScene {
       "You will NOT receive coins if you can't pass the boss fight."
     ];
     this.bgSnapshot = null;
+    this.returnTo = "camp";
   }
 
   setup() { }
 
   onEnter(data) {
-    if (data && data.bg) {
-      this.bgSnapshot = data.bg;
+    super.onEnter(data);
+    if (data) {
+      this.bgSnapshot = data.bg || null;
+      this.returnTo = data.returnTo || "camp"; 
     }
   }
 
@@ -73,7 +76,7 @@ class HintBoardScene extends BaseScene {
     }
     pop();
 
-    this.drawSystemUI(tf);
+    this.drawSystemUI(tf, false, this.returnTo);
   }
 
   mousePressed() {
