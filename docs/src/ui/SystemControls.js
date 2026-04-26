@@ -19,7 +19,10 @@ class SystemControls {
     this.settingsRect = { x: trX, y: yPos, w: s, h: s };
 
     this._renderIcon(assets.getImg('arrow_l'), this.backRect, 1.0);
-    this._renderIcon(assets.getImg('icon_set'), this.settingsRect, 0.88);
+    
+    if (sceneManager.currentSceneName !== "settings") {
+      this._renderIcon(assets.getImg('icon_set'), this.settingsRect, 0.88);
+    }
   }
 
   _renderIcon(img, r, baseScale = 1.0) {
@@ -57,6 +60,7 @@ class SystemControls {
     }
 
     if (this.scene.inRect(mouseX, mouseY, this.settingsRect)) {
+      if (sceneManager.currentSceneName === "settings") return false;
       const snapshot = get();
       sceneManager.switch("settings", {
         returnTo: sceneManager.currentSceneName,
