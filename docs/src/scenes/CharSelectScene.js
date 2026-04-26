@@ -16,7 +16,6 @@ class CharSelectScene extends BaseScene {
     image(this.bgImg, tf.dx, tf.dy, tf.dw, tf.dh);
 
     this.drawHeader(tf);
-
     this.drawJournalContent(tf);
 
     const buttons = this.getSelectButtons(tf);
@@ -28,6 +27,7 @@ class CharSelectScene extends BaseScene {
       }
     }
     cursor(overAny ? "pointer" : "default");
+    this.drawSystemUI(tf, false, "title");
   }
 
   drawHeader(tf) {
@@ -114,6 +114,7 @@ class CharSelectScene extends BaseScene {
   }
 
   mousePressed() {
+    if (this.handleSystemClick()) return;
     const tf = this.getContainTransform(this.bgImg);
     const buttons = this.getSelectButtons(tf);
 
@@ -127,6 +128,6 @@ class CharSelectScene extends BaseScene {
   }
 
   keyPressed() {
-    if (key === "Escape") sceneManager.switch("title");
+    if (this.handleExitInput()) return;
   }
 }

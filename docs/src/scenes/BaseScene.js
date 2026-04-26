@@ -73,6 +73,12 @@ class BaseScene {
   drawExitPrompt(targetScene = "camp", warnLoss = false) {
     if (!this.exitPromptActive) return;
 
+    if (!warnLoss) {
+      this.exitPromptActive = false;
+      sceneManager.switch(targetScene);
+      return;
+    }
+
     push();
     fill(0, 180);
     rect(0, 0, width, height);
@@ -94,11 +100,9 @@ class BaseScene {
     const mainTextY = warnLoss ? y + h * 0.28 : y + h * 0.35;
     text("ARE YOU SURE YOU\nWANT TO EXIT?", width / 2, mainTextY);
 
-    if (warnLoss) {
-      fill(255, 80, 80);
-      textSize(13);
-      text("WARNING: UNSAVED COINS WILL BE LOST!", width / 2, y + h * 0.52);
-    }
+    fill(255, 80, 80);
+    textSize(13);
+    text("WARNING: UNSAVED COINS WILL BE LOST!", width / 2, y + h * 0.52);
 
     const btnW = 100;
     const btnH = 40;

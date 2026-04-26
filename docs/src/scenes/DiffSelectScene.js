@@ -23,6 +23,7 @@ class DiffSelectScene extends BaseScene {
     this.drawIcon(this.diffImg, buttons.difficult, scaleDiff); //
 
     cursor((overEasy || overDiff) ? "pointer" : "default");
+    this.drawSystemUI(tf, false, "select");
   }
 
   getDifficultyButtons(tf) {
@@ -44,6 +45,7 @@ class DiffSelectScene extends BaseScene {
   }
 
   mousePressed() {
+    if (this.handleSystemClick()) return;
     const tf = this.getContainTransform(this.bgImg);
     const buttons = this.getDifficultyButtons(tf);
 
@@ -57,6 +59,6 @@ class DiffSelectScene extends BaseScene {
   }
 
   keyPressed() {
-    if (key === "Escape") sceneManager.switch("select");
+    if (this.handleExitInput()) return;
   }
 }

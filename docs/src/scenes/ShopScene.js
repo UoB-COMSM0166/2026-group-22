@@ -28,9 +28,8 @@ class ShopScene extends BaseScene {
     this.drawShelf();
     this.drawInventoryBar();
     this.drawInfoPanel();
-    this.drawSystemUI(this.tf);
-
     if (this.modalOpen) this.drawBuyModal();
+    this.drawSystemUI(this.tf);
 
     push();
     const pad = this.tf.dw * 0.01;

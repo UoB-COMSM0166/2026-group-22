@@ -37,7 +37,7 @@ class SettingsScene extends BaseScene {
     this.resetBtnRect.y = height / 2 - this.resetBtnRect.h / 2;
 
     textFont('sans-serif');
-
+    
     this.drawModalButton(this.resetBtnRect, "RESET ALL DATA", true, () => {
       if (confirm("Are you sure you want to delete all save data?")) {
         gameState.resetRun();
