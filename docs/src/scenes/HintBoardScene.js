@@ -84,6 +84,6 @@ class HintBoardScene extends BaseScene {
   }
 
   keyPressed() {
-    if (this.handleExitInput()) return;
+    super.keyPressed();
   }
 }

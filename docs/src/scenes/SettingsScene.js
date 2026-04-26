@@ -90,6 +90,6 @@ class SettingsScene extends BaseScene {
   }
 
   keyPressed() {
-    this.handleExitInput();
+    super.keyPressed();
   }
 }

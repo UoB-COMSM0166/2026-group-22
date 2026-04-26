@@ -17,7 +17,6 @@ class CampScene extends BaseScene {
     this.view = null;
 
     this.dialogue = new DialogueManager(CONFIG.CAMP.DIALOGUE);
-    this.hintTriggered = false;
   }
 
   preload() {
@@ -33,7 +32,6 @@ class CampScene extends BaseScene {
 
   onEnter() {
     super.onEnter()
-    this.hintTriggered = false;
 
     if (!gameState.campIntroDone) {
       this.dialogue.start();
@@ -52,11 +50,6 @@ class CampScene extends BaseScene {
       this.dialogue.draw(tf, this);
       cursor(this.inRect(mouseX, mouseY, this.dialogue.nextBtnRect) ? HAND : ARROW);
       return;
-    }
-
-    if (!gameState.campHintsDone && !this.hintTriggered) {
-      this.showInstructions();
-      this.hintTriggered = true;
     }
 
     if (sceneManager.instructions.isActive) {
@@ -120,11 +113,6 @@ class CampScene extends BaseScene {
   }
 
   handleAction(action, val) {
-    if (!gameState.campHintsDone) {
-      gameState.campHintsDone = true;
-      gameState.save();
-    }
-
     if (action === "shop") sceneManager.switch("shop");
     if (action === "board") sceneManager.switch("board");
     if (action === "door") this.enterDoor(val);
@@ -150,12 +138,7 @@ class CampScene extends BaseScene {
   }
 
   keyPressed() {
-    if (this.handleExitInput()) {
-      if (sceneManager.instructions.isActive) {
-        sceneManager.instructions.hide();
-      }
-      return;
-    }
+    super.keyPressed();
 
     if (key === "h" || key === "H") this.showHotspots = !this.showHotspots;
 

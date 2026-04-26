@@ -1,5 +1,3 @@
-// src/ui/InstructionUI.js
-
 class InstructionUI {
   constructor() {
     this.queue = [];

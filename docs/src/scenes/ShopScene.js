@@ -244,7 +244,7 @@ class ShopScene extends BaseScene {
   }
 
   keyPressed() {
-    if (this.handleExitInput()) return;
+    super.keyPressed();
   }
 
   slotToScreen(slot) {

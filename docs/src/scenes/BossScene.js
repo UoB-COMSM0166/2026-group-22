@@ -195,7 +195,8 @@ class BossScene extends GameplayScene {
   }
 
   keyPressed() {
-    if (this.handleExitInput()) return;
+    super.keyPressed();
+    if (this.isInputBlocked) return;
 
     if (this.player && !this.exitPromptActive) {
       this.player.handleKeyPress();

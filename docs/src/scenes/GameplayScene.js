@@ -50,6 +50,5 @@ class GameplayScene extends BaseScene {
   onEnter() { }
   onExit() { this.restoreFullCanvasMode(); }
   draw() { }
-  keyPressed() { }
   mousePressed() { }
 }

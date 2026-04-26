@@ -64,6 +64,20 @@ class BaseScene {
   drawSystemUI(tf = null, warnLoss = false, target = "camp") {
     this.controls.draw(tf);
     this.drawExitPrompt(target, warnLoss);
+    if (sceneManager.instructions && !sceneManager.instructions.isActive) {
+      push();
+      const layout = tf || { dx: 0, dy: 0, dw: width, dh: height };
+
+      textAlign(RIGHT, BOTTOM);
+      textFont('sans-serif');
+      fill(255, 120);
+      noStroke();
+
+      textSize(Math.max(12, layout.dh * 0.025));
+
+      text("Press 'I' for help", layout.dx + layout.dw - 10, layout.dy + layout.dh - 10);
+      pop();
+    }
   }
 
   handleSystemClick() {
@@ -125,9 +139,22 @@ class BaseScene {
     pop();
   }
 
+  handleGlobalInput() {
+    // Check for 'i' or 'I' key
+    if (key === 'i' || key === 'I') {
+      this.showInstructions();
+      return true;
+    }
+    return false;
+  }
+
   handleExitInput() {
     if (keyCode === ESCAPE) {
       this.exitPromptActive = !this.exitPromptActive;
+
+      if (this.exitPromptActive && sceneManager.instructions.isActive) {
+        sceneManager.instructions.hide();
+      }
       return true;
     }
     return false;
@@ -151,5 +178,9 @@ class BaseScene {
   update() { }
   draw() { }
   mousePressed() { }
-  keyPressed() { }
+
+  keyPressed() {
+    if (this.handleExitInput()) return;
+    if (this.handleGlobalInput()) return;
+  }
 }

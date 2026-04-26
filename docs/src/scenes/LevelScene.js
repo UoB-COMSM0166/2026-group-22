@@ -72,7 +72,8 @@ class LevelScene extends GameplayScene {
   }
 
   keyPressed() {
-    if (this.handleExitInput()) return;
+    super.keyPressed();
+    if (this.isInputBlocked) return;
 
     if (this.player) {
       this.player.handleKeyPress();

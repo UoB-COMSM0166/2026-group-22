@@ -14,7 +14,6 @@ class GameState {
     this.levelsUnlocked = [true, false, false, false];
     this.bossesDefeated = [];
     this.campIntroDone = false;
-    this.campHintsDone = false;
 
     this.settings = {
       musicVolume: 0.8,
@@ -40,7 +39,6 @@ class GameState {
       levelsUnlocked: this.levelsUnlocked,
       bossesDefeated: this.bossesDefeated,
       campIntroDone: this.campIntroDone,
-      campHintsDone: this.campHintsDone,
       settings: this.settings
     };
     localStorage.setItem(this.SAVE_KEY, JSON.stringify(data));
@@ -144,7 +142,6 @@ class GameState {
     this.levelsUnlocked = [true, false, false, false];
     this.bossesDefeated = [];
     this.campIntroDone = false;
-    this.campHintsDone = false;
     this.save();
   }
 }
