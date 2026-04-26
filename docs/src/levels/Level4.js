@@ -79,13 +79,13 @@ CONFIG.LEVELS[3] = {
 
     { gap: 150, altitude: 150, w: 480, h: 40, hasCheckpoint: true, hasCoin: true },
 
-    { gap: 200, altitude: 0, w: 2000, h: 250, hasBoss: true, bossType: "crusher" }
+    { gap: 200, altitude: 0, w: 2000, h: 250, hasBoss: true, bossType: "summoner" }
   ],
   items: [
     { type: "BOW", x: 200, y: 580 },
   ],
   bossArena: {
-    worldWidth: 1200,
+    worldWidth: 800,
     worldHeight: 800,
     bossConfig: {
       width: 150,
@@ -93,17 +93,9 @@ CONFIG.LEVELS[3] = {
       visualW: 150,
       visualH: 150,
       visualAlignment: 'bottom',
-      maxHp: 500,
+      maxHp: 1000,
       speed: 0
     },
-    platforms: [
-      { gap: 0, altitude: 0, w: 1200, h: 100 },
-
-      { gap: -950, altitude: 550, w: 160, h: 40, isChainDrop: true, dropAltitude: 0 },
-      { gap: 125, altitude: 550, w: 160, h: 40, isChainDrop: true, dropAltitude: 0 },
-      { gap: 125, altitude: 550, w: 160, h: 40, isChainDrop: true, dropAltitude: 0 },
-      { gap: 125, altitude: 550, w: 160, h: 40, isChainDrop: true, dropAltitude: 0 },
-      { gap: 125, altitude: 550, w: 160, h: 40, isChainDrop: true, dropAltitude: 0 }
-    ]
+    platforms: [{ gap: 0, altitude: 0, w: 800, h: 100 }]
   }
 };

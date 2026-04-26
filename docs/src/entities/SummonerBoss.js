@@ -5,21 +5,31 @@ class SummonerBoss extends Boss {
     this.minions = [];
     this.minionBullets = [];
 
-    this.spawnCooldown = 60;
+    this.spawnCooldown = 120;
     this.spawnTimer = this.spawnCooldown;
     this.movePhase = 0;
   }
 
   update() {
-    this.movePattern();
+    if (this.hp <= 0) {
+      this.applyPhysics();
+      return;
+    }
+
+    if (this.isHurt) {
+      this.hurtTimer--;
+      if (this.hurtTimer <= 0) this.isHurt = false;
+    }
+
+    this.applyPhysics();
+
+    if (this.attackSpriteTimer > 0) this.attackSpriteTimer--;
 
     this.spawnTimer--;
     if (this.spawnTimer <= 0 && this.hp > 0) {
       this.spawnTimer = this.spawnCooldown;
       this.spawnMinion();
     }
-
-    if (this.attackSpriteTimer > 0) this.attackSpriteTimer--;
 
     for (let i = this.minions.length - 1; i >= 0; i--) {
       const m = this.minions[i];
@@ -37,17 +47,7 @@ class SummonerBoss extends Boss {
 
     InteractionManager.updateProjectiles(this.minionBullets);
 
-    if (this.isHurt) {
-      this.hurtTimer--;
-      if (this.hurtTimer <= 0) this.isHurt = false;
-    }
-
     return null;
-  }
-
-  movePattern() {
-    this.movePhase += 0.03;
-    this.y += Math.sin(this.movePhase) * 1.5;
   }
 
   spawnMinion() {
@@ -63,10 +63,6 @@ class SummonerBoss extends Boss {
 
     for (const b of this.minionBullets) {
       b.show();
-    }
-
-    if (this.hp <= 0) {
-      return;
     }
     
     super.show();
