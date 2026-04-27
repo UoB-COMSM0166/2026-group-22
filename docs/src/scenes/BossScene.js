@@ -30,7 +30,6 @@ class BossScene extends GameplayScene {
     const bossMap = {
       'regular': Boss,
       'summoner': SummonerBoss,
-      'crusher': CrusherBoss
     };
 
     const startX = this.world.width - 120;
