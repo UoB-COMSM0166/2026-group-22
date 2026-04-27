@@ -61,21 +61,42 @@ class InstructionUI {
 
   drawBox() {
     const w = width * 0.65;
-    const h = 60;
-    const x = (width - w) / 2;
-    const y = height * 0.85;
+    const padding = 20;
+    const innerW = w - padding * 2;
 
     push();
+    textFont(assets.getFont());
+    textSize(20);
+    textLeading(26);
+
+    let words = this.current.msg.split(' ');
+    let lineCount = 1;
+    let currentLine = "";
+    for (let i = 0; i < words.length; i++) {
+      let testLine = currentLine + words[i] + " ";
+      if (textWidth(testLine) > innerW && i > 0) {
+        lineCount++;
+        currentLine = words[i] + " ";
+      } else {
+        currentLine = testLine;
+      }
+    }
+
+    const textHeight = lineCount * textLeading();
+    const h = textHeight + (padding * 2);
+
+    const x = (width - w) / 2;
+    const y = (height * 0.92) - h;
+
     fill(0, 0, 0, 200 * (this.opacity / 255));
     stroke(255, 50 * (this.opacity / 255));
     rect(x, y, w, h, 12);
 
     textAlign(CENTER, CENTER);
-    textFont(assets.getFont());
-    textSize(20);
     fill(255, this.opacity);
     noStroke();
-    text(this.current.msg, x + w / 2, y + h / 2);
+
+    text(this.current.msg, x + padding, y, innerW, h);
 
     textSize(12);
     fill(200, 150 * (this.opacity / 255));

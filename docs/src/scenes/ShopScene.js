@@ -40,6 +40,15 @@ class ShopScene extends BaseScene {
     pop();
   }
 
+  showInstructions() {
+    sceneManager.instructions.show([
+      { msg: "Click an item on the shelf to see its price and stats." },
+      { msg: "Purchased items appear in your inventory at the bottom." },
+      { msg: "Select an owned item and click EQUIP to use it in levels." },
+      { msg: "You can only bring ONE weapon into a trial." }
+    ]);
+  }
+
   drawHeader() {
     const s = this.tf.dw * 0.06;
     const pad = this.tf.dw * 0.01;
@@ -52,7 +61,7 @@ class ShopScene extends BaseScene {
     this.statsBar.drawCoins(gameState.coins, coinX, centerY, this.tf);
 
     const weaponCenterX = coinX + this.tf.dw * 0.08 + (s / 2);
-    
+
     this.statsBar.drawEquippedWeapon(weaponCenterX, centerY, this.tf);
   }
 

@@ -26,6 +26,14 @@ class DiffSelectScene extends BaseScene {
     this.drawSystemUI(tf, false, "select");
   }
 
+  showInstructions() {
+    sceneManager.instructions.show([
+      { msg: "Select your challenge level." },
+      { msg: "DIFFICULT mode increases boss HP and damage." },
+      { msg: "Choose wisely; you cannot change this during the run." }
+    ]);
+  }
+
   getDifficultyButtons(tf) {
     const btnSize = tf.dw * 0.28;
     const centerY = tf.dy + tf.dh * 0.55;
@@ -59,6 +67,6 @@ class DiffSelectScene extends BaseScene {
   }
 
   keyPressed() {
-    if (this.handleExitInput()) return;
+    super.keyPressed();
   }
 }

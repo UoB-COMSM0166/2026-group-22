@@ -70,7 +70,7 @@ class BossScene extends GameplayScene {
   }
 
   update() {
-    if (!this.player || !this.world || this.victoryTriggered || this.exitPromptActive) return;
+    if (!this.player || !this.world || this.victoryTriggered || this.isInputBlocked) return;
 
     if (this.player.hp <= 0) {
       this.resetScene();
@@ -132,6 +132,15 @@ class BossScene extends GameplayScene {
     if (this.victoryTriggered) {
       this.drawVictoryPopup();
     }
+  }
+
+  showInstructions() {
+    sceneManager.instructions.show([
+      { msg: "DEFEAT THE BOSS to complete the trial!" },
+      { msg: "Watch for attack patterns and stay moving." },
+      { msg: "Press J to shoot bullets" },
+      { msg: "If you lose all HP, you will restart the fight." }
+    ]);
   }
 
   drawUI() {

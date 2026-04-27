@@ -42,10 +42,28 @@ class LevelScene extends GameplayScene {
       return;
     }
 
-    this.world.update();
+    if (!this.isInputBlocked) {
+      this.world.update();
+    }
+
     this.world.show();
     this.drawUI();
     this.drawSystemUI(null, true);
+  }
+
+  showInstructions() {
+    const instructions = [
+      { msg: "Reach the end of the level to face the boss." },
+      { msg: "A / D to Move | SPACE to Jump (You can double Jump too)." },
+      { msg: "J to Attack | K to Inhale Skill Items." },
+      { msg: "Collect coins to buy better weapons at the Shop." }
+    ];
+
+    if (this.world.levelData.instructions) {
+      sceneManager.instructions.show(this.world.levelData.instructions);
+    } else {
+      sceneManager.instructions.show(instructions);
+    }
   }
 
   drawLoadingScreen() {

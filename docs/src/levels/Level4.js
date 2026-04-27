@@ -1,6 +1,11 @@
 CONFIG.LEVELS[3] = {
   worldWidth: 15000,
   worldHeight: 1600,
+  instructions: [
+    { msg: "Press L to fire your Bow." },
+    { msg: "Hold L to charge up your Arrows." },
+    { msg: "Shoot the chain platforms to make them fall." },
+  ],
   assets: {
     enemySprites: {
       idle: { path: "skeleton/idle.png", w: 128, h: 128, count: 7 },

@@ -1,6 +1,10 @@
 CONFIG.LEVELS[1] = {
   worldWidth: 6300,
   worldHeight: 800,
+  instructions: [
+    { msg : "Collect Bubble to keep breathing under water" },
+    { msg : "Otherwise, you'll lose you hp!" }
+  ],
   assets: {
     enemySprites: {
       idle: { path: "plent/idle.png", w: 128, h: 128, count: 5 },
