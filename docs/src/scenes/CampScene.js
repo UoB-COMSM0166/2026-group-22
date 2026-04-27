@@ -114,7 +114,9 @@ class CampScene extends BaseScene {
 
   handleAction(action, val) {
     if (action === "shop") sceneManager.switch("shop");
-    if (action === "board") sceneManager.switch("board");
+    if (action === "board") {
+      sceneManager.switch("board", { returnTo: "camp" });
+    }
     if (action === "door") this.enterDoor(val);
   }
 
