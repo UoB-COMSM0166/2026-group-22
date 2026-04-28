@@ -64,10 +64,12 @@ class Platform extends GameObject {
     }
 
     if (this.hasBoss) {
+
       sceneManager.switch("boss", {
         bossType: this.bossType,
         arenaData: world.levelData.bossArena,
-        levelAssets: world.levelAssets
+        levelAssets: world.levelAssets,
+        collectedCoins: world.sessionCoins
       });
     }
   }

@@ -58,7 +58,7 @@ class ShopScene extends BaseScene {
 
     const coinX = this.tf.dx + pad + s + (this.tf.dw * 0.02);
 
-    this.statsBar.drawCoins(gameState.coins, coinX, centerY, this.tf);
+    this.statsBar.drawCoins(gameState.coins, 0, coinX, centerY, this.tf);
 
     const weaponCenterX = coinX + this.tf.dw * 0.08 + (s / 2);
 

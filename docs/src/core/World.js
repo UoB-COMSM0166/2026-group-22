@@ -5,6 +5,7 @@ class World {
     this.cameraY = 0;
 
     this.player.worldReference = this;
+    this.sessionCoins = 0;
 
     this.levelData = levelData;
     this.levelAssets = levelAssets;
@@ -105,7 +106,7 @@ class World {
 
     image(this.bgLayers.front, 0, 0, width, height);
 
-    this.statsBar.draw(this.player, gameState.coins);
+    this.statsBar.draw(this.player, gameState.coins, true, this.sessionCoins);
   }
 
   drawParallax(img, scroll) {
