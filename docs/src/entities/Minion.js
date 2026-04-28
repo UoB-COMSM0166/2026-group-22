@@ -58,7 +58,7 @@ class Minion extends Entity {
       id: "fire_ball",
       width: 15,
       height: 10,
-      damage: 8,
+      damage: 4,
       speedX: vx,
       speedY: vy
     }
