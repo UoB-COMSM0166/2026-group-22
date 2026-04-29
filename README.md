@@ -310,10 +310,14 @@ The SUS is a highly reliable tool for evaluating the usability of a system. A sc
   <i>System Usability Scale (SUS) results by game mode</i>
 </p>
 
+<div align="center">
+
 | Mode | Average SUS Score | Usability Grade | Player Interpretation |
-| :--- | :--- | :--- | :--- |
+| :--- | :---: | :---: | :--- |
 | **Easy Mode** | 82.5 | A | "Excellent. Controls (jumping, buying weapons) are highly intuitive." |
 | **Difficult Mode** | 71.2 | C+ | "Good, but the tight jump windows and unforgiving enemy mechanics caused slight frustration." |
+
+</div>
 
 The results indicate that Island of Rising Sun has a strong foundational UI and control scheme. However, the drop in the Difficult mode suggests that when players are under pressure (e.g., dodging bosses while trying to collect coins), the interface and control responsiveness are perceived as slightly less forgiving.
 
@@ -330,6 +334,8 @@ We utilized the NASA-TLX to assess the workload placed on players. It measures s
   <i>NASA-TLX subscale scores across modes</i>
 </p>
 
+<div align="center">
+
 | Dimension | Easy Mode (Mean) | Difficult Mode (Mean) | Difference |
 | :--- | :---: | :---: | :---: |
 | Mental Demand | 35.4 | 68.2 | + 32.8 |
@@ -338,6 +344,8 @@ We utilized the NASA-TLX to assess the workload placed on players. It measures s
 | Performance (Inverted)* | 25.0 | 55.4 | + 30.4 |
 | Effort | 40.2 | 82.3 | + 42.1 |
 | Frustration | 15.6 | 60.8 | + 45.2 |
+
+</div>
 
 *\*Note: Lower performance score means the player felt less successful.*
 
@@ -356,12 +364,16 @@ Participants ranked the subjective difficulty of the 4 levels on a scale of 1 (E
   <i>Subjective difficulty ratings for Levels 1 to 4</i>
 </p>
 
+<div align="center">
+
 | Level | Easy Mode Score | Difficult Mode Score |
 | :--- | :---: | :---: |
 | Level 1 | 2.1 | 4.5 |
 | Level 2 | 3.5 | 6.2 |
 | Level 3 | 4.8 | 8.1 |
 | Level 4 | 6.0 | 9.5 |
+
+</div>
 
 Analysis: The progression curve is highly logical. Both modes show a linear increase in difficulty, proving that our level design effectively scales up the challenge. However, Level 4 in Difficult Mode (9.5/10) verges on being overly punitive, indicating a potential need for minor balancing adjustments to boss health or weapon damage scaling.
 
@@ -513,6 +525,8 @@ In the immediate future, we aim to deepen the core gameplay loop by introducing 
   <i>Contribution Statement</i>
 </p>
 
+<div align="center">
+
 | Name | Contribution |
 | :--- | :---: |
 | Jiahao Zhao | 1.00 |
@@ -520,3 +534,5 @@ In the immediate future, we aim to deepen the core gameplay loop by introducing 
 | Mingyu Yang | 1.00 |
 | Qing Shi | 1.00 |
 | Xinyi Zhang | 1.00 |
+
+</div>
