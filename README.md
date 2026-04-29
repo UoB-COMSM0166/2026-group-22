@@ -40,16 +40,9 @@
 
 ## 2. Introduction
 
-### Descripe your game 
-Isle of Rising Sun is a platform jumping game where players navigate through four levels of increasing difficulty to successfully complete the challenge. 
-
-
-### what is based on
-Its main inspiration comes from Kirby the Star and the teacup head. The core of the game is that within each level, players can control their characters to cross various platforms, collaborate with special allies to overcome obstacles, use different weapons to defeat various unique monsters, and use the coins collected along the way to purchase other weapons.
-
-### what makes it novel
-
-After making a final decision on our baseline games, we came up with the ideas for our game mechanics and game twists which are as follows.
+<p>
+Isle of Rising Sun is a platform jumping game where players navigate through four levels of increasing difficulty to successfully complete the challenge. Its main inspiration comes from Kirby the Star and the teacup head. The core of the game is that within each level, players can control their characters to cross various platforms, collaborate with special allies to overcome obstacles, use different weapons to defeat various unique monsters, and use the coins collected along the way to purchase other weapons. After making a final decision on our baseline games, we came up with the ideas for our game mechanics and game twists which are as follows.
+</p>
 
 ### Game Twists
 We mainly built the twist of our game based on Kirby and Cuphead：
