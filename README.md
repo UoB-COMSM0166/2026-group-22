@@ -556,37 +556,41 @@ In software engineering practice, code quality directly impacts hardware energy 
 ### 8.2 Technical Sustainability
 <p align="justify">
 Technical sustainability focuses on code maintainability and scalability, ensuring that the project does not require major refactoring during subsequent development.
-
+</p>
+<p align="justify">
 - Complete Separation of Logic and Data: The project organizes level layouts and enemy configurations into independent configuration files, such as Level1.js. The core engine, LevelBuilder.js, is solely responsible for reading and parsing this data. This design achieves decoupling between logic and assets, allowing for the rapid addition of new content without modifying the underlying physics code, thus effectively avoiding the accumulation of technical debt.
-
+</p>
+<p align="justify">
 - Modular Architectural Division: Various functions of the system are divided into several autonomous managers. For example, AbilityManager specifically handles skill logic, while AssetManager centrally manages resource loading. This clear division of labor improves code reliability and ensures that maintenance or modification of a single module does not cause unpredictable interference with the overall system.
 </p>
 
 ### 8.3 Social Sustainability
 <p align="justify">
 Software should demonstrate inclusivity and reflect the value of team collaboration.
-
+</p>
+<p align="justify">
 - Inclusive Difficulty Design: Difficulty presets (Easy and Difficult modes) are included in constants.js and GameState.js. By adjusting the numerical balance in Easy mode, a wider group of players with different skill levels can fully experience the game, reflecting social inclusivity in design.
-
+</p>
+<p align="justify">
 - Cultivation of Team Collaboration Experience: Managing versions through Git during the development process not only improved production efficiency but also ensured knowledge sharing within the team through modular division of labor. The practice of this collaborative model lays a foundation for participating in larger-scale software engineering projects in the future.
 </p>
 
 ### 8.4 Green Software Foundation Implementation Patterns 
-Here are the three patterns we used and why:
-1. **Minimize main thread work**
-   - **Category:** Web
-   - **Our Usage:** We use this pattern to manage our frame rate (FPS).
-   - **Why we used it:** In `sketch.js`, the `draw()` function usually runs at full speed by default. However, in scenes like the TitleScene or SettingsScene, the visuals are mostly static. By using the SceneManager to switch scenes and reduce the main thread's workload when high performance isn't needed, we stop the CPU from looping unnecessarily. This saves battery and prevents the player's device from getting too hot.
+#### 1. Minimize Main Thread Work
+- **Category:**  Web<br>
+- **Our Usage:** We use this pattern to manage our frame rate (FPS).<br>
+- **Why we used it:** In `sketch.js`, the `draw()` function usually runs at full speed by default. However, in scenes like the TitleScene or SettingsScene, the visuals are mostly static. By using the SceneManager to switch scenes and reduce the main thread's workload when high performance isn't needed, we stop the CPU from looping unnecessarily. This saves battery and prevents the player's device from getting too hot.
 
-2. **Defer offscreen images**
-   - **Category:** Web
-   - **Our Usage:** We applied this to our asset-loading mechanism.
-   - **Why we used it:** Our AssetManager handles a lot of files, but we don't force the browser to download everything at the very start. For example, Level 4 has a huge background that is 15,000 pixels wide. We use the buildLevel logic in LevelScene to only trigger the loading of levelAssets when the player actually starts that specific level. This "lazy loading" approach prevents a lot of unnecessary data transfer, which saves the player's data and reduces the carbon footprint of the servers.
+#### 2. Defer Offscreen Images
+- **Category:** Web<br>
+- **Our Usage:** We applied this to our asset-loading mechanism.<br>
+- **Why we used it:** Our AssetManager handles a lot of files, but we don't force the browser to download everything at the very start. For example, Level 4 has a huge background that is 15,000 pixels wide. We use the buildLevel logic in LevelScene to only trigger the loading of levelAssets when the player actually starts that specific level. This "lazy loading" approach prevents a lot of unnecessary data transfer, which saves the player's data and reduces the carbon footprint of the servers.
 
-3. **Optimize average CPU utilization**
-   - **Category:** Cloud (applied to client-side computing)
-   - **Our Usage:** We use "Entity Culling" logic to cut down on the calculations done every frame.
-   - **Why we used it:** Our maps are very long; Level 1 alone is 12,000 pixels wide. Normally, World.js would try to update every single enemy and item in the level simultaneously. By using the InteractionManager to prioritize objects near the player, we ensure the CPU only processes physics and AI for things currently on screen. This significantly lowers the average CPU usage, allowing the game to run smoothly on older hardware and extending the device's lifespan.
+#### 3. Optimize Average CPU Utilization
+- **Category:** Cloud (applied to client-side computing)<br>
+- **Our Usage:** We use "Entity Culling" logic to cut down on the calculations done every frame.<br>
+- **Why we used it:** Our maps are very long; Level 1 alone is 12,000 pixels wide. Normally, World.js would try to update every single enemy and item in the level simultaneously. By using the InteractionManager to prioritize objects near the player, we ensure the CPU only processes physics and AI for things currently on screen. This significantly lowers the average CPU usage, allowing the game to run smoothly on older hardware and extending the device's lifespan.
+
 
 
 ## 9. Conclusion
