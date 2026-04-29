@@ -126,11 +126,6 @@ Cuphead is a run-and-gun boss-rush action game with a 1930s cartoon aesthetic, b
 </div>
 
 ### User Stories
-Epic 1: Core Platforming Mechanics
-Epic 2: Ability-Merging System
-Epic 3: Currency & Progression System
-Epic 4: Art & User Experience
-
 
 | Epic | User Story | Acceptance Criteria | Value | Effort | MoSCoW |
 | :--- | :--- | :--- | :---: | :---: | :---: |
