@@ -39,5 +39,6 @@ class Coin extends Collectable {
       image(frameImg, 0, 0, this.w, this.h);
       pop();
     }
+    this.drawDebug();
   }
 }

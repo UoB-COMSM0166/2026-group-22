@@ -22,5 +22,6 @@ class Bubble extends Collectable {
     imageMode(CENTER);
     image(this.img, 0, 0, this.w, this.h);
     pop();
+    this.drawDebug();
   }
 }

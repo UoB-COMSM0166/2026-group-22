@@ -23,5 +23,6 @@ class Bow extends Collectable {
     imageMode(CENTER);
     image(this.img, 0, 0, 50, this.h);
     pop();
+    this.drawDebug();
   }
 }
