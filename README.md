@@ -73,6 +73,17 @@ VIDEO. Include a demo video of your game here (you don't have to wait until the 
         - [2.3 Cognitive Load Assessment (NASA-TLX)](#23-cognitive-load-assessment-nasa-tlx)
         - [2.4 Subjective Level Difficulty Ranking](#24-subjective-level-difficulty-ranking)
         - [2.5 Correlation Between SUS and NASA-TLX Scores](#25-correlation-between-sus-and-nasa-tlx-scores)
+      - [Testing](#testing)
+        - [Black Box Testing](#black-box-testing)
+          - [1. Equivalence Partitioning and Input Validation](#1-equivalence-partitioning-and-input-validation)
+          - [2. Functional Testing:](#2-functional-testing)
+          - [3. Boundary Testing:](#3-boundary-testing)
+          - [4. Performance Testing:](#4-performance-testing)
+        - [White Box Testing](#white-box-testing)
+          - [1. Code Coverage:](#1-code-coverage)
+          - [2. Path Testing:](#2-path-testing)
+          - [3. Unit Testing:](#3-unit-testing)
+          - [4. Memory and Static Analysis:](#4-memory-and-static-analysis)
     - [Process](#process)
       - [TeamWork: Project Stages and Task Allocation](#teamwork-project-stages-and-task-allocation)
       - [TeamWork: Communication and Collaboration](#teamwork-communication-and-collaboration)
@@ -410,6 +421,38 @@ Conclusion: As the cognitive and physical load increases (higher NASA-TLX), play
   <img src="images/evaluation5.png" width="300">
 </div>
 Figure 5: Scatter plot showing the negative correlation between NASA-TLX workload and SUS scores.
+
+#### Testing
+
+To ensure the stability of the platforming mechanics, the integrity of the game’s economy, and the robustness of the underlying architecture, a comprehensive testing workflow encompassing both Black-Box and White-Box testing methodologies was implemented:
+
+##### Black Box Testing
+###### 1. Equivalence Partitioning and Input Validation
+Rigorous testing was conducted on the input system (A/D for movement, SPACE for jumping).   It was verified that movement remains fluid and that character animations (idle, run, jump) synchronize correctly with the physics engine.   Furthermore, combat inputs using the J (Shoot) key were validated for projectile trajectory.   Additionally, the ESC key was tested to ensure it reliably triggers the "Camp" (menu/pause) state without disrupting the game loop.
+
+###### 2. Functional Testing:
+Hitboxes for both melee and ranged attacks were refined for accuracy, ensuring that enemy health points (HP) decrement correctly upon impact.   The K (Collect) mechanic was tested to ensure coins are properly added to the player's balance.   We also verified that items are correctly equipped after a successful transaction in the Shop System.   Specific integration tests were conducted for the final Boss encounter to check AI behavior patterns and ensure the game correctly transitions to a "Win" state upon the Boss's defeat.
+
+###### 3. Boundary Testing: 
+Limit testing was performed on the Shop System to verify that players cannot purchase weapons without sufficient funds.   Verification was also performed on the platform boundaries to ensure the player character remains within the defined world limits and triggers the respawn logic correctly if falling out of bounds.
+
+###### 4. Performance Testing: 
+The game's performance was monitored via browser developer tools to ensure a stable 60 FPS on Chrome and Firefox during high-intensity sequences.
+
+##### White Box Testing
+###### 1. Code Coverage: 
+Test cases were designed to achieve high branch coverage, particularly in critical game logic such as AbilityManager.handleInput().   Tests ensured all if-else branches were executed, including the specific conditions for character states (isInhaling, isCharging) and verifying that both true and false evaluations of cooldown timers correctly trigger or restrict actions like fireBullet() and fireArrow().
+
+###### 2. Path Testing:
+We analyzed and validated the logical execution paths within the engine, notably in InteractionManager.handleCombat().   We tested the specific path where a player's projectile intersects with an enemy (bullet.intersects(enemy) evaluates to true), verifying the exact execution sequence: enemy.takeDamage() is called, and the bullet.  active flag is subsequently set to false to prevent multiple hit registrations.
+
+###### 3. Unit Testing: 
+Core classes and utility functions were subjected to strict assertion testing.   We specifically unit tested the GameState class to ensure purchaseItem(itemId) properly checks for this.  isOwned(itemId) and this.  coins < item.  price before deducting funds and updating the ownedItemIds array.   Similarly, Player.takeDamage() was tested to guarantee HP calculations correctly account for the invincibilityTimer to prevent instant death from overlapping frames.
+
+###### 4. Memory and Static Analysis: 
+Static analysis tools were utilized to check for undefined variables and ensure proper object instantiation across parent-child structures like GameObject and Entity.   Additionally, memory profiling was conducted to prevent memory leaks during gameplay loops.   We verified that the array filtering mechanisms in World.update() (e.g., this.enemies.filter(e => e.active)) successfully release references to dead enemies, off-screen minion bullets, and collected coins, allowing the JavaScript garbage collector to free up memory efficiently.
+
+
 
 
 ### Process 
