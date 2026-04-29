@@ -243,13 +243,17 @@ Utilizing the raw dimensions of game sprites for collision detection often resul
 #### Solution:
 <p align="justify"> 
 To ensure physical detection aligns with player intuition, a "Visual-Physical Decoupling" strategy was implemented:
-
+</p>
+<p align="justify"> 
 - Standardization of Boundary Calculations: A universal getBounds() method was established within the GameObject.js base class. This method calculates boundaries based on manually defined width (w) and height (h) properties rather than raw sprite dimensions, ensuring a consistent and efficient detection standard across the entire project.
-
+</p>
+<p align="justify"> 
 - Implementation of Forgiving Hitboxes: To optimize the user experience, physical hitboxes for players and enemies are calibrated to be slightly smaller than their corresponding visual assets. This design ensures that collisions are only registered when visually undeniable, thereby increasing the margin for error and reducing player frustration.
-
+</p>
+<p align="justify"> 
 - Decoupling of Render and Physical Dimensions: For large-scale entities like bosses, the system distinguishes between visual dimensions (visualW/H) and physical collision dimensions (w/h). By leveraging alignment settings within the AnimationManager, precise positioning (such as grounding a boss’s feet) is maintained, preventing hitbox misalignment caused by animation scaling.
-
+</p>
+<p align="justify"> 
 - argeted Boundary Extension for Special Objects: For unique elements such as the ChainPlatform, the boundary retrieval method is overridden to allow the detection zone to extend upward under specific states. This facilitates accurate interaction across the entire length of the chain without the need for redundant or complex code.
 </p>
 
@@ -263,12 +267,16 @@ One of the most complex aspects of developing a platformer is precisely determin
 <p align="justify"> 
 To resolve these physical inaccuracies and unnatural movements, a coordinate correction logic was integrated into the resolve collision handling mechanism within Platform.js:
 
+<p align="justify"> 
 - Directional Collision Differentiation: The system moves beyond simple collision detection by utilizing a getOverlap method to calculate the depth of overlap across all four directions. By comparing these values, the program accurately distinguishes whether the character is falling from above or impacting from the side or bottom.
-
+</p>
+<p align="justify"> 
 - Landing Detection and Positional "Snapping": When a top-down collision is detected, Positional Correction is automatically executed. The character's Y-coordinate is immediately aligned to the top of the platform (p.top - entity.h / 2), and vertical velocity is neutralized. This triggers the land() function to reset jump counts, ensuring the character stands firmly on the surface without visual sinking artifacts.
-
+</p>
+<p align="justify"> 
 - Mitigation of Clipping and Tunneling: For non-landing collisions (sides or bottom), the system identifies the axis of minimum overlap and "pushes" the character out in that direction. This ensures that even at high speeds, the character is instantly repositioned outside the collision volume, effectively preventing them from becoming stuck inside walls.
-
+</p>
+<p align="justify"> 
 - Velocity Synchronization for Moving Platforms: Within the resolve method, the moving platform’s own velocity (velX and velY) is transferred in real-time to the character currently standing on it. This ensures the character moves in perfect synchronization with the platform, providing a stable and responsive control experience.
 </p>
 
@@ -564,21 +572,25 @@ Software should demonstrate inclusivity and reflect the value of team collaborat
 </p>
 
 ### 8.4 Green Software Foundation Implementation Patterns 
-<p align="justify">
 Here are the three patterns we used and why:
 1. Minimize main thread work
 - Category: Web
 - Our Usage: We use this pattern to manage our frame rate (FPS).
+<p align="justify">
 - Why we used it: In sketch.js, the draw() function usually runs at full speed by default. However, in scenes like the TitleScene or SettingsScene, the visuals are mostly static. By using the SceneManager to switch scenes and reduce the main thread's workload when high performance isn't needed, we stop the CPU from looping unnecessarily. This saves battery and prevents the player's device from getting too hot.
+</p>
 
 2. Defer offscreen images
 - Category: Web
 - Our Usage: We applied this to our asset-loading mechanism.
+<p align="justify">
 - Why we used it: Our AssetManager handles a lot of files, but we don't force the browser to download everything at the very start. For example, Level 4 has a huge background that is 15,000 pixels wide. We use the buildLevel logic in LevelScene to only trigger the loading of levelAssets when the player actually starts that specific level. This "lazy loading" approach prevents a lot of unnecessary data transfer, which saves the player's data and reduces the carbon footprint of the servers.
+</p>
 
 3. Optimize average CPU utilization
 - Category: Cloud (applied to client-side computing)
 - Our Usage: We use "Entity Culling" logic to cut down on the calculations done every frame.
+<p align="justify">
 - Why we used it: Our maps are very long; Level 1 alone is 12,000 pixels wide. Normally, World.js would try to update every single enemy and item in the level simultaneously. By using the InteractionManager to prioritize objects near the player, we ensure the CPU only processes physics and AI for things currently on screen. This significantly lowers the average CPU usage, allowing the game to run smoothly on older hardware and extending the device's lifespan.
 </p>
 
@@ -608,11 +620,14 @@ In the immediate future, we aim to deepen the core gameplay loop by introducing 
 ## 10. AI Statement
 <p align="justify">
 During this project, our team used AI tools in a limited way to support our work. The main game story, gameplay twist, core code structure, final implementation, and most visual assets were designed and completed by ourselves. AI was not used to make the main project decisions.
-
+</p>
+<p align="justify">
 For the visual part, we used AI for some small editing tasks, such as adjusting the UI style, resizing some scene images, and removing backgrounds to create transparent images. Some assets related to the boss, enemies, and camp scenes were also improved with AI. However, the main map backgrounds, platforms, coins, characters, and most other visual elements were created and arranged by our team.
-
+</p>
+<p align="justify">
 For the coding part, we sometimes used AI to get ideas for difficult syntax and complex logic. These suggestions were only used as references. We checked, discussed, and changed them before using them in our own code.
-
+</p>
+<p align="justify">
 Overall, AI helped us improve efficiency by reducing repetitive work and giving us ideas when we were stuck. We also learned how to use AI more carefully and responsibly during the project.
 </p>
 
