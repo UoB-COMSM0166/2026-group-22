@@ -573,26 +573,21 @@ Software should demonstrate inclusivity and reflect the value of team collaborat
 
 ### 8.4 Green Software Foundation Implementation Patterns 
 Here are the three patterns we used and why:
-1. Minimize main thread work
-- Category: Web
-- Our Usage: We use this pattern to manage our frame rate (FPS).
-<p align="justify">
-- Why we used it: In sketch.js, the draw() function usually runs at full speed by default. However, in scenes like the TitleScene or SettingsScene, the visuals are mostly static. By using the SceneManager to switch scenes and reduce the main thread's workload when high performance isn't needed, we stop the CPU from looping unnecessarily. This saves battery and prevents the player's device from getting too hot.
-</p>
+1. **Minimize main thread work**
+   - **Category:** Web
+   - **Our Usage:** We use this pattern to manage our frame rate (FPS).
+   - **Why we used it:** In `sketch.js`, the `draw()` function usually runs at full speed by default. However, in scenes like the TitleScene or SettingsScene, the visuals are mostly static. By using the SceneManager to switch scenes and reduce the main thread's workload when high performance isn't needed, we stop the CPU from looping unnecessarily. This saves battery and prevents the player's device from getting too hot.
 
-2. Defer offscreen images
-- Category: Web
-- Our Usage: We applied this to our asset-loading mechanism.
-<p align="justify">
-- Why we used it: Our AssetManager handles a lot of files, but we don't force the browser to download everything at the very start. For example, Level 4 has a huge background that is 15,000 pixels wide. We use the buildLevel logic in LevelScene to only trigger the loading of levelAssets when the player actually starts that specific level. This "lazy loading" approach prevents a lot of unnecessary data transfer, which saves the player's data and reduces the carbon footprint of the servers.
-</p>
+2. **Defer offscreen images**
+   - **Category:** Web
+   - **Our Usage:** We applied this to our asset-loading mechanism.
+   - **Why we used it:** Our AssetManager handles a lot of files, but we don't force the browser to download everything at the very start. For example, Level 4 has a huge background that is 15,000 pixels wide. We use the buildLevel logic in LevelScene to only trigger the loading of levelAssets when the player actually starts that specific level. This "lazy loading" approach prevents a lot of unnecessary data transfer, which saves the player's data and reduces the carbon footprint of the servers.
 
-3. Optimize average CPU utilization
-- Category: Cloud (applied to client-side computing)
-- Our Usage: We use "Entity Culling" logic to cut down on the calculations done every frame.
-<p align="justify">
-- Why we used it: Our maps are very long; Level 1 alone is 12,000 pixels wide. Normally, World.js would try to update every single enemy and item in the level simultaneously. By using the InteractionManager to prioritize objects near the player, we ensure the CPU only processes physics and AI for things currently on screen. This significantly lowers the average CPU usage, allowing the game to run smoothly on older hardware and extending the device's lifespan.
-</p>
+3. **Optimize average CPU utilization**
+   - **Category:** Cloud (applied to client-side computing)
+   - **Our Usage:** We use "Entity Culling" logic to cut down on the calculations done every frame.
+   - **Why we used it:** Our maps are very long; Level 1 alone is 12,000 pixels wide. Normally, World.js would try to update every single enemy and item in the level simultaneously. By using the InteractionManager to prioritize objects near the player, we ensure the CPU only processes physics and AI for things currently on screen. This significantly lowers the average CPU usage, allowing the game to run smoothly on older hardware and extending the device's lifespan.
+
 
 ## 9. Conclusion
 
