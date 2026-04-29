@@ -26,6 +26,9 @@ LINK. Add a link here to your deployed game, you can also make the image above l
 
 VIDEO. Include a demo video of your game here (you don't have to wait until the end, you can insert a work in progress video)
 
+<details>
+<summary><b>Table of Contents</b></summary>
+
 - [2026-group-22](#2026-group-22)
 - [COMSM0166 Project Template](#comsm0166-project-template)
   - [Info](#info)
@@ -101,7 +104,8 @@ VIDEO. Include a demo video of your game here (you don't have to wait until the 
         - [Lessons Learnt](#lessons-learnt)
         - [Future work](#future-work)
     - [Contribution Statement](#contribution-statement)
-    - [Contribution Statement](#contribution-statement-1)
+
+</details>
 
 
 ## Your Group
@@ -549,8 +553,6 @@ To overcome these obstacles, we learned the critical importance of adopting indu
 
 ##### Future work
 In the immediate future, we aim to deepen the core gameplay loop by introducing a more diverse weapon system and NPC allies with unique tactical abilities. Furthermore, we plan to design platforms with more complex interaction mechanics and implement multi-phase Boss battles. For a potential sequel, we would explore significant system-level breakthroughs. This includes implementing network synchronization to support a multiplayer co-op mode, and developing a highly flexible, visual Level Editor (UGC system). This editor would empower players to fully customize and share their own level designs, effectively handing the creative power over to the community.
-
-### Contribution Statement
 
 ### Contribution Statement
 
