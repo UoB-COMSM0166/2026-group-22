@@ -101,6 +101,7 @@ VIDEO. Include a demo video of your game here (you don't have to wait until the 
         - [Lessons Learnt](#lessons-learnt)
         - [Future work](#future-work)
     - [Contribution Statement](#contribution-statement)
+    - [Contribution Statement](#contribution-statement-1)
 
 
 ## Your Group
@@ -138,23 +139,23 @@ We mainly built the twist of our game based on Kirby and Cuphead：
 - Two skills-acquiring system, including cooperation with friends and obtaining skills in store by collecting gold coins.
 
 <div align="center">
-  <img src="images/twist1.png" width="300">
+  <img src="images/twist1.png" width="400">
 </div>
 
 <div align="center">
-  <img src="images/twist2.jpg" width="300">
+  <img src="images/twist2.jpg" width="400">
 </div>
 
 - Two types of characters (enemies and friends).
 
 <div align="center">
-  <img src="images/twist3.jpg" width="300">
+  <img src="images/twist3.jpg" width="400">
 </div>
 
 - Series of blocks of maps
 
 <div align="center">
-  <img src="images/twist4.png" width="300">
+  <img src="images/twist4.png" width="400">
 </div>
   
 
@@ -189,13 +190,13 @@ The video above shows the initial prototype of our game, KirbyHead, which is the
 In the end, we decided that we are going to make our games based on game mechanics and styles of both Kirby & The Amazing Mirror and Cuphead.
 
 <div align="center">
-  <img src="images/ideation1.png" width="300">
+  <img src="images/ideation1.png" width="400">
 </div>
 
 Kirby is a colorful platformer where you control Kirby through side scrolling or 3D stages, jumping, floating, and fighting enemies. The core mechanic is Kirby’s ability to inhale foes and objects, then copy enemy powers to gain new attacks and movement options. Levels focus on simple combat, exploration, and light puzzles, with power ups encouraging flexible, playful playstyles.
 
 <div align="center">
-  <img src="images/ideation2.png" width="300">
+  <img src="images/ideation2.png" width="400">
 </div>
 
 Cuphead is a run-and-gun boss-rush action game with a 1930s cartoon aesthetic, built around fast, pattern heavy fights. You shoot, dodge, dash, and parry to build special attacks while learning enemy telegraphs and phases. The gameplay emphasizes tight controls, memorization, and precision, with short stages and bosses designed for repeated attempts and mastery.
@@ -203,7 +204,7 @@ Cuphead is a run-and-gun boss-rush action game with a 1930s cartoon aesthetic, b
 #### Identifying Stakeholder
 
 <div align="center">
-  <img src="images/stakeholder1.png" width="300">
+  <img src="images/stakeholder1.png" width="800">
 </div>
 
 #### User Stories
@@ -229,7 +230,7 @@ Epic 4: Art & User Experience
 This use case diagram illustrates the main interactions between the player and the game system. It presents the overall functional structure of the project, including the Loader, Camp, Maps, Shop, and Settings modules, as well as the relationships between core gameplay actions and supporting system features.
 
 <div align="center">
-  <img src="images/usecase1.png" width="300">
+  <img src="images/usecase1.png" width="800">
 </div>
 
 Figure x. Use-case diagram
@@ -348,7 +349,7 @@ Demographics: Male (54.5%), Female (45.5%).
 Gaming Experience: Novice (27.3%), Casual (45.4%), Hardcore/Experienced in platformers (27.3%).
 
 <div align="center">
-  <img src="images/evaluation1.png" width="300">
+  <img src="images/evaluation1.png" width="400">
 </div>
 Figure 1: Distribution of participants' prior gaming experience.
 
@@ -366,7 +367,7 @@ The SUS is a highly reliable tool for evaluating the usability of a system. A sc
 The results indicate that Island of Rising Sun has a strong foundational UI and control scheme. However, the drop in the Difficult mode suggests that when players are under pressure (e.g., dodging bosses while trying to collect coins), the interface and control responsiveness are perceived as slightly less forgiving.
 
 <div align="center">
-  <img src="images/evaluation2.png" width="300">
+  <img src="images/evaluation2.png" width="400">
 </div>
 Figure 2: Comparison of average SUS scores between Easy and Difficult modes.
 
@@ -389,7 +390,7 @@ We utilized the NASA-TLX to assess the workload placed on players. It measures s
 Analysis: The data reflects the core mechanics of Island of Rising Sun. In Difficult mode, the demand for precise platform jumping and strategic resource management (collecting coins to buy specific weapons in the shop) significantly increased Physical Demand and Effort. The sharpest increase was in Frustration (+45.2), aligning with the qualitative feedback regarding the unforgiving nature of the Hard mode bosses.
 
 <div align="center">
-  <img src="images/evaluation3.png" width="300">
+  <img src="images/evaluation3.png" width="400">
 </div>
 Figure 3: Radar chart visualizing the cognitive and physical load in different modes.
 
@@ -408,7 +409,7 @@ Participants ranked the subjective difficulty of the 4 levels on a scale of 1 (E
 Analysis: The progression curve is highly logical. Both modes show a linear increase in difficulty, proving that our level design effectively scales up the challenge. However, Level 4 in Difficult Mode (9.5/10) verges on being overly punitive, indicating a potential need for minor balancing adjustments to boss health or weapon damage scaling.
 
 <div align="center">
-  <img src="images/evaluation4.png" width="300">
+  <img src="images/evaluation4.png" width="400">
 </div>
 Figure 4: Subjective difficulty progression across the four levels.
 
@@ -418,7 +419,7 @@ Result: There is a significant negative correlation (Pearson's r = -0.68, p < 0.
 Conclusion: As the cognitive and physical load increases (higher NASA-TLX), players' rating of the system's usability decreases (lower SUS). This is a critical insight for Island of Rising Sun. It suggests that players are conflating "gameplay difficulty" (e.g., hard-to-kill mobs) with "system usability" (e.g., jumping mechanics). To improve future iterations, we must ensure that when the game gets harder, the controls remain flawlessly responsive, so players blame their own timing rather than the game's operational feel.
 
 <div align="center">
-  <img src="images/evaluation5.png" width="300">
+  <img src="images/evaluation5.png" width="400">
 </div>
 Figure 5: Scatter plot showing the negative correlation between NASA-TLX workload and SUS scores.
 
@@ -461,23 +462,23 @@ Static analysis tools were utilized to check for undefined variables and ensure 
 To manage the project effectively, we divided the development process into four main stages. Firstly, we conducted game research and defined the twist of the game, so that the project would have a clear gameplay direction from the beginning. Secondly, we confirmed the storyline, built the overall object-oriented programming framework, and developed the core logic and interaction of the main interfaces, while also deciding the key functional modules and the visual style. Thirdly, we refined the detailed gameplay features by improving the platform layouts of each map, completing the interactions and transitions between different pages, and integrating visual assets into the game. Finally, we focused on testing, debugging, and polishing the game, while also preparing the repository materials and final report documentation.
 
 <div align="center">
-  <img src="images/process1.png" width="300">
+  <img src="images/process1.png" width="400">
 </div>
 
 #### TeamWork: Communication and Collaboration
 To maintain effective teamwork throughout the project, we combined both offline and online communication methods. Team members discussed design ideas, gameplay adjustments, and implementation details through face-to-face meetings, which allowed us to exchange opinions more directly and make decisions more efficiently. In addition, we held a regular online meeting every Saturday afternoon to review weekly progress, report completed tasks, and coordinate the next stage of development. This online meeting also gave each member an opportunity to raise technical or design issues they had encountered during the week. To keep communication clear outside meetings, we used shared documents and a Kanban board to record task assignments, monitor development status, and update priorities when necessary. This combination of regular meetings and shared tools helped the team remain organised, transparent, and aligned throughout the project.
 <div align="center">
-  <img src="images/process2.1.png" width="300">
+  <img src="images/process2.1.png" width="400">
 </div>
 
 <div align="center">
-  <img src="images/process2.2.png" width="300">
+  <img src="images/process2.2.png" width="400">
 </div>
 
 In terms of problem solving, our team adopted a collaborative and iterative approach. When a technical issue or design difficulty emerged, we first raised it during our regular meetings or in group discussions so that all members could contribute possible ideas and solutions. If the problem could not be resolved immediately, we would break it down into smaller parts, assign follow-up tasks, and continue investigating it individually before discussing it again in the next meeting. For programming-related issues, we also relied on shared code review, peer discussion, and repeated testing to identify the source of bugs and evaluate whether a solution was effective. In some cases, we adjusted our original plan after discovering that a certain feature was more complex than expected, which allowed us to focus on practical solutions instead of forcing unsuitable designs. This problem-solving process helped us respond to difficulties in a flexible way and ensured that development could continue steadily even when unexpected challenges appeared.
 
 <div align="center">
-  <img src="images/process3.png" width="300">
+  <img src="images/process3.png" width="400">
 </div>
 
 #### Method and Tools
@@ -488,7 +489,7 @@ Overall, this process created a clearer and more manageable workflow throughout 
 
 ### Sustainability, Ethics, and Accessibility
 <div align="center">
-  <img src="images/s2.png" width="500">
+  <img src="images/s2.png" width="800">
 </div>
 
 #### Environmental Sustainability
@@ -551,4 +552,12 @@ In the immediate future, we aim to deepen the core gameplay loop by introducing 
 
 ### Contribution Statement
 
-- Provide a table of everyone's contribution, which *may* be used to weight individual grades. We expect that the contribution will be split evenly across team-members in most cases. Please let us know as soon as possible if there are any issues with teamwork as soon as they are apparent and we will do our best to help your team work harmoniously together.
+### Contribution Statement
+
+| Name | Contribution |
+| :--- | :---: |
+| Jiahao Zhao | 1.00 |
+| Shalakorn Teerasukaporn | 1.00 |
+| Mingyu Yang | 1.00 |
+| Qing Shi | 1.00 |
+| Xinyi Zhang | 1.00 |
