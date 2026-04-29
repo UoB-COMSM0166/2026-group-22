@@ -503,18 +503,25 @@ Here are the three patterns we used and why:
 ## 9. Conclusion
 
 ### 9.1 Reflect on the project as a whole 
-
+<p align="justify">
 Isle of Rising Sun is a 2D platformer that blends a unique narrative background with innovative level mechanics. Looking back at the entire development cycle, this was not merely a process of building a game program from scratch, but a comprehensive exercise in team collaboration within a complex system architecture. We successfully refactored an initially bloated, tightly coupled monolithic codebase into a modern game framework. This evolution witnessed our complete transformation from early development confusion to the establishment of an efficient, modular workflow.
+</p>
 
 ### 9.2 Reflect on challenges & Lessons learnt
 #### 9.2.1 Reflect on challenges
+<p align="justify">
 In the early stages of development, our team encountered several significant technical and organizational hurdles. Initially, a disparity in JavaScript engineering experience caused a severe bottleneck, as code production relied far too heavily on a single developer. This technical strain was compounded by a lack of systematic software development planning. Our project management was unstructured, resulting in fragmented meetings, poor forecasting of future tasks, and an absence of retrospective analysis. Furthermore, our initial approach to task allocation was inadequate; verbally discussed tasks were easily forgotten, difficult to track, and poorly granulated. This lack of organization blurred task boundaries, leading to task overload for certain members and threatening our overall project timeline with delays.
+</p>
 
 #### 9.2.2 Lessons Learnt
+<p align="justify">
 To overcome these obstacles, we learned the critical importance of adopting industry-standard engineering and management frameworks. To break the coding bottleneck, we fully integrated the Git version control system. By establishing standardized commit conventions and an asynchronous collaboration workflow, we learned how to successfully distribute tasks in parallel, honing the team's ability to resolve merge conflicts and maintain a shared codebase. On the management front, we embraced Agile methodologies by instituting a weekly meeting system. We learned to utilize "Retrospectives" and "Sprints" to systematically monitor real-time progress, tackle technical hurdles, and maintain a steady development cadence before critical milestones. Finally, to resolve our tracking issues, we adopted Kanban management. By using shared documents to break down massive development goals into quantifiable, bite-sized items, we learned how to significantly enhance team transparency and establish clear task boundaries, effectively preventing future delays.
+</p>
 
 ### 9.3 Future work
+<p align="justify">
 In the immediate future, we aim to deepen the core gameplay loop by introducing a more diverse weapon system and NPC allies with unique tactical abilities. Furthermore, we plan to design platforms with more complex interaction mechanics and implement multi-phase Boss battles. For a potential sequel, we would explore significant system-level breakthroughs. This includes implementing network synchronization to support a multiplayer co-op mode, and developing a highly flexible, visual Level Editor (UGC system). This editor would empower players to fully customize and share their own level designs, effectively handing the creative power over to the community.
+</p>
 
 ## 10. AI Statement
 <p align="justify">
