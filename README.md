@@ -27,7 +27,7 @@ LINK. Add a link here to your deployed game, you can also make the image above l
 VIDEO. Include a demo video of your game here (you don't have to wait until the end, you can insert a work in progress video)
 
 <details>
-<summary><b>Table of Contents</b></summary>
+<summary><b><h2>Table of Contents</h2></b></summary>
 
 - [2026-group-22](#2026-group-22)
 - [COMSM0166 Project Template](#comsm0166-project-template)
