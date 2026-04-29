@@ -81,6 +81,37 @@ Table 1 shows the list of collectables in our game with their descriptions and c
 Table 2 shows the theme of each level and special items within it. Each level demonstrates different speial twists while the difficulty gradually increases from level 1 to level 4.
 </p>
 
+<p align="center">
+  <b>Table 3:</b>
+  <i>Platform Tile</i>
+</p>
+
+|Tile|Example Image|Description|
+| -- | -- | -- |
+|Regular|<img src="docs/assets/levels/lv2/env/tile.png" width="50" alt="level2 tile"> <img src="docs/assets/levels/lv4/env/tile.png" width="50" alt="level4 tile">|Platforms with regular tile have no special effect on the player. They are just places for the player to stand on. Some of them can be a moving platform which are continuously moving in either in horizontal or vertical directions|
+|Cracked|<img src="docs/assets/levels/lv2/env/crack_tile.png" width="50" alt="level2 tile"> <img src="docs/assets/levels/lv4/env/crack_tile.png" width="50" alt="level4 tile">|Platforms with slightly cracked tile are available from Level 2 to Level 4. These platform will crack and disappear within just 1 second after landed on, so the player is forced to jump to the next platform faster creating a more challenging theme of the gameplay|
+
+<p>
+The game environment on each level mainly consists of two main types of platform tiles: regular and cracked. Example images and descriptions of these platform tile mechanisms are described in Table 3.
+</p>
+
+<p align="center">
+  <b>Table 4:</b>
+  <i>Weapons</i>
+</p>
+
+|Weapon|Image|Bullet|Description|Stats|
+| -- | -- | -- | -- | -- |
+|Pistol|<img src="docs/assets/weapons/pistol.png" width="90" alt="pistol">|<img src="docs/assets/weapons/bullets/pistol.png" width="50" alt="pistol bullet">|A reliable handgun. Good for single targets.|<p>• Damage: 10</p><p>• Bullet Speed: 8</p><p>• Cooldown: 30</p>|
+|Ion Fury|<img src="docs/assets/weapons/ion_fury.png" width="90" alt="ion fury">|<img src="docs/assets/weapons/bullets/ion_fury.png" width="50" alt="ion fury bullet">|Sleek energy revolver. High precision, low recoil.|<p>• Damage: 15</p><p>• Bullet Speed: 12</p><p>• Cooldown: 20</p>|
+|The Shredder|<img src="docs/assets/weapons/the_shredder.png" width="90" alt="the shredder">|<img src="docs/assets/weapons/bullets/the_shredder.png" width="50" alt="the shredder bullet">|Rapid-fire void repeater. Devastates at high speeds.|<p>• Damage: 8</p><p>• Bullet Speed: 18</p><p>• Cooldown: 8</p>|
+|Viper's Kiss|<img src="docs/assets/weapons/vipers_kiss.png" width="90" alt="viper's kiss">|<img src="docs/assets/weapons/bullets/vipers_kiss.png" width="50" alt="viper's kiss bullet">|Corrosive burst rifle. Melts through armor easily.|<p>• Damage: 35</p><p>• Bullet Speed: 10</p><p>• Cooldown: 35</p>|
+|Titan's Breath|<img src="docs/assets/weapons/titans_breath.png" width="90" alt="titan's breath">|<img src="docs/assets/weapons/bullets/titans_breath.png" width="50" alt="titan's breath bullet">|Heavy thermal cannon. Massive damage, slow fire.|<p>• Damage: 75</p><p>• Bullet Speed: 8</p><p>• Cooldown: 60</p>|
+
+<p>
+Table 4 shows different types of weapons available in our game. These weapons have different stats including damage, bullet speed, and cooldown which allow the player to clearly feel the variety of weapon themes. Pistol is the default weapon given at the start of the game while the four other stronger weapons are available for sale in the camp shop. The implementation of our weapon shop is adapt from <b>CupHead</b>.
+</p>
+
 ## 3. Requirements 
 
 ### 3.1 Early Stages Design 
