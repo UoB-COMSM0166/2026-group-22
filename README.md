@@ -91,6 +91,7 @@ Table 2 shows the theme of each level and special items within it. Each level de
 |Regular|<img src="docs/assets/levels/lv2/env/tile.png" width="50" alt="level2 tile"> <img src="docs/assets/levels/lv4/env/tile.png" width="50" alt="level4 tile">|Platforms with regular tile have no special effect on the player. They are just places for the player to stand on. Some of them can be a moving platform which are continuously moving in either in horizontal or vertical directions|
 |Cracked|<img src="docs/assets/levels/lv2/env/crack_tile.png" width="50" alt="level2 tile"> <img src="docs/assets/levels/lv4/env/crack_tile.png" width="50" alt="level4 tile">|Platforms with slightly cracked tile are available from Level 2 to Level 4. These platform will crack and disappear within just 1 second after landed on, so the player is forced to jump to the next platform faster creating a more challenging theme of the gameplay|
 
+
 <p>
 The game environment on each level mainly consists of two main types of platform tiles: regular and cracked. Example images and descriptions of these platform tile mechanisms are described in Table 3.
 </p>
@@ -116,9 +117,9 @@ Table 4 shows different types of weapons available in our game. These weapons ha
 
 ### 3.1 Early Stages Design 
 #### 3.1.1 Initial Paper Prototype of Our Game 
-	
+<p align="justify">
 We made a first paper prototype of our game which we initially named it, KirbyHead, based on game twists and mechanics we discussed earlier to see a clear picture of our game functionalities which can lead to a solid development foundation of the game’s codebase
-
+</p>
 <div align="center">
 <a href="https://youtu.be/qLW4bnOnACs"><img src="images/paper_prototype_video.jpg" width=800 alt="starting page of KirbyHead game"></a></br>
 <a href="https://youtu.be/qLW4bnOnACs">CLICK HERE to watch the video</a>
@@ -135,14 +136,16 @@ In the end, we decided that we are going to make our games based on game mechani
 <div align="center">
   <img src="images/ideation1.png" width="400">
 </div>
-
+<p align="justify">
 Kirby is a colorful platformer where you control Kirby through side scrolling or 3D stages, jumping, floating, and fighting enemies. The core mechanic is Kirby’s ability to inhale foes and objects, then copy enemy powers to gain new attacks and movement options. Levels focus on simple combat, exploration, and light puzzles, with power ups encouraging flexible, playful playstyles.
+</p>
 
 <div align="center">
   <img src="images/ideation2.png" width="400">
 </div>
-
+<p align="justify">
 Cuphead is a run-and-gun boss-rush action game with a 1930s cartoon aesthetic, built around fast, pattern heavy fights. You shoot, dodge, dash, and parry to build special attacks while learning enemy telegraphs and phases. The gameplay emphasizes tight controls, memorization, and precision, with short stages and bosses designed for repeated attempts and mastery.
+</p>
 
 ### 3.3 Identifying Stakeholder
 
@@ -170,15 +173,18 @@ Cuphead is a run-and-gun boss-rush action game with a 1930s cartoon aesthetic, b
 | Epic 4: Art & User Experience | Immersion-Seeking Designer: As an Art designer who values immersion, I want a consistent and original art style, so that the game world feels cohesive. | • Given the player is progressing through different levels, when they observe environments, characters, and objects, then the visual style remains consistent in color, lighting, and artistic design.<br>• Given the player is interacting with the game interface, when UI elements are displayed during gameplay, then they match the overall art direction in style, color scheme, and visual language.<br>• Given the player is playing the release version of the game, when they encounter visual assets during gameplay, then no placeholder, missing, or unpolished assets are visible. | High | High | Should Have |
 
 ### 3.5 Use Case Diagrams and Specifications
+<p align="justify">
 This use case diagram illustrates the main interactions between the player and the game system. It presents the overall functional structure of the project, including the Loader, Camp, Maps, Shop, and Settings modules, as well as the relationships between core gameplay actions and supporting system features.
+</p>
 
 <div align="center">
   <img src="images/usecase1.png" width="800">
 </div>
 
 Figure x. Use-case diagram
-
+<p align="justify">
 The following table presents the use case specifications for the core functions of the game system. Developed from the use case diagram, it provides a more structured description of the main interactions between the player and the system. Each use case is organised into Basic Flow and Alternative Flow. The Basic Flow describes the standard sequence of actions under normal conditions, while the Alternative Flow outlines possible exceptions, failures, or conditional variations during the interaction process.
+</p>
 
 #### 3.5.1 Use Case Descriptions (Game Flows)
 
@@ -198,33 +204,45 @@ The following table presents the use case specifications for the core functions 
 ## 4. Design
 
 ### 4.1 System Architecture
+<p align="justify">
 Our game uses a scene based and object oriented architecture built on top of p5.js. The main structure is divided into scene control, persistent game state, gameplay world simulation, reusable game objects, and supporting manager systems. This separation keeps the main sketch simple and makes the code easier to extend and debug.
+</p>
 
 #### 4.1.1 Scene Control and Persistent Game State
+<p align="justify">
 The scene control and persistent game state are handled separately from the main gameplay logic. The p5.js entry file, sketch.js, only initializes the loading scene, preloads assets, and delegates core events such as draw(), mousePressed(), keyPressed(), and windowResized() to sceneManager. Screen flow is then controlled by SceneManager.js, which stores and switches between scenes such as TitleScene, CharSelectScene, DiffSelectScene, CampScene, ShopScene, LevelScene, and BossScene. Long-term progress is managed by GameState.js, which stores coins, owned items, equipped weapons, difficulty, unlocked levels, and settings through local storage.
+</p>
 
 #### 4.1.2 Gameplay World Simulation
+<p align="justify">
 The gameplay world simulation is mainly handled by LevelScene.js, World.js, and LevelBuilder.js. When a level starts, LevelScene.js creates the player and builds a World object for the selected level. World.js then manages the player, enemies, platforms, collectables, checkpoints, projectiles, camera movement, collision checks, and UI updates. Level construction is data driven: LevelBuilder.js reads level configuration data and converts it into concrete game objects such as platforms, enemies, coins, checkpoints, and items.
+</p>
 
 #### 4.1.3 Reusable Objects and Supporting Manager Systems
+<p align="justify"> 
 The reusable game objects and supporting manager systems are handled by a set of base classes and manager classes. GameObject.js provides shared position, size, active state, bounds, and collision methods, while Entity.js adds health, speed, velocity, gravity, physics, and damage handling. More specific classes such as Player, Enemy, Boss, Platform, Collectable, and Projectile extend these base structures to create different behaviours. Supporting systems such as AssetManager, AnimationManager, AbilityManager, and InteractionManager handle asset loading, sprite animation, player abilities, combat, projectiles, puzzles, and world limits.
  
 Overall, this architecture separates screen flow, game progress, level simulation, object behaviour, and shared support systems into different parts of the codebase. During the development process, this made the game easier to maintain, debug, and divide among team members because each file had a clear responsibility. In the longer term, it also provides a more scalable structure for future development, content updates, and long-term maintenance as a complete game project.
-
+</p>
 
 ## 5. Implementation
-
+<p align="justify"> 
 To ensure high scalability, we implemented a strict modular architecture divided into three independent layers following Object Oriented Design (OOD) approach:
 1. UI Layer : Interfaces are abstracted into independent scenes (e.g.,CampScene.js) with onEnter/onExit hooks. sketch.js delegates native events (draw, mousePressed) to a singleton SceneManager, which routes them to the active scene, ensuring absolute UI state isolation.
 2. Physics & Logic Layer : A base GameObject class standardizes rendering and boundaries, from which entities like Player, Enemy, and Platform are derived. The World.js container simply calls update() and show() polymorphically on child objects within the frame loop.
 3. Data Layer : Level assets (terrain, items, backgrounds) are completely decoupled from logic into pure configuration files (src/levels/LevelX.js). World.js acts as a parser, dynamically instantiating the world based on the level index to separate code from game assets.
 
 During implementation, we primarily faced and solved two technical challenges:
+</p>
 
 ### 5.1 Challenge 1: Alignment of Hitbox Design and Visual Presentation
 #### Challenge:
+<p align="justify"> 
 Utilizing the raw dimensions of game sprites for collision detection often results in poor "game feel." Due to transparent margins in many image assets, hitboxes that perfectly match image sizes can lead to "unfair" outcomes—such as players taking damage before visual contact is made or falling off platforms while their character's feet still appear to be on the edge. Furthermore, the vast scale difference between massive bosses and small projectiles necessitates a flexible boundary logic; a rigid, uniform approach would create a noticeable disconnect between visual cues and physical reality.
+</p>
+
 #### Solution:
+<p align="justify"> 
 To ensure physical detection aligns with player intuition, a "Visual-Physical Decoupling" strategy was implemented:
 
 - Standardization of Boundary Calculations: A universal getBounds() method was established within the GameObject.js base class. This method calculates boundaries based on manually defined width (w) and height (h) properties rather than raw sprite dimensions, ensuring a consistent and efficient detection standard across the entire project.
@@ -234,12 +252,16 @@ To ensure physical detection aligns with player intuition, a "Visual-Physical De
 - Decoupling of Render and Physical Dimensions: For large-scale entities like bosses, the system distinguishes between visual dimensions (visualW/H) and physical collision dimensions (w/h). By leveraging alignment settings within the AnimationManager, precise positioning (such as grounding a boss’s feet) is maintained, preventing hitbox misalignment caused by animation scaling.
 
 - argeted Boundary Extension for Special Objects: For unique elements such as the ChainPlatform, the boundary retrieval method is overridden to allow the detection zone to extend upward under specific states. This facilitates accurate interaction across the entire length of the chain without the need for redundant or complex code.
+</p>
 
 ### 5.2 Challenge 2: Physics Collision Detection and Positional Correction in 2D Platformers
 #### Challenge:
+<p align="justify"> 
 One of the most complex aspects of developing a platformer is precisely determining whether a character has "landed on a platform," "hit a side wall," or "collided with the ceiling." Relying solely on basic rectangular overlap detection often leads to erratic physics logic: characters may become stuck inside blocks (clipping) or bypass floors entirely due to high falling speeds (tunneling). Additionally, ensuring a character remains securely on a moving platform without sliding off is a significant challenge in maintaining a polished "game feel."
+</p>
 
 #### Solution:
+<p align="justify"> 
 To resolve these physical inaccuracies and unnatural movements, a coordinate correction logic was integrated into the resolve collision handling mechanism within Platform.js:
 
 - Directional Collision Differentiation: The system moves beyond simple collision detection by utilizing a getOverlap method to calculate the depth of overlap across all four directions. By comparing these values, the program accurately distinguishes whether the character is falling from above or impacting from the side or bottom.
@@ -249,52 +271,74 @@ To resolve these physical inaccuracies and unnatural movements, a coordinate cor
 - Mitigation of Clipping and Tunneling: For non-landing collisions (sides or bottom), the system identifies the axis of minimum overlap and "pushes" the character out in that direction. This ensures that even at high speeds, the character is instantly repositioned outside the collision volume, effectively preventing them from becoming stuck inside walls.
 
 - Velocity Synchronization for Moving Platforms: Within the resolve method, the moving platform’s own velocity (velX and velY) is transferred in real-time to the character currently standing on it. This ensures the character moves in perfect synchronization with the platform, providing a stable and responsive control experience.
-
+</p>
 
 ## 6. Evaluation
 
 ### 6.1 Qualitative Evaluation
+<p align="justify"> 
 To gain an in-depth understanding of players’ genuine experiences regarding level design, game difficulty, operational feel, and the overall game concept, we adopted the Think Aloud technique. This method allows us to capture players’ immediate reactions and thoughts during gameplay, helping us identify design strengths and weaknesses while providing strong evidence for subsequent iterations.
+</p>
 
 #### 6.1.1 Study Design and Participant Recruitment
+<p align="justify"> 
 We recruited 14 participants from diverse backgrounds to ensure broad and varied feedback. Their gaming experience ranged from absolute beginners to hardcore players. During the experiment, participants played through all 4 levels in both Easy and Hard modes. Players continuously verbalized their operational strategies, immediate impressions, and feedback regarding level layout, enemy design, item functions, visual effects, and sound effects. After data collection, we organized and coded the textual data to extract the core feedback themes.
+</p>
 
 #### 6.1.2 Main Feedback Themes
 ##### 6.1.2.1 Player Movement and Operational Feel
+<p align="justify"> 
 Immediate Feedback: The majority of players praised the core movement mechanics, describing the controls as simple, responsive, and easy to pick up, with a nostalgic feel reminiscent of classic games.
 Areas for Improvement: Some players noted minor issues, such as the character falling too slowly after a jump and slight input delays. Additionally, players suggested that the transition animations between turning, jumping, and attacking could be smoother to enhance the overall operational feel.
+</p>
 
 ##### 6.1.2.2 Level Difficulty and Challenge
+<p align="justify"> 
 Difficulty Balance: Players generally agreed that the Easy mode is highly accessible and beginner-friendly, while the level design hits a "sweet spot" where jumps require skill without feeling unfair.
 Combat and Bug Reports: A common critique was that enemy and boss HP (especially the Hard mode boss and Easy mode regular enemies) felt too high, making combat tedious. Players also discovered exploits, such as bosses having attack blind spots at the edges of the map. Furthermore, critical bugs were reported, including broken save points and players being able to continue fighting with zero health.
+</p>
 
 ##### 6.1.2.3 Game Guidance and Information Presentation
+<p align="justify"> 
 Tutorial Clarity: While the basic tutorials were straightforward, many players felt the in-game guidance was insufficient. The tutorial text was often described as unclear or easily overlooked.
 Missing Instructions: Participants frequently mentioned confusion regarding core mechanics: the double jump, specific item usages (like the bow in Level 4), and the death penalty (being sent back to the start). Most notably, the checkpoint system (the purple gem) was heavily misunderstood, with many players mistaking it for a collectible item rather than a save point. Players also requested visual highlights for interactive UI elements (like the shop) and noted the absence of a victory screen after defeating bosses.
+</p>
 
 ##### 6.1.2.4 Level Layout and Environmental Design
+<p align="justify"> 
 Visual and Thematic Performance: The environmental design was highly praised. Players appreciated the clear structure and distinct themes across the 4 levels, noting that each map had unique mechanics and avoided feeling homogenized.
 Interaction Suggestions: To elevate the experience, several participants suggested increasing the interactivity of the environments. Instead of the environment serving solely as a background, players recommended adding interactive elements like stackable wooden crates to assist with platforming, which would deepen gameplay engagement.
+</p>
 
 ##### 6.1.2.5 Enemy Design and Item Usage
+<p align="justify"> 
 Enemy Behavior: While the classic enemy setup was appreciated, many players found the enemy AI to be overly basic and monotonous. Participants suggested adding ranged attack modes to regular enemies and refining boss mechanics (e.g., providing hints to dodge the Level 1 boss's bullets). The Level 4 boss was specifically called out for having unfinished graphics and poor design.
 Item Functionality: Although players found the map-specific items interesting, they felt the overarching item pool lacked originality. Clearer instructions upon picking up new items are necessary to improve strategic usage.
+</p>
 
 ##### 6.1.2.6 Game Pacing and Sound Feedback
+<p align="justify"> 
 Pacing Control: The overall game pacing was well-received, with players noting that the 2-3 minute duration per map felt excellent and comfortable.
 Sensory Feedback: Feedback regarding the audio was mixed; some found the audio generic and failing to amplify the emotional experience. To increase the “satisfaction” of the combat, players highly recommended adding distinct visual and audio feedback for key actions, such as critical hits and perfect dodges.
+</p>
 
 #### 6.1.3 Summary and Outlook
+<p align="justify"> 
 Through this qualitative evaluation, we have gathered invaluable insights into player movement, difficulty balancing, tutorial clarity, and overall game mechanics. The feedback indicates that while the game has a strong, nostalgic foundation with well-structured levels and accessible controls, there are critical areas requiring immediate attention. Moving forward, our primary focus will be on refining game guidance (especially regarding checkpoints and item usage), balancing enemy HP, fixing game-breaking bugs, and enhancing the audiovisual feedback for combat actions. By addressing these pain points and introducing more dynamic enemy AI and environmental interactions, our continuous iterative refinement aims to create a more polished, engaging, and rewarding experience for players of all skill levels.
+</p>
 
 ### 6.2 Quantitative Evaluation
+<p align="justify"> 
 To complement the qualitative feedback and gain objective, measurable insights into the player experience of Island of Rising Sun, we conducted a comprehensive quantitative evaluation.
+</p>
 
 #### 6.2.1 Study Design and Participant Demographics
+<p align="justify"> 
 We recruited 22 participants with varying degrees of platformer experience. Each participant was required to complete all four levels of the game under two distinct conditions: Easy Mode and Difficult (Hard) Mode. This within-subjects design yielded a total of 44 valid questionnaires.
 The survey was designed to measure four core dimensions: Basic player information, System Usability Scale (SUS) for overall usability, NASA Task Load Index (NASA-TLX) for perceived cognitive and physical load, and subjective difficulty rankings across the four levels.
 Demographics: Male (54.5%), Female (45.5%).
 Gaming Experience: Novice (27.3%), Casual (45.4%), Hardcore/Experienced in platformers (27.3%).
+</p>
 
 <div align="center">
   <img src="images/evaluation1.png" width="400">
@@ -318,8 +362,9 @@ The SUS is a highly reliable tool for evaluating the usability of a system. A sc
 | **Difficult Mode** | 71.2 | C+ | "Good, but the tight jump windows and unforgiving enemy mechanics caused slight frustration." |
 
 </div>
-
+<p align="justify"> 
 The results indicate that Island of Rising Sun has a strong foundational UI and control scheme. However, the drop in the Difficult mode suggests that when players are under pressure (e.g., dodging bosses while trying to collect coins), the interface and control responsiveness are perceived as slightly less forgiving.
+</p>
 
 <div align="center">
   <img src="images/evaluation2.png" width="400">
@@ -348,8 +393,9 @@ We utilized the NASA-TLX to assess the workload placed on players. It measures s
 </div>
 
 *\*Note: Lower performance score means the player felt less successful.*
-
+<p align="justify"> 
 Analysis: The data reflects the core mechanics of Island of Rising Sun. In Difficult mode, the demand for precise platform jumping and strategic resource management (collecting coins to buy specific weapons in the shop) significantly increased Physical Demand and Effort. The sharpest increase was in Frustration (+45.2), aligning with the qualitative feedback regarding the unforgiving nature of the Hard mode bosses.
+</p>
 
 <div align="center">
   <img src="images/evaluation3.png" width="400">
@@ -374,8 +420,9 @@ Participants ranked the subjective difficulty of the 4 levels on a scale of 1 (E
 | Level 4 | 6.0 | 9.5 |
 
 </div>
-
+<p align="justify"> 
 Analysis: The progression curve is highly logical. Both modes show a linear increase in difficulty, proving that our level design effectively scales up the challenge. However, Level 4 in Difficult Mode (9.5/10) verges on being overly punitive, indicating a potential need for minor balancing adjustments to boss health or weapon damage scaling.
+</p>
 
 <div align="center">
   <img src="images/evaluation4.png" width="400">
@@ -383,9 +430,11 @@ Analysis: The progression curve is highly logical. Both modes show a linear incr
 Figure 4: Subjective difficulty progression across the four levels.
 
 #### 6.2.5 Correlation Between SUS and NASA-TLX Scores
+<p align="justify"> 
 To understand how game difficulty impacts the player's perception of the game's usability, we conducted a Pearson correlation analysis between the total SUS scores and the overall NASA-TLX workload scores across all 44 questionnaires.
 Result: There is a significant negative correlation (Pearson's r = -0.68, p < 0.01) between SUS and NASA-TLX scores.
 Conclusion: As the cognitive and physical load increases (higher NASA-TLX), players' rating of the system's usability decreases (lower SUS). This is a critical insight for Island of Rising Sun. It suggests that players are conflating "gameplay difficulty" (e.g., hard-to-kill mobs) with "system usability" (e.g., jumping mechanics). To improve future iterations, we must ensure that when the game gets harder, the controls remain flawlessly responsive, so players blame their own timing rather than the game's operational feel.
+</p>
 
 <div align="center">
   <img src="images/evaluation5.png" width="400">
@@ -393,46 +442,68 @@ Conclusion: As the cognitive and physical load increases (higher NASA-TLX), play
 Figure 5: Scatter plot showing the negative correlation between NASA-TLX workload and SUS scores.
 
 ### 6.3 Testing
-
+<p align="justify"> 
 To ensure the stability of the platforming mechanics, the integrity of the game’s economy, and the robustness of the underlying architecture, a comprehensive testing workflow encompassing both Black-Box and White-Box testing methodologies was implemented:
+</p>
 
 #### 6.3.1 Black Box Testing
 ##### 6.3.1.1. Equivalence Partitioning and Input Validation
+<p align="justify"> 
 Rigorous testing was conducted on the input system (A/D for movement, SPACE for jumping).   It was verified that movement remains fluid and that character animations (idle, run, jump) synchronize correctly with the physics engine.   Furthermore, combat inputs using the J (Shoot) key were validated for projectile trajectory.   Additionally, the ESC key was tested to ensure it reliably triggers the "Camp" (menu/pause) state without disrupting the game loop.
+</p>
 
 ##### 6.3.1.2. Functional Testing:
+<p align="justify"> 
 Hitboxes for both melee and ranged attacks were refined for accuracy, ensuring that enemy health points (HP) decrement correctly upon impact.   The K (Collect) mechanic was tested to ensure coins are properly added to the player's balance.   We also verified that items are correctly equipped after a successful transaction in the Shop System.   Specific integration tests were conducted for the final Boss encounter to check AI behavior patterns and ensure the game correctly transitions to a "Win" state upon the Boss's defeat.
+</p>
 
 ##### 6.3.1.3. Boundary Testing: 
+<p align="justify"> 
 Limit testing was performed on the Shop System to verify that players cannot purchase weapons without sufficient funds.   Verification was also performed on the platform boundaries to ensure the player character remains within the defined world limits and triggers the respawn logic correctly if falling out of bounds.
+</p>
 
 ##### 6.3.1.4. Performance Testing: 
+<p align="justify"> 
 The game's performance was monitored via browser developer tools to ensure a stable 60 FPS on Chrome and Firefox during high-intensity sequences.
+</p>
 
 #### 6.3.2 White Box Testing
-##### 6.3.2.1. Code Coverage: 
+##### 6.3.2.1. Code Coverage:
+<p align="justify">  
 Test cases were designed to achieve high branch coverage, particularly in critical game logic such as AbilityManager.handleInput().   Tests ensured all if-else branches were executed, including the specific conditions for character states (isInhaling, isCharging) and verifying that both true and false evaluations of cooldown timers correctly trigger or restrict actions like fireBullet() and fireArrow().
+</p>
 
 ##### 6.3.2.2. Path Testing:
+<p align="justify"> 
 We analyzed and validated the logical execution paths within the engine, notably in InteractionManager.handleCombat().   We tested the specific path where a player's projectile intersects with an enemy (bullet.intersects(enemy) evaluates to true), verifying the exact execution sequence: enemy.takeDamage() is called, and the bullet.  active flag is subsequently set to false to prevent multiple hit registrations.
+</p>
 
 ##### 6.3.2.3. Unit Testing: 
+<p align="justify"> 
 Core classes and utility functions were subjected to strict assertion testing.   We specifically unit tested the GameState class to ensure purchaseItem(itemId) properly checks for this.  isOwned(itemId) and this.  coins < item.  price before deducting funds and updating the ownedItemIds array.   Similarly, Player.takeDamage() was tested to guarantee HP calculations correctly account for the invincibilityTimer to prevent instant death from overlapping frames.
+</p>
 
-##### 6.3.2.4. Memory and Static Analysis: 
+##### 6.3.2.4. Memory and Static Analysis:
+<p align="justify"> 
 Static analysis tools were utilized to check for undefined variables and ensure proper object instantiation across parent-child structures like GameObject and Entity.   Additionally, memory profiling was conducted to prevent memory leaks during gameplay loops.   We verified that the array filtering mechanisms in World.update() (e.g., this.enemies.filter(e => e.active)) successfully release references to dead enemies, off-screen minion bullets, and collected coins, allowing the JavaScript garbage collector to free up memory efficiently.
+</p>
 
 ## 7. Process 
 
 ### 7.1 TeamWork: Project Stages and Task Allocation
+<p align="justify">
 To manage the project effectively, we divided the development process into four main stages. Firstly, we conducted game research and defined the twist of the game, so that the project would have a clear gameplay direction from the beginning. Secondly, we confirmed the storyline, built the overall object-oriented programming framework, and developed the core logic and interaction of the main interfaces, while also deciding the key functional modules and the visual style. Thirdly, we refined the detailed gameplay features by improving the platform layouts of each map, completing the interactions and transitions between different pages, and integrating visual assets into the game. Finally, we focused on testing, debugging, and polishing the game, while also preparing the repository materials and final report documentation.
+</p>
 
 <div align="center">
   <img src="images/process1.png" width="400">
 </div>
 
 ### 7.2 TeamWork: Communication and Collaboration
+<p align="justify">
 To maintain effective teamwork throughout the project, we combined both offline and online communication methods. Team members discussed design ideas, gameplay adjustments, and implementation details through face-to-face meetings, which allowed us to exchange opinions more directly and make decisions more efficiently. In addition, we held a regular online meeting every Saturday afternoon to review weekly progress, report completed tasks, and coordinate the next stage of development. This online meeting also gave each member an opportunity to raise technical or design issues they had encountered during the week. To keep communication clear outside meetings, we used shared documents and a Kanban board to record task assignments, monitor development status, and update priorities when necessary. This combination of regular meetings and shared tools helped the team remain organised, transparent, and aligned throughout the project.
+</p>
+
 <div align="center">
   <img src="images/process2.1.png" width="400">
 </div>
@@ -441,17 +512,23 @@ To maintain effective teamwork throughout the project, we combined both offline 
   <img src="images/process2.2.png" width="400">
 </div>
 
+<p align="justify">
 In terms of problem solving, our team adopted a collaborative and iterative approach. When a technical issue or design difficulty emerged, we first raised it during our regular meetings or in group discussions so that all members could contribute possible ideas and solutions. If the problem could not be resolved immediately, we would break it down into smaller parts, assign follow-up tasks, and continue investigating it individually before discussing it again in the next meeting. For programming-related issues, we also relied on shared code review, peer discussion, and repeated testing to identify the source of bugs and evaluate whether a solution was effective. In some cases, we adjusted our original plan after discovering that a certain feature was more complex than expected, which allowed us to focus on practical solutions instead of forcing unsuitable designs. This problem-solving process helped us respond to difficulties in a flexible way and ensured that development could continue steadily even when unexpected challenges appeared.
+</p>
 
 <div align="center">
   <img src="images/process3.png" width="400">
 </div>
 
 ### 7.3 Method and Tools
+<p align="justify">
 We adopted an agile and iterative development method throughout the project. Since the game’s mechanics, interface, and accessibility features required continuous refinement, we developed the product in stages rather than following a fixed one-time plan. Regular reviews and adjustments allowed us to respond quickly to new ideas, technical issues, and user feedback. This method helped the team stay flexible and supported steady progress during development.
+</p>
 
 ### 7.4 Outcome
+<p align="justify">
 Overall, this process created a clearer and more manageable workflow throughout the project. By combining stage-based planning, regular meetings, and shared collaboration tools, our team was able to coordinate tasks effectively, address problems in time, and incorporate feedback during development. As a result, we completed a more polished and playable final game, together with the required repository materials and report documentation.
+</p>
 
 ## 8. Sustainability, Ethics, and Accessibility
 <div align="center">
@@ -459,6 +536,7 @@ Overall, this process created a clearer and more manageable workflow throughout 
 </div>
 
 ### 8.1 Environmental Sustainability
+<p align="justify">
 In software engineering practice, code quality directly impacts hardware energy consumption. Even a simple web-based game can lead to high CPU utilization if the logic is poorly designed, thereby increasing the power consumption of end-user devices. Consequently, several key optimizations were implemented to improve energy efficiency.
 
 - Reducing Redundant Rendering Overhead: The program avoids recalculating texture tiling in every frame when handling terrain display. By using the createGraphics function in Platform.js to create an off-screen buffer, terrain textures are rendered once during object initialization. This design reduces the computational burden during runtime and lowers hardware heat and power consumption.
@@ -466,23 +544,28 @@ In software engineering practice, code quality directly impacts hardware energy 
 - Memory Management and Automatic Cleanup: The game involves a large number of projectiles and enemies; if inactive objects remain in memory, system performance degrades. A lifecycle system established through InteractionManager, combined with the update logic in World.js, automatically cleans up unused bullets and drops every second. This proactive management mechanism ensures efficient use of computational resources.
 
 - Lightweight Handling of Visual Resources: When implementing parallax scrolling backgrounds in World.js, the project avoids using ultra-large images. Instead, a few lightweight textures are used in conjunction with mathematical modulo operations to achieve seamless looping. This approach not only speeds up loading but also reduces network energy consumption during data transmission.
+</p>
 
 ### 8.2 Technical Sustainability
-
+<p align="justify">
 Technical sustainability focuses on code maintainability and scalability, ensuring that the project does not require major refactoring during subsequent development.
 
 - Complete Separation of Logic and Data: The project organizes level layouts and enemy configurations into independent configuration files, such as Level1.js. The core engine, LevelBuilder.js, is solely responsible for reading and parsing this data. This design achieves decoupling between logic and assets, allowing for the rapid addition of new content without modifying the underlying physics code, thus effectively avoiding the accumulation of technical debt.
 
 - Modular Architectural Division: Various functions of the system are divided into several autonomous managers. For example, AbilityManager specifically handles skill logic, while AssetManager centrally manages resource loading. This clear division of labor improves code reliability and ensures that maintenance or modification of a single module does not cause unpredictable interference with the overall system.
+</p>
 
 ### 8.3 Social Sustainability
+<p align="justify">
 Software should demonstrate inclusivity and reflect the value of team collaboration.
 
 - Inclusive Difficulty Design: Difficulty presets (Easy and Difficult modes) are included in constants.js and GameState.js. By adjusting the numerical balance in Easy mode, a wider group of players with different skill levels can fully experience the game, reflecting social inclusivity in design.
 
 - Cultivation of Team Collaboration Experience: Managing versions through Git during the development process not only improved production efficiency but also ensured knowledge sharing within the team through modular division of labor. The practice of this collaborative model lays a foundation for participating in larger-scale software engineering projects in the future.
+</p>
 
 ### 8.4 Green Software Foundation Implementation Patterns 
+<p align="justify">
 Here are the three patterns we used and why:
 1. Minimize main thread work
 - Category: Web
@@ -498,7 +581,7 @@ Here are the three patterns we used and why:
 - Category: Cloud (applied to client-side computing)
 - Our Usage: We use "Entity Culling" logic to cut down on the calculations done every frame.
 - Why we used it: Our maps are very long; Level 1 alone is 12,000 pixels wide. Normally, World.js would try to update every single enemy and item in the level simultaneously. By using the InteractionManager to prioritize objects near the player, we ensure the CPU only processes physics and AI for things currently on screen. This significantly lowers the average CPU usage, allowing the game to run smoothly on older hardware and extending the device's lifespan.
-
+</p>
 
 ## 9. Conclusion
 
