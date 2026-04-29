@@ -39,16 +39,12 @@
 
 ## 2. Introduction
 <p align="justify">
-<p>
 Isle of Rising Sun is a platform jumping game where players navigate through four levels of increasing difficulty to successfully complete the challenge. Its main inspiration comes from <b>Kirby & the Amazing Mirror</b> and <b>CupHead</b>. The core of the game is that within each level, players can control their characters to cross various platforms, collaborate with special allies to overcome obstacles, use different weapons to defeat various unique monsters, and use the coins collected along the way to purchase other weapons. After making a final decision on our baseline games, we came up with the ideas for our game mechanics and game twists which are as follows.
-</p>
 <p>
 
 ### 2.1 Game Mechanics and Twists
 <p align="justify">
-<p>
 Our game consists of four levels where after each level the player has to complete the level ending boss fight. Each level will have different themes, diffrent environment styles, and different special skill items. Failing to complete the whole level will cause the player to not receive coins collected within the level. Coins can be used to purchase better weapons with higher damage and shooting speed which are available in the camp shop. The following are objects that can be found during the gameplay and their usage descriptions.
-</p>
 <p>
 
 <p align="center">
