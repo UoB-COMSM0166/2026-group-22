@@ -102,7 +102,8 @@ class LevelScene extends GameplayScene {
       sceneManager.switch('boss', {
         bossType: 'summoner',
         arenaData: this.world.levelData.bossArena,
-        levelAssets: this.world.levelAssets
+        levelAssets: this.world.levelAssets,
+        collectedCoins: this.world.sessionCoins
       });
     }
 
@@ -111,7 +112,8 @@ class LevelScene extends GameplayScene {
       sceneManager.switch('boss', {
         bossType: 'regular',
         arenaData: this.world.levelData.bossArena,
-        levelAssets: this.world.levelAssets
+        levelAssets: this.world.levelAssets,
+        collectedCoins: this.world.sessionCoins
       });
     }
 
@@ -119,7 +121,8 @@ class LevelScene extends GameplayScene {
       sceneManager.switch('boss', {
         bossType: 'crusher',
         arenaData: this.world.levelData.bossArena,
-        levelAssets: this.world.levelAssets
+        levelAssets: this.world.levelAssets,
+        collectedCoins: this.world.sessionCoins
       });
     }
   }

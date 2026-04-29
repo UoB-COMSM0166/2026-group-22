@@ -58,7 +58,7 @@ class AnimationManager {
       pop();
     }
 
-    if (false) {
+    if (true) {
       push();
       noFill();
       stroke(255, 0, 0);

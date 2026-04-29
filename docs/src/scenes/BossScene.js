@@ -26,6 +26,7 @@ class BossScene extends GameplayScene {
     sceneManager.currentScene = this;
 
     this.world = new World(this.player, this.arenaData, this.levelAssets);
+    this.world.sessionCoins = data.collectedCoins;
 
     const bossMap = {
       'regular': Boss,
@@ -144,7 +145,7 @@ class BossScene extends GameplayScene {
 
   drawUI() {
     this.statsBar.drawBossHealth(this.boss);
-    this.statsBar.draw(this.player, gameState.coins, false);
+    this.statsBar.draw(this.player, gameState.coins, true, this.world.sessionCoins);
   }
 
   drawVictoryPopup() {
@@ -192,6 +193,9 @@ class BossScene extends GameplayScene {
   }
 
   exitToCamp() {
+    gameState.addCoins(this.world.sessionCoins);
+    gameState.save();
+
     this.playerBullets = [];
     this.bossProjectiles = [];
     sceneManager.switch("camp");

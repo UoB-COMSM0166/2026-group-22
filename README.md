@@ -176,7 +176,7 @@ We made a first paper prototype of our game which we initially named it, KirbyHe
 ##### KirbyHead Paper Prototype 
 <div align="center">
     <a href="https://youtu.be/qLW4bnOnACs">
-        <img src="../../images/paper_prototype_video.jpg" height=300 width=400 alt="starting page of KirbyHead game">
+        <img src="images/paper_prototype_video.jpg" height=300 width=400 alt="starting page of KirbyHead game">
     </a>
 
 <p>Click the banner above to watch the video</p>

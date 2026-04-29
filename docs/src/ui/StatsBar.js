@@ -9,10 +9,10 @@ class StatsBar {
     this.weaponSize = 40;
   }
 
-  draw(player, coins, showCoins = true) {
+  draw(player, coins, showCoins = true, unsaveCoins = 0) {
     this.drawHearts(player.hp, player.maxHp);
 
-    if (showCoins) this.drawCoins(coins);
+    if (showCoins) this.drawCoins(coins, unsaveCoins);
 
     this.drawDifficulty(gameState.difficulty);
 
@@ -123,14 +123,24 @@ class StatsBar {
     pop();
   }
 
-  drawCoins(amount, x = this.margin, y = this.y + 28, tf = null) {
+  drawCoins(amount, unsavedAmount = 0, x = this.margin, y = this.y + 28, tf = null) {
     const tSize = tf ? Math.max(22, tf.dh * 0.04) : 22;
 
     push();
-    fill(255, 215, 0);
-    textSize(tSize);
     textAlign(LEFT, CENTER);
-    text(`$ ${amount}`, x, y);
+    textFont('sans-serif');
+    textSize(tSize);
+
+    fill(255, 215, 0);
+    let coinText = `$ ${amount}`;
+    text(coinText, x, y);
+
+    if (unsavedAmount > 0) {
+      let offset = textWidth(coinText) + 10;
+      fill(200, 255, 100, 200);
+      textSize(tSize * 0.8);
+      text(`(+${unsavedAmount})`, x + offset, y);
+    }
     pop();
   }
 

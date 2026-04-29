@@ -22,7 +22,7 @@ class Coin extends Collectable {
   }
 
   onCollect(player) {
-    gameState.addCoins(1);
+    player.worldReference.sessionCoins++;
     this.active = false;
   }
 
@@ -39,5 +39,6 @@ class Coin extends Collectable {
       image(frameImg, 0, 0, this.w, this.h);
       pop();
     }
+    this.drawDebug();
   }
 }
