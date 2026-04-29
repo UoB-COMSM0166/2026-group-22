@@ -517,6 +517,7 @@ To overcome these obstacles, we learned the critical importance of adopting indu
 In the immediate future, we aim to deepen the core gameplay loop by introducing a more diverse weapon system and NPC allies with unique tactical abilities. Furthermore, we plan to design platforms with more complex interaction mechanics and implement multi-phase Boss battles. For a potential sequel, we would explore significant system-level breakthroughs. This includes implementing network synchronization to support a multiplayer co-op mode, and developing a highly flexible, visual Level Editor (UGC system). This editor would empower players to fully customize and share their own level designs, effectively handing the creative power over to the community.
 
 ## 10. AI Statement
+<p align="justify">
 During this project, our team used AI tools in a limited way to support our work. The main game story, gameplay twist, core code structure, final implementation, and most visual assets were designed and completed by ourselves. AI was not used to make the main project decisions.
 
 For the visual part, we used AI for some small editing tasks, such as adjusting the UI style, resizing some scene images, and removing backgrounds to create transparent images. Some assets related to the boss, enemies, and camp scenes were also improved with AI. However, the main map backgrounds, platforms, coins, characters, and most other visual elements were created and arranged by our team.
@@ -524,6 +525,7 @@ For the visual part, we used AI for some small editing tasks, such as adjusting 
 For the coding part, we sometimes used AI to get ideas for difficult syntax and complex logic. These suggestions were only used as references. We checked, discussed, and changed them before using them in our own code.
 
 Overall, AI helped us improve efficiency by reducing repetitive work and giving us ideas when we were stuck. We also learned how to use AI more carefully and responsibly during the project.
+</p>
 
 ## 11. Contribution Statement
 
