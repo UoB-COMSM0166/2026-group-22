@@ -45,6 +45,15 @@ Isle of Rising Sun is a platform jumping game where players navigate through fou
 </p>
 
 ### Game Twists
+
+|Item|Image|Description|Collection Method|
+| -- | -- | -- | -- |
+|**Coin**|<img src="docs/assets/collectables/coin/coin1.png" width="50" alt="coin">|Available on all levels and can be collected to buy more powerful weapons.|Contact|
+|**Jump Booster**|<img src="docs/assets/collectables/jump_booster.png" width="50" alt="jump booster">|Increase player jump height.|Inhale|
+|**Bubble**|<img src="docs/assets/collectables/bubble.png" width="50" alt="bubble">|Allowing player to stay underwater. Can be found in Level 2.|Contact|
+|**Shrink Potion**|<img src="docs/assets/collectables/shrink_potion.png" width="40" alt="shrink potion">|Significantly minimize the size of player allowing them to pass certain small area|Inhale| 
+|**Bow**|<img src="docs/assets/collectables/bow.png" width="50" alt="bow">|Special tools for Level 4 gameplay. Can be used to shoot down Chaining Platform|Inhale|
+
 We mainly built the twist of our game based on Kirby and Cuphead：
 
 - Two skills-acquiring system, including cooperation with friends and obtaining skills in store by collecting gold coins.
