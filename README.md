@@ -4,9 +4,8 @@
 <br>
 
 <div align="center">
-	<a href="https://uob-comsm0166.github.io/2026-group-22/">
-        <img src="docs/assets/scenes/title.png" width=800 alt="Game Title Page">
-	</a></br>
+	<a href="https://uob-comsm0166.github.io/2026-group-22/"><img src="docs/assets/scenes/title.png" width=800 alt="Game Title Page"></a>
+	</br>
 	<a href="https://uob-comsm0166.github.io/2026-group-22/">CLICK HERE to play Isle of Rising Sun</a>
 </div>
 
@@ -41,10 +40,18 @@
 ## 2. Introduction
 
 <p>
-Isle of Rising Sun is a platform jumping game where players navigate through four levels of increasing difficulty to successfully complete the challenge. Its main inspiration comes from Kirby the Star and the teacup head. The core of the game is that within each level, players can control their characters to cross various platforms, collaborate with special allies to overcome obstacles, use different weapons to defeat various unique monsters, and use the coins collected along the way to purchase other weapons. After making a final decision on our baseline games, we came up with the ideas for our game mechanics and game twists which are as follows.
+Isle of Rising Sun is a platform jumping game where players navigate through four levels of increasing difficulty to successfully complete the challenge. Its main inspiration comes from <b>Kirby & the Amazing Mirror</b> and <b>CupHead</b>. The core of the game is that within each level, players can control their characters to cross various platforms, collaborate with special allies to overcome obstacles, use different weapons to defeat various unique monsters, and use the coins collected along the way to purchase other weapons. After making a final decision on our baseline games, we came up with the ideas for our game mechanics and game twists which are as follows.
 </p>
 
-### 2.1 Game Twists
+### 2.1 Game Mechanics and Twists
+<p>
+Our game consists of four levels where after each level the player has to complete the level ending boss fight. Each level will have different themes, diffrent environment styles, and different special skill items. Failing to complete the whole level will cause the player to not receive coins collected within the level. Coins can be used to purchase better weapons with higher damage and shooting speed which are available in the camp shop. The following are objects that can be found during the gameplay and their usage descriptions.
+</p>
+
+<p align="center">
+  <b>Table 1:</b>
+  <i>Collectables</i>
+</p>
 
 |Item|Image|Description|Collection Method|
 | -- | -- | -- | -- |
@@ -54,53 +61,38 @@ Isle of Rising Sun is a platform jumping game where players navigate through fou
 |**Shrink Potion**|<img src="docs/assets/collectables/shrink_potion.png" width="40" alt="shrink potion">|Significantly minimize the size of player allowing them to pass certain small area|Inhale| 
 |**Bow**|<img src="docs/assets/collectables/bow.png" width="50" alt="bow">|Special tools for Level 4 gameplay. Can be used to shoot down Chaining Platform|Inhale|
 
-We mainly built the twist of our game based on Kirby and Cuphead：
+<p>
+Table 1 shows the list of collectables in our game with their descriptions and collection method. For special skill items, we implement the use of inhaling mechanic of from <b>Kirby & the Amazing Mirror</b> to collect them.
+</p>
 
-- Two skills-acquiring system, including cooperation with friends and obtaining skills in store by collecting gold coins.
+<p align="center">
+  <b>Table 2:</b>
+  <i>Levels</i>
+</p>
 
-<div align="center">
-  <img src="images/twist1.png" width="400">
-</div>
+|Level|Image|Theme|Special Item|
+| -- | -- | -- | -- |
+|**Level 1**|<img src="docs/assets/levels/lv1/bg/far.png" width="300" alt="level1 background">|A wrecked chemical factory with toxic fumes.|**Jump Booster**|
+|**Level 2**|<img src="docs/assets/levels/lv2/bg/far.png" width="300" alt="level2 background">|An underwater wreckage of an undersea lab. Bubble collection needed to breath underwater.|**Bubble**|
+|**Level 3**|<img src="docs/assets/levels/lv3/bg/far.png" width="300" alt="level3 background">|A haunted castle in the island. Several harmful creatures can be found along with a complex environment.|**Shrink Potion**|
+|**Level 4**|<img src="docs/assets/levels/lv4/bg/far.png" width="300" alt="level4 background">|A city recently destroyed by volcanic eruption with burning particles all over the place. Special chaining platform can be found in this environment where bow and arrows are needed to bring them down.|**Bow**|
 
-<div align="center">
-  <img src="images/twist2.jpg" width="400">
-</div>
-
-- Two types of characters (enemies and friends).
-
-<div align="center">
-  <img src="images/twist3.jpg" width="400">
-</div>
-
-- Series of blocks of maps
-
-<div align="center">
-  <img src="images/twist4.png" width="400">
-</div>
-  
-
-### 2.2 Game Mechanics
-The core mechanics combine linear, block based progression with a two channel skill acquisition system and coin driven shop decisions. After selecting a mode and character, the player enters a stage composed of sequential map blocks where progression is forward only with no backtracking. While advancing, players earn coins through combat and exploration, but crucially, skills can be obtained in two ways: 
-(1) in level cooperation with allies, where coordinated interactions or synergy actions directly unlock or upgrade abilities during the run; and 
-(2) a purchase period in store after each block, where coins are spent to buy skills or acquire and integrate ally abilities. As stages progress, enemies introduce distinct requirements and vulnerabilities, so players must strategically balance what they gain on the road via cooperation versus what they complete or optimize in the shop.
-
-This creates a repeatable loop: advance → earn coins / gain skills through cooperation → shop upgrades → adapt to the next block’s mechanics → advance.
-
+<p>
+Table 2 shows the theme of each level and special items within it. Each level demonstrates different speial twists while the difficulty gradually increases from level 1 to level 4.
+</p>
 
 ## 3. Requirements 
 
 ### 3.1 Early Stages Design 
-Initial Paper Prototype of Our Game 
+#### 3.1.1 Initial Paper Prototype of Our Game 
 	
 We made a first paper prototype of our game which we initially named it, KirbyHead, based on game twists and mechanics we discussed earlier to see a clear picture of our game functionalities which can lead to a solid development foundation of the game’s codebase
 
-#### 3.1.1 KirbyHead Paper Prototype 
 <div align="center">
-    <a href="https://youtu.be/qLW4bnOnACs">
-        <img src="images/paper_prototype_video.jpg" height=300 width=400 alt="starting page of KirbyHead game">
-    </a>
-
-<p>Click the banner above to watch the video</p>
+<a href="https://youtu.be/qLW4bnOnACs"><img src="images/paper_prototype_video.jpg" width=800 alt="starting page of KirbyHead game"></a></br>
+<a href="https://youtu.be/qLW4bnOnACs">CLICK HERE to watch the video</a>
+</br>
+</br>
 <p align="justify">
 The video above shows the initial prototype of our game, KirbyHead, which is the combination of Kirby & the Amazing Mirror and Cuphead. This game implements the core mechanics of both games, including the ability of Kirby to inhale objects and the ability of cuphead to attack enemies by firing bullets. Aside from the mix between the two, we've also added a special twist to the game in the form of various types of allies. By inhaling allies, the main character can temporarily inherit their special abilities.
 </p>
