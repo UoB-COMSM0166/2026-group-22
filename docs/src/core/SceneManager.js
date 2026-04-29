@@ -93,8 +93,8 @@ class SceneManager {
     if (this.instructions.isActive) {
       if (keyCode === ENTER) {
         this.instructions.advance();
-        return;
       }
+      return;
     }
 
     if (this.currentScene && this.currentScene.keyPressed) {
