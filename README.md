@@ -152,6 +152,11 @@ Cuphead is a run-and-gun boss-rush action game with a 1930s cartoon aesthetic, b
 
 ### 3.4 User Stories
 
+<p align="center">
+  <b>Table 5:</b>
+  <i>user stories</i>
+</p>
+
 | Epic | User Story | Acceptance Criteria | Value | Effort | MoSCoW |
 |---|---|---|---|---|---|
 | Epic 1: Core Platforming Mechanics | Casual Player: As a casual player, I want smooth and responsive movement controls, so that I can enjoy the game without feeling frustrated. | • Given the player is in an active level, when they press a movement key, then the character begins moving within 100 milliseconds.<br>• Given the player is moving through the level, when they release the movement key, then the character stops or decelerates smoothly and consistently.<br>• Given the player is navigating platforms under normal gameplay conditions, when they move across surfaces, then no noticeable input lag or delay occurs. | High | Low | Must Have |
@@ -176,6 +181,11 @@ Figure x. Use-case diagram
 The following table presents the use case specifications for the core functions of the game system. Developed from the use case diagram, it provides a more structured description of the main interactions between the player and the system. Each use case is organised into Basic Flow and Alternative Flow. The Basic Flow describes the standard sequence of actions under normal conditions, while the Alternative Flow outlines possible exceptions, failures, or conditional variations during the interaction process.
 
 #### 3.5.1 Use Case Descriptions (Game Flows)
+
+<p align="center">
+  <b>Table 6:</b>
+  <i>use case</i>
+</p>
 
 | Feature / Action | Basic Flow (Success Path) | Alternative Flow (Exceptions) |
 | :--- | :--- | :--- |
@@ -295,7 +305,10 @@ Figure 1: Distribution of participants' prior gaming experience.
 
 The SUS is a highly reliable tool for evaluating the usability of a system. A score above 68 is generally considered above average.
 
-**Table 1: System Usability Scale (SUS) results by game mode.**
+<p align="center">
+  <b>Table 7:</b>
+  <i>System Usability Scale (SUS) results by game mode</i>
+</p>
 
 | Mode | Average SUS Score | Usability Grade | Player Interpretation |
 | :--- | :--- | :--- | :--- |
@@ -312,7 +325,10 @@ Figure 2: Comparison of average SUS scores between Easy and Difficult modes.
 #### 6.2.3 Cognitive Load Assessment (NASA-TLX)
 We utilized the NASA-TLX to assess the workload placed on players. It measures six dimensions on a scale of 0 (Very Low) to 100 (Very High).
 
-**Table 2: NASA-TLX subscale scores across modes.**
+<p align="center">
+  <b>Table 8:</b>
+  <i>NASA-TLX subscale scores across modes</i>
+</p>
 
 | Dimension | Easy Mode (Mean) | Difficult Mode (Mean) | Difference |
 | :--- | :---: | :---: | :---: |
@@ -335,7 +351,10 @@ Figure 3: Radar chart visualizing the cognitive and physical load in different m
 #### 6.2.4 Subjective Level Difficulty Ranking
 Participants ranked the subjective difficulty of the 4 levels on a scale of 1 (Easiest) to 10 (Hardest).
 
-**Table 3: Subjective difficulty ratings for Levels 1 to 4.**
+<p align="center">
+  <b>Table 9:</b>
+  <i>Subjective difficulty ratings for Levels 1 to 4</i>
+</p>
 
 | Level | Easy Mode Score | Difficult Mode Score |
 | :--- | :---: | :---: |
@@ -488,6 +507,11 @@ In the immediate future, we aim to deepen the core gameplay loop by introducing 
 ## 10. AI Statement
 
 ## 11. Contribution Statement
+
+<p align="center">
+  <b>Table 10:</b>
+  <i>Contribution Statement</i>
+</p>
 
 | Name | Contribution |
 | :--- | :---: |
