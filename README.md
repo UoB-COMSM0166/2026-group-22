@@ -114,22 +114,7 @@ Table 4 shows different types of weapons available in our game. These weapons ha
 
 ## 3. Requirements 
 
-### 3.1 Early Stages Design 
-#### 3.1.1 Initial Paper Prototype of Our Game 
-<p align="justify">
-We made a first paper prototype of our game which we initially named it, KirbyHead, based on game twists and mechanics we discussed earlier to see a clear picture of our game functionalities which can lead to a solid development foundation of the game’s codebase
-</p>
-<div align="center">
-<a href="https://youtu.be/qLW4bnOnACs"><img src="images/paper_prototype_video.jpg" width=800 alt="starting page of KirbyHead game"></a></br>
-<a href="https://youtu.be/qLW4bnOnACs">CLICK HERE to watch the video</a>
-</br>
-</br>
-<p align="justify">
-The video above shows the initial prototype of our game, KirbyHead, which is the combination of Kirby & the Amazing Mirror and Cuphead. This game implements the core mechanics of both games, including the ability of Kirby to inhale objects and the ability of cuphead to attack enemies by firing bullets. Aside from the mix between the two, we've also added a special twist to the game in the form of various types of allies. By inhaling allies, the main character can temporarily inherit their special abilities.
-</p>
-</div>
-
-### 3.2 Ideation Process
+### 3.1 Ideation Process
 In the end, we decided that we are going to make our games based on game mechanics and styles of both Kirby & The Amazing Mirror and Cuphead.
 
 <div align="center">
@@ -145,6 +130,21 @@ Kirby is a colorful platformer where you control Kirby through side scrolling or
 <p align="justify">
 Cuphead is a run-and-gun boss-rush action game with a 1930s cartoon aesthetic, built around fast, pattern heavy fights. You shoot, dodge, dash, and parry to build special attacks while learning enemy telegraphs and phases. The gameplay emphasizes tight controls, memorization, and precision, with short stages and bosses designed for repeated attempts and mastery.
 </p>
+
+### 3.2 Early Stages Design 
+#### 3.2.1 Initial Paper Prototype of Our Game 
+<p align="justify">
+We made a first paper prototype of our game which we initially named it, KirbyHead, based on game twists and mechanics we discussed earlier to see a clear picture of our game functionalities which can lead to a solid development foundation of the game’s codebase
+</p>
+<div align="center">
+<a href="https://youtu.be/qLW4bnOnACs"><img src="images/paper_prototype_video.jpg" width=800 alt="starting page of KirbyHead game"></a></br>
+<a href="https://youtu.be/qLW4bnOnACs">CLICK HERE to watch the video</a>
+</br>
+</br>
+<p align="justify">
+The video above shows the initial prototype of our game, KirbyHead, which is the combination of Kirby & the Amazing Mirror and Cuphead. This game implements the core mechanics of both games, including the ability of Kirby to inhale objects and the ability of cuphead to attack enemies by firing bullets. Aside from the mix between the two, we've also added a special twist to the game in the form of various types of allies. By inhaling allies, the main character can temporarily inherit their special abilities.
+</p>
+</div>
 
 ### 3.3 Identifying Stakeholder
 
