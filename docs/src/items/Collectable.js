@@ -68,16 +68,18 @@ class Collectable extends GameObject {
   }
 
   drawDebug() {
-    push();
-    noFill();
-    stroke(255, 0, 0);
-    strokeWeight(2);
-    rectMode(CENTER);
+    if (false) {
+      push();
+      noFill();
+      stroke(255, 0, 0);
+      strokeWeight(2);
+      rectMode(CENTER);
 
-    rect(this.x, this.y + this.hoverOffset, this.w, this.h);
+      rect(this.x, this.y + this.hoverOffset, this.w, this.h);
 
-    line(this.x - 5, this.y + this.hoverOffset, this.x + 5, this.y + this.hoverOffset);
-    line(this.x, this.y + this.hoverOffset - 5, this.x, this.y + this.hoverOffset + 5);
-    pop();
+      line(this.x - 5, this.y + this.hoverOffset, this.x + 5, this.y + this.hoverOffset);
+      line(this.x, this.y + this.hoverOffset - 5, this.x, this.y + this.hoverOffset + 5);
+      pop();
+    }
   }
 }
