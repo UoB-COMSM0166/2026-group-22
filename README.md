@@ -224,6 +224,451 @@ The reusable game objects and supporting manager systems are handled by a set of
 Overall, this architecture separates screen flow, game progress, level simulation, object behaviour, and shared support systems into different parts of the codebase. During the development process, this made the game easier to maintain, debug, and divide among team members because each file had a clear responsibility. In the longer term, it also provides a more scalable structure for future development, content updates, and long-term maintenance as a complete game project.
 </p>
 
+### 4.2 Class Diagram
+
+```mermaid
+classDiagram
+direction BT
+class AbilityManager {
+   constructor(player) 
+   draw() void
+   drawAimLine() void
+   resetBubbleState() void
+   resetSkills() void
+   handleInput() void
+   setSkill(skillType, duration: number) void
+   update() void
+   updateSurvival() void
+   fireBullet() void
+   fireArrow() void
+   activateBubble(count: number) void
+   drawInhaleEffect() void
+}
+class AnimationManager {
+   constructor(entity, sprites, animationSpeed: number) 
+   draw(x, y, flipX: boolean, visualW: null, visualH: null, alignment: string) void
+   update(newState, loop: boolean) void
+}
+class Arrow {
+   constructor(x, y, vx, vy) 
+   show() void
+   update() void
+}
+class AssetManager {
+   constructor() 
+   trackLoad(path, type: string, callback: null) any
+   getImg(key) any
+   loadLevelAssets() void
+   loadSpriteSheet(path, frameW, frameH, frameCount, callback) void
+   preload() void
+   getProgress() any
+   getFont(key: string) any
+   getLevelAssets(index) any
+}
+class BaseScene {
+   constructor() 
+   draw() any
+   drawSystemUI(tf: null, warnLoss: boolean, target: string) void
+   handleExitInput() boolean | boolean
+   keyPressed() void
+   drawModalButton(r, label, enabled, onClick) void
+   drawIcon(img, rect, scale) void
+   mousePressed() any
+   drawExitPrompt(targetScene: string, warnLoss: boolean) void
+   update() any
+   onEnter(data) void
+   handleSystemClick() any
+   onExit() void
+   getContainTransform(img) TransformData
+   handleGlobalInput() boolean | boolean
+   inRect(px, py, r) boolean | any
+   any isInputBlocked
+}
+class Boss {
+   constructor(x, y, sprites, config) 
+   land() void
+   show() void
+   update() undefined | Slash | null
+   takeDamage(amount) void
+}
+class BossScene {
+   constructor() 
+   checkCollisions() void
+   resetScene() void
+   drawVictoryPopup() void
+   draw() void
+   keyPressed() void
+   showInstructions() void
+   mousePressed() void
+   exitToCamp() void
+   update() void
+   onEnter(data) void
+   drawUI() void
+   onExit() void
+}
+class Bow {
+   constructor(x, y) 
+   onCollect(player) void
+   show() void
+}
+class Bubble {
+   constructor(x, y) 
+   onCollect(player) void
+   show() void
+}
+class Bullet {
+   constructor(x, y, dir, config) 
+   show() void
+   update() void
+}
+class CampScene {
+   constructor() 
+   draw() void
+   keyPressed() void
+   enterDoor(n) void
+   showInstructions() void
+   drawTooltip(label) void
+   mousePressed() void
+   hotspotToScreen(img, hotspot) null | Rect
+   drawHotspotsOverlay(tf) void
+   renderInteractions(tf) void
+   onEnter() void
+   screenToImage(mx, my, tf) null | Point
+   handleAction(action, val) void
+   preload() void
+}
+class ChainPlatform {
+   constructor(x, y, w, h, img, targetY) 
+   getBounds() Bounds
+   drawChains() void
+   triggerBreak() void
+   show() void
+   update() void
+   resolve(entity, world) boolean | any
+}
+class CharSelectScene {
+   constructor() 
+   draw() void
+   keyPressed() void
+   mousePressed() void
+   getSelectButtons(tf) ButtonData
+   drawHeader(tf) void
+   drawJournalContent(tf) void
+}
+class Checkpoint {
+   constructor(x, y, frames) 
+   show() void
+   update(player) boolean | boolean
+}
+class Coin {
+   constructor(x, y) 
+   onCollect(player) void
+   show() void
+   update(player) void
+}
+class Collectable {
+   constructor(x, y, w, h) 
+   onCollect(player) never
+   handleInhale(player) void
+   drawDebug() void
+   handleTouchCollect(player) void
+   update(player) void
+   respawn() void
+}
+class DialogueManager {
+   constructor(lines) 
+   draw(tf, scene) void
+   start() void
+   skip() void
+   update() any
+   _drawBtn(r, label, col, scene) void
+   advance() void
+}
+class DiffSelectScene {
+   constructor() 
+   draw() void
+   keyPressed() void
+   showInstructions() void
+   mousePressed() void
+   getDifficultyButtons(tf) ButtonData
+}
+class Enemy {
+   constructor(x, y, sprites, config) 
+   die() void
+   show() void
+   update(platforms) void
+   checkPlatformEdges(platforms) void
+   takeDamage(amount) void
+}
+class Entity {
+   constructor(x, y, w, h, hp, speed) 
+   checkCollision(other) any | boolean
+   applyPhysics() void
+   takeDamage(amount) void
+}
+class EntityOverlay {
+   draw(entity) void
+   drawChargeBar(player) void
+   drawBubbles(player) void
+   drawEnemyHP(enemy) void
+}
+class GameObject {
+   constructor(x, y, w, h) 
+   getBounds() Bounds
+   intersects(other) any
+   show() never
+   update() never
+   getOverlap(other) OverlapData
+}
+class GameState {
+   constructor() 
+   load() void
+   setSelectedCharacter(charObj) void
+   save() void
+   unlockLevel(index) void
+   addCoins(amount) void
+   isOwned(itemId) any
+   equipWeapon(itemId) void
+   getItemData(itemId) any
+   sellItem(itemId) boolean | boolean
+   setDifficulty(level) void
+   purchaseItem(itemId) boolean | boolean
+   resetRun() void
+}
+class GameplayScene {
+   constructor() 
+   handleResize() void
+   draw() any
+   mousePressed() any
+   applyCanvasMode() void
+   restoreFullCanvasMode() void
+   onEnter() any
+   onExit() void
+}
+class HintBoardScene {
+   constructor() 
+   draw() void
+   setup() any
+   keyPressed() void
+   mousePressed() void
+   onEnter(data) void
+}
+class Hotspot {
+   constructor(id, label, x, y, w, h, onClick) 
+   contains(ix, iy) any
+}
+class InstructionUI {
+   constructor() 
+   draw() void
+   drawHighlight(r) void
+   drawBox() void
+   show(input, target: null) void
+   getCurrentTarget() any | null
+   hide() void
+   advance() void
+}
+class InteractionManager {
+   handleCombat(player, enemies, bullets) void
+   updateProjectiles(projectiles) void
+   resolveHitGroup(projectiles, target, onHit) void
+   handleWorldLimits(player, world) void
+   handlePuzzles(bullets, platforms) void
+}
+class JumpBooster {
+   constructor(x, y) 
+   onCollect(player) void
+   show() void
+}
+class LevelBuilder {
+   build(world, data, levelAssets) void
+}
+class LevelScene {
+   constructor() 
+   draw() void
+   drawLoadingScreen() void
+   keyPressed() void
+   buildLevel(doorNumber) void
+   showInstructions() void
+   mousePressed() void
+   onEnter() void
+   drawUI() void
+}
+class LoadingScene {
+   constructor(bootImg) 
+   drawLoadingUI(progress, tf) void
+   draw() void
+}
+class Minion {
+   constructor(x, y) 
+   show() void
+   tryShoot() null | Bullet
+   update() void
+   takeDamage(amount) void
+}
+class MovingPlatform {
+   constructor(x, y, w, h, img, rangeX: number, rangeY: number) 
+   show() void
+   update() void
+}
+class Platform {
+   constructor(x, y, w, h, img) 
+   handlePlatformTriggers(entity, world) void
+   show() void
+   resolve(entity, world) boolean | boolean
+   update() any
+}
+class Player {
+   constructor(sprites) 
+   handleKeyPress() void
+   move() void
+   reset(startX, startY) void
+   land() void
+   float() void
+   isInhaling() any
+   isMoving() any
+   updateHurt() void
+   show() void
+   update() void
+   isAttacking() any
+   getVisualSize(img) VisualSize
+   applyPhysics() void
+   takeDamage(amount) void
+}
+class Projectile {
+   constructor(x, y, w, h, vx, vy) 
+   update() void
+}
+class SceneManager {
+   constructor() 
+   switch(key, data) void
+   draw() void
+   setup() void
+   start() void
+   keyPressed() void
+   initLoader(bgImg) void
+   initGameScenes() void
+   windowResized() void
+   mousePressed() void
+   preload() void
+}
+class SettingsScene {
+   constructor() 
+   draw() void
+   keyPressed() void
+   mousePressed() void
+   onEnter(data) void
+}
+class ShopScene {
+   constructor() 
+   drawInventoryBar() void
+   draw() void
+   getInfoPanelRect(anchor) Rect
+   keyPressed() void
+   getItemAnchor(itemId) any
+   slotToScreen(slot) Rect
+   showInstructions() void
+   mousePressed() void
+   drawShelf() void
+   onEnter() void
+   drawBuyModal() void
+   drawInfoPanel() void
+   drawItemSlot(r, itemId, isSelected, isEquipped: boolean) void
+   drawHeader() void
+}
+class ShrinkPotion {
+   constructor(x, y) 
+   onCollect(player) void
+   show() void
+}
+class Slash {
+   constructor(x, y, vx, vy, w, h, damage) 
+   show() void
+}
+class StatsBar {
+   constructor() 
+   drawEquippedWeapon(x: number, y, tf: null) void
+   draw(player, coins, showCoins: boolean, unsaveCoins: number) void
+   drawDifficulty(difficulty) void
+   renderHeart(x, y, img, alpha: number) void
+   drawBossHealth(boss) void
+   drawCoins(amount, unsavedAmount: number, x, y, tf: null) void
+   drawHearts(hp, maxHp) void
+}
+class SummonerBoss {
+   constructor(x, y, sprites, config) 
+   show() void
+   update() undefined | null
+   spawnMinion() void
+}
+class SystemControls {
+   constructor(scene) 
+   handleClick() boolean | boolean
+   draw(tf: null) void
+   _renderIcon(img, r, baseScale: number) void
+}
+class TitleScene {
+   constructor() 
+   draw() void
+   setup() any
+   drawStartPrompt(tf) void
+   keyPressed() void
+   mousePressed() void
+}
+class VanishablePlatform {
+   constructor(x, y, w, h, img) 
+   reset() void
+   show() void
+   update() void
+}
+class World {
+   constructor(player, levelData, levelAssets) 
+   spawnArrow(x, y, vx, vy) void
+   updateCamera() void
+   show() void
+   spawnBullet(x, y, dir, bulletConfig) void
+   update() void
+   resetPlayer() void
+   drawParallax(img, scroll) void
+   respawnPlayer() void
+}
+
+Arrow  -->  Projectile 
+Boss  -->  Entity 
+BossScene  -->  GameplayScene 
+Bow  -->  Collectable 
+Bubble  -->  Collectable 
+Bullet  -->  Projectile 
+CampScene  -->  BaseScene 
+ChainPlatform  -->  Platform 
+CharSelectScene  -->  BaseScene 
+Checkpoint  -->  GameObject 
+Coin  -->  Collectable 
+Collectable  -->  GameObject 
+DiffSelectScene  -->  BaseScene 
+Enemy  -->  Entity 
+Entity  -->  GameObject 
+GameplayScene  -->  BaseScene 
+HintBoardScene  -->  BaseScene 
+JumpBooster  -->  Collectable 
+LevelScene  -->  GameplayScene 
+LoadingScene  -->  BaseScene 
+Minion  -->  Entity 
+MovingPlatform  -->  Platform 
+Platform  -->  GameObject 
+Player  -->  Entity 
+Projectile  -->  GameObject 
+SettingsScene  -->  BaseScene 
+ShopScene  -->  BaseScene 
+ShrinkPotion  -->  Collectable 
+Slash  -->  Projectile 
+SummonerBoss  -->  Boss 
+TitleScene  -->  BaseScene 
+VanishablePlatform  -->  Platform 
+
+```
+
+### 4.3 Behavioral Diagram
+
 ## 5. Implementation
 
 To ensure high scalability, we implemented a strict modular architecture divided into three independent layers following Object Oriented Design (OOD) approach:
