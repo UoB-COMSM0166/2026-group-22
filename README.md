@@ -677,8 +677,18 @@ Slash  -->  Projectile
 SummonerBoss  -->  Boss 
 TitleScene  -->  BaseScene 
 VanishablePlatform  -->  Platform 
-
 ```
+<p align="center">
+  <b>Figure 4-1:</b>
+  <i>Class Diagram</i>
+</p>
+
+<p align="justify">
+Figure 4-1 represents our final class diagram which shows the overview of our project structure. The project is built upon core classes such as <b>GameObject</b> which is a parent class for all objects inside the game and <b>BaseScene</b> which is a parent class for all scenes. 
+</p>
+<p align="justify">
+<b>GameObject</b> provides functions such as <b>intersects</b> and <b>getOverlap</b> which are used to detect the interaction between each object in the game. From this foundation, seeveral classes are inherited from the <b>GameObject</b>. <b>Entity</b> class provides the logic for living characters like the <b>Player</b> and <b>Boss</b> ensuring they all follow the same foundational rules for physics and collision, while <b>Platform</b> and <b>Collectable</b> define the interactive environment in the game. These relationships are further supported by manager classes like the <b>InteractionManager</b> which manages the interaction between all game objects and <b>AbilityManager</b> which is the central place to control <b>Player</b> ability.
+</p>
 
 ### 4.3 Behavioral Diagram
 
