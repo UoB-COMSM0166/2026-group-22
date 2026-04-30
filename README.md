@@ -142,7 +142,7 @@ We made a first paper prototype of our game which we initially named it, KirbyHe
 </p>
 
 <p align="center">
-  <img src="images/image_76f62b.gif" width="600" alt="Shop System Prototype">
+  <img src="images/useshop.gif" width="600" alt="Shop System Prototype">
 </p>
 
 <p align="center">
