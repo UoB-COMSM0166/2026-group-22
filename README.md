@@ -798,6 +798,7 @@ One of the most complex aspects of developing a platformer is precisely determin
 #### Solution:
 <p align="justify"> 
 To resolve these physical inaccuracies and unnatural movements, a coordinate correction logic was integrated into the resolve collision handling mechanism within Platform.js:
+</p>
 
 <p align="justify"> 
 - Directional Collision Differentiation: The system moves beyond simple collision detection by utilizing a getOverlap method to calculate the depth of overlap across all four directions. By comparing these values, the program accurately distinguishes whether the character is falling from above or impacting from the side or bottom.
