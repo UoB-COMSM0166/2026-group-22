@@ -136,8 +136,21 @@ Cuphead is a run-and-gun boss-rush action game with a 1930s cartoon aesthetic, b
 <p align="justify">
 We made a first paper prototype of our game which we initially named it, KirbyHead, based on game twists and mechanics we discussed earlier to see a clear picture of our game functionalities which can lead to a solid development foundation of the game’s codebase
 </p>
+
+<p align="center">
+  <img src="images/gainskill1.gif" width="600" alt="Gain Skill Mechanic">
+</p>
+
+<p align="center">
+  <img src="images/image_76f62b.gif" width="600" alt="Shop System Prototype">
+</p>
+
+<p align="center">
+  <img src="images/fightenemy2.gif" width="600" alt="Fight Enemy Mechanic">
+</p>
+
 <div align="center">
-<a href="https://youtu.be/qLW4bnOnACs"><img src="images/paper_prototype_video.jpg" width=800 alt="starting page of KirbyHead game"></a></br>
+<a href="https://youtu.be/qLW4bnOnACs"><img src="images/paper_prototype_video.jpg" width=600 alt="starting page of KirbyHead game"></a></br>
 <a href="https://youtu.be/qLW4bnOnACs">CLICK HERE to watch the video</a>
 </br>
 </br>
