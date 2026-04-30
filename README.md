@@ -177,7 +177,7 @@ This use case diagram illustrates the main interactions between the player and t
 </p>
 
 <div align="center">
-  <img src="images/usecase1.png" width="800">
+  <img src="images/usecasediagram.png" width="800">
 </div>
 
 Figure x. Use-case diagram
