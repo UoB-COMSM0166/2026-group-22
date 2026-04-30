@@ -761,14 +761,21 @@ Utilizing the raw dimensions of game sprites for collision detection often resul
 To ensure physical detection aligns with player intuition, a "Visual-Physical Decoupling" strategy was implemented:
 </p>
 
+<p align="justify">
+1. Standardization of Boundary Calculations: A universal getBounds() method was established within the GameObject.js base class. This method calculates boundaries based on manually defined width (w) and height (h) properties rather than raw sprite dimensions, ensuring a consistent and efficient detection standard across the entire project.
+</p>
 
-**1. Standardization of Boundary Calculations:** A universal getBounds() method was established within the GameObject.js base class. This method calculates boundaries based on manually defined width (w) and height (h) properties rather than raw sprite dimensions, ensuring a consistent and efficient detection standard across the entire project.
+<p align="justify">
+2. Implementation of Forgiving Hitboxes: To optimize the user experience, physical hitboxes for players and enemies are calibrated to be slightly smaller than their corresponding visual assets. This design ensures that collisions are only registered when visually undeniable, thereby increasing the margin for error and reducing player frustration.
+</p>
 
-**2. Implementation of Forgiving Hitboxes:** To optimize the user experience, physical hitboxes for players and enemies are calibrated to be slightly smaller than their corresponding visual assets. This design ensures that collisions are only registered when visually undeniable, thereby increasing the margin for error and reducing player frustration.
+<p align="justify">
+3. Decoupling of Render and Physical Dimensions: For large-scale entities like bosses, the system distinguishes between visual dimensions (visualW/H) and physical collision dimensions (w/h). By leveraging alignment settings within the AnimationManager, precise positioning (such as grounding a boss’s feet) is maintained, preventing hitbox misalignment caused by animation scaling.
+</p>
 
-**3. Decoupling of Render and Physical Dimensions:** For large-scale entities like bosses, the system distinguishes between visual dimensions (visualW/H) and physical collision dimensions (w/h). By leveraging alignment settings within the AnimationManager, precise positioning (such as grounding a boss’s feet) is maintained, preventing hitbox misalignment caused by animation scaling.
-
-**4. argeted Boundary Extension for Special Objects:** For unique elements such as the ChainPlatform, the boundary retrieval method is overridden to allow the detection zone to extend upward under specific states. This facilitates accurate interaction across the entire length of the chain without the need for redundant or complex code.
+<p align="justify">
+4. argeted Boundary Extension for Special Objects: For unique elements such as the ChainPlatform, the boundary retrieval method is overridden to allow the detection zone to extend upward under specific states. This facilitates accurate interaction across the entire length of the chain without the need for redundant or complex code.
+</p>
 
 <p align="center">
   <img src="images/TC1.1.GIF" width="32%" alt="图1">
@@ -787,13 +794,21 @@ One of the most complex aspects of developing a platformer is precisely determin
 To resolve these physical inaccuracies and unnatural movements, a coordinate correction logic was integrated into the resolve collision handling mechanism within Platform.js:
 </p>
 
-**1. Directional Collision Differentiation:** The system moves beyond simple collision detection by utilizing a getOverlap method to calculate the depth of overlap across all four directions. By comparing these values, the program accurately distinguishes whether the character is falling from above or impacting from the side or bottom.
+<p align="justify"> 
+1. Directional Collision Differentiation: The system moves beyond simple collision detection by utilizing a getOverlap method to calculate the depth of overlap across all four directions. By comparing these values, the program accurately distinguishes whether the character is falling from above or impacting from the side or bottom.
+</p>
 
-**2. Landing Detection and Positional "Snapping":** When a top-down collision is detected, Positional Correction is automatically executed. The character's Y-coordinate is immediately aligned to the top of the platform (p.top - entity.h / 2), and vertical velocity is neutralized. This triggers the land() function to reset jump counts, ensuring the character stands firmly on the surface without visual sinking artifacts.
+<p align="justify"> 
+2. Landing Detection and Positional "Snapping": When a top-down collision is detected, Positional Correction is automatically executed. The character's Y-coordinate is immediately aligned to the top of the platform (p.top - entity.h / 2), and vertical velocity is neutralized. This triggers the land() function to reset jump counts, ensuring the character stands firmly on the surface without visual sinking artifacts.
+</p>
 
-**3. Mitigation of Clipping and Tunneling:** For non-landing collisions (sides or bottom), the system identifies the axis of minimum overlap and "pushes" the character out in that direction. This ensures that even at high speeds, the character is instantly repositioned outside the collision volume, effectively preventing them from becoming stuck inside walls.
+<p align="justify"> 
+3. Mitigation of Clipping and Tunneling: For non-landing collisions (sides or bottom), the system identifies the axis of minimum overlap and "pushes" the character out in that direction. This ensures that even at high speeds, the character is instantly repositioned outside the collision volume, effectively preventing them from becoming stuck inside walls.
+</p>
 
-**4. Velocity Synchronization for Moving Platforms:** Within the resolve method, the moving platform’s own velocity (velX and velY) is transferred in real-time to the character currently standing on it. This ensures the character moves in perfect synchronization with the platform, providing a stable and responsive control experience.
+<p align="justify"> 
+4. Velocity Synchronization for Moving Platforms: Within the resolve method, the moving platform’s own velocity (velX and velY) is transferred in real-time to the character currently standing on it. This ensures the character moves in perfect synchronization with the platform, providing a stable and responsive control experience.
+</p>
 
 <p align="center">
   <img src="images/TC2.1.GIF" width="48%" alt="Hitbox before optimization">
