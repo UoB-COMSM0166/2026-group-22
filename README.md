@@ -225,14 +225,14 @@ Overall, this architecture separates screen flow, game progress, level simulatio
 </p>
 
 ## 5. Implementation
-<p align="justify"> 
+
 To ensure high scalability, we implemented a strict modular architecture divided into three independent layers following Object Oriented Design (OOD) approach:
 1. UI Layer : Interfaces are abstracted into independent scenes (e.g.,CampScene.js) with onEnter/onExit hooks. sketch.js delegates native events (draw, mousePressed) to a singleton SceneManager, which routes them to the active scene, ensuring absolute UI state isolation.
 2. Physics & Logic Layer : A base GameObject class standardizes rendering and boundaries, from which entities like Player, Enemy, and Platform are derived. The World.js container simply calls update() and show() polymorphically on child objects within the frame loop.
 3. Data Layer : Level assets (terrain, items, backgrounds) are completely decoupled from logic into pure configuration files (src/levels/LevelX.js). World.js acts as a parser, dynamically instantiating the world based on the level index to separate code from game assets.
 
 During implementation, we primarily faced and solved two technical challenges:
-</p>
+
 
 ### 5.1 Challenge 1: Alignment of Hitbox Design and Visual Presentation
 #### Challenge:
