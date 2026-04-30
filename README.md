@@ -690,7 +690,39 @@ Figure 4-1 represents our final class diagram which shows the overview of our pr
 <b>GameObject</b> provides functions such as <b>intersects</b> and <b>getOverlap</b> which are used to detect the interaction between each object in the game. From this foundation, seeveral classes are inherited from the <b>GameObject</b>. <b>Entity</b> class provides the logic for living characters like the <b>Player</b> and <b>Boss</b> ensuring they all follow the same foundational rules for physics and collision, while <b>Platform</b> and <b>Collectable</b> define the interactive environment in the game. These relationships are further supported by manager classes like the <b>InteractionManager</b> which manages the interaction between all game objects and <b>AbilityManager</b> which is the central place to control <b>Player</b> ability.
 </p>
 
-### 4.3 Behavioral Diagram
+### 4.3 Behavioral Diagrams
+
+<p align="justify">
+In this section, we demonstrate behavioral diagrams of two core processes of our game: level intialization and game logic loop. The full explanation of both processes are as follows.
+</p>
+
+<div align="center">
+  <img src="images/levelscene_buildlevel.png" width="1000">
+</div>
+<p align="center">
+  <b>Figure 4-2:</b>
+  <i>Level Initialization Behavioral Diagram</i>
+</p>
+
+<p align="justify">
+Figure 4-2 demonstrates the process of level initialization. First, the LevelScene <b>buildLevel</b> function receives the door number selected by the user. The door number is used to fetch specific config data and graphic assets from <b>CONFIG</b> and <b>AssetManager</b>, respectively. 
+</p>
+
+<p align="justify">
+A new <b>Player</b> object is initiated from character sprites retrieved from the <b>AssetManager</b>, while player's stats are pulled from <b>CONFIG</b>. Along with the player, new <b>AnimationManager</b> and <b>AbilityManager</b> instances are also created. <b>AnimationManager</b> manages the player's animation based on their current state, while <b>AbilityManager</b> controls special abilities gained by collecting items within the level.
+</p>
+
+<p align="justify">
+Once the player is established, a <b>World</b> object is instantiated to manage the simulation loop. A new instance of <b>StatsBar</b> is also created to display crucial information to the user such as health points, coin counts, and the equipped weapon. The construction of the environment is then delegated to the <b>LevelBuilder</b> which retrieves difficulty presets from CONFIG before iterating through the level's config data. These presets contain multiplication ratios used to scale enemy and boss helth points and damage according to the selected difficulty level. For each entry in the dataset, the builder creates a new <b>Platform</b> and instantiates an <b>Enemy</b> or <b>Coin</b> based on the flags defined in the configuration of each platform. This loop ensures that the physical world and its interactive entities are ready for play before the level starts.
+</p>
+
+<div align="center">
+  <img src="images/levelscene_update.png" width="700">
+</div>
+<p align="center">
+  <b>Figure 4-3:</b>
+  <i>Game Logic Loop Behavioral Diagram</i>
+</p>
 
 ## 5. Implementation
 
