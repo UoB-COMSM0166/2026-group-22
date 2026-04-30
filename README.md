@@ -770,9 +770,11 @@ To ensure physical detection aligns with player intuition, a "Visual-Physical De
 
 **4. argeted Boundary Extension for Special Objects:** For unique elements such as the ChainPlatform, the boundary retrieval method is overridden to allow the detection zone to extend upward under specific states. This facilitates accurate interaction across the entire length of the chain without the need for redundant or complex code.
 
-| <!-- --> | <!-- --> | <!-- --> |
-| :---: | :---: | :---: |
-| <img src="images/TC1.1.GIF" width="260" alt="图1"> | <img src="images/TC1.2.GIF" width="260" alt="图2"> | <img src="images/TC1.3.GIF" width="260" alt="图3"> |
+<p align="center">
+  <img src="images/TC1.1.GIF" width="32%" alt="图1">
+  <img src="images/TC1.2.GIF" width="32%" alt="图2">
+  <img src="images/TC1.3.GIF" width="32%" alt="图3">
+</p>
 
 ### 5.2 Challenge 2: Physics Collision Detection and Positional Correction in 2D Platformers
 #### Challenge:
@@ -793,13 +795,13 @@ To resolve these physical inaccuracies and unnatural movements, a coordinate cor
 
 **4. Velocity Synchronization for Moving Platforms:** Within the resolve method, the moving platform’s own velocity (velX and velY) is transferred in real-time to the character currently standing on it. This ensures the character moves in perfect synchronization with the platform, providing a stable and responsive control experience.
 
-| <!-- --> | <!-- --> |
-| :---: | :---: |
-| <img src="images/TC2.1.GIF" width="400" alt="Hitbox before optimization"> | <img src="images/TC2.2.GIF" width="400" alt="Hitbox after optimization"> |
-
-| <!-- --> | <!-- --> |
-| :---: | :---: |
-| <img src="images/TC2.3.GIF" width="400" alt="Hitbox before optimization"> | <img src="images/TC2.4.GIF" width="400" alt="Hitbox after optimization"> |
+<p align="center">
+  <img src="images/TC2.1.GIF" width="48%" alt="Hitbox before optimization">
+  <img src="images/TC2.2.GIF" width="48%" alt="Hitbox after optimization">
+  <br>
+  <img src="images/TC2.3.GIF" width="48%" alt="Hitbox before optimization">
+  <img src="images/TC2.4.GIF" width="48%" alt="Hitbox after optimization">
+</p>
 
 ## 6. Evaluation
 
