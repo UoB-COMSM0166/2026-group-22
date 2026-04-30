@@ -724,6 +724,22 @@ Once the player is established, a <b>World</b> object is instantiated to manage 
   <i>Game Logic Loop Behavioral Diagram</i>
 </p>
 
+<p align="justify">
+Figure 4-3 illustrates the game simulation loop managed by the <b>World.update()</b> which is triggered every frame by the <b>LevelScene</b>. The cycle begins by updating the <b>Player</b> and other <b>Entities</b> processing their internal physics logic, including movement and gravity. Then, the loop iterates through all instances of <b>Platform</b> to resolve collisions involving the <b>Player</b> and other <b>Entities</b>. Certain platforms may contain special triggers that are activated when the <b>Player</b> steps on them.
+</p>
+
+<p align="justify">
+Core interaction logic is then delegated to <b>InteractionManager</b> which handles combat resolution, projectile lifecycles, and world boundary enforcement. This manager ensures that all <b>Entities</b> take damage correctly during combat and monitors world limits to prevent the <b>Player</b> from walking out of bounds. It also detects whether the <b>Player</b> has fallen off the screen, triggering <b>respawnPlayer()</b> if necessary. In this case, <b>Player</b> is sent to the latest <b>Checkpoint</b> with a 20-point health reduction penalty for the fall.
+</p>
+
+<p align="justify">
+If the <b>Player</b>'s health points reach zero, the <b>World</b> executes <b>resetPlayer()</b> which fully restores the player's health points and sends them back to the beginning of the level.
+</p>
+
+<p align="justify">
+Finally, the cycle ends by updating the camera position to ensure that the viewport on remains centered and follows <b>Player</b>'s movement.
+</p>
+
 ## 5. Implementation
 
 To ensure high scalability, we implemented a strict modular architecture divided into three independent layers following Object Oriented Design (OOD) approach:
