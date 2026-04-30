@@ -40,12 +40,12 @@
 ## 2. Introduction
 <p align="justify">
 Isle of Rising Sun is a platform jumping game where players navigate through four levels of increasing difficulty to successfully complete the challenge. Its main inspiration comes from <b>Kirby & the Amazing Mirror</b> and <b>CupHead</b>. The core of the game is that within each level, players can control their characters to cross various platforms, collaborate with special allies to overcome obstacles, use different weapons to defeat various unique monsters, and use the coins collected along the way to purchase other weapons. After making a final decision on our baseline games, we came up with the ideas for our game mechanics and game twists which are as follows.
-<p>
+</p>
 
 ### 2.1 Game Mechanics and Twists
 <p align="justify">
 Our game consists of four levels where after each level the player has to complete the level ending boss fight. Each level will have different themes, diffrent environment styles, and different special skill items. Failing to complete the whole level will cause the player to not receive coins collected within the level. Coins can be used to purchase better weapons with higher damage and shooting speed which are available in the camp shop. The following are objects that can be found during the gameplay and their usage descriptions.
-<p>
+</p>
 
 <p align="center">
   <b>Table 1:</b>
@@ -762,7 +762,7 @@ To ensure physical detection aligns with player intuition, a "Visual-Physical De
 </p>
 
 <p align="justify"> 
-- Standardization of Boundary Calculations: A universal getBounds() method was established within the GameObject.js base class. This method calculates boundaries based on manually defined width (w) and height (h) properties rather than raw sprite dimensions, ensuring a consistent and efficient detection standard across the entire project.
+1. Standardization of Boundary Calculations: A universal getBounds() method was established within the GameObject.js base class. This method calculates boundaries based on manually defined width (w) and height (h) properties rather than raw sprite dimensions, ensuring a consistent and efficient detection standard across the entire project.
 </p>
 
 <p align="center">
@@ -770,7 +770,7 @@ To ensure physical detection aligns with player intuition, a "Visual-Physical De
 </p>
 
 <p align="justify"> 
-- Implementation of Forgiving Hitboxes: To optimize the user experience, physical hitboxes for players and enemies are calibrated to be slightly smaller than their corresponding visual assets. This design ensures that collisions are only registered when visually undeniable, thereby increasing the margin for error and reducing player frustration.
+2. Implementation of Forgiving Hitboxes: To optimize the user experience, physical hitboxes for players and enemies are calibrated to be slightly smaller than their corresponding visual assets. This design ensures that collisions are only registered when visually undeniable, thereby increasing the margin for error and reducing player frustration.
 </p>
 
 <p align="center">
@@ -778,7 +778,7 @@ To ensure physical detection aligns with player intuition, a "Visual-Physical De
 </p>
 
 <p align="justify"> 
-- Decoupling of Render and Physical Dimensions: For large-scale entities like bosses, the system distinguishes between visual dimensions (visualW/H) and physical collision dimensions (w/h). By leveraging alignment settings within the AnimationManager, precise positioning (such as grounding a boss’s feet) is maintained, preventing hitbox misalignment caused by animation scaling.
+3. Decoupling of Render and Physical Dimensions: For large-scale entities like bosses, the system distinguishes between visual dimensions (visualW/H) and physical collision dimensions (w/h). By leveraging alignment settings within the AnimationManager, precise positioning (such as grounding a boss’s feet) is maintained, preventing hitbox misalignment caused by animation scaling.
 </p>
 
 <p align="center">
@@ -786,7 +786,7 @@ To ensure physical detection aligns with player intuition, a "Visual-Physical De
 </p>
 
 <p align="justify"> 
-- argeted Boundary Extension for Special Objects: For unique elements such as the ChainPlatform, the boundary retrieval method is overridden to allow the detection zone to extend upward under specific states. This facilitates accurate interaction across the entire length of the chain without the need for redundant or complex code.
+4. argeted Boundary Extension for Special Objects: For unique elements such as the ChainPlatform, the boundary retrieval method is overridden to allow the detection zone to extend upward under specific states. This facilitates accurate interaction across the entire length of the chain without the need for redundant or complex code.
 </p>
 
 ### 5.2 Challenge 2: Physics Collision Detection and Positional Correction in 2D Platformers
@@ -801,7 +801,7 @@ To resolve these physical inaccuracies and unnatural movements, a coordinate cor
 </p>
 
 <p align="justify"> 
-- Directional Collision Differentiation: The system moves beyond simple collision detection by utilizing a getOverlap method to calculate the depth of overlap across all four directions. By comparing these values, the program accurately distinguishes whether the character is falling from above or impacting from the side or bottom.
+1. Directional Collision Differentiation: The system moves beyond simple collision detection by utilizing a getOverlap method to calculate the depth of overlap across all four directions. By comparing these values, the program accurately distinguishes whether the character is falling from above or impacting from the side or bottom.
 </p>
 
 <p align="center">
@@ -809,7 +809,7 @@ To resolve these physical inaccuracies and unnatural movements, a coordinate cor
 </p>
 
 <p align="justify"> 
-- Landing Detection and Positional "Snapping": When a top-down collision is detected, Positional Correction is automatically executed. The character's Y-coordinate is immediately aligned to the top of the platform (p.top - entity.h / 2), and vertical velocity is neutralized. This triggers the land() function to reset jump counts, ensuring the character stands firmly on the surface without visual sinking artifacts.
+2. Landing Detection and Positional "Snapping": When a top-down collision is detected, Positional Correction is automatically executed. The character's Y-coordinate is immediately aligned to the top of the platform (p.top - entity.h / 2), and vertical velocity is neutralized. This triggers the land() function to reset jump counts, ensuring the character stands firmly on the surface without visual sinking artifacts.
 </p>
 
 <p align="center">
@@ -817,7 +817,7 @@ To resolve these physical inaccuracies and unnatural movements, a coordinate cor
 </p>
 
 <p align="justify"> 
-- Mitigation of Clipping and Tunneling: For non-landing collisions (sides or bottom), the system identifies the axis of minimum overlap and "pushes" the character out in that direction. This ensures that even at high speeds, the character is instantly repositioned outside the collision volume, effectively preventing them from becoming stuck inside walls.
+3. Mitigation of Clipping and Tunneling: For non-landing collisions (sides or bottom), the system identifies the axis of minimum overlap and "pushes" the character out in that direction. This ensures that even at high speeds, the character is instantly repositioned outside the collision volume, effectively preventing them from becoming stuck inside walls.
 </p>
 
 <p align="center">
@@ -825,7 +825,7 @@ To resolve these physical inaccuracies and unnatural movements, a coordinate cor
 </p>
 
 <p align="justify"> 
-- Velocity Synchronization for Moving Platforms: Within the resolve method, the moving platform’s own velocity (velX and velY) is transferred in real-time to the character currently standing on it. This ensures the character moves in perfect synchronization with the platform, providing a stable and responsive control experience.
+4. Velocity Synchronization for Moving Platforms: Within the resolve method, the moving platform’s own velocity (velX and velY) is transferred in real-time to the character currently standing on it. This ensures the character moves in perfect synchronization with the platform, providing a stable and responsive control experience.
 </p>
 
 <p align="center">
