@@ -42,7 +42,7 @@
 | Name | Email | Github | Role |
 | -- | -- | -- | -- |
 | Jiahao Zhao | uw25968@bristol.ac.uk | @zhaojiahao296 | UI designer |
-| Shalakorn Teerasukaporn | eu25930@bristol.ac.uk | @markslk | Lead developer |
+| Shalakorn (Mark) Teerasukaporn | eu25930@bristol.ac.uk | @markslk | Lead developer |
 | Mingyu Yang | ak25461@bristol.ac.uk | @mingyuyang0804 | Project Manager |
 | Qing Shi | rp25678@bristol.ac.uk | @qqq033370 | UI designer |
 | Xinyi Zhang | ya25475@bristol.ac.uk | @nikanotaku | Game Designer |
