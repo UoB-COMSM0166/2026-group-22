@@ -174,6 +174,91 @@ The video above shows the initial prototype of our game, KirbyHead, which is the
   <b>Figure 3-4:</b>
   <i>Stakeholder Identification</i>
 </p>
+The stakeholders of this project are distributed in concentric circles around the core product, progressing outwards from the internal development system to the broader external evaluation environment.
+
+#### 3.3.1 Layer 1: The Product or Service
+
+This layer is the focal point for all stakeholders and the primary vessel of value.
+
+<p><small><b>Project Name:</b> ISLE OF RISING SUN</small></p>
+
+<p><small><b>Core Definition:</b></small></p>
+
+- **Academic Deliverable:** A course assignment designed to showcase the team's technical capabilities, collaboration, and project management skills.  
+- **Player Experience:** A 2D platformer featuring a core gameplay loop (jumping, dodging, collecting), level challenges, and responsive visual feedback.  
+
+<p><small><b>Key Interests:</b></small></p>
+
+<ul>
+  <li><small><b>Functionality:</b> Core mechanics (e.g., collision detection, physics-based jumping) must be free of game-breaking bugs.</small></li>
+  <li><small><b>Deliverability:</b> Must be completed by the course deadline and run smoothly during the final demonstration.</small></li>
+</ul>
+
+#### 3.3.2 Layer 2: The Development System
+
+This layer consists of the direct creators and executors of the project, holding the most control over the product.
+
+<p><small><b>Stakeholders:</b> Group 22</small></p>
+
+<p><small><b>Roles and Core Interests:</b></small></p>
+
+<ul>
+  <li><small><b>Coder:</b> Building clean, modular, and maintainable code; implementing core mechanics; integrating assets efficiently; avoiding late-stage rework.</small></li>
+  <li><small><b>UI Designer:</b> Creating clear and intuitive interfaces; ensuring important information (health, score, objectives) is easy to read.</small></li>
+  <li><small><b>Artwork Designer:</b> Developing a cohesive visual style; ensuring assets fit technical constraints and enhance gameplay.</small></li>
+  <li><small><b>Tester:</b> Identifying bugs and soft-locks; ensuring levels are beatable; balancing difficulty.</small></li>
+  <li><small><b>Report Writer:</b> Producing a clear academic report; addressing all rubric criteria; showcasing technical and project management achievements.</small></li>
+</ul>
+
+<p><small><b>Key Impact:</b> This layer determines the final quality of the game, the efficiency of development, and how effectively the project is communicated to graders.</small></p>
+
+#### 3.3.3 Layer 3: The Containing System
+
+This layer provides the environment, resources, and evaluation criteria, holding the ultimate power of approval.
+
+<p><small><b>Professors & Teaching Assistants (TAs):</b></small></p>
+
+<ul>
+  <li><small><b>Academic Compliance:</b> Meets all rubric requirements</small></li>
+  <li><small><b>Proof of Learning:</b> Demonstrates mastery of course content</small></li>
+  <li><small><b>Originality and Integrity:</b> No academic misconduct</small></li>
+  <li><small><b>Management Strategy:</b> Align development with rubric and provide progress updates</small></li>
+</ul>
+
+<p><small><b>Playtesters / Peer Reviewers (Classmates):</b></small></p>
+
+<ul>
+  <li><small><b>Smooth Experience:</b> No crashes or critical bugs</small></li>
+  <li><small><b>Intuitive Controls:</b> Natural movement and fair difficulty</small></li>
+  <li><small><b>Fun Factor:</b> Engaging gameplay</small></li>
+  <li><small><b>Management Strategy:</b> Use feedback to iterate and improve</small></li>
+</ul>
+
+#### 3.3.4 Layer 4: The Wider Environment
+
+This layer includes external frameworks, regulations, and broader impacts.
+
+<p><small><b>Grading Framework / Rubric:</b></small></p>
+
+<ul>
+  <li><small><b>Core Interest:</b> Must be satisfied at all times</small></li>
+  <li><small><b>Key Impact:</b> Determines task prioritization</small></li>
+</ul>
+
+<p><small><b>Open Source Community and Asset Providers:</b></small></p>
+
+<ul>
+  <li><small><b>Core Interest:</b> License compliance</small></li>
+  <li><small><b>Key Impact:</b> Requires proper attribution to avoid risks</small></li>
+</ul>
+
+<p><small><b>Demo Audience:</b></small></p>
+
+<ul>
+  <li><small><b>Definition:</b> Students, faculty, or guests during presentation</small></li>
+  <li><small><b>Core Interests:</b> Clear, smooth, and engaging demonstration</small></li>
+  <li><small><b>Key Impact:</b> Influences overall reception and subjective grading</small></li>
+</ul>  
 
 ### 3.4 User Stories
 
