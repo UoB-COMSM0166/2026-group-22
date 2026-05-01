@@ -129,6 +129,10 @@ Cuphead is a run-and-gun boss-rush action game with a 1930s cartoon aesthetic, b
   <img src="images/ideation1.png" height="220">
   <img src="images/ideation2.png" height="220">
 </p>
+<p align="center">
+  <b>Figure 3-1:</b>
+  <i>Initial Game Ideation</i>
+</p>
 
 ### 3.2 Early Stages Design 
 #### 3.2.1 Initial Paper Prototype of Our Game 
@@ -138,6 +142,10 @@ Cuphead is a run-and-gun boss-rush action game with a 1930s cartoon aesthetic, b
   <img src="images/useshop.gif" width="32%" alt="Shop System Prototype">
   <img src="images/fightenemy2.gif" width="32%" alt="Fight Enemy Mechanic">
 </p>
+<p align="center">
+  <b>Figure 3-2:</b>
+  <i>Initial Gameplay Prototype</i>
+</p>
 
 <p align="justify">
 We made a first paper prototype of our game which we initially named it, KirbyHead, based on game twists and mechanics we discussed earlier to see a clear picture of our game functionalities which can lead to a solid development foundation of the game’s codebase
@@ -145,6 +153,10 @@ We made a first paper prototype of our game which we initially named it, KirbyHe
 
 <div align="center">
 <a href="https://youtu.be/qLW4bnOnACs"><img src="images/paper_prototype_video.jpg" width=600 alt="starting page of KirbyHead game"></a></br>
+<p align="center">
+  <b>Figure 3-3:</b>
+  <i>Paper Prototype Video</i>
+</p>
 <a href="https://youtu.be/qLW4bnOnACs">CLICK HERE to watch the video</a>
 </br>
 </br>
@@ -158,6 +170,10 @@ The video above shows the initial prototype of our game, KirbyHead, which is the
 <div align="center">
   <img src="images/stakeholder1.png" width="800">
 </div>
+<p align="center">
+  <b>Figure 3-4:</b>
+  <i>Stakeholder Identification</i>
+</p>
 
 ### 3.4 User Stories
 
@@ -187,7 +203,10 @@ This use case diagram illustrates the main interactions between the player and t
   <img src="images/usecasediagram.png" width="800">
 </div>
 
-Figure x. Use-case diagram
+<p align="center">
+  <b>Figure 3-5:</b>
+  <i>Use-case Diagram</i>
+</p>
 <p align="justify">
 The following table presents the use case specifications for the core functions of the game system. Developed from the use case diagram, it provides a more structured description of the main interactions between the player and the system. Each use case is organised into Basic Flow and Alternative Flow. The Basic Flow describes the standard sequence of actions under normal conditions, while the Alternative Flow outlines possible exceptions, failures, or conditional variations during the interaction process.
 </p>
@@ -1031,38 +1050,63 @@ To manage the project effectively, we divided the development process into four 
 </p>
 
 <div align="center">
-  <img src="images/process1.png" width="400">
+  <img src="images/process1.png" width="700">
 </div>
+<p align="center">
+  <b>Figure 7-1:</b>
+  <i>Development Timeline</i>
+</p>
 
 ### 7.2 TeamWork: Communication and Collaboration
 <p align="justify">
 To maintain effective teamwork throughout the project, we combined both offline and online communication methods. Team members discussed design ideas, gameplay adjustments, and implementation details through face-to-face meetings, which allowed us to exchange opinions more directly and make decisions more efficiently. In addition, we held a regular online meeting every Saturday afternoon to review weekly progress, report completed tasks, and coordinate the next stage of development. This online meeting also gave each member an opportunity to raise technical or design issues they had encountered during the week. To keep communication clear outside meetings, we used shared documents and a Kanban board to record task assignments, monitor development status, and update priorities when necessary. This combination of regular meetings and shared tools helped the team remain organised, transparent, and aligned throughout the project.
 </p>
 
-<div align="center">
-  <img src="images/process2.1.png" width="400">
+<div style="display: flex; justify-content: center; gap: 20px; margin: 20px 0;">
+  <img src="images/process2.1.png" style="width: 45%; max-width: 500px;">
+  <img src="images/process2.2.png" style="width: 45%; max-width: 500px;">
 </div>
-
-<div align="center">
-  <img src="images/process2.2.png" width="400">
-</div>
+<p align="center">
+  <b>Figure 7-2:</b>
+  <i>Offline and Online Team Communication</i>
+</p>
 
 <p align="justify">
 In terms of problem solving, our team adopted a collaborative and iterative approach. When a technical issue or design difficulty emerged, we first raised it during our regular meetings or in group discussions so that all members could contribute possible ideas and solutions. If the problem could not be resolved immediately, we would break it down into smaller parts, assign follow-up tasks, and continue investigating it individually before discussing it again in the next meeting. For programming-related issues, we also relied on shared code review, peer discussion, and repeated testing to identify the source of bugs and evaluate whether a solution was effective. In some cases, we adjusted our original plan after discovering that a certain feature was more complex than expected, which allowed us to focus on practical solutions instead of forcing unsuitable designs. This problem-solving process helped us respond to difficulties in a flexible way and ensured that development could continue steadily even when unexpected challenges appeared.
 </p>
-
-<div align="center">
-  <img src="images/process3.png" width="400">
-</div>
 
 ### 7.3 Method and Tools
 <p align="justify">
 We adopted an agile and iterative development method throughout the project. Since the game’s mechanics, interface, and accessibility features required continuous refinement, we developed the product in stages rather than following a fixed one-time plan. Regular reviews and adjustments allowed us to respond quickly to new ideas, technical issues, and user feedback. This method helped the team stay flexible and supported steady progress during development.
 </p>
 
+<div align="center">
+  <img src="images/process3.png" width="700">
+</div>
+<p align="center">
+  <b>Figure 7-3:</b>
+  <i>Kanban Board</i>
+</p>
+
+<div align="center">
+  <img src="images/process4.png" width="250">
+</div>
+<p align="center">
+  <b>Figure 7-4:</b>
+  <i>WeChat Communication</i>
+</p>
+
 ### 7.4 Outcome
 <p align="justify">
 Overall, this process created a clearer and more manageable workflow throughout the project. By combining stage-based planning, regular meetings, and shared collaboration tools, our team was able to coordinate tasks effectively, address problems in time, and incorporate feedback during development. As a result, we completed a more polished and playable final game, together with the required repository materials and report documentation.
+</p>
+
+<div align="center">
+  <img src="images/process5.png" width="700">
+</div>
+<p align="center">
+  <b>Figure 7-5:</b>
+  <i>Team Workflow</i>
 </p>
 
 ## 8. Sustainability, Ethics, and Accessibility
