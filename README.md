@@ -760,15 +760,11 @@ To ensure physical detection aligns with player intuition, a "Visual-Physical De
 </p>
 
 <p align="justify">
-2. Implementation of Forgiving Hitboxes: To optimize the user experience, physical hitboxes for players and enemies are calibrated to be slightly smaller than their corresponding visual assets. This design ensures that collisions are only registered when visually undeniable, thereby increasing the margin for error and reducing player frustration.
+2. Decoupling of Render and Physical Dimensions: For large-scale entities like bosses, the system distinguishes between visual dimensions (visualW/H) and physical collision dimensions (w/h). By leveraging alignment settings within the AnimationManager, precise positioning (such as grounding a boss’s feet) is maintained, preventing hitbox misalignment caused by animation scaling.
 </p>
 
 <p align="justify">
-3. Decoupling of Render and Physical Dimensions: For large-scale entities like bosses, the system distinguishes between visual dimensions (visualW/H) and physical collision dimensions (w/h). By leveraging alignment settings within the AnimationManager, precise positioning (such as grounding a boss’s feet) is maintained, preventing hitbox misalignment caused by animation scaling.
-</p>
-
-<p align="justify">
-4. Targeted Boundary Extension for Special Objects: For unique elements such as the ChainPlatform, the boundary retrieval method is overridden to allow the detection zone to extend upward under specific states. This facilitates accurate interaction across the entire length of the chain without the need for redundant or complex code.
+3. Targeted Boundary Extension for Special Objects: For unique elements such as the ChainPlatform, the boundary retrieval method is overridden to allow the detection zone to extend upward under specific states. This facilitates accurate interaction across the entire length of the chain without the need for redundant or complex code.
 </p>
 
 <p align="center">
