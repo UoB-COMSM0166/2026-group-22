@@ -768,13 +768,13 @@ To ensure physical detection aligns with player intuition, a "Visual-Physical De
 </p>
 
 <p align="justify">
-4. argeted Boundary Extension for Special Objects: For unique elements such as the ChainPlatform, the boundary retrieval method is overridden to allow the detection zone to extend upward under specific states. This facilitates accurate interaction across the entire length of the chain without the need for redundant or complex code.
+4. Targeted Boundary Extension for Special Objects: For unique elements such as the ChainPlatform, the boundary retrieval method is overridden to allow the detection zone to extend upward under specific states. This facilitates accurate interaction across the entire length of the chain without the need for redundant or complex code.
 </p>
 
 <p align="center">
-  <img src="images/TC1.1.GIF" width="32%" alt="图1">
-  <img src="images/TC1.2.GIF" width="32%" alt="图2">
-  <img src="images/TC1.3.GIF" width="32%" alt="图3">
+  <img src="images/TC1.1.GIF" width="32%" alt="challenge_demonstration1">
+  <img src="images/TC1.2.GIF" width="32%" alt="challenge_demonstration2">
+  <img src="images/TC1.3.GIF" width="32%" alt="challenge_demonstration3">
 </p>
 
 ### 5.2 Challenge 2: Physics Collision Detection and Positional Correction in 2D Platformers
@@ -805,11 +805,11 @@ To resolve these physical inaccuracies and unnatural movements, a coordinate cor
 </p>
 
 <p align="center">
-  <img src="images/TC2.1.GIF" width="48%" alt="Hitbox before optimization">
-  <img src="images/TC2.2.GIF" width="48%" alt="Hitbox after optimization">
+  <img src="images/TC2.1.GIF" width="48%" alt="Hitbox optimization">
+  <img src="images/TC2.2.GIF" width="48%" alt="Hitbox optimization">
   <br>
-  <img src="images/TC2.3.GIF" width="48%" alt="Hitbox before optimization">
-  <img src="images/TC2.4.GIF" width="48%" alt="Hitbox after optimization">
+  <img src="images/TC2.3.GIF" width="48%" alt="Hitbox optimization">
+  <img src="images/TC2.4.GIF" width="48%" alt="Hitbox optimization">
 </p>
 
 ## 6. Evaluation
