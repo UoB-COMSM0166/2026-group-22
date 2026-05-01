@@ -1016,7 +1016,10 @@ Gaming Experience: Novice (27.3%), Casual (45.4%), Hardcore/Experienced in platf
 <div align="center">
   <img src="images/evaluation1.png" width="400">
 </div>
-Figure 1: Distribution of participants' prior gaming experience.
+<p align="center">
+  <b>Figure 6-1:</b>
+  <i>Distribution of participants' prior gaming experience.</i>
+</p>
 
 #### 6.2.2 System Usability Scale (SUS) Assessment
 
@@ -1042,7 +1045,10 @@ The results indicate that Island of Rising Sun has a strong foundational UI and 
 <div align="center">
   <img src="images/evaluation2.png" width="400">
 </div>
-Figure 2: Comparison of average SUS scores between Easy and Difficult modes.
+<p align="center">
+  <b>Figure 6-2:</b>
+  <i>Comparison of average SUS scores between Easy and Difficult modes.</i>
+</p>
 
 #### 6.2.3 Cognitive Load Assessment (NASA-TLX)
 We utilized the NASA-TLX to assess the workload placed on players. It measures six dimensions on a scale of 0 (Very Low) to 100 (Very High).
@@ -1073,7 +1079,10 @@ Analysis: The data reflects the core mechanics of Island of Rising Sun. In Diffi
 <div align="center">
   <img src="images/evaluation3.png" width="400">
 </div>
-Figure 3: Radar chart visualizing the cognitive and physical load in different modes.
+<p align="center">
+  <b>Figure 6-3:</b>
+  <i>Radar chart visualizing the cognitive and physical load in different modes.</i>
+</p>
 
 #### 6.2.4 Subjective Level Difficulty Ranking
 Participants ranked the subjective difficulty of the 4 levels on a scale of 1 (Easiest) to 10 (Hardest).
@@ -1100,7 +1109,11 @@ Analysis: The progression curve is highly logical. Both modes show a linear incr
 <div align="center">
   <img src="images/evaluation4.png" width="400">
 </div>
-Figure 4: Subjective difficulty progression across the four levels.
+
+<p align="center">
+  <b>Figure 6-4:</b>
+  <i>Subjective difficulty progression across the four levels.</i>
+</p>
 
 #### 6.2.5 Correlation Between SUS and NASA-TLX Scores
 <p align="justify"> 
@@ -1112,7 +1125,11 @@ Conclusion: As the cognitive and physical load increases (higher NASA-TLX), play
 <div align="center">
   <img src="images/evaluation5.png" width="400">
 </div>
-Figure 5: Scatter plot showing the negative correlation between NASA-TLX workload and SUS scores.
+
+<p align="center">
+  <b>Figure 6-5:</b>
+  <i>Scatter plot showing the negative correlation between NASA-TLX workload and SUS scores.</i>
+</p>
 
 ### 6.3 Testing
 <p align="justify"> 
