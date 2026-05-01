@@ -1223,7 +1223,7 @@ Overall, this process created a clearer and more manageable workflow throughout 
 <table align="center" style="border: none; border-collapse: collapse;">
   <tr style="border: none;">
     <td align="center" style="border: none;">
-      <img src="images/s2.png" width="800">
+      <img src="images/s2.png" width="700">
       <br>
       <b>Figure 8-1</b>
     </td>
