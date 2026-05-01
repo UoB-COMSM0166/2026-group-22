@@ -989,10 +989,10 @@ Enemy Behavior: While the classic enemy setup was appreciated, many players foun
 Item Functionality: Although players found the map-specific items interesting, they felt the overarching item pool lacked originality. Clearer instructions upon picking up new items are necessary to improve strategic usage.
 </p>
 
-##### 6.1.2.6 Game Pacing and Sound Feedback
+##### 6.1.2.6 Game Pacing and Sensory Feedback
 <p align="justify"> 
 Pacing Control: The overall game pacing was well-received, with players noting that the 2-3 minute duration per map felt excellent and comfortable.
-Sensory Feedback: Feedback regarding the audio was mixed; some found the audio generic and failing to amplify the emotional experience. To increase the “satisfaction” of the combat, players highly recommended adding distinct visual and audio feedback for key actions, such as critical hits and perfect dodges.
+Sensory Feedback: To increase the “satisfaction” of the combat, players highly recommended adding distinct visual and audio feedback for key actions, such as critical hits and perfect dodges.
 </p>
 
 #### 6.1.3 Summary and Outlook
