@@ -10,6 +10,16 @@
 </div>
 
 ## Game Demo
+<div align="center">
+<a href="https://youtu.be/DDeN39ezYAE"><img src="images/demo_cover.jpg" width=800 alt="starting page of KirbyHead game"></a></br>
+<p align="center">
+  <b>Figure I:</b>
+  <i>Demo Video</i>
+</p>
+<a href="https://youtu.be/DDeN39ezYAE">CLICK HERE to watch the video</a>
+</div>
+</br>
+	
 ## Table of Contents
 
 - [1. Development Team](#1-development-team)
@@ -118,7 +128,7 @@ Table 4 shows different types of weapons available in our game. These weapons ha
 In the end, we decided that we are going to make our games based on game mechanics and styles of both Kirby & The Amazing Mirror and Cuphead.
 
 <p align="justify">
-Kirby is a colorful platformer where you control Kirby through side scrolling or 3D stages, jumping, floating, and fighting enemies. The core mechanic is Kirby’s ability to inhale foes and objects, then copy enemy powers to gain new attacks and movement options. Levels focus on simple combat, exploration, and light puzzles, with power ups encouraging flexible, playful playstyles.
+Kirby & The Amazing Mirror is a colorful platformer where you control Kirby through side scrolling or 3D stages, jumping, floating, and fighting enemies. The core mechanic is Kirby’s ability to inhale foes and objects, then copy enemy powers to gain new attacks and movement options. Levels focus on simple combat, exploration, and light puzzles, with power ups encouraging flexible, playful playstyles.
 </p>
 
 <p align="justify">
