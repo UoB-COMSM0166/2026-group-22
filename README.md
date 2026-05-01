@@ -772,11 +772,28 @@ To ensure physical detection aligns with player intuition, a "Visual-Physical De
 3. Targeted Boundary Extension for Special Objects: For unique elements such as the ChainPlatform, the boundary retrieval method is overridden to allow the detection zone to extend upward under specific states. This facilitates accurate interaction across the entire length of the chain without the need for redundant or complex code.
 </p>
 
-<p align="center">
-  <img src="images/TC1.1.GIF" width="32%" alt="challenge_demonstration1">
-  <img src="images/TC1.2.GIF" width="32%" alt="challenge_demonstration2">
-  <img src="images/TC1.3.GIF" width="32%" alt="challenge_demonstration3">
-</p>
+<table align="center" style="border: none; border-collapse: collapse; width: 100%;">
+  <tr style="border: none;">
+    <!-- 第一张图 -->
+    <td align="center" style="border: none; width: 32%;">
+      <img src="images/TC1.1.GIF" width="100%" alt="challenge_demonstration1">
+      <br>
+      <b>Figure 5-1</b>
+    </td>
+    <!-- 第二张图 -->
+    <td align="center" style="border: none; width: 32%;">
+      <img src="images/TC1.2.GIF" width="100%" alt="challenge_demonstration2">
+      <br>
+      <b>Figure 5-2</b>
+    </td>
+    <!-- 第三张图 -->
+    <td align="center" style="border: none; width: 32%;">
+      <img src="images/TC1.3.GIF" width="100%" alt="challenge_demonstration3">
+      <br>
+      <b>Figure 5-3</b>
+    </td>
+  </tr>
+</table>
 
 ### 5.2 Challenge 2: Physics Collision Detection and Positional Correction in 2D Platformers
 #### Challenge:
@@ -805,13 +822,34 @@ To resolve these physical inaccuracies and unnatural movements, a coordinate cor
 4. Velocity Synchronization for Moving Platforms: Within the resolve method, the moving platform’s own velocity (velX and velY) is transferred in real-time to the character currently standing on it. This ensures the character moves in perfect synchronization with the platform, providing a stable and responsive control experience.
 </p>
 
-<p align="center">
-  <img src="images/TC2.1.GIF" width="48%" alt="Hitbox optimization">
-  <img src="images/TC2.2.GIF" width="48%" alt="Hitbox optimization">
-  <br>
-  <img src="images/TC2.3.GIF" width="48%" alt="Hitbox optimization">
-  <img src="images/TC2.4.GIF" width="48%" alt="Hitbox optimization">
-</p>
+<table align="center" style="border: none; border-collapse: collapse; width: 100%;">
+  <!-- 第一行图片 -->
+  <tr style="border: none;">
+    <td align="center" style="border: none; width: 48%; padding-bottom: 20px;">
+      <img src="images/TC2.1.GIF" width="100%" alt="Hitbox optimization">
+      <br>
+      <b>Figure 5-4</b>
+    </td>
+    <td align="center" style="border: none; width: 48%; padding-bottom: 20px;">
+      <img src="images/TC2.2.GIF" width="100%" alt="Hitbox optimization">
+      <br>
+      <b>Figure 5-5</b>
+    </td>
+  </tr>
+  <!-- 第二行图片 -->
+  <tr style="border: none;">
+    <td align="center" style="border: none; width: 48%;">
+      <img src="images/TC2.3.GIF" width="100%" alt="Hitbox optimization">
+      <br>
+      <b>Figure 5-6</b>
+    </td>
+    <td align="center" style="border: none; width: 48%;">
+      <img src="images/TC2.4.GIF" width="100%" alt="Hitbox optimization">
+      <br>
+      <b>Figure 5-7</b>
+    </td>
+  </tr>
+</table>
 
 ## 6. Evaluation
 
@@ -1096,9 +1134,16 @@ Overall, this process created a clearer and more manageable workflow throughout 
 </p>
 
 ## 8. Sustainability, Ethics, and Accessibility
-<div align="center">
-  <img src="images/s2.png" width="800">
-</div>
+
+<table align="center" style="border: none; border-collapse: collapse;">
+  <tr style="border: none;">
+    <td align="center" style="border: none;">
+      <img src="images/s2.png" width="800">
+      <br>
+      <b>Figure 8-1</b>
+    </td>
+  </tr>
+</table>
 
 ### 8.1 Environmental Sustainability
 <p align="justify">
