@@ -229,26 +229,12 @@ The following table presents the use case specifications for the core functions 
 ## 4. Design
 
 ### 4.1 System Architecture
-<p align="justify">
-Our game uses a scene based and object oriented architecture built on top of p5.js. The main structure is divided into scene control, persistent game state, gameplay world simulation, reusable game objects, and supporting manager systems. This separation keeps the main sketch simple and makes the code easier to extend and debug.
-</p>
+The system follows a four-layer architecture, with the class diagram clearly showing the key components in each layer:
 
-#### 4.1.1 Scene Control and Persistent Game State
-<p align="justify">
-The scene control and persistent game state are handled separately from the main gameplay logic. The p5.js entry file, sketch.js, only initializes the loading scene, preloads assets, and delegates core events such as draw(), mousePressed(), keyPressed(), and windowResized() to sceneManager. Screen flow is then controlled by SceneManager.js, which stores and switches between scenes such as TitleScene, CharSelectScene, DiffSelectScene, CampScene, ShopScene, LevelScene, and BossScene. Long-term progress is managed by GameState.js, which stores coins, owned items, equipped weapons, difficulty, unlocked levels, and settings through local storage.
-</p>
-
-#### 4.1.2 Gameplay World Simulation
-<p align="justify">
-The gameplay world simulation is mainly handled by LevelScene.js, World.js, and LevelBuilder.js. When a level starts, LevelScene.js creates the player and builds a World object for the selected level. World.js then manages the player, enemies, platforms, collectables, checkpoints, projectiles, camera movement, collision checks, and UI updates. Level construction is data driven: LevelBuilder.js reads level configuration data and converts it into concrete game objects such as platforms, enemies, coins, checkpoints, and items.
-</p>
-
-#### 4.1.3 Reusable Objects and Supporting Manager Systems
-<p align="justify"> 
-The reusable game objects and supporting manager systems are handled by a set of base classes and manager classes. GameObject.js provides shared position, size, active state, bounds, and collision methods, while Entity.js adds health, speed, velocity, gravity, physics, and damage handling. More specific classes such as Player, Enemy, Boss, Platform, Collectable, and Projectile extend these base structures to create different behaviours. Supporting systems such as AssetManager, AnimationManager, AbilityManager, and InteractionManager handle asset loading, sprite animation, player abilities, combat, projectiles, puzzles, and world limits.
- 
-Overall, this architecture separates screen flow, game progress, level simulation, object behaviour, and shared support systems into different parts of the codebase. During the development process, this made the game easier to maintain, debug, and divide among team members because each file had a clear responsibility. In the longer term, it also provides a more scalable structure for future development, content updates, and long-term maintenance as a complete game project.
-</p>
+- **Core Control Layer:** The `SceneManager` acts as the central hub, coordinating the `AssetManager` for asset handling, the `GameState` for managing persistent data, and the `LevelBuilder` for environment construction and world initialization.
+- **Entity Layer:** This layer includes game entities such as `Player`, `Enemy`, `Minion`, `Boss`, `SummonerBoss` and their subclasses, as well as the `Projectile` system, `Platform`, `Checkpoint`, `Collectable`, and `World`. These components use inheritance and composition to support diverse and dynamic behaviors. The `InteractionManager` class is the core interaction system of the game, responsible for handling all collision and combat logic between game entities.
+- **UI Layer:** The `DialogueManager` and `InstructionUI` classes manage the interactive user interface and narrative elements. Scene transitions throughout the game are handled by the `SceneManager` class, while the `AnimationManager` manages visual frame updates during gameplay. Classes such as `StatsBar`, `EntityOverlay`, and `SystemControls` use specialized rendering methods for the efficient display of health, abilities, and navigation icons.
+- **Communication Layer:** The `SceneManager` class uses a state-switching pattern to decouple different modules. For example, a victory event in the `BossScene` can trigger a transition back to the `CampScene` while updating the shared `GameState` with collected coins.
 
 ### 4.2 Class Diagram
 
