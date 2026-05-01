@@ -31,11 +31,11 @@
 
 | Name | Email | Github | Role |
 | -- | -- | -- | -- |
-| Jiahao Zhao | uw25968@bristol.ac.uk | @zhaojiahao296 | role |
-| Shalakorn Teerasukaporn | eu25930@bristol.ac.uk | @markslk | role |
-| Mingyu Yang | ak25461@bristol.ac.uk | @mingyuyang0804 | role |
-| Qing Shi | rp25678@bristol.ac.uk | @qqq033370 | role |
-| Xinyi Zhang | ya25475@bristol.ac.uk | @nikanotaku | role |
+| Jiahao Zhao | uw25968@bristol.ac.uk | @zhaojiahao296 | UI designer |
+| Shalakorn Teerasukaporn | eu25930@bristol.ac.uk | @markslk | Lead developer |
+| Mingyu Yang | ak25461@bristol.ac.uk | @mingyuyang0804 | Project Manager |
+| Qing Shi | rp25678@bristol.ac.uk | @qqq033370 | UI designer |
+| Xinyi Zhang | ya25475@bristol.ac.uk | @nikanotaku | Game Designer |
 
 ## 2. Introduction
 <p align="justify">
