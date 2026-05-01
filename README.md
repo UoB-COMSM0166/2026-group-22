@@ -117,36 +117,30 @@ Table 4 shows different types of weapons available in our game. These weapons ha
 ### 3.1 Ideation Process
 In the end, we decided that we are going to make our games based on game mechanics and styles of both Kirby & The Amazing Mirror and Cuphead.
 
-<div align="center">
-  <img src="images/ideation1.png" width="400">
-</div>
 <p align="justify">
 Kirby is a colorful platformer where you control Kirby through side scrolling or 3D stages, jumping, floating, and fighting enemies. The core mechanic is Kirby’s ability to inhale foes and objects, then copy enemy powers to gain new attacks and movement options. Levels focus on simple combat, exploration, and light puzzles, with power ups encouraging flexible, playful playstyles.
 </p>
 
-<div align="center">
-  <img src="images/ideation2.png" width="400">
-</div>
 <p align="justify">
 Cuphead is a run-and-gun boss-rush action game with a 1930s cartoon aesthetic, built around fast, pattern heavy fights. You shoot, dodge, dash, and parry to build special attacks while learning enemy telegraphs and phases. The gameplay emphasizes tight controls, memorization, and precision, with short stages and bosses designed for repeated attempts and mastery.
 </p>
 
+<p align="center">
+  <img src="images/ideation1.png" height="220">
+  <img src="images/ideation2.png" height="220">
+</p>
+
 ### 3.2 Early Stages Design 
 #### 3.2.1 Initial Paper Prototype of Our Game 
+
+<p align="center">
+  <img src="images/gainskill1.gif" width="32%" alt="Gain Skill Mechanic">
+  <img src="images/useshop.gif" width="32%" alt="Shop System Prototype">
+  <img src="images/fightenemy2.gif" width="32%" alt="Fight Enemy Mechanic">
+</p>
+
 <p align="justify">
 We made a first paper prototype of our game which we initially named it, KirbyHead, based on game twists and mechanics we discussed earlier to see a clear picture of our game functionalities which can lead to a solid development foundation of the game’s codebase
-</p>
-
-<p align="center">
-  <img src="images/gainskill1.gif" width="600" alt="Gain Skill Mechanic">
-</p>
-
-<p align="center">
-  <img src="images/useshop.gif" width="600" alt="Shop System Prototype">
-</p>
-
-<p align="center">
-  <img src="images/fightenemy2.gif" width="600" alt="Fight Enemy Mechanic">
 </p>
 
 <div align="center">
